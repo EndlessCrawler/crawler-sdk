@@ -1,0 +1,29 @@
+{
+	"name": "@avante/crawler-data",
+	"version": "0.0.1",
+	"description": "Endless Crawler Game Data and Tools",
+	"author": "Studio Avante",
+	"license": "CC0-1.0",
+	"homepage": "https://github.com/EndlessCrawler",
+	"private": false,
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"clean": "rimraf dist tsconfig.build.tsbuildinfo",
+		"build": "tsc -p tsconfig.build.json",
+		"prepare": "npm run build",
+		"test": "mocha -r ts-node/register \"test/**/*.test.ts\""
+	},
+	"keywords": [
+		"dungeon",
+		"crawler",
+		"generative",
+		"composable",
+		"on-chain",
+		"web3",
+		"game"
+	],
+	"dependencies": {
+		"lerna": "^6.5.1"
+	}
+}

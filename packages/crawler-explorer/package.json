@@ -1,0 +1,38 @@
+{
+	"name": "@avante/crawler-explorer",
+	"version": "0.0.1",
+	"description": "Endless Crawler Explorer/Cacher App",
+	"author": "Studio Avante",
+	"license": "CC0-1.0",
+	"homepage": "https://github.com/EndlessCrawler",
+	"private": false,
+	"scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+		"@avante/crawler-api": "*",
+    "next": "12.1.6",
+    "react": "18.2.0",
+    "react-cookie": "^4.1.1",
+    "react-json-prettify": "^0.2.0",
+    "sass": "^1.58.1",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.4"
+  },
+  "devDependencies": {
+    "eslint": "8.18.0",
+    "eslint-config-next": "12.1.6"
+  },
+	"keywords": [
+		"dungeon",
+		"crawler",
+		"generative",
+		"composable",
+		"on-chain",
+		"web3",
+		"game"
+	]
+}

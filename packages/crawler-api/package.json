@@ -1,0 +1,26 @@
+{
+	"name": "@avante/crawler-api",
+	"version": "0.0.1",
+	"description": "Endless Crawler Web3 API, Contracts ABI",
+	"author": "Studio Avante",
+	"license": "CC0-1.0",
+	"homepage": "https://github.com/EndlessCrawler",
+	"private": false,
+	"main": "src/index.js",
+	"scripts": {
+  },
+  "dependencies": {
+    "@avante/crawler-data": "*",
+    "@wagmi/core": "^0.9.5",
+    "ethers": "^5.7.2"
+  },
+	"keywords": [
+		"dungeon",
+		"crawler",
+		"generative",
+		"composable",
+		"on-chain",
+		"web3",
+		"game"
+	]
+}
