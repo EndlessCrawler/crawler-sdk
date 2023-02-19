@@ -1,4 +1,6 @@
-import { getView } from '@/api/view'
+import {
+	getView,
+} from '@avante/crawler-api'
 
 // TODO: TEST OK
 // http://localhost:3000/api/view/tokenIdToCoord?chainId=1&tokenId=1

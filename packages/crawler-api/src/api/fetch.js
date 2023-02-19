@@ -6,12 +6,12 @@
 //
 // options:
 //  { mode: 'no-cors' }
-async function Fetch(url, method, params, options) {
+async function _fetch(url, method, params, options) {
 	if (url.startsWith('/api/') && process.env.SERVER_URL) {
 		url = process.env.SERVER_URL + url;
 	}
 	if ('GET' === method) {
-		url = AddParamsToUrl(url, params);
+		url = addParamsToUrl(url, params);
 	} else {
 		options.body = JSON.stringify(params);
 	}
@@ -25,30 +25,30 @@ async function Fetch(url, method, params, options) {
 			.then(response => response)
 			// .then(data => data )
 			.catch(error => {
-				console.warn(`fetch(${url}) ERROR:`, error)
+				console.warn(`_fetch(${url}) ERROR:`, error)
 				return { error }
 			});
 		if (result.status != 200) {
-			console.warn(`fetch() ERROR STATUS:`, result)
-			result = { error: `fetch() ERROR STATUS [${result.status}]: ${result.statusText}` }
+			console.warn(`_fetch() ERROR STATUS:`, result)
+			result = { error: `_fetch() ERROR STATUS [${result.status}]: ${result.statusText}` }
 		}
 	} catch (e) {
-		result = { error: `fetch() EXCEPTION: ${e}` }
+		result = { error: `_fetch() EXCEPTION: ${e}` }
 	}
 	return result;
 }
-export async function FetchJson(url, method = 'GET', params = {}, options = {}) {
-	const result = await Fetch(url, method, params, options);
+export async function fetchJson(url, method = 'GET', params = {}, options = {}) {
+	const result = await _fetch(url, method, params, options);
 	return result.error ? result : result.json();
 }
-export async function FetchText(url, method = 'GET', params = {}, options = {}) {
-	const result = await Fetch(url, method, params, options);
+export async function fetchText(url, method = 'GET', params = {}, options = {}) {
+	const result = await _fetch(url, method, params, options);
 	return result.error ? result : result.text();
 }
 
 //
 // Convert dict to url parameters
-export function AddParamsToUrl(url, params) {
+export function addParamsToUrl(url, params) {
 	// remove empty params
 	for (var key in params) {
 		if (params[key] === null || params[key] === undefined || (typeof params[key] === 'string' && params[key].length == 0)) {
@@ -59,27 +59,4 @@ export function AddParamsToUrl(url, params) {
 		return url + '?' + (new URLSearchParams(params)).toString();
 	}
 	return url;
-}
-
-
-// Guarantee a minimum of secondsInteval between wait() calls
-// Returns elapsed time from last call, in seconds
-export class FixedIntervalCalls {
-	constructor(secondsInteval) {
-		this.interval = parseInt(secondsInteval * 1000.0);
-		this.lastTime = 0;
-	}
-	async wait() {
-		// check if last time is greater than interval
-		let currentTime = Date.now();
-		let elapsedTime = (currentTime - this.lastTime);
-		if (elapsedTime < this.interval) {
-			await new Promise(r => setTimeout(r, this.interval - elapsedTime));
-			currentTime = Date.now();
-			elapsedTime = (currentTime - this.lastTime);
-		}
-		// wait to match fixed interval
-		this.lastTime = currentTime;
-		return elapsedTime / 1000;
-	}
 }

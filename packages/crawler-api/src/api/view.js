@@ -1,5 +1,5 @@
-import { getContract } from '@/api/contract'
-import { readContract } from '@/api/wagmi'
+import { getContract } from './contract'
+import { wagmiReadContract } from './wagmi'
 
 const views = {
 	tokenIdToCoord: {
@@ -39,7 +39,7 @@ export const getView = async (viewName, query) => {
 		}
 	}
 
-	const { data, error } = await readContract(contract, functionName, args)
+	const { data, error } = await wagmiReadContract(contract, functionName, args)
 
 	if (error) {
 		return { error }

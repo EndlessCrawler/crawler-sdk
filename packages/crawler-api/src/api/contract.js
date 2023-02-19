@@ -1,4 +1,4 @@
-import Contracts from '@/contracts/Contracts'
+import Contracts from '../contracts/Contracts'
 
 export const getContract = ({ contractName, contractAddress, chainId }) => {
 

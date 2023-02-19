@@ -1,6 +1,7 @@
-
 import React, { useState, useEffect } from 'react'
-import { FetchJson } from '@/api/fetch'
+import {
+	fetchJson,
+} from '@avante/crawler-api'
 
 //-------------------------------
 // Generic json Fetch
@@ -12,7 +13,7 @@ export const useFetch = (url, params = {}, options = {}) => {
 
 	useEffect(() => {
 		async function _fetch() {
-			const results = await FetchJson(url, options.method ?? 'GET', params, options);
+			const results = await fetchJson(url, options.method ?? 'GET', params, options);
 			if (results.error) {
 				console.error(`useFetch(${url}) error:`, results.error);
 				setError(results.error);

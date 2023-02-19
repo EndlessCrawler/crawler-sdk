@@ -1,17 +1,17 @@
 // Chambers
-import CrawlerToken from '@/contracts/crawler/CrawlerToken.json';
-import CrawlerIndex from '@/contracts/crawler/CrawlerIndex.json';
-import CrawlerPlayer from '@/contracts/crawler/CrawlerPlayer.json';
-import CrawlerQueryV1 from '@/contracts/crawler/CrawlerQueryV1.json';
-import LimboToken from '@/contracts/crawler/LimboToken.json';
+import CrawlerToken from './crawler/CrawlerToken.json';
+import CrawlerIndex from './crawler/CrawlerIndex.json';
+import CrawlerPlayer from './crawler/CrawlerPlayer.json';
+import CrawlerQueryV1 from './crawler/CrawlerQueryV1.json';
+import LimboToken from './crawler/LimboToken.json';
 // Cards
-import CardsMinter from '@/contracts/cards/CardsMinter.json';
-import FounderStoreV2 from '@/contracts/cards/FounderStoreV2.json';
+import CardsMinter from './cards/CardsMinter.json';
+import FounderStoreV2 from './cards/FounderStoreV2.json';
 // Interfaces
-import ICardsStore from '@/contracts/cards/ICardsStore.json';
-import ICrawlerContract from '@/contracts/crawler/ICrawlerContract.json';
-import ICrawlerMapper from '@/contracts/crawler/ICrawlerMapper.json';
-import Ownable from '@/contracts/crawler/Ownable.json';
+import ICardsStore from './cards/ICardsStore.json';
+import ICrawlerContract from './crawler/ICrawlerContract.json';
+import ICrawlerMapper from './crawler/ICrawlerMapper.json';
+import Ownable from './crawler/Ownable.json';
 import { erc721ABI } from '@wagmi/core'
 
 

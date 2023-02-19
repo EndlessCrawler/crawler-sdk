@@ -2,7 +2,7 @@ import {
 	createClient,
 	configureChains,
 	mainnet, goerli,
-	readContract as wagmiReadContract,
+	readContract,
 } from '@wagmi/core'
 import { publicProvider } from '@wagmi/core/providers/public'
 import { alchemyProvider } from '@wagmi/core/providers/alchemy'
@@ -36,12 +36,12 @@ export const getClient = () => {
 // Read Contract
 //
 
-export const readContract = async (contract, functionName, args = []) => {
+export const wagmiReadContract = async (contract, functionName, args = []) => {
 	const { chainId, contractAddress: address, abi } = contract
 
 	let data = null
 	try {
-		data = await wagmiReadContract({
+		data = await readContract({
 			address,
 			abi,
 			functionName,
