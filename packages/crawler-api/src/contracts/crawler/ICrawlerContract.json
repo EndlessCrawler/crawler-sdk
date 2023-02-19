@@ -1,0 +1,349 @@
+{
+  "contractName": "ICrawlerContract",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "contractName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "contractChapterNumber",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "contractVersion",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.16+commit.07a7930e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"contractChapterNumber\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"contractName\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"contractVersion\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"supportsInterface(bytes4)\":{\"details\":\"Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ICrawlerContract.sol\":\"ICrawlerContract\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x447a5f3ddc18419d41ff92b3773fb86471b1db25773e07f877f548918a185bf1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://be161e54f24e5c6fae81a12db1a8ae87bc5ae1b0ddc805d82a1440a68455088f\",\"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy\"]},\"project:/contracts/ICrawlerContract.sol\":{\"keccak256\":\"0x7058af72a9f205a06299ed743cedccee0b4aad9f30a9d3aa0c06bc099a5a4f9f\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://62a25040caeb35498e3da235b3198bad2397f9396fd0901681eff3c681440f31\",\"dweb:/ipfs/QmcnCSWeu4m8WVFXKmPWoVh446j1C1aGWWiaZMDDmUx9Ti\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\n//\n//    ██████████\n//   █          █\n//  █            █\n//  █            █\n//  █            █\n//  █    ░░░░    █\n//  █   ▓▓▓▓▓▓   █\n//  █  ████████  █\n//\n// https://endlesscrawler.io\n// @EndlessCrawler\n//\n/// @title Endless Crawler Contract Manifest Interface\n/// @author Studio Avante\n//\npragma solidity ^0.8.16;\nimport { IERC165 } from '@openzeppelin/contracts/utils/introspection/IERC165.sol';\n\ninterface ICrawlerContract is IERC165 {\n\tfunction contractName() external view returns (string memory);\n\tfunction contractChapterNumber() external view returns (uint8);\n\tfunction contractVersion() external view returns (uint8);\n}\n",
+  "sourcePath": "/Users/roger/Dev/Blockchain/Truffle/ec-crawler/contracts/ICrawlerContract.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/ICrawlerContract.sol",
+    "exportedSymbols": {
+      "ICrawlerContract": [
+        12987
+      ],
+      "IERC165": [
+        3649
+      ]
+    },
+    "id": 12988,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12967,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "406:24:30"
+      },
+      {
+        "absolutePath": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+        "file": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+        "id": 12969,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 12988,
+        "sourceUnit": 3650,
+        "src": "431:82:30",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 12968,
+              "name": "IERC165",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 3649,
+              "src": "440:7:30",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 12970,
+              "name": "IERC165",
+              "nameLocations": [
+                "545:7:30"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 3649,
+              "src": "545:7:30"
+            },
+            "id": 12971,
+            "nodeType": "InheritanceSpecifier",
+            "src": "545:7:30"
+          }
+        ],
+        "canonicalName": "ICrawlerContract",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 12987,
+        "linearizedBaseContracts": [
+          12987,
+          3649
+        ],
+        "name": "ICrawlerContract",
+        "nameLocation": "525:16:30",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "75d0c0dc",
+            "id": 12976,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "contractName",
+            "nameLocation": "565:12:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12972,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "577:2:30"
+            },
+            "returnParameters": {
+              "id": 12975,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12974,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12976,
+                  "src": "603:13:30",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 12973,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "603:6:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "602:15:30"
+            },
+            "scope": 12987,
+            "src": "556:62:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "5c322f26",
+            "id": 12981,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "contractChapterNumber",
+            "nameLocation": "629:21:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12977,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "650:2:30"
+            },
+            "returnParameters": {
+              "id": 12980,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12979,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12981,
+                  "src": "676:5:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 12978,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "676:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "675:7:30"
+            },
+            "scope": 12987,
+            "src": "620:63:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "a0a8e460",
+            "id": 12986,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "contractVersion",
+            "nameLocation": "694:15:30",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12982,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "709:2:30"
+            },
+            "returnParameters": {
+              "id": 12985,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12984,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 12986,
+                  "src": "735:5:30",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 12983,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "735:5:30",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "734:7:30"
+            },
+            "scope": 12987,
+            "src": "685:57:30",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 12988,
+        "src": "515:229:30",
+        "usedErrors": []
+      }
+    ],
+    "src": "406:339:30"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.16+commit.07a7930e.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2022-12-01T01:24:00.812Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "supportsInterface(bytes4)": {
+        "details": "Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

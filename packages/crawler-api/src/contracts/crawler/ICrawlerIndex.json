@@ -1,0 +1,2063 @@
+{
+  "contractName": "ICrawlerIndex",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "getCurrentChapterNumber",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCurrentChapter",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "chapterNumber",
+              "type": "uint8"
+            },
+            {
+              "internalType": "contract ICrawlerGenerator",
+              "name": "generator",
+              "type": "address"
+            },
+            {
+              "internalType": "contract ICrawlerMapper",
+              "name": "mapper",
+              "type": "address"
+            },
+            {
+              "internalType": "contract ICrawlerRenderer",
+              "name": "renderer",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct ICrawlerIndex.Chapter",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        }
+      ],
+      "name": "getChapter",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "chapterNumber",
+              "type": "uint8"
+            },
+            {
+              "internalType": "contract ICrawlerGenerator",
+              "name": "generator",
+              "type": "address"
+            },
+            {
+              "internalType": "contract ICrawlerMapper",
+              "name": "mapper",
+              "type": "address"
+            },
+            {
+              "internalType": "contract ICrawlerRenderer",
+              "name": "renderer",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct ICrawlerIndex.Chapter",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getChamberGenerator",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerChamberGenerator",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        }
+      ],
+      "name": "getGenerator",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerGenerator",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        }
+      ],
+      "name": "getMapper",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerMapper",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        }
+      ],
+      "name": "getRenderer",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerRenderer",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "coord",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberSeed",
+          "name": "chamberSeed",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bool",
+          "name": "generateMaps",
+          "type": "bool"
+        }
+      ],
+      "name": "getChamberData",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "coord",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberSeed",
+          "name": "chamberSeed",
+          "type": "tuple"
+        }
+      ],
+      "name": "getChamberMetadata",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "coord",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberSeed",
+          "name": "chamberSeed",
+          "type": "tuple"
+        }
+      ],
+      "name": "getMapMetadata",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "coord",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberSeed",
+          "name": "chamberSeed",
+          "type": "tuple"
+        }
+      ],
+      "name": "getTokenMetadata",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.16+commit.07a7930e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"chapterNumber\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"coord\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"seed\",\"type\":\"uint256\"},{\"internalType\":\"uint232\",\"name\":\"yonder\",\"type\":\"uint232\"},{\"internalType\":\"uint8\",\"name\":\"chapter\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Dir\",\"name\":\"entryDir\",\"type\":\"uint8\"}],\"internalType\":\"struct Crawl.ChamberSeed\",\"name\":\"chamberSeed\",\"type\":\"tuple\"},{\"internalType\":\"bool\",\"name\":\"generateMaps\",\"type\":\"bool\"}],\"name\":\"getChamberData\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"coord\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"seed\",\"type\":\"uint256\"},{\"internalType\":\"uint232\",\"name\":\"yonder\",\"type\":\"uint232\"},{\"internalType\":\"uint8\",\"name\":\"chapter\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Dir\",\"name\":\"entryDir\",\"type\":\"uint8\"},{\"components\":[{\"internalType\":\"enum Crawl.Gem\",\"name\":\"gemType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"coins\",\"type\":\"uint16\"},{\"internalType\":\"uint16\",\"name\":\"worth\",\"type\":\"uint16\"}],\"internalType\":\"struct Crawl.Hoard\",\"name\":\"hoard\",\"type\":\"tuple\"},{\"internalType\":\"uint8\",\"name\":\"gemPos\",\"type\":\"uint8\"},{\"internalType\":\"uint8[4]\",\"name\":\"doors\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint8[4]\",\"name\":\"locks\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint256\",\"name\":\"bitmap\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"tilemap\",\"type\":\"bytes\"},{\"components\":[{\"internalType\":\"enum Crawl.CustomDataType\",\"name\":\"dataType\",\"type\":\"uint8\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct Crawl.CustomData[]\",\"name\":\"customData\",\"type\":\"tuple[]\"}],\"internalType\":\"struct Crawl.ChamberData\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getChamberGenerator\",\"outputs\":[{\"internalType\":\"contract ICrawlerChamberGenerator\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"chapterNumber\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"coord\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"seed\",\"type\":\"uint256\"},{\"internalType\":\"uint232\",\"name\":\"yonder\",\"type\":\"uint232\"},{\"internalType\":\"uint8\",\"name\":\"chapter\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Dir\",\"name\":\"entryDir\",\"type\":\"uint8\"}],\"internalType\":\"struct Crawl.ChamberSeed\",\"name\":\"chamberSeed\",\"type\":\"tuple\"}],\"name\":\"getChamberMetadata\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"chapterNumber\",\"type\":\"uint8\"}],\"name\":\"getChapter\",\"outputs\":[{\"components\":[{\"internalType\":\"uint8\",\"name\":\"chapterNumber\",\"type\":\"uint8\"},{\"internalType\":\"contract ICrawlerGenerator\",\"name\":\"generator\",\"type\":\"address\"},{\"internalType\":\"contract ICrawlerMapper\",\"name\":\"mapper\",\"type\":\"address\"},{\"internalType\":\"contract ICrawlerRenderer\",\"name\":\"renderer\",\"type\":\"address\"}],\"internalType\":\"struct ICrawlerIndex.Chapter\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCurrentChapter\",\"outputs\":[{\"components\":[{\"internalType\":\"uint8\",\"name\":\"chapterNumber\",\"type\":\"uint8\"},{\"internalType\":\"contract ICrawlerGenerator\",\"name\":\"generator\",\"type\":\"address\"},{\"internalType\":\"contract ICrawlerMapper\",\"name\":\"mapper\",\"type\":\"address\"},{\"internalType\":\"contract ICrawlerRenderer\",\"name\":\"renderer\",\"type\":\"address\"}],\"internalType\":\"struct ICrawlerIndex.Chapter\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCurrentChapterNumber\",\"outputs\":[{\"internalType\":\"uint8\",\"name\":\"\",\"type\":\"uint8\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"chapterNumber\",\"type\":\"uint8\"}],\"name\":\"getGenerator\",\"outputs\":[{\"internalType\":\"contract ICrawlerGenerator\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"chapterNumber\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"coord\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"seed\",\"type\":\"uint256\"},{\"internalType\":\"uint232\",\"name\":\"yonder\",\"type\":\"uint232\"},{\"internalType\":\"uint8\",\"name\":\"chapter\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Dir\",\"name\":\"entryDir\",\"type\":\"uint8\"}],\"internalType\":\"struct Crawl.ChamberSeed\",\"name\":\"chamberSeed\",\"type\":\"tuple\"}],\"name\":\"getMapMetadata\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"chapterNumber\",\"type\":\"uint8\"}],\"name\":\"getMapper\",\"outputs\":[{\"internalType\":\"contract ICrawlerMapper\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"chapterNumber\",\"type\":\"uint8\"}],\"name\":\"getRenderer\",\"outputs\":[{\"internalType\":\"contract ICrawlerRenderer\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint8\",\"name\":\"chapterNumber\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"coord\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"seed\",\"type\":\"uint256\"},{\"internalType\":\"uint232\",\"name\":\"yonder\",\"type\":\"uint232\"},{\"internalType\":\"uint8\",\"name\":\"chapter\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Dir\",\"name\":\"entryDir\",\"type\":\"uint8\"}],\"internalType\":\"struct Crawl.ChamberSeed\",\"name\":\"chamberSeed\",\"type\":\"tuple\"}],\"name\":\"getTokenMetadata\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ICrawlerIndex.sol\":\"ICrawlerIndex\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/token/ERC721/IERC721.sol\":{\"keccak256\":\"0xab28a56179c1db258c9bf5235b382698cb650debecb51b23d12be9e241374b68\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://daae589a9d6fa7e55f99f86c0a16796ca490f243fb3693632c3711c0646c1d56\",\"dweb:/ipfs/QmR3zpd7wNw3rcUdekwiv6FYHJqksuTCXLVioTxu6Fbxk3\"]},\"@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol\":{\"keccak256\":\"0x75b829ff2f26c14355d1cba20e16fe7b29ca58eb5fef665ede48bc0f9c6c74b9\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a0a107160525724f9e1bbbab031defc2f298296dd9e331f16a6f7130cec32146\",\"dweb:/ipfs/QmemujxSd7gX8A9M8UwmNbz4Ms3U9FG9QfudUgxwvTmPWf\"]},\"@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x447a5f3ddc18419d41ff92b3773fb86471b1db25773e07f877f548918a185bf1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://be161e54f24e5c6fae81a12db1a8ae87bc5ae1b0ddc805d82a1440a68455088f\",\"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy\"]},\"project:/contracts/Crawl.sol\":{\"keccak256\":\"0xb769e62ace633d2c84dd9b3236d99705e18d11a322009e7a247e3eae0e7064c5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9883ac73d893b227d614ac1792280b4a8fb219da5bdf41e15f8ad82f531eede6\",\"dweb:/ipfs/QmWYQTCnmeU5EVZFWpC8eu1oU7VH1nfCqr7Uo5VdwsjhRm\"]},\"project:/contracts/ICrawlerChamberGenerator.sol\":{\"keccak256\":\"0xb5fdca2ce21c17f78ec9569b40cf49c59a04f435f2a8c98b5485a21c47f8ecdd\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9231fa1877a5ee4c5fe30845c988bbebcfc7e8ec51b955c95569f755470647a0\",\"dweb:/ipfs/QmcBDgbuwscVnHvsNbNs8wPynZ7QuXWMdvDqib2DaxL75R\"]},\"project:/contracts/ICrawlerGenerator.sol\":{\"keccak256\":\"0x12ce4dcf38bd5d1889800cdde39bb588536ff29eedb2cf4e823a376f0b00788b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5b1ad538096ceb034e4dcdab77eaebc94fedbff1a522d5d26593a808207c92e5\",\"dweb:/ipfs/QmZSFz2Sgfvymyu8kU5q1biejtba3kGq8HLBniWtiWMCWL\"]},\"project:/contracts/ICrawlerIndex.sol\":{\"keccak256\":\"0xf172827ca08d94e4828e5f9eb8e864059718f2bbabc3698b56ad577c675a3958\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fbbd48b7360bf2c476220a31b6a82dae7df4a0cb9dc934850421b1017523546e\",\"dweb:/ipfs/QmWrH69Xuqi1DskhQdRYAVt85jhLzxmT7noVFs9Mg9Fu4t\"]},\"project:/contracts/ICrawlerMapper.sol\":{\"keccak256\":\"0x04f3d7eda7d7b88dcd68c75fd49209496230c835a04948f79d0bcb5daf88c425\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cdc1d0af5a93afbead9764ffbc596ebabea976f8f820ab483b93dfd0690bf7a5\",\"dweb:/ipfs/QmZSRfqfdQMQu5t3weM5UmrLkXYxkeU5CbbQd5eM8t69FZ\"]},\"project:/contracts/ICrawlerRenderer.sol\":{\"keccak256\":\"0x946a8982e1c0db8f1715628b7a833cda62d1ec71ceb6359a3fdeddd00a92ef0a\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://0bdd5fe876fa3fa61ffddd94a39f09e7dfe74914d19aa0adf43b4163a8f26681\",\"dweb:/ipfs/QmPYNd7jbZfJte6sV8dw3r59Fhds9s6bfVrr6amqrHNL3h\"]},\"project:/contracts/ICrawlerToken.sol\":{\"keccak256\":\"0xd5f9276fb6c404e15294a13d0d548f8337f783aef4a27941fec9a1c4205a925e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cfd4eb29db6636cf9f61f915b8cfad99ab52c7e390e1a1d8d3fd88c8335a703f\",\"dweb:/ipfs/QmamFKRJfZwyquzb3RNinHYzniY73Cb1xU5jacr5jsbD9D\"]},\"project:/contracts/extras/IERC721Enumerable.sol\":{\"keccak256\":\"0x7b0f91afc8424c1ee8aa3e2aa96c668b6a7f459f029a358e9ff230045294867c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a408c38eff49dacd6a0228e7bd79b4158d76c13eb1ff69de685ecb08ff9d16cf\",\"dweb:/ipfs/QmPf1vpkqthhJPv3cotZwVaGnisLcJqRJRnBXvmStMQ2yu\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\n//\n//    ██████████\n//   █          █\n//  █            █\n//  █            █\n//  █            █\n//  █    ░░░░    █\n//  █   ▓▓▓▓▓▓   █\n//  █  ████████  █\n//\n// https://endlesscrawler.io\n// @EndlessCrawler\n//\n/// @title Endless Crawler Chapter Index Interface\n/// @author Studio Avante\n//\npragma solidity ^0.8.16;\nimport { ICrawlerChamberGenerator } from './ICrawlerChamberGenerator.sol';\nimport { ICrawlerGenerator } from './ICrawlerGenerator.sol';\nimport { ICrawlerMapper } from './ICrawlerMapper.sol';\nimport { ICrawlerRenderer } from './ICrawlerRenderer.sol';\nimport { Crawl } from './Crawl.sol';\n\ninterface ICrawlerIndex {\n\tstruct Chapter {\n\t\tuint8 chapterNumber;\n\t\tICrawlerGenerator generator;\n\t\tICrawlerMapper mapper;\n\t\tICrawlerRenderer renderer;\n\t}\n\t// Public\n\tfunction getCurrentChapterNumber() external view returns (uint8);\n\tfunction getCurrentChapter() external view returns (Chapter memory);\n\tfunction getChapter(uint8 chapterNumber) external view returns (Chapter memory);\n\tfunction getChamberGenerator() external view returns (ICrawlerChamberGenerator);\n\tfunction getGenerator(uint8 chapterNumber) external view returns (ICrawlerGenerator);\n\tfunction getMapper(uint8 chapterNumber) external view returns (ICrawlerMapper);\n\tfunction getRenderer(uint8 chapterNumber) external view returns (ICrawlerRenderer);\n\t// Metadata calls\n\tfunction getChamberData(uint8 chapterNumber, uint256 coord, Crawl.ChamberSeed memory chamberSeed, bool generateMaps) external view returns (Crawl.ChamberData memory);\n\tfunction getChamberMetadata(uint8 chapterNumber, uint256 coord, Crawl.ChamberSeed memory chamberSeed) external view returns (string memory);\n\tfunction getMapMetadata(uint8 chapterNumber, uint256 coord, Crawl.ChamberSeed memory chamberSeed) external view returns (string memory);\n\tfunction getTokenMetadata(uint8 chapterNumber, uint256 coord, Crawl.ChamberSeed memory chamberSeed) external view returns (string memory);\n}\n",
+  "sourcePath": "/Users/roger/Dev/Blockchain/Truffle/ec-crawler/contracts/ICrawlerIndex.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/ICrawlerIndex.sol",
+    "exportedSymbols": {
+      "Crawl": [
+        4787
+      ],
+      "ICrawlerChamberGenerator": [
+        9397
+      ],
+      "ICrawlerGenerator": [
+        9438
+      ],
+      "ICrawlerIndex": [
+        9563
+      ],
+      "ICrawlerMapper": [
+        9666
+      ],
+      "ICrawlerRenderer": [
+        9790
+      ]
+    },
+    "id": 9564,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 9440,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "402:24:25"
+      },
+      {
+        "absolutePath": "project:/contracts/ICrawlerChamberGenerator.sol",
+        "file": "./ICrawlerChamberGenerator.sol",
+        "id": 9442,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 9564,
+        "sourceUnit": 9398,
+        "src": "427:74:25",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 9441,
+              "name": "ICrawlerChamberGenerator",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 9397,
+              "src": "436:24:25",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/ICrawlerGenerator.sol",
+        "file": "./ICrawlerGenerator.sol",
+        "id": 9444,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 9564,
+        "sourceUnit": 9439,
+        "src": "502:60:25",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 9443,
+              "name": "ICrawlerGenerator",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 9438,
+              "src": "511:17:25",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/ICrawlerMapper.sol",
+        "file": "./ICrawlerMapper.sol",
+        "id": 9446,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 9564,
+        "sourceUnit": 9667,
+        "src": "563:54:25",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 9445,
+              "name": "ICrawlerMapper",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 9666,
+              "src": "572:14:25",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/ICrawlerRenderer.sol",
+        "file": "./ICrawlerRenderer.sol",
+        "id": 9448,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 9564,
+        "sourceUnit": 9791,
+        "src": "618:58:25",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 9447,
+              "name": "ICrawlerRenderer",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 9790,
+              "src": "627:16:25",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/Crawl.sol",
+        "file": "./Crawl.sol",
+        "id": 9450,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 9564,
+        "sourceUnit": 4788,
+        "src": "677:36:25",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 9449,
+              "name": "Crawl",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 4787,
+              "src": "686:5:25",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ICrawlerIndex",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 9563,
+        "linearizedBaseContracts": [
+          9563
+        ],
+        "name": "ICrawlerIndex",
+        "nameLocation": "725:13:25",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "canonicalName": "ICrawlerIndex.Chapter",
+            "id": 9462,
+            "members": [
+              {
+                "constant": false,
+                "id": 9452,
+                "mutability": "mutable",
+                "name": "chapterNumber",
+                "nameLocation": "767:13:25",
+                "nodeType": "VariableDeclaration",
+                "scope": 9462,
+                "src": "761:19:25",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint8",
+                  "typeString": "uint8"
+                },
+                "typeName": {
+                  "id": 9451,
+                  "name": "uint8",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "761:5:25",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 9455,
+                "mutability": "mutable",
+                "name": "generator",
+                "nameLocation": "802:9:25",
+                "nodeType": "VariableDeclaration",
+                "scope": 9462,
+                "src": "784:27:25",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_contract$_ICrawlerGenerator_$9438",
+                  "typeString": "contract ICrawlerGenerator"
+                },
+                "typeName": {
+                  "id": 9454,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 9453,
+                    "name": "ICrawlerGenerator",
+                    "nameLocations": [
+                      "784:17:25"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 9438,
+                    "src": "784:17:25"
+                  },
+                  "referencedDeclaration": 9438,
+                  "src": "784:17:25",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_ICrawlerGenerator_$9438",
+                    "typeString": "contract ICrawlerGenerator"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 9458,
+                "mutability": "mutable",
+                "name": "mapper",
+                "nameLocation": "830:6:25",
+                "nodeType": "VariableDeclaration",
+                "scope": 9462,
+                "src": "815:21:25",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_contract$_ICrawlerMapper_$9666",
+                  "typeString": "contract ICrawlerMapper"
+                },
+                "typeName": {
+                  "id": 9457,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 9456,
+                    "name": "ICrawlerMapper",
+                    "nameLocations": [
+                      "815:14:25"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 9666,
+                    "src": "815:14:25"
+                  },
+                  "referencedDeclaration": 9666,
+                  "src": "815:14:25",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_ICrawlerMapper_$9666",
+                    "typeString": "contract ICrawlerMapper"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 9461,
+                "mutability": "mutable",
+                "name": "renderer",
+                "nameLocation": "857:8:25",
+                "nodeType": "VariableDeclaration",
+                "scope": 9462,
+                "src": "840:25:25",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_contract$_ICrawlerRenderer_$9790",
+                  "typeString": "contract ICrawlerRenderer"
+                },
+                "typeName": {
+                  "id": 9460,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 9459,
+                    "name": "ICrawlerRenderer",
+                    "nameLocations": [
+                      "840:16:25"
+                    ],
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 9790,
+                    "src": "840:16:25"
+                  },
+                  "referencedDeclaration": 9790,
+                  "src": "840:16:25",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_ICrawlerRenderer_$9790",
+                    "typeString": "contract ICrawlerRenderer"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "Chapter",
+            "nameLocation": "749:7:25",
+            "nodeType": "StructDefinition",
+            "scope": 9563,
+            "src": "742:127:25",
+            "visibility": "public"
+          },
+          {
+            "functionSelector": "8e3b60a0",
+            "id": 9467,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getCurrentChapterNumber",
+            "nameLocation": "891:23:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9463,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "914:2:25"
+            },
+            "returnParameters": {
+              "id": 9466,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9465,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9467,
+                  "src": "940:5:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9464,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "940:5:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "939:7:25"
+            },
+            "scope": 9563,
+            "src": "882:65:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "b1ee6632",
+            "id": 9473,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getCurrentChapter",
+            "nameLocation": "958:17:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9468,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "975:2:25"
+            },
+            "returnParameters": {
+              "id": 9472,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9471,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9473,
+                  "src": "1001:14:25",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Chapter_$9462_memory_ptr",
+                    "typeString": "struct ICrawlerIndex.Chapter"
+                  },
+                  "typeName": {
+                    "id": 9470,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9469,
+                      "name": "Chapter",
+                      "nameLocations": [
+                        "1001:7:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 9462,
+                      "src": "1001:7:25"
+                    },
+                    "referencedDeclaration": 9462,
+                    "src": "1001:7:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Chapter_$9462_storage_ptr",
+                      "typeString": "struct ICrawlerIndex.Chapter"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1000:16:25"
+            },
+            "scope": 9563,
+            "src": "949:68:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "cc84c2a8",
+            "id": 9481,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getChapter",
+            "nameLocation": "1028:10:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9476,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9475,
+                  "mutability": "mutable",
+                  "name": "chapterNumber",
+                  "nameLocation": "1045:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9481,
+                  "src": "1039:19:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9474,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1039:5:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1038:21:25"
+            },
+            "returnParameters": {
+              "id": 9480,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9479,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9481,
+                  "src": "1083:14:25",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Chapter_$9462_memory_ptr",
+                    "typeString": "struct ICrawlerIndex.Chapter"
+                  },
+                  "typeName": {
+                    "id": 9478,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9477,
+                      "name": "Chapter",
+                      "nameLocations": [
+                        "1083:7:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 9462,
+                      "src": "1083:7:25"
+                    },
+                    "referencedDeclaration": 9462,
+                    "src": "1083:7:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Chapter_$9462_storage_ptr",
+                      "typeString": "struct ICrawlerIndex.Chapter"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1082:16:25"
+            },
+            "scope": 9563,
+            "src": "1019:80:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "cff270eb",
+            "id": 9487,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getChamberGenerator",
+            "nameLocation": "1110:19:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9482,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1129:2:25"
+            },
+            "returnParameters": {
+              "id": 9486,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9485,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9487,
+                  "src": "1155:24:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_ICrawlerChamberGenerator_$9397",
+                    "typeString": "contract ICrawlerChamberGenerator"
+                  },
+                  "typeName": {
+                    "id": 9484,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9483,
+                      "name": "ICrawlerChamberGenerator",
+                      "nameLocations": [
+                        "1155:24:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 9397,
+                      "src": "1155:24:25"
+                    },
+                    "referencedDeclaration": 9397,
+                    "src": "1155:24:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_ICrawlerChamberGenerator_$9397",
+                      "typeString": "contract ICrawlerChamberGenerator"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1154:26:25"
+            },
+            "scope": 9563,
+            "src": "1101:80:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "aa327f1e",
+            "id": 9495,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getGenerator",
+            "nameLocation": "1192:12:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9490,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9489,
+                  "mutability": "mutable",
+                  "name": "chapterNumber",
+                  "nameLocation": "1211:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9495,
+                  "src": "1205:19:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9488,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1205:5:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1204:21:25"
+            },
+            "returnParameters": {
+              "id": 9494,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9493,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9495,
+                  "src": "1249:17:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_ICrawlerGenerator_$9438",
+                    "typeString": "contract ICrawlerGenerator"
+                  },
+                  "typeName": {
+                    "id": 9492,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9491,
+                      "name": "ICrawlerGenerator",
+                      "nameLocations": [
+                        "1249:17:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 9438,
+                      "src": "1249:17:25"
+                    },
+                    "referencedDeclaration": 9438,
+                    "src": "1249:17:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_ICrawlerGenerator_$9438",
+                      "typeString": "contract ICrawlerGenerator"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1248:19:25"
+            },
+            "scope": 9563,
+            "src": "1183:85:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "8736f3a6",
+            "id": 9503,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getMapper",
+            "nameLocation": "1279:9:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9498,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9497,
+                  "mutability": "mutable",
+                  "name": "chapterNumber",
+                  "nameLocation": "1295:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9503,
+                  "src": "1289:19:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9496,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1289:5:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1288:21:25"
+            },
+            "returnParameters": {
+              "id": 9502,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9501,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9503,
+                  "src": "1333:14:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_ICrawlerMapper_$9666",
+                    "typeString": "contract ICrawlerMapper"
+                  },
+                  "typeName": {
+                    "id": 9500,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9499,
+                      "name": "ICrawlerMapper",
+                      "nameLocations": [
+                        "1333:14:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 9666,
+                      "src": "1333:14:25"
+                    },
+                    "referencedDeclaration": 9666,
+                    "src": "1333:14:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_ICrawlerMapper_$9666",
+                      "typeString": "contract ICrawlerMapper"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1332:16:25"
+            },
+            "scope": 9563,
+            "src": "1270:79:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "62720950",
+            "id": 9511,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getRenderer",
+            "nameLocation": "1360:11:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9506,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9505,
+                  "mutability": "mutable",
+                  "name": "chapterNumber",
+                  "nameLocation": "1378:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9511,
+                  "src": "1372:19:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9504,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1372:5:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1371:21:25"
+            },
+            "returnParameters": {
+              "id": 9510,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9509,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9511,
+                  "src": "1416:16:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_ICrawlerRenderer_$9790",
+                    "typeString": "contract ICrawlerRenderer"
+                  },
+                  "typeName": {
+                    "id": 9508,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9507,
+                      "name": "ICrawlerRenderer",
+                      "nameLocations": [
+                        "1416:16:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 9790,
+                      "src": "1416:16:25"
+                    },
+                    "referencedDeclaration": 9790,
+                    "src": "1416:16:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_ICrawlerRenderer_$9790",
+                      "typeString": "contract ICrawlerRenderer"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1415:18:25"
+            },
+            "scope": 9563,
+            "src": "1351:83:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "4eb18bb8",
+            "id": 9526,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getChamberData",
+            "nameLocation": "1464:14:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9521,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9513,
+                  "mutability": "mutable",
+                  "name": "chapterNumber",
+                  "nameLocation": "1485:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9526,
+                  "src": "1479:19:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9512,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1479:5:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 9515,
+                  "mutability": "mutable",
+                  "name": "coord",
+                  "nameLocation": "1508:5:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9526,
+                  "src": "1500:13:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 9514,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1500:7:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 9518,
+                  "mutability": "mutable",
+                  "name": "chamberSeed",
+                  "nameLocation": "1540:11:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9526,
+                  "src": "1515:36:25",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ChamberSeed_$3041_memory_ptr",
+                    "typeString": "struct Crawl.ChamberSeed"
+                  },
+                  "typeName": {
+                    "id": 9517,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9516,
+                      "name": "Crawl.ChamberSeed",
+                      "nameLocations": [
+                        "1515:5:25",
+                        "1521:11:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 3041,
+                      "src": "1515:17:25"
+                    },
+                    "referencedDeclaration": 3041,
+                    "src": "1515:17:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ChamberSeed_$3041_storage_ptr",
+                      "typeString": "struct Crawl.ChamberSeed"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 9520,
+                  "mutability": "mutable",
+                  "name": "generateMaps",
+                  "nameLocation": "1558:12:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9526,
+                  "src": "1553:17:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 9519,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1553:4:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1478:93:25"
+            },
+            "returnParameters": {
+              "id": 9525,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9524,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9526,
+                  "src": "1595:24:25",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ChamberData_$3079_memory_ptr",
+                    "typeString": "struct Crawl.ChamberData"
+                  },
+                  "typeName": {
+                    "id": 9523,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9522,
+                      "name": "Crawl.ChamberData",
+                      "nameLocations": [
+                        "1595:5:25",
+                        "1601:11:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 3079,
+                      "src": "1595:17:25"
+                    },
+                    "referencedDeclaration": 3079,
+                    "src": "1595:17:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ChamberData_$3079_storage_ptr",
+                      "typeString": "struct Crawl.ChamberData"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1594:26:25"
+            },
+            "scope": 9563,
+            "src": "1455:166:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "f1e608f3",
+            "id": 9538,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getChamberMetadata",
+            "nameLocation": "1632:18:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9534,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9528,
+                  "mutability": "mutable",
+                  "name": "chapterNumber",
+                  "nameLocation": "1657:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9538,
+                  "src": "1651:19:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9527,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1651:5:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 9530,
+                  "mutability": "mutable",
+                  "name": "coord",
+                  "nameLocation": "1680:5:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9538,
+                  "src": "1672:13:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 9529,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1672:7:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 9533,
+                  "mutability": "mutable",
+                  "name": "chamberSeed",
+                  "nameLocation": "1712:11:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9538,
+                  "src": "1687:36:25",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ChamberSeed_$3041_memory_ptr",
+                    "typeString": "struct Crawl.ChamberSeed"
+                  },
+                  "typeName": {
+                    "id": 9532,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9531,
+                      "name": "Crawl.ChamberSeed",
+                      "nameLocations": [
+                        "1687:5:25",
+                        "1693:11:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 3041,
+                      "src": "1687:17:25"
+                    },
+                    "referencedDeclaration": 3041,
+                    "src": "1687:17:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ChamberSeed_$3041_storage_ptr",
+                      "typeString": "struct Crawl.ChamberSeed"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1650:74:25"
+            },
+            "returnParameters": {
+              "id": 9537,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9536,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9538,
+                  "src": "1748:13:25",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 9535,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1748:6:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1747:15:25"
+            },
+            "scope": 9563,
+            "src": "1623:140:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "0fe487f3",
+            "id": 9550,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getMapMetadata",
+            "nameLocation": "1774:14:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9546,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9540,
+                  "mutability": "mutable",
+                  "name": "chapterNumber",
+                  "nameLocation": "1795:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9550,
+                  "src": "1789:19:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9539,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1789:5:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 9542,
+                  "mutability": "mutable",
+                  "name": "coord",
+                  "nameLocation": "1818:5:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9550,
+                  "src": "1810:13:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 9541,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1810:7:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 9545,
+                  "mutability": "mutable",
+                  "name": "chamberSeed",
+                  "nameLocation": "1850:11:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9550,
+                  "src": "1825:36:25",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ChamberSeed_$3041_memory_ptr",
+                    "typeString": "struct Crawl.ChamberSeed"
+                  },
+                  "typeName": {
+                    "id": 9544,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9543,
+                      "name": "Crawl.ChamberSeed",
+                      "nameLocations": [
+                        "1825:5:25",
+                        "1831:11:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 3041,
+                      "src": "1825:17:25"
+                    },
+                    "referencedDeclaration": 3041,
+                    "src": "1825:17:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ChamberSeed_$3041_storage_ptr",
+                      "typeString": "struct Crawl.ChamberSeed"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1788:74:25"
+            },
+            "returnParameters": {
+              "id": 9549,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9548,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9550,
+                  "src": "1886:13:25",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 9547,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1886:6:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1885:15:25"
+            },
+            "scope": 9563,
+            "src": "1765:136:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "ac261922",
+            "id": 9562,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTokenMetadata",
+            "nameLocation": "1912:16:25",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 9558,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9552,
+                  "mutability": "mutable",
+                  "name": "chapterNumber",
+                  "nameLocation": "1935:13:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9562,
+                  "src": "1929:19:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 9551,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1929:5:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 9554,
+                  "mutability": "mutable",
+                  "name": "coord",
+                  "nameLocation": "1958:5:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9562,
+                  "src": "1950:13:25",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 9553,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1950:7:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 9557,
+                  "mutability": "mutable",
+                  "name": "chamberSeed",
+                  "nameLocation": "1990:11:25",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9562,
+                  "src": "1965:36:25",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ChamberSeed_$3041_memory_ptr",
+                    "typeString": "struct Crawl.ChamberSeed"
+                  },
+                  "typeName": {
+                    "id": 9556,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 9555,
+                      "name": "Crawl.ChamberSeed",
+                      "nameLocations": [
+                        "1965:5:25",
+                        "1971:11:25"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 3041,
+                      "src": "1965:17:25"
+                    },
+                    "referencedDeclaration": 3041,
+                    "src": "1965:17:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ChamberSeed_$3041_storage_ptr",
+                      "typeString": "struct Crawl.ChamberSeed"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1928:74:25"
+            },
+            "returnParameters": {
+              "id": 9561,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 9560,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 9562,
+                  "src": "2026:13:25",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 9559,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2026:6:25",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2025:15:25"
+            },
+            "scope": 9563,
+            "src": "1903:138:25",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 9564,
+        "src": "715:1328:25",
+        "usedErrors": []
+      }
+    ],
+    "src": "402:1642:25"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.16+commit.07a7930e.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2022-12-03T15:59:06.108Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

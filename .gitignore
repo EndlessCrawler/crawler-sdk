@@ -1,8 +1,12 @@
 node_modules/
+jspm_packages/
+.npm
+build/
+dist/
 .next/
 .vercel/
-build/
 .env*
+*.tsbuildinfo
 
 # debug
 npm-debug.log*

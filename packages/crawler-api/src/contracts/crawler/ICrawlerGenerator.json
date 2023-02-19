@@ -1,0 +1,419 @@
+{
+  "contractName": "ICrawlerGenerator",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "chamber",
+          "type": "tuple"
+        }
+      ],
+      "name": "generateCustomChamberData",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "enum Crawl.CustomDataType",
+              "name": "dataType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "bytes",
+              "name": "data",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct Crawl.CustomData[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.16+commit.07a7930e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"coord\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"seed\",\"type\":\"uint256\"},{\"internalType\":\"uint232\",\"name\":\"yonder\",\"type\":\"uint232\"},{\"internalType\":\"uint8\",\"name\":\"chapter\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Dir\",\"name\":\"entryDir\",\"type\":\"uint8\"},{\"components\":[{\"internalType\":\"enum Crawl.Gem\",\"name\":\"gemType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"coins\",\"type\":\"uint16\"},{\"internalType\":\"uint16\",\"name\":\"worth\",\"type\":\"uint16\"}],\"internalType\":\"struct Crawl.Hoard\",\"name\":\"hoard\",\"type\":\"tuple\"},{\"internalType\":\"uint8\",\"name\":\"gemPos\",\"type\":\"uint8\"},{\"internalType\":\"uint8[4]\",\"name\":\"doors\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint8[4]\",\"name\":\"locks\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint256\",\"name\":\"bitmap\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"tilemap\",\"type\":\"bytes\"},{\"components\":[{\"internalType\":\"enum Crawl.CustomDataType\",\"name\":\"dataType\",\"type\":\"uint8\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct Crawl.CustomData[]\",\"name\":\"customData\",\"type\":\"tuple[]\"}],\"internalType\":\"struct Crawl.ChamberData\",\"name\":\"chamber\",\"type\":\"tuple\"}],\"name\":\"generateCustomChamberData\",\"outputs\":[{\"components\":[{\"internalType\":\"enum Crawl.CustomDataType\",\"name\":\"dataType\",\"type\":\"uint8\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct Crawl.CustomData[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"supportsInterface(bytes4)\":{\"details\":\"Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ICrawlerGenerator.sol\":\"ICrawlerGenerator\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x447a5f3ddc18419d41ff92b3773fb86471b1db25773e07f877f548918a185bf1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://be161e54f24e5c6fae81a12db1a8ae87bc5ae1b0ddc805d82a1440a68455088f\",\"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy\"]},\"project:/contracts/Crawl.sol\":{\"keccak256\":\"0xb769e62ace633d2c84dd9b3236d99705e18d11a322009e7a247e3eae0e7064c5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9883ac73d893b227d614ac1792280b4a8fb219da5bdf41e15f8ad82f531eede6\",\"dweb:/ipfs/QmWYQTCnmeU5EVZFWpC8eu1oU7VH1nfCqr7Uo5VdwsjhRm\"]},\"project:/contracts/ICrawlerGenerator.sol\":{\"keccak256\":\"0x12ce4dcf38bd5d1889800cdde39bb588536ff29eedb2cf4e823a376f0b00788b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5b1ad538096ceb034e4dcdab77eaebc94fedbff1a522d5d26593a808207c92e5\",\"dweb:/ipfs/QmZSFz2Sgfvymyu8kU5q1biejtba3kGq8HLBniWtiWMCWL\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\n//\n//    ██████████\n//   █          █\n//  █            █\n//  █            █\n//  █            █\n//  █    ░░░░    █\n//  █   ▓▓▓▓▓▓   █\n//  █  ████████  █\n//\n// https://endlesscrawler.io\n// @EndlessCrawler\n//\n/// @title Endless Crawler Chamber Generator Interface (Custom data)\n/// @author Studio Avante\n//\npragma solidity ^0.8.16;\nimport { IERC165 } from '@openzeppelin/contracts/utils/introspection/IERC165.sol';\nimport { Crawl } from './Crawl.sol';\n\ninterface ICrawlerGenerator is IERC165 {\n\tfunction generateCustomChamberData(Crawl.ChamberData memory chamber) external view returns (Crawl.CustomData[] memory);\n}\n",
+  "sourcePath": "/Users/roger/Dev/Blockchain/Truffle/ec-crawler/contracts/ICrawlerGenerator.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/ICrawlerGenerator.sol",
+    "exportedSymbols": {
+      "Crawl": [
+        6589
+      ],
+      "ICrawlerGenerator": [
+        13006
+      ],
+      "IERC165": [
+        3649
+      ]
+    },
+    "id": 13007,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 12989,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "420:24:31"
+      },
+      {
+        "absolutePath": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+        "file": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+        "id": 12991,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 13007,
+        "sourceUnit": 3650,
+        "src": "445:82:31",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 12990,
+              "name": "IERC165",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 3649,
+              "src": "454:7:31",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/Crawl.sol",
+        "file": "./Crawl.sol",
+        "id": 12993,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 13007,
+        "sourceUnit": 6590,
+        "src": "528:36:31",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 12992,
+              "name": "Crawl",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 6589,
+              "src": "537:5:31",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 12994,
+              "name": "IERC165",
+              "nameLocations": [
+                "597:7:31"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 3649,
+              "src": "597:7:31"
+            },
+            "id": 12995,
+            "nodeType": "InheritanceSpecifier",
+            "src": "597:7:31"
+          }
+        ],
+        "canonicalName": "ICrawlerGenerator",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 13006,
+        "linearizedBaseContracts": [
+          13006,
+          3649
+        ],
+        "name": "ICrawlerGenerator",
+        "nameLocation": "576:17:31",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "f2c78597",
+            "id": 13005,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "generateCustomChamberData",
+            "nameLocation": "617:25:31",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 12999,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 12998,
+                  "mutability": "mutable",
+                  "name": "chamber",
+                  "nameLocation": "668:7:31",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13005,
+                  "src": "643:32:31",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ChamberData_$4881_memory_ptr",
+                    "typeString": "struct Crawl.ChamberData"
+                  },
+                  "typeName": {
+                    "id": 12997,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 12996,
+                      "name": "Crawl.ChamberData",
+                      "nameLocations": [
+                        "643:5:31",
+                        "649:11:31"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4881,
+                      "src": "643:17:31"
+                    },
+                    "referencedDeclaration": 4881,
+                    "src": "643:17:31",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ChamberData_$4881_storage_ptr",
+                      "typeString": "struct Crawl.ChamberData"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "642:34:31"
+            },
+            "returnParameters": {
+              "id": 13004,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13003,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13005,
+                  "src": "700:25:31",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_struct$_CustomData_$4912_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "struct Crawl.CustomData[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 13001,
+                      "nodeType": "UserDefinedTypeName",
+                      "pathNode": {
+                        "id": 13000,
+                        "name": "Crawl.CustomData",
+                        "nameLocations": [
+                          "700:5:31",
+                          "706:10:31"
+                        ],
+                        "nodeType": "IdentifierPath",
+                        "referencedDeclaration": 4912,
+                        "src": "700:16:31"
+                      },
+                      "referencedDeclaration": 4912,
+                      "src": "700:16:31",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_CustomData_$4912_storage_ptr",
+                        "typeString": "struct Crawl.CustomData"
+                      }
+                    },
+                    "id": 13002,
+                    "nodeType": "ArrayTypeName",
+                    "src": "700:18:31",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_struct$_CustomData_$4912_storage_$dyn_storage_ptr",
+                      "typeString": "struct Crawl.CustomData[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "699:27:31"
+            },
+            "scope": 13006,
+            "src": "608:119:31",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 13007,
+        "src": "566:163:31",
+        "usedErrors": []
+      }
+    ],
+    "src": "420:310:31"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.16+commit.07a7930e.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2022-12-01T01:24:00.813Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "supportsInterface(bytes4)": {
+        "details": "Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

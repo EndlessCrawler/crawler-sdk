@@ -1,0 +1,1896 @@
+{
+  "contractName": "ICrawlerMapper",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "chamber",
+          "type": "tuple"
+        }
+      ],
+      "name": "generateTileMap",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Crawl.Terrain",
+          "name": "terrain",
+          "type": "uint8"
+        }
+      ],
+      "name": "getTerrainName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Crawl.Gem",
+          "name": "gem",
+          "type": "uint8"
+        }
+      ],
+      "name": "getGemName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes1",
+          "name": "tile",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "uint8",
+          "name": "bitPos",
+          "type": "uint8"
+        }
+      ],
+      "name": "getTileName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Crawl.Terrain",
+          "name": "terrain",
+          "type": "uint8"
+        }
+      ],
+      "name": "getColors",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Crawl.Terrain",
+          "name": "terrain",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "colorId",
+          "type": "uint8"
+        }
+      ],
+      "name": "getColor",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getGemColors",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Crawl.Gem",
+          "name": "gemType",
+          "type": "uint8"
+        }
+      ],
+      "name": "getGemColor",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "chamber",
+          "type": "tuple"
+        }
+      ],
+      "name": "getAttributes",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
+        },
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "chamber",
+          "type": "tuple"
+        }
+      ],
+      "name": "renderSvgStyles",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "chamber",
+          "type": "tuple"
+        }
+      ],
+      "name": "renderSvgDefs",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.16+commit.07a7930e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"coord\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"seed\",\"type\":\"uint256\"},{\"internalType\":\"uint232\",\"name\":\"yonder\",\"type\":\"uint232\"},{\"internalType\":\"uint8\",\"name\":\"chapter\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Dir\",\"name\":\"entryDir\",\"type\":\"uint8\"},{\"components\":[{\"internalType\":\"enum Crawl.Gem\",\"name\":\"gemType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"coins\",\"type\":\"uint16\"},{\"internalType\":\"uint16\",\"name\":\"worth\",\"type\":\"uint16\"}],\"internalType\":\"struct Crawl.Hoard\",\"name\":\"hoard\",\"type\":\"tuple\"},{\"internalType\":\"uint8\",\"name\":\"gemPos\",\"type\":\"uint8\"},{\"internalType\":\"uint8[4]\",\"name\":\"doors\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint8[4]\",\"name\":\"locks\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint256\",\"name\":\"bitmap\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"tilemap\",\"type\":\"bytes\"},{\"components\":[{\"internalType\":\"enum Crawl.CustomDataType\",\"name\":\"dataType\",\"type\":\"uint8\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct Crawl.CustomData[]\",\"name\":\"customData\",\"type\":\"tuple[]\"}],\"internalType\":\"struct Crawl.ChamberData\",\"name\":\"chamber\",\"type\":\"tuple\"}],\"name\":\"generateTileMap\",\"outputs\":[{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"coord\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"seed\",\"type\":\"uint256\"},{\"internalType\":\"uint232\",\"name\":\"yonder\",\"type\":\"uint232\"},{\"internalType\":\"uint8\",\"name\":\"chapter\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Dir\",\"name\":\"entryDir\",\"type\":\"uint8\"},{\"components\":[{\"internalType\":\"enum Crawl.Gem\",\"name\":\"gemType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"coins\",\"type\":\"uint16\"},{\"internalType\":\"uint16\",\"name\":\"worth\",\"type\":\"uint16\"}],\"internalType\":\"struct Crawl.Hoard\",\"name\":\"hoard\",\"type\":\"tuple\"},{\"internalType\":\"uint8\",\"name\":\"gemPos\",\"type\":\"uint8\"},{\"internalType\":\"uint8[4]\",\"name\":\"doors\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint8[4]\",\"name\":\"locks\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint256\",\"name\":\"bitmap\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"tilemap\",\"type\":\"bytes\"},{\"components\":[{\"internalType\":\"enum Crawl.CustomDataType\",\"name\":\"dataType\",\"type\":\"uint8\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct Crawl.CustomData[]\",\"name\":\"customData\",\"type\":\"tuple[]\"}],\"internalType\":\"struct Crawl.ChamberData\",\"name\":\"chamber\",\"type\":\"tuple\"}],\"name\":\"getAttributes\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"},{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"uint8\",\"name\":\"colorId\",\"type\":\"uint8\"}],\"name\":\"getColor\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"}],\"name\":\"getColors\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"enum Crawl.Gem\",\"name\":\"gemType\",\"type\":\"uint8\"}],\"name\":\"getGemColor\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getGemColors\",\"outputs\":[{\"internalType\":\"string[]\",\"name\":\"\",\"type\":\"string[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"enum Crawl.Gem\",\"name\":\"gem\",\"type\":\"uint8\"}],\"name\":\"getGemName\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"}],\"name\":\"getTerrainName\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes1\",\"name\":\"tile\",\"type\":\"bytes1\"},{\"internalType\":\"uint8\",\"name\":\"bitPos\",\"type\":\"uint8\"}],\"name\":\"getTileName\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"coord\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"seed\",\"type\":\"uint256\"},{\"internalType\":\"uint232\",\"name\":\"yonder\",\"type\":\"uint232\"},{\"internalType\":\"uint8\",\"name\":\"chapter\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Dir\",\"name\":\"entryDir\",\"type\":\"uint8\"},{\"components\":[{\"internalType\":\"enum Crawl.Gem\",\"name\":\"gemType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"coins\",\"type\":\"uint16\"},{\"internalType\":\"uint16\",\"name\":\"worth\",\"type\":\"uint16\"}],\"internalType\":\"struct Crawl.Hoard\",\"name\":\"hoard\",\"type\":\"tuple\"},{\"internalType\":\"uint8\",\"name\":\"gemPos\",\"type\":\"uint8\"},{\"internalType\":\"uint8[4]\",\"name\":\"doors\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint8[4]\",\"name\":\"locks\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint256\",\"name\":\"bitmap\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"tilemap\",\"type\":\"bytes\"},{\"components\":[{\"internalType\":\"enum Crawl.CustomDataType\",\"name\":\"dataType\",\"type\":\"uint8\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct Crawl.CustomData[]\",\"name\":\"customData\",\"type\":\"tuple[]\"}],\"internalType\":\"struct Crawl.ChamberData\",\"name\":\"chamber\",\"type\":\"tuple\"}],\"name\":\"renderSvgDefs\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"coord\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"seed\",\"type\":\"uint256\"},{\"internalType\":\"uint232\",\"name\":\"yonder\",\"type\":\"uint232\"},{\"internalType\":\"uint8\",\"name\":\"chapter\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Terrain\",\"name\":\"terrain\",\"type\":\"uint8\"},{\"internalType\":\"enum Crawl.Dir\",\"name\":\"entryDir\",\"type\":\"uint8\"},{\"components\":[{\"internalType\":\"enum Crawl.Gem\",\"name\":\"gemType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"coins\",\"type\":\"uint16\"},{\"internalType\":\"uint16\",\"name\":\"worth\",\"type\":\"uint16\"}],\"internalType\":\"struct Crawl.Hoard\",\"name\":\"hoard\",\"type\":\"tuple\"},{\"internalType\":\"uint8\",\"name\":\"gemPos\",\"type\":\"uint8\"},{\"internalType\":\"uint8[4]\",\"name\":\"doors\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint8[4]\",\"name\":\"locks\",\"type\":\"uint8[4]\"},{\"internalType\":\"uint256\",\"name\":\"bitmap\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"tilemap\",\"type\":\"bytes\"},{\"components\":[{\"internalType\":\"enum Crawl.CustomDataType\",\"name\":\"dataType\",\"type\":\"uint8\"},{\"internalType\":\"bytes\",\"name\":\"data\",\"type\":\"bytes\"}],\"internalType\":\"struct Crawl.CustomData[]\",\"name\":\"customData\",\"type\":\"tuple[]\"}],\"internalType\":\"struct Crawl.ChamberData\",\"name\":\"chamber\",\"type\":\"tuple\"}],\"name\":\"renderSvgStyles\",\"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"supportsInterface(bytes4)\":{\"details\":\"Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ICrawlerMapper.sol\":\"ICrawlerMapper\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"@openzeppelin/contracts/utils/introspection/IERC165.sol\":{\"keccak256\":\"0x447a5f3ddc18419d41ff92b3773fb86471b1db25773e07f877f548918a185bf1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://be161e54f24e5c6fae81a12db1a8ae87bc5ae1b0ddc805d82a1440a68455088f\",\"dweb:/ipfs/QmP7C3CHdY9urF4dEMb9wmsp1wMxHF6nhA2yQE5SKiPAdy\"]},\"project:/contracts/Crawl.sol\":{\"keccak256\":\"0xb769e62ace633d2c84dd9b3236d99705e18d11a322009e7a247e3eae0e7064c5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9883ac73d893b227d614ac1792280b4a8fb219da5bdf41e15f8ad82f531eede6\",\"dweb:/ipfs/QmWYQTCnmeU5EVZFWpC8eu1oU7VH1nfCqr7Uo5VdwsjhRm\"]},\"project:/contracts/ICrawlerMapper.sol\":{\"keccak256\":\"0x04f3d7eda7d7b88dcd68c75fd49209496230c835a04948f79d0bcb5daf88c425\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://cdc1d0af5a93afbead9764ffbc596ebabea976f8f820ab483b93dfd0690bf7a5\",\"dweb:/ipfs/QmZSRfqfdQMQu5t3weM5UmrLkXYxkeU5CbbQd5eM8t69FZ\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\n//\n//    ██████████\n//   █          █\n//  █            █\n//  █            █\n//  █            █\n//  █    ░░░░    █\n//  █   ▓▓▓▓▓▓   █\n//  █  ████████  █\n//\n// https://endlesscrawler.io\n// @EndlessCrawler\n//\n/// @title Endless Crawler Chamber Mapper Interface\n/// @author Studio Avante\n//\npragma solidity ^0.8.16;\nimport { IERC165 } from '@openzeppelin/contracts/utils/introspection/IERC165.sol';\nimport { Crawl } from './Crawl.sol';\n\ninterface ICrawlerMapper is IERC165 {\n\t// for generators\n\tfunction generateTileMap(Crawl.ChamberData memory chamber) external view returns (bytes memory);\n\t// getters / for renderers\n\tfunction getTerrainName(Crawl.Terrain terrain) external view returns (string memory);\n\tfunction getGemName(Crawl.Gem gem) external view returns (string memory);\n\tfunction getTileName(bytes1 tile, uint8 bitPos) external view returns (string memory);\n\tfunction getColors(Crawl.Terrain terrain) external view returns (string[] memory);\n\tfunction getColor(Crawl.Terrain terrain, uint8 colorId) external view returns (string memory);\n\tfunction getGemColors() external view returns (string[] memory);\n\tfunction getGemColor(Crawl.Gem gemType) external view returns (string memory);\n\t// for renderers\n\tfunction getAttributes(Crawl.ChamberData memory chamber) external view returns (string[] memory, string[] memory);\n\tfunction renderSvgStyles(Crawl.ChamberData memory chamber) external view returns (string memory);\n\tfunction renderSvgDefs(Crawl.ChamberData memory chamber) external view returns (string memory);\n}\n",
+  "sourcePath": "/Users/roger/Dev/Blockchain/Truffle/ec-crawler/contracts/ICrawlerMapper.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/ICrawlerMapper.sol",
+    "exportedSymbols": {
+      "Crawl": [
+        6589
+      ],
+      "ICrawlerMapper": [
+        13234
+      ],
+      "IERC165": [
+        3649
+      ]
+    },
+    "id": 13235,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 13133,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "403:24:33"
+      },
+      {
+        "absolutePath": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+        "file": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+        "id": 13135,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 13235,
+        "sourceUnit": 3650,
+        "src": "428:82:33",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 13134,
+              "name": "IERC165",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 3649,
+              "src": "437:7:33",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "project:/contracts/Crawl.sol",
+        "file": "./Crawl.sol",
+        "id": 13137,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 13235,
+        "sourceUnit": 6590,
+        "src": "511:36:33",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 13136,
+              "name": "Crawl",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 6589,
+              "src": "520:5:33",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 13138,
+              "name": "IERC165",
+              "nameLocations": [
+                "577:7:33"
+              ],
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 3649,
+              "src": "577:7:33"
+            },
+            "id": 13139,
+            "nodeType": "InheritanceSpecifier",
+            "src": "577:7:33"
+          }
+        ],
+        "canonicalName": "ICrawlerMapper",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 13234,
+        "linearizedBaseContracts": [
+          13234,
+          3649
+        ],
+        "name": "ICrawlerMapper",
+        "nameLocation": "559:14:33",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "29bead78",
+            "id": 13147,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "generateTileMap",
+            "nameLocation": "616:15:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13143,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13142,
+                  "mutability": "mutable",
+                  "name": "chamber",
+                  "nameLocation": "657:7:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13147,
+                  "src": "632:32:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ChamberData_$4881_memory_ptr",
+                    "typeString": "struct Crawl.ChamberData"
+                  },
+                  "typeName": {
+                    "id": 13141,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 13140,
+                      "name": "Crawl.ChamberData",
+                      "nameLocations": [
+                        "632:5:33",
+                        "638:11:33"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4881,
+                      "src": "632:17:33"
+                    },
+                    "referencedDeclaration": 4881,
+                    "src": "632:17:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ChamberData_$4881_storage_ptr",
+                      "typeString": "struct Crawl.ChamberData"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "631:34:33"
+            },
+            "returnParameters": {
+              "id": 13146,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13145,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13147,
+                  "src": "689:12:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 13144,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "689:5:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "688:14:33"
+            },
+            "scope": 13234,
+            "src": "607:96:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "008ea79b",
+            "id": 13155,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTerrainName",
+            "nameLocation": "742:14:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13151,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13150,
+                  "mutability": "mutable",
+                  "name": "terrain",
+                  "nameLocation": "771:7:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13155,
+                  "src": "757:21:33",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Terrain_$4918",
+                    "typeString": "enum Crawl.Terrain"
+                  },
+                  "typeName": {
+                    "id": 13149,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 13148,
+                      "name": "Crawl.Terrain",
+                      "nameLocations": [
+                        "757:5:33",
+                        "763:7:33"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4918,
+                      "src": "757:13:33"
+                    },
+                    "referencedDeclaration": 4918,
+                    "src": "757:13:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_Terrain_$4918",
+                      "typeString": "enum Crawl.Terrain"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "756:23:33"
+            },
+            "returnParameters": {
+              "id": 13154,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13153,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13155,
+                  "src": "803:13:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 13152,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "803:6:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "802:15:33"
+            },
+            "scope": 13234,
+            "src": "733:85:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "fa171c65",
+            "id": 13163,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getGemName",
+            "nameLocation": "829:10:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13159,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13158,
+                  "mutability": "mutable",
+                  "name": "gem",
+                  "nameLocation": "850:3:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13163,
+                  "src": "840:13:33",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Gem_$4970",
+                    "typeString": "enum Crawl.Gem"
+                  },
+                  "typeName": {
+                    "id": 13157,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 13156,
+                      "name": "Crawl.Gem",
+                      "nameLocations": [
+                        "840:5:33",
+                        "846:3:33"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4970,
+                      "src": "840:9:33"
+                    },
+                    "referencedDeclaration": 4970,
+                    "src": "840:9:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_Gem_$4970",
+                      "typeString": "enum Crawl.Gem"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "839:15:33"
+            },
+            "returnParameters": {
+              "id": 13162,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13161,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13163,
+                  "src": "878:13:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 13160,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "878:6:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "877:15:33"
+            },
+            "scope": 13234,
+            "src": "820:73:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "5a4e066b",
+            "id": 13172,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTileName",
+            "nameLocation": "904:11:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13168,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13165,
+                  "mutability": "mutable",
+                  "name": "tile",
+                  "nameLocation": "923:4:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13172,
+                  "src": "916:11:33",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes1",
+                    "typeString": "bytes1"
+                  },
+                  "typeName": {
+                    "id": 13164,
+                    "name": "bytes1",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "916:6:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes1",
+                      "typeString": "bytes1"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 13167,
+                  "mutability": "mutable",
+                  "name": "bitPos",
+                  "nameLocation": "935:6:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13172,
+                  "src": "929:12:33",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 13166,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "929:5:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "915:27:33"
+            },
+            "returnParameters": {
+              "id": 13171,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13170,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13172,
+                  "src": "966:13:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 13169,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "966:6:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "965:15:33"
+            },
+            "scope": 13234,
+            "src": "895:86:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "f319922a",
+            "id": 13181,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getColors",
+            "nameLocation": "992:9:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13176,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13175,
+                  "mutability": "mutable",
+                  "name": "terrain",
+                  "nameLocation": "1016:7:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13181,
+                  "src": "1002:21:33",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Terrain_$4918",
+                    "typeString": "enum Crawl.Terrain"
+                  },
+                  "typeName": {
+                    "id": 13174,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 13173,
+                      "name": "Crawl.Terrain",
+                      "nameLocations": [
+                        "1002:5:33",
+                        "1008:7:33"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4918,
+                      "src": "1002:13:33"
+                    },
+                    "referencedDeclaration": 4918,
+                    "src": "1002:13:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_Terrain_$4918",
+                      "typeString": "enum Crawl.Terrain"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1001:23:33"
+            },
+            "returnParameters": {
+              "id": 13180,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13179,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13181,
+                  "src": "1048:15:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "string[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 13177,
+                      "name": "string",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1048:6:33",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage_ptr",
+                        "typeString": "string"
+                      }
+                    },
+                    "id": 13178,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1048:8:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+                      "typeString": "string[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1047:17:33"
+            },
+            "scope": 13234,
+            "src": "983:82:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "68b78b7a",
+            "id": 13191,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getColor",
+            "nameLocation": "1076:8:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13187,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13184,
+                  "mutability": "mutable",
+                  "name": "terrain",
+                  "nameLocation": "1099:7:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13191,
+                  "src": "1085:21:33",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Terrain_$4918",
+                    "typeString": "enum Crawl.Terrain"
+                  },
+                  "typeName": {
+                    "id": 13183,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 13182,
+                      "name": "Crawl.Terrain",
+                      "nameLocations": [
+                        "1085:5:33",
+                        "1091:7:33"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4918,
+                      "src": "1085:13:33"
+                    },
+                    "referencedDeclaration": 4918,
+                    "src": "1085:13:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_Terrain_$4918",
+                      "typeString": "enum Crawl.Terrain"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 13186,
+                  "mutability": "mutable",
+                  "name": "colorId",
+                  "nameLocation": "1114:7:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13191,
+                  "src": "1108:13:33",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint8",
+                    "typeString": "uint8"
+                  },
+                  "typeName": {
+                    "id": 13185,
+                    "name": "uint8",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1108:5:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint8",
+                      "typeString": "uint8"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1084:38:33"
+            },
+            "returnParameters": {
+              "id": 13190,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13189,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13191,
+                  "src": "1146:13:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 13188,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1146:6:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1145:15:33"
+            },
+            "scope": 13234,
+            "src": "1067:94:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "db1bede5",
+            "id": 13197,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getGemColors",
+            "nameLocation": "1172:12:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13192,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1184:2:33"
+            },
+            "returnParameters": {
+              "id": 13196,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13195,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13197,
+                  "src": "1210:15:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "string[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 13193,
+                      "name": "string",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1210:6:33",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage_ptr",
+                        "typeString": "string"
+                      }
+                    },
+                    "id": 13194,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1210:8:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+                      "typeString": "string[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1209:17:33"
+            },
+            "scope": 13234,
+            "src": "1163:64:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "37210818",
+            "id": 13205,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getGemColor",
+            "nameLocation": "1238:11:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13201,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13200,
+                  "mutability": "mutable",
+                  "name": "gemType",
+                  "nameLocation": "1260:7:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13205,
+                  "src": "1250:17:33",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_Gem_$4970",
+                    "typeString": "enum Crawl.Gem"
+                  },
+                  "typeName": {
+                    "id": 13199,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 13198,
+                      "name": "Crawl.Gem",
+                      "nameLocations": [
+                        "1250:5:33",
+                        "1256:3:33"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4970,
+                      "src": "1250:9:33"
+                    },
+                    "referencedDeclaration": 4970,
+                    "src": "1250:9:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_Gem_$4970",
+                      "typeString": "enum Crawl.Gem"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1249:19:33"
+            },
+            "returnParameters": {
+              "id": 13204,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13203,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13205,
+                  "src": "1292:13:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 13202,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1292:6:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1291:15:33"
+            },
+            "scope": 13234,
+            "src": "1229:78:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "33328591",
+            "id": 13217,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getAttributes",
+            "nameLocation": "1336:13:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13209,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13208,
+                  "mutability": "mutable",
+                  "name": "chamber",
+                  "nameLocation": "1375:7:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13217,
+                  "src": "1350:32:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ChamberData_$4881_memory_ptr",
+                    "typeString": "struct Crawl.ChamberData"
+                  },
+                  "typeName": {
+                    "id": 13207,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 13206,
+                      "name": "Crawl.ChamberData",
+                      "nameLocations": [
+                        "1350:5:33",
+                        "1356:11:33"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4881,
+                      "src": "1350:17:33"
+                    },
+                    "referencedDeclaration": 4881,
+                    "src": "1350:17:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ChamberData_$4881_storage_ptr",
+                      "typeString": "struct Crawl.ChamberData"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1349:34:33"
+            },
+            "returnParameters": {
+              "id": 13216,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13212,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13217,
+                  "src": "1407:15:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "string[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 13210,
+                      "name": "string",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1407:6:33",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage_ptr",
+                        "typeString": "string"
+                      }
+                    },
+                    "id": 13211,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1407:8:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+                      "typeString": "string[]"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 13215,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13217,
+                  "src": "1424:15:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_string_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "string[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 13213,
+                      "name": "string",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1424:6:33",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_string_storage_ptr",
+                        "typeString": "string"
+                      }
+                    },
+                    "id": 13214,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1424:8:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_string_storage_$dyn_storage_ptr",
+                      "typeString": "string[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1406:34:33"
+            },
+            "scope": 13234,
+            "src": "1327:114:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "bb912809",
+            "id": 13225,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "renderSvgStyles",
+            "nameLocation": "1452:15:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13221,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13220,
+                  "mutability": "mutable",
+                  "name": "chamber",
+                  "nameLocation": "1493:7:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13225,
+                  "src": "1468:32:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ChamberData_$4881_memory_ptr",
+                    "typeString": "struct Crawl.ChamberData"
+                  },
+                  "typeName": {
+                    "id": 13219,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 13218,
+                      "name": "Crawl.ChamberData",
+                      "nameLocations": [
+                        "1468:5:33",
+                        "1474:11:33"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4881,
+                      "src": "1468:17:33"
+                    },
+                    "referencedDeclaration": 4881,
+                    "src": "1468:17:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ChamberData_$4881_storage_ptr",
+                      "typeString": "struct Crawl.ChamberData"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1467:34:33"
+            },
+            "returnParameters": {
+              "id": 13224,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13223,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13225,
+                  "src": "1525:13:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 13222,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1525:6:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1524:15:33"
+            },
+            "scope": 13234,
+            "src": "1443:97:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "functionSelector": "dbedeb3e",
+            "id": 13233,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "renderSvgDefs",
+            "nameLocation": "1551:13:33",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13229,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13228,
+                  "mutability": "mutable",
+                  "name": "chamber",
+                  "nameLocation": "1590:7:33",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13233,
+                  "src": "1565:32:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_ChamberData_$4881_memory_ptr",
+                    "typeString": "struct Crawl.ChamberData"
+                  },
+                  "typeName": {
+                    "id": 13227,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 13226,
+                      "name": "Crawl.ChamberData",
+                      "nameLocations": [
+                        "1565:5:33",
+                        "1571:11:33"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4881,
+                      "src": "1565:17:33"
+                    },
+                    "referencedDeclaration": 4881,
+                    "src": "1565:17:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_ChamberData_$4881_storage_ptr",
+                      "typeString": "struct Crawl.ChamberData"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1564:34:33"
+            },
+            "returnParameters": {
+              "id": 13232,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13231,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13233,
+                  "src": "1622:13:33",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 13230,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1622:6:33",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1621:15:33"
+            },
+            "scope": 13234,
+            "src": "1542:95:33",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 13235,
+        "src": "549:1090:33",
+        "usedErrors": []
+      }
+    ],
+    "src": "403:1237:33"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.16+commit.07a7930e.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2022-12-01T01:24:00.818Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "supportsInterface(bytes4)": {
+        "details": "Returns true if this contract implements the interface defined by `interfaceId`. See the corresponding https://eips.ethereum.org/EIPS/eip-165#how-interfaces-are-identified[EIP section] to learn more about how these ids are created. This function call must use less than 30 000 gas."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

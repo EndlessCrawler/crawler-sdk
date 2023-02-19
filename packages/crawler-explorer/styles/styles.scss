@@ -1,0 +1,492 @@
+@import 'googlefonts';
+
+$ec-font-titles: 'Noto Sans Mono', monospace;
+// $ec-font-titles: 'Averia Sans Libre', serif;
+$ec-font-text: 'Noto Sans Mono', monospace;
+$ec-font-mono: 'Noto Sans Mono', monospace;
+$ec-font-size: 13px;
+
+$ec-bg: #161217;	// html background
+$ec-bg-view: #1F1A21;	// views background
+// $ec-shadow: #7A8275;
+// $ec-shadow: #b48776;		// for shade 1
+$ec-shadow: #784f40;		// for shade 2
+$ec-text: #B58776;
+$ec-bold: #F3E9C3;
+$ec-link: #FFBEA6;
+$ec-border: rgba($ec-link, 0.2);
+$ec-drawer-width: 300px;
+html {
+	overflow-y: scroll;
+	scroll-behavior: smooth;
+}
+
+html,
+body {
+	background-color: $ec-bg;
+	color: $ec-text;
+	font-family: $ec-font-text;
+	font-size: $ec-font-size;
+	padding: 0;
+	margin: 0;
+	justify-content: center;
+	align-items: center;
+	vertical-align: middle;
+	height: 100%;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5 {
+	font-family: $ec-font-titles;
+	margin: 0.1em 0 0.1em 0 !important;
+	color: $ec-bold;
+}
+h1 {
+	margin: 0.25em 0 0.25em 0 !important;
+}
+p {
+	margin-bottom: 0.5em !important;
+}
+
+.H1{ @extend h1; padding: 0; margin: 0; min-height: 1rem; }
+.H2{ @extend h2; padding: 0; margin: 0; font-size: 1.71428571rem; }
+.H3{ @extend h3; padding: 0; margin: 0; font-size: 1.28571429rem; }
+.H4{ @extend h4; padding: 0; margin: 0; font-size: 1.07142857rem; }
+.H5{ @extend h5; padding: 0; margin: 0; font-size: 1rem; }
+
+a {
+	text-decoration: none;
+	color: $ec-link;
+	cursor: pointer;
+	text-shadow: 0.02em 0 $ec-bold;
+}
+a:hover,
+a:focus,
+a:active {
+	text-decoration: underline;
+	color: $ec-link;
+}
+
+b {
+	color: $ec-bold;
+	text-decoration: none;
+	text-shadow: 0.01em 0 $ec-bold;
+}
+
+hr {
+	border: 0;
+	border-top: 1px solid;
+	border-color: $ec-border;
+	display: block;
+	margin: 1em 0;
+	padding: 0;
+	height: 1px;
+}
+
+//-----------------------------------
+// scss mixins
+// https: //sass-lang.com/documentation/at-rules/mixin
+@mixin make-box-shadow($values_) {
+	-webkit-box-shadow: $values_;
+	-moz-box-shadow: $values_;
+	box-shadow: $values_;
+}
+@mixin make-animation($duration_, $ease_, $count_, $name_) {
+	animation-duration: $duration_;
+	animation-timing-function: $ease_;
+	animation-iteration-count: $count_;
+	animation-fill-mode: forwards;
+	animation-name: $name_;
+	-webkit-animation-duration: $duration_;
+	-webkit-animation-timing-function: $ease_;
+	-webkit-animation-iteration-count: $count_;
+	-webkit-animation-fill-mode: forwards;
+	-webkit-animation-name: $name_;
+}
+
+
+//------------------------
+// Semantic UI
+//
+// screen sizes
+// Mobile: < 768px
+// Tablet: 768px - 991px
+// Small Monitor: 992px - 1200px
+// Large Monitor: > 1200px
+// https://semantic-ui.com/elements/container.html
+//
+// <Container>
+.ui.fluid.container {
+	max-width: 1200px !important;
+}
+.ui.text.container {
+	max-width: 600px !important;
+	font-family: $ec-font-text;
+	font-size: $ec-font-size;
+}
+.title:not(.ui) {
+	font-family: $ec-font-text !important;
+	color: $ec-text !important;
+}
+.ui.segment {
+	background-color: $ec-bg-view !important;
+}
+.ui.horizontal.segments {
+	background-color: $ec-border !important;
+}
+//
+// <Grid>
+.ui.grid, .ui.grid>.row, .ui.grid>.row>.column, .ui.grid>.column:not(.row) {
+	padding: 0;
+	margin: 0;
+}
+.TableCell {
+	padding: 4px !important;
+	// margin: 0 !important;
+}
+.ui.basic.segment {
+	background-color: #0000 !important;
+}
+//
+// <Icon>
+i.icon {
+	// margin: 0 0.25rem 0 0; // original
+	margin: auto;
+}
+//
+// <Button>
+$ui-button-inborder: inset 0.05em 0.05em rgba($ec-text, 0.8), inset -0.05em -0.05em rgba($ec-shadow, 0.8);
+$ui-button-inborder-out: inset 0.05em 0.05em rgba($ec-shadow, 0.8), inset -0.05em -0.05em rgba($ec-text, 0.8);
+$ui-button-inborder-disabled: inset 0.05em 0.05em rgba($ec-shadow, 0.8), inset -0.05em -0.05em rgba($ec-shadow, 0.8);
+.ui.button {
+	font-family: $ec-font-text;
+	font-size: $ec-font-size;
+	background-color: $ec-bg-view;
+	color: $ec-bold;
+	min-width: 30x;
+	border-radius:0.2rem;
+	padding: 0.65em 0.5em;
+	@include make-box-shadow($ui-button-inborder);
+	&:disabled {
+		@include make-box-shadow($ui-button-inborder-disabled !important);
+		color: $ec-text !important;
+		opacity: 0.5 !important;
+	}
+	&:hover {
+		background-color: $ec-bold !important;
+	}
+	&:focus {
+		background-color: $ec-bg-view !important;
+		color: $ec-link !important;
+	}
+	&:active {
+		@include make-box-shadow($ui-button-inborder-out);
+	}
+}
+.ui.button.SelectionButton:disabled {
+	background-color: $ec-shadow !important;
+	color: $ec-bold !important;
+	opacity: 1 !important;
+	text-shadow: 0.1em 0 $ec-bg;
+}
+.ui.button:disabled {
+	cursor: default !important;
+}
+//
+// <Popup>
+.ui.popup {
+	background-color: $ec-shadow;
+	color: $ec-bold;
+	padding: 2px 5px;
+	border: 0.5px solid;
+	border-color: $ec-bold;
+}
+.ui.top.popup:before,
+.ui.bottom.popup:before {
+	// popup arrow
+	background-color: $ec-shadow !important;
+}
+//
+// <Modal>
+.ui.modal {
+	border: 0.5px solid;
+	border-color: $ec-shadow;
+}
+.ui.header,
+.ui.modal>.header {
+	font-family: $ec-font-titles;
+	background-color: $ec-bg-view;
+	color: $ec-bold;
+	font-size: 2rem !important;
+}
+.ui.modal>.content,
+.ui.modal>.actions {
+	background-color: $ec-bg-view;
+}
+.ui.modal>.header {
+	border-bottom: 1px solid $ec-border;
+}
+.ui.modal>.actions {
+	border-top: 1px solid $ec-border;
+}
+.ui.positive.button {
+	background-color: $ec-link;
+	color: $ec-bg-view;
+}
+.ui.positive.button:hover {
+	color: $ec-bg-view;
+}
+.ui.dimmer {
+	background-color: rgba(#000,0.75);
+}
+//
+// <Input>
+.ui.input>input {
+	font-family: $ec-font-text;
+	font-size: $ec-font-size;
+}
+.ui.input.error>input {
+	background-color: #c33;
+}
+//
+// <Form>
+.ui.form .field>label {
+	color: $ec-text;
+}
+.ui.form .field .ui.input input {
+	background-color: $ec-bold;
+}
+.ui.bordered.image img {
+	border-color: $ec-border;
+}
+//
+// <Card>
+.ui.card>.content>.header {
+	font-family: $ec-font-titles !important;
+	font-size: 2em !important;
+	color: $ec-bold !important;
+}
+.ui.card>.content>.meta {
+	color: $ec-text !important;
+}
+.ui.card>.content>.description {
+	color: $ec-text !important;
+	margin-top: 20px !important;
+}
+.ui.card>.extra, .ui.cards>.card>.extra {
+	color: $ec-text !important;
+	border-top: 1px solid $ec-border !important;
+}
+
+//------------------------
+// Misc
+//
+.Smaller { font-size: 10px; }
+.Larger  { font-size: 16px; }
+.Double  { font-size: 200%; }
+.Invisible   { color: #0000; }
+.Opacity25	 { opacity: 0.25; }
+.Opacity50	 { opacity: 0.5; }
+.Opacity75	 { opacity: 0.75; }
+.ColorBorder { color: $ec-border; }
+.ColorShadow { color: $ec-shadow; }
+.ColorText   { color: $ec-text; }
+.ColorBold   { color: $ec-bold; }
+.ColorLink   { color: $ec-link; }
+.ColorRed    { color: #400; }
+.ColorGreen  { color: #040; }
+.ColorBlue   { color: #004; }
+.Bg 			{ background-color: $ec-bg; }
+.BgView 	{ background-color: $ec-bg-view; }
+.BgBorder { background-color: $ec-border; }
+.BgShadow { background-color: $ec-shadow; }
+.BgText   { background-color: $ec-text; }
+.BgBold   { background-color: $ec-bold; }
+.BgLink   { background-color: $ec-link; }
+.BgRed    { background-color: #400; }
+.BgGreen  { background-color: #040; }
+.BgBlue   { background-color: #004; }
+.Spacer5		{ min-height: 5px; min-width: 5px; }
+.Spacer10		{ min-height: 10px; min-width: 10px; }
+.Spacer15		{ min-height: 15px; min-width: 15px; }
+.Spacer20		{ min-height: 20px; min-width: 20px; }
+.Spacer25		{ min-height: 25px; min-width: 25px; }
+.Spacer30		{ min-height: 30px; min-width: 30px; }
+.PixelArt {
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: pixelated;
+}
+.TestPicture {
+	width: 150px !important;
+	height: 150px !important;
+}
+.AnchorTag { // ex: /page#tag
+	display: block;
+	position: relative;
+	visibility: hidden;
+	top: 0;
+}
+.Anchor, .AA {
+	@extend a;
+	color: $ec-link;
+}
+.Anchor:hover,
+.Anchor:focus,
+.Anchor:active {
+	text-decoration: none;
+}
+.Padded {
+	padding: 3px;
+}
+.NoPadding {
+	padding: 0 !important;
+}
+.NoMargin {
+	margin: 0 !important;
+}
+.NoScroll {
+	overflow: hidden;
+}
+.AllowScroll {
+	overflow: scroll;
+}
+.ViewportWidth {
+	width: 100vw;
+}
+.ViewportHeight {
+	height: 100vh;
+}
+.ViewportSize {
+	width: 100vw;
+	height: 100vh;
+}
+.TokenBackground {
+	pointer-events: none; // allow joystick
+	overflow: hidden; // no scroll
+}
+.Iframe {
+	border: 0;
+	margin: 0;
+	pointer-events: none; // allow joystick
+	overflow: hidden; // no scroll
+}
+// Containers
+.Relative {
+	position: relative !important;
+}
+.Absolute {
+	position: absolute !important;
+	top: 0;
+	left: 0;
+}
+.MainWrapper {
+	// font-family: $ec-font-titles;
+	min-width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+.CenteredContainer {
+	height: 100%;
+	width: 100%;
+	display: flex !important;
+	justify-content: center;
+	align-items: center;
+	// text-align: center;
+}
+.CenteredContent {
+	height: 100%;
+	width: 100%;
+	margin: auto !important;
+}
+.Centered {
+	margin: auto;
+}
+.AlignCenter {
+	text-align: center;
+	align-items: center;
+}
+.AlignRight {
+	text-align: right;
+	// align-items: right;
+}
+.AlignLeft {
+	text-align: left;
+	// align-items: left;
+}
+.AlignTop {
+	// vertical-align: top;
+	position: absolute;
+	top: 0;
+}
+.AlignMiddle {
+	vertical-align: middle;
+}
+.AlignBottom {
+	// vertical-align: bottom;
+	position: absolute;
+	top: unset;
+	bottom: 0;
+}
+.FillParent {
+	width: 100%;
+	height: 100%;
+	min-width: 100%;
+	min-height: 100%;
+}
+
+//------------------------
+// Cacher
+//
+.Logo {
+	width: 50px;
+	height: 50px;
+	margin: 6px;
+}
+
+.Drawer {
+	background-color: $ec-bg-view;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: $ec-drawer-width;
+	height: 100vh;
+}
+.ResultsContainer {
+	background-color: $ec-bg;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin-left: $ec-drawer-width;
+	width: calc(100% - $ec-drawer-width);
+	height: 100%;
+}
+.Url {
+	width: 100%;
+	height: 1.5em;
+	// background-color: $ec-bg-view;
+}
+
+
+// Icon click feedback
+.IconClick:active {
+	animation-name: IconClickAnimation;
+	animation-duration: 0.2s;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+	-webkit-animation-name: IconClickAnimation;
+	-webkit-animation-duration: 0.2s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: ease-out;
+	-webkit-animation-fill-mode: forwards;
+}
+@keyframes IconClickAnimation {
+	from { -webkit-transform: scale(0.7); }
+	to { -webkit-transform: scale(1); }
+}

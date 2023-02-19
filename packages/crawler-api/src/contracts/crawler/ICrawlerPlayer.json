@@ -1,0 +1,267 @@
+{
+  "contractName": "ICrawlerPlayer",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "components": [
+            {
+              "internalType": "enum Crawl.Gem",
+              "name": "gemType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "coins",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint16",
+              "name": "worth",
+              "type": "uint16"
+            }
+          ],
+          "internalType": "struct Crawl.Hoard",
+          "name": "hoard",
+          "type": "tuple"
+        }
+      ],
+      "name": "transferChamberHoard",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.16+commit.07a7930e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"components\":[{\"internalType\":\"enum Crawl.Gem\",\"name\":\"gemType\",\"type\":\"uint8\"},{\"internalType\":\"uint16\",\"name\":\"coins\",\"type\":\"uint16\"},{\"internalType\":\"uint16\",\"name\":\"worth\",\"type\":\"uint16\"}],\"internalType\":\"struct Crawl.Hoard\",\"name\":\"hoard\",\"type\":\"tuple\"}],\"name\":\"transferChamberHoard\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/ICrawlerPlayer.sol\":\"ICrawlerPlayer\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Crawl.sol\":{\"keccak256\":\"0xb769e62ace633d2c84dd9b3236d99705e18d11a322009e7a247e3eae0e7064c5\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://9883ac73d893b227d614ac1792280b4a8fb219da5bdf41e15f8ad82f531eede6\",\"dweb:/ipfs/QmWYQTCnmeU5EVZFWpC8eu1oU7VH1nfCqr7Uo5VdwsjhRm\"]},\"project:/contracts/ICrawlerPlayer.sol\":{\"keccak256\":\"0x4c689537cbefd2c63d9030b8c13db5764d148319a0dd34c10f30fa49f056c3a3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://03f268b433ddbd7d9768e56ee84cc203f63d02a9bb322c6e97a0ca5ce820428b\",\"dweb:/ipfs/QmVvpACxNmkauvbMifTj5mFdTNbNDGi9r3kJRPTihYmC7w\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\n//\n//    ██████████\n//   █          █\n//  █            █\n//  █            █\n//  █            █\n//  █    ░░░░    █\n//  █   ▓▓▓▓▓▓   █\n//  █  ████████  █\n//\n// https://endlesscrawler.io\n// @EndlessCrawler\n//\n/// @title Endless Crawler Player Manager Interface\n/// @author Studio Avante\n//\npragma solidity ^0.8.16;\nimport { Crawl } from './Crawl.sol';\n\ninterface ICrawlerPlayer {\n\tfunction transferChamberHoard(address from, address to, Crawl.Hoard memory hoard) external;\n}\n",
+  "sourcePath": "/Users/roger/Dev/Blockchain/Truffle/ec-crawler/contracts/ICrawlerPlayer.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/ICrawlerPlayer.sol",
+    "exportedSymbols": {
+      "Crawl": [
+        6589
+      ],
+      "ICrawlerPlayer": [
+        13249
+      ]
+    },
+    "id": 13250,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 13236,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "403:24:34"
+      },
+      {
+        "absolutePath": "project:/contracts/Crawl.sol",
+        "file": "./Crawl.sol",
+        "id": 13238,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 13250,
+        "sourceUnit": 6590,
+        "src": "428:36:34",
+        "symbolAliases": [
+          {
+            "foreign": {
+              "id": 13237,
+              "name": "Crawl",
+              "nodeType": "Identifier",
+              "overloadedDeclarations": [],
+              "referencedDeclaration": 6589,
+              "src": "437:5:34",
+              "typeDescriptions": {}
+            },
+            "nameLocation": "-1:-1:-1"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ICrawlerPlayer",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 13249,
+        "linearizedBaseContracts": [
+          13249
+        ],
+        "name": "ICrawlerPlayer",
+        "nameLocation": "476:14:34",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "6a71cb53",
+            "id": 13248,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "transferChamberHoard",
+            "nameLocation": "503:20:34",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 13246,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 13240,
+                  "mutability": "mutable",
+                  "name": "from",
+                  "nameLocation": "532:4:34",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13248,
+                  "src": "524:12:34",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 13239,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "524:7:34",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 13242,
+                  "mutability": "mutable",
+                  "name": "to",
+                  "nameLocation": "546:2:34",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13248,
+                  "src": "538:10:34",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 13241,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "538:7:34",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 13245,
+                  "mutability": "mutable",
+                  "name": "hoard",
+                  "nameLocation": "569:5:34",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 13248,
+                  "src": "550:24:34",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_Hoard_$4889_memory_ptr",
+                    "typeString": "struct Crawl.Hoard"
+                  },
+                  "typeName": {
+                    "id": 13244,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 13243,
+                      "name": "Crawl.Hoard",
+                      "nameLocations": [
+                        "550:5:34",
+                        "556:5:34"
+                      ],
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 4889,
+                      "src": "550:11:34"
+                    },
+                    "referencedDeclaration": 4889,
+                    "src": "550:11:34",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_Hoard_$4889_storage_ptr",
+                      "typeString": "struct Crawl.Hoard"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "523:52:34"
+            },
+            "returnParameters": {
+              "id": 13247,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "584:0:34"
+            },
+            "scope": 13249,
+            "src": "494:91:34",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 13250,
+        "src": "466:121:34",
+        "usedErrors": []
+      }
+    ],
+    "src": "403:185:34"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.16+commit.07a7930e.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2022-12-01T01:24:00.820Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

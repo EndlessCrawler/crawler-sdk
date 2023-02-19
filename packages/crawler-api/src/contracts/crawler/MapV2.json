@@ -1,0 +1,205 @@
+{
+  "contractName": "MapV2",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.16+commit.07a7930e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/next/MapV2.sol\":\"MapV2\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/next/MapV2.sol\":{\"keccak256\":\"0x938febae55f5a725a7e11de065d496705d58324a6a63f6c025665b48d2e8496c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7710613619f7e17df496bfcde4dbea5c7e20b57badf973762c9dc44fdc9eb9dd\",\"dweb:/ipfs/QmWPchHWcB5rJXsXuV9xZDJvR2yjqYv8y3wYpPEuu7pV1h\"]}},\"version\":1}",
+  "bytecode": "0x60566050600b82828239805160001a6073146043577f4e487b7100000000000000000000000000000000000000000000000000000000600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212200ef9cb908e06b2566e83439feb561143976d5b9ac73eeae548824f194ab47e7a64736f6c63430008100033",
+  "deployedBytecode": "0x73000000000000000000000000000000000000000030146080604052600080fdfea26469706673582212200ef9cb908e06b2566e83439feb561143976d5b9ac73eeae548824f194ab47e7a64736f6c63430008100033",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "489:190:48:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
+  "deployedSourceMap": "489:190:48:-:0;;;;;;;;",
+  "source": "// SPDX-License-Identifier: MIT\n//\n//    ██████████\n//   █          █\n//  █            █\n//  █            █\n//  █            █\n//  █    ░░░░    █\n//  █   ▓▓▓▓▓▓   █\n//  █  ████████  █\n//\n// https://endlesscrawler.io\n// @EndlessCrawler\n//\n/// @title Endless Crawler Mapper Constants v.2\n/// @author Studio Avante\n/// @notice Definitions and functions for Mappers and Renderers\n//\npragma solidity ^0.8.16;\n\nlibrary MapV2 {\n\t// continuation of MapV1\n\tbytes1 internal constant Tile_HatchClosed = 0x05;\n\tbytes1 internal constant Tile_HatchDown = 0x06;\n\tbytes1 internal constant Tile_HatchUp = 0x07;\n}\n",
+  "sourcePath": "/Users/roger/Dev/Blockchain/Truffle/ec-crawler/contracts/next/MapV2.sol",
+  "ast": {
+    "absolutePath": "project:/contracts/next/MapV2.sol",
+    "exportedSymbols": {
+      "MapV2": [
+        14675
+      ]
+    },
+    "id": 14676,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 14665,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".16"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "463:24:48"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "MapV2",
+        "contractDependencies": [],
+        "contractKind": "library",
+        "fullyImplemented": true,
+        "id": 14675,
+        "linearizedBaseContracts": [
+          14675
+        ],
+        "name": "MapV2",
+        "nameLocation": "497:5:48",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": true,
+            "id": 14668,
+            "mutability": "constant",
+            "name": "Tile_HatchClosed",
+            "nameLocation": "557:16:48",
+            "nodeType": "VariableDeclaration",
+            "scope": 14675,
+            "src": "532:48:48",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes1",
+              "typeString": "bytes1"
+            },
+            "typeName": {
+              "id": 14666,
+              "name": "bytes1",
+              "nodeType": "ElementaryTypeName",
+              "src": "532:6:48",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes1",
+                "typeString": "bytes1"
+              }
+            },
+            "value": {
+              "hexValue": "30783035",
+              "id": 14667,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "576:4:48",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_5_by_1",
+                "typeString": "int_const 5"
+              },
+              "value": "0x05"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 14671,
+            "mutability": "constant",
+            "name": "Tile_HatchDown",
+            "nameLocation": "608:14:48",
+            "nodeType": "VariableDeclaration",
+            "scope": 14675,
+            "src": "583:46:48",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes1",
+              "typeString": "bytes1"
+            },
+            "typeName": {
+              "id": 14669,
+              "name": "bytes1",
+              "nodeType": "ElementaryTypeName",
+              "src": "583:6:48",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes1",
+                "typeString": "bytes1"
+              }
+            },
+            "value": {
+              "hexValue": "30783036",
+              "id": 14670,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "625:4:48",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_6_by_1",
+                "typeString": "int_const 6"
+              },
+              "value": "0x06"
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": true,
+            "id": 14674,
+            "mutability": "constant",
+            "name": "Tile_HatchUp",
+            "nameLocation": "657:12:48",
+            "nodeType": "VariableDeclaration",
+            "scope": 14675,
+            "src": "632:44:48",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_bytes1",
+              "typeString": "bytes1"
+            },
+            "typeName": {
+              "id": 14672,
+              "name": "bytes1",
+              "nodeType": "ElementaryTypeName",
+              "src": "632:6:48",
+              "typeDescriptions": {
+                "typeIdentifier": "t_bytes1",
+                "typeString": "bytes1"
+              }
+            },
+            "value": {
+              "hexValue": "30783037",
+              "id": 14673,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "672:4:48",
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_7_by_1",
+                "typeString": "int_const 7"
+              },
+              "value": "0x07"
+            },
+            "visibility": "internal"
+          }
+        ],
+        "scope": 14676,
+        "src": "489:190:48",
+        "usedErrors": []
+      }
+    ],
+    "src": "463:217:48"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.16+commit.07a7930e.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.11",
+  "updatedAt": "2022-12-01T01:24:00.946Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
