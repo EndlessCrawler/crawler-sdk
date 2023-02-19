@@ -1,0 +1,15 @@
+node_modules/
+.next/
+.vercel/
+build/
+.env*
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# misc
+.DS_Store
+*.pem
+_bak/

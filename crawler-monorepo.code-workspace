@@ -1,0 +1,22 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"editor.detectIndentation": false,
+		"editor.insertSpaces": false,
+		"editor.tabSize": 2,
+		"typescript.validate.enable": true,
+		"files.exclude": {
+			"**/node_modules": true,
+			"**/build": true,
+			"**/.next": true,
+			"**/_bak": true,
+		},
+		"search.exclude": {
+			"**/package-lock.json": true,
+		},
+	}
+}
