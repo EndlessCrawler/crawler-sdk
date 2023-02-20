@@ -7,13 +7,12 @@
 	"homepage": "https://github.com/EndlessCrawler",
 	"private": false,
 	"main": "src/index.js",
-	"scripts": {
-  },
-  "dependencies": {
-    "@avante/crawler-data": "*",
-    "@wagmi/core": "^0.9.5",
-    "ethers": "^5.7.2"
-  },
+	"scripts": {},
+	"dependencies": {
+		"@avante/crawler-data": "^0.0.1",
+		"@wagmi/core": "^0.9.6",
+		"ethers": "^5.7.2"
+	},
 	"keywords": [
 		"dungeon",
 		"crawler",
