@@ -9,9 +9,9 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"clean": "rimraf dist tsconfig.build.tsbuildinfo",
-		"build": "tsc -p tsconfig.build.json",
-		"prepare": "npm run build",
+		"clean": "rimraf dist tsconfig.tsbuildinfo",
+		"build": "tsc -p tsconfig.json",
+		"tsc": "tsc",
 		"test": "mocha -r ts-node/register \"test/**/*.test.ts\""
 	},
 	"keywords": [
