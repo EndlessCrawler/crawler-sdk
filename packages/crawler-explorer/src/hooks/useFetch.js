@@ -29,7 +29,7 @@ export const useFetch = (url, params = {}, options = {}) => {
 			setIsFetching(true);
 			_fetch();
 		}
-	}, [url, JSON.stringify(params)]);
+	}, [url, params]);
 
 	return { data, error, isFetching };
 };
@@ -39,22 +39,22 @@ export const useFetch = (url, params = {}, options = {}) => {
 // Fetch from api route
 // /api/route/params.../
 //
-export const useApi = (route, params = []) => {
+export const useApi = (route, args = [], params = {}) => {
 	const [url, setUrl] = useState(null);
 
 	useEffect(() => {
-		if (!params.includes(null) && !params.includes(undefined)) {
+		if (!args.includes(null) && !args.includes(undefined)) {
 			let newUrl = route;
-			params.forEach((p) => {
+			args.forEach((p) => {
 				newUrl += '/' + p;
 			});
 			setUrl(newUrl);
 		} else {
 			setUrl(null);
 		}
-	}, [route, JSON.stringify(params)]);
+	}, [route, args]);
 
-	return useFetch(url);
+	return useFetch(url, params);
 };
 
 

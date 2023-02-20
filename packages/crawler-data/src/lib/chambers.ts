@@ -15,14 +15,14 @@ import data_goerli from '../data/goerli/chambers.json'
 const _data: Record<ChainId, AllChambersViews> = {
 	[ChainId.Mainnet]: data_mainnet,
 	[ChainId.Goerli]: data_goerli,
-};
+}
 
 /**
  ** @param chainId the network chain id (1 or 5)
  ** @returns the full raw data of a network
  */
 export const getAllChambersViews = (chainId: ChainId = ChainId.Mainnet): AllChambersViews => {
-	return _data[chainId];
+	return _data[chainId]
 }
 
 // export const getAddress = (chainId: ChainId): Address => {

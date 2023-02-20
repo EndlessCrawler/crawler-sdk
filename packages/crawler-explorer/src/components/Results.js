@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from 'react'
-import { CopyIcon, LoadingIcon } from '@/components/Icons'
+import React, { useState, useEffect, useContext } from 'react'
+import { LinkIcon, LoadingIcon, CopyIcon } from '@/components/Icons'
+import { FetchContext, useFetchState } from '@/hooks/FetchContext'
 import { useApi } from '@/hooks/useFetch'
 import JSONPretty from 'react-json-prettify';
 
-export default function JsonResults({
-	url,
-	params,
-	onResults = (data) => { },
-}) {
-	const [results, setResults] = useState({});
-	const { data, error, isFetching } = useApi(url, params);
+export default function Results() {
+	const { url, args, params, results } = useFetchState()
+	const { dispatchResults } = useContext(FetchContext)
+	const { data, error, isFetching } = useApi(url, args, params);
+	// console.log(url, args, params)
 
 	useEffect(() => {
-	}, [url, params])
+	}, [url, args, params])
 
 	useEffect(() => {
 		if (isFetching) {
-			setResults('...')
+			dispatchResults('...')
 		} else if (data) {
-			setResults(data)
+			dispatchResults(data)
 		} else if (error) {
-			setResults(error)
+			dispatchResults(error)
 		}
 	}, [data, error, isFetching]);
 
 	useEffect(() => {
-		onResults(results)
+		dispatchResults(results)
 	}, [results])
 
 	return (
 		<div>
 			<div className='Url'>
+				<LinkIcon url={url} />
 				{url}
 			</div>
 

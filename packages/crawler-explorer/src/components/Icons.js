@@ -24,3 +24,18 @@ export function LoadingIcon({
 			size={size}
 		/>);
 }
+
+export function LinkIcon({
+	size = null,
+	url='/',
+}) {
+	return (
+		<a href={url} target='_blank'>
+			<Icon
+				className='InfoIcon'
+				name='hashtag'
+				size={size}
+			/>
+		</a>
+	);
+}
