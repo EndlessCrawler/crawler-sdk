@@ -8,5 +8,9 @@ module.exports = {
 		INFURA_API_KEY: process.env.INFURA_API_KEY,
 		ALCHEMY_API_KEY: process.env.ALCHEMY_API_KEY,
 	},
-  reactStrictMode: true,
+	reactStrictMode: true,
+	transpilePackages: [
+		'@avante/crawler-api',
+		'@avante/crawler-data',
+	]
 }
