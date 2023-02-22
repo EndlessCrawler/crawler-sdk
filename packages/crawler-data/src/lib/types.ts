@@ -18,6 +18,12 @@ export const ChainIdToNetworkName: Record<ChainId, NetworkName> = {
 	[5]: 'goerli',
 }
 
+/** @type supported networks */
+export enum ViewName {
+	tokenIdToCoord = 'tokenIdToCoord',
+	chamberData = 'chamberData',
+}
+
 
 //--------------------------------
 // Contracts
@@ -88,6 +94,8 @@ export interface AllChambersViews {
 	tokenIdToCoord: TokenIdToCoordsView
 	chamberData: ChamberDataView
 }
+
+export type View = Record<string | number, string | object>
 
 /** @type cached data by token id  */
 export type TokenIdToCoordsView = Record<number, ChamberCoords>

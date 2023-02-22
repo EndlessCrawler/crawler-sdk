@@ -15,3 +15,8 @@ Planned:
 * `@avante/crawler-contracts` : Solidity contracts
 * `@avante/crawler-react` : React framework (off-chain, ready to use)
 * `@avante/crawler-web3` : React framework (on-chain, need web3 wallet)
+
+## Which package should I get?
+
+table: vanilla/Typescript/React, on/off-chain, requires walet
+

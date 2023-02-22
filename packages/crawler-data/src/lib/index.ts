@@ -1,13 +1,3 @@
-export {
-	getContractAddressesForChainOrThrow,
-} from './addresses'
-
-export {
-	getAllChambersViews,
-	// getAddress,
-	getChamberCount,
-	getTokenIdToCoordsView,
-	getTokenIdToCoords,
-	getChamberDataView,
-	getChamberData,
-} from './chambers'
+export * as Views from './views'
+export * as Addresses from './addresses'
+export * as Chambers from './chambers'

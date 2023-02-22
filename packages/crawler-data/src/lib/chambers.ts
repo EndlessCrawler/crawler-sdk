@@ -1,6 +1,5 @@
 import {
 	ChainId,
-	// Address,
 	BNString,
 	AllChambersViews,
 	TokenIdToCoordsView,
@@ -21,19 +20,15 @@ const _data: Record<ChainId, AllChambersViews> = {
  ** @param chainId the network chain id (1 or 5)
  ** @returns the full raw data of a network
  */
-export const getAllChambersViews = (chainId: ChainId = ChainId.Mainnet): AllChambersViews => {
+const getAllChambersViews = (chainId: ChainId = ChainId.Mainnet): AllChambersViews => {
 	return _data[chainId]
 }
-
-// export const getAddress = (chainId: ChainId): Address => {
-// 	return data[chainId]?.address ?? null
-// }
 
 /**
  ** @param chainId the network chain id (1 or 5)
  ** @returns total minted chambers count
  */
-export const getChamberCount = (chainId: ChainId = ChainId.Mainnet): number => {
+const getChamberCount = (chainId: ChainId = ChainId.Mainnet): number => {
 	return Object.keys(_data[chainId]?.tokenIdToCoord ?? {}).length
 }
 
@@ -41,7 +36,7 @@ export const getChamberCount = (chainId: ChainId = ChainId.Mainnet): number => {
  ** @param chainId the network chain id (1 or 5)
  ** @returns all minted chambers coordinates, by token id
  */
-export const getTokenIdToCoordsView = (chainId: ChainId = ChainId.Mainnet): TokenIdToCoordsView => {
+const getTokenIdToCoordsView = (chainId: ChainId = ChainId.Mainnet): TokenIdToCoordsView => {
 	return _data[chainId]?.tokenIdToCoord ?? null
 }
 
@@ -50,7 +45,7 @@ export const getTokenIdToCoordsView = (chainId: ChainId = ChainId.Mainnet): Toke
  ** @param tokenId the token id
  ** @returns the coordinates of the chamber
  */
-export const getTokenIdToCoords = (tokenId: number, chainId: ChainId = ChainId.Mainnet): ChamberCoords => {
+const getTokenIdToCoords = (tokenId: number, chainId: ChainId = ChainId.Mainnet): ChamberCoords => {
 	const _view: TokenIdToCoordsView = _data[chainId]?.tokenIdToCoord
 	return _view?.[tokenId] ?? null
 }
@@ -59,7 +54,7 @@ export const getTokenIdToCoords = (tokenId: number, chainId: ChainId = ChainId.M
  ** @param chainId the network chain id (1 or 5)
  ** @returns all minted chambers data, by {Coord} (BN)
  */
-export const getChamberDataView = (chainId: ChainId = ChainId.Mainnet): ChamberDataView => {
+const getChamberDataView = (chainId: ChainId = ChainId.Mainnet): ChamberDataView => {
 	return _data[chainId]?.chamberData ?? null
 }
 
@@ -67,8 +62,16 @@ export const getChamberDataView = (chainId: ChainId = ChainId.Mainnet): ChamberD
  ** @param chainId the network chain id (1 or 5)
  ** @param coord chamber coordinate (BN)
  */
-export const getChamberData = (coord: BNString, chainId: ChainId = ChainId.Mainnet): ChamberData => {
+const getChamberData = (coord: BNString, chainId: ChainId = ChainId.Mainnet): ChamberData => {
 	const _view: ChamberDataView = _data[chainId]?.chamberData
 	return _view?.[coord] ?? null
 }
 
+export {
+	getAllChambersViews,
+	getChamberCount,
+	getTokenIdToCoordsView,
+	getTokenIdToCoords,
+	getChamberDataView,
+	getChamberData,
+}
