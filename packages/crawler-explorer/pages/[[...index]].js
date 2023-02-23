@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Grid, List, Divider } from 'semantic-ui-react'
 import { FetchContext } from '@/hooks/FetchContext'
-import Results from '@/components/Results'
 import Page from '@/components/Page'
 import Layout from '@/components/Layout'
 import DrawerViews from '@/components/DrawerViews'
@@ -19,7 +18,7 @@ export default function Home() {
 	const { dispatchUrl } = useContext(FetchContext)
 
 	return (
-		<Page>
+		<Page className='Relative'>
 			<Layout>
 				{index == 'views' && <DrawerViews />}
 				{index == 'cached' && <DrawerCached />}

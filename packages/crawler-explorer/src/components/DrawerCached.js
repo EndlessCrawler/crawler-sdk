@@ -2,8 +2,8 @@ import React, { useMemo, useContext } from 'react'
 import { Grid } from 'semantic-ui-react'
 import { FetchContext, useFetchState } from '@/hooks/FetchContext'
 import {
-	Chambers,
 	Views,
+	Chambers,
 } from '@avante/crawler-data'
 
 const Row = Grid.Row;
@@ -14,8 +14,7 @@ export default function DrawerCached() {
 
 	const views = useMemo(() => {
 		let result = []
-		const vs = Chambers.getAllChambersViews()
-		console.log(vs)
+		const vs = Views.getAllViews()
 		for (const viewName of Views.getViewNames()) {
 			const count = Object.keys(vs[viewName]).length
 			result.push(
@@ -30,8 +29,8 @@ export default function DrawerCached() {
 	})
 
 	const _click = (viewName) => {
-		const vs = Chambers.getAllChambersViews()
-		dispatchResults(vs[viewName])
+		const view = Views.getView(viewName)
+		dispatchResults(view)
 	}
 
 	const chamberCount = Chambers.getChamberCount()

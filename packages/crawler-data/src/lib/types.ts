@@ -12,16 +12,10 @@ export enum ChainId {
 	Goerli = 5,
 }
 
-/** @type chain id to name lookup */
-export const ChainIdToNetworkName: Record<ChainId, NetworkName> = {
+/** @type chain id to name lookup table */
+export const chainIdToNetworkName: Record<ChainId, NetworkName> = {
 	[1]: 'mainnet',
 	[5]: 'goerli',
-}
-
-/** @type supported networks */
-export enum ViewName {
-	tokenIdToCoord = 'tokenIdToCoord',
-	chamberData = 'chamberData',
 }
 
 
@@ -29,7 +23,7 @@ export enum ViewName {
 // Types
 //
 
-/** @type ethereum address  */
+/** @type ethereum address */
 export type Address = string
 
 /** @type big number as decimal string */
@@ -43,14 +37,54 @@ export interface Compass {
 	south?: number
 }
 
-/** @type all the coordinates of a chamber */
+
+//--------------------------------
+// View definitions
+//
+
+/** @type View names */
+export enum ViewName {
+	tokenIdToCoord = 'tokenIdToCoord',
+	chamberData = 'chamberData',
+}
+
+export type AllViewsTypes = {
+	[ViewName.tokenIdToCoord]: TokenIdToCoordsView
+	[ViewName.chamberData]: ChamberDataView
+}
+
+/** @type All view types, by name */
+export interface AllViews {
+	[ViewName.tokenIdToCoord]: TokenIdToCoordsView
+	[ViewName.chamberData]: ChamberDataView
+}
+
+//--------------------------------
+// Views definitions
+//
+
+/** @type generic definition of a View */
+export type View = Record<string | number, string | object>
+
+/** @type tokenIdToCoord View */
+export type TokenIdToCoordsView = Record<number, ChamberCoords>
+
+/** @type chamberData View */
+export type ChamberDataView = Record<BNString, ChamberData>
+
+
+//--------------------------------
+// View data interfaces
+//
+
+/** @type tokenIdToCoord */
 export interface ChamberCoords {
 	coord: BNString
 	slug: string
 	compass: Compass
 }
 
-/** @type all static data of a chamber  */
+/** @type chamberData */
 export interface ChamberData {
 	// static data
 	tokenId: number
@@ -72,22 +106,4 @@ export interface ChamberData {
 	locks: boolean[]
 	locksCount: number
 }
-
-//--------------------------------
-// Views
-//
-
-/** @type all cached data of a network  */
-export interface AllChambersViews {
-	tokenIdToCoord: TokenIdToCoordsView
-	chamberData: ChamberDataView
-}
-
-export type View = Record<string | number, string | object>
-
-/** @type cached data by token id  */
-export type TokenIdToCoordsView = Record<number, ChamberCoords>
-
-/** @type cached data by coordinate  */
-export type ChamberDataView = Record<BNString, ChamberData>
 
