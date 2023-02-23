@@ -26,22 +26,11 @@ export enum ViewName {
 
 
 //--------------------------------
-// Contracts
+// Types
 //
 
 /** @type ethereum address  */
 export type Address = string
-
-/** @type all contract addresses of a network */
-export interface ContractAddresses {
-	crawlerToken: Address
-	cardsMinter: Address
-}
-
-
-//--------------------------------
-// Crawler Types
-//
 
 /** @type big number as decimal string */
 export type BNString = string
@@ -85,12 +74,11 @@ export interface ChamberData {
 }
 
 //--------------------------------
-// Crawler Views
+// Views
 //
 
 /** @type all cached data of a network  */
 export interface AllChambersViews {
-	contractAddress: Address
 	tokenIdToCoord: TokenIdToCoordsView
 	chamberData: ChamberDataView
 }
