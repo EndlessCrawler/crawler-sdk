@@ -104,6 +104,6 @@ export interface ChamberData {
 	// TODO: Remove this? (not static)
 	doors: number[]
 	locks: boolean[]
-	locksCount: number
+	isStatic: boolean
 }
 

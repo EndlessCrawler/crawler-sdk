@@ -19,26 +19,50 @@ export default function DrawerCached() {
 			const count = Object.keys(vs[viewName]).length
 			result.push(
 				<div key={viewName} >
-				<span className='Anchor' onClick={() => _click(viewName)}>
-					{viewName}
-					</span> ({ count })
+					<span className='Anchor' onClick={() => dispatchResults(Views.getView(viewName))}>
+						{viewName}
+					</span> ({count})
 				</div>
 			)
 		}
 		return result;
 	})
 
-	const _click = (viewName) => {
-		const view = Views.getView(viewName)
-		dispatchResults(view)
-	}
+	// Chambers
+	const chamberCount = useMemo(() => Chambers.getChamberCount(), [])
+	const staticCount = useMemo(() => Chambers.getStaticChamberCount(), [])
+	const edgeCount = useMemo(() => Chambers.getEdgeChamberCount(), [])
+	const edgesId = useMemo(() => Chambers.getEdgeChambersId(), [])
+	const edgesCoord = useMemo(() => Chambers.getEdgeChambersCoord(), [])
+	const tokenCoords = useMemo(() => Chambers.getTokenCoords(1), [])
+	const tokensCoords = useMemo(() => Chambers.getTokensCoords(edgesId), [])
+	const chamberData = useMemo(() => Chambers.getChamberData(tokenCoords.coord), [])
+	const chambersData = useMemo(() => Chambers.getChambersData(edgesCoord), [])
 
-	const chamberCount = Chambers.getChamberCount()
+	const _method = (label, data) => {
+		return <span className='Anchor' onClick={() => dispatchResults(data)}>{label}<br /></span>
+	}
 
 	return (
 		<div>
-			count: {chamberCount}
-			{views}
+
+			Chambers
+			<p>
+				{_method('getChamberCount()', chamberCount)}
+				{_method('getStaticChamberCount()', staticCount)}
+				{_method('getEdgeChamberCount()', edgeCount)}
+				{_method('getEdgeChambersId()', edgesId)}
+				{_method('getEdgeChambersCoord()', edgesCoord)}
+				{_method('getTokenCoords(1)', tokenCoords)}
+				{_method('getTokensCoords(edges)', tokensCoords)}
+				{_method('getChamberData(1)', chamberData)}
+				{_method('getChambersData(edges)', chambersData)}
+			</p>
+
+			Views
+			<p>
+				{views}
+			</p>
 		</div>
 	);
 }

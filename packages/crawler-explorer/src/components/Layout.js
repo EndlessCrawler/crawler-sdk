@@ -38,7 +38,7 @@ export default function Home({
 					</Grid>
 					<div>
 						{` · `}
-						<DrawerItem slug='cached' />
+						<DrawerItem slug='data' />
 						{` · `}
 						<DrawerItem slug='views' />
 						{` · `}

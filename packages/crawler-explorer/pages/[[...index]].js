@@ -21,7 +21,7 @@ export default function Home() {
 		<Page className='Relative'>
 			<Layout>
 				{index == 'views' && <DrawerViews />}
-				{index == 'cached' && <DrawerCached />}
+				{index == 'data' && <DrawerCached />}
 				{!index &&
 					<List bulleted>
 						<Item url='/api/read/totalSupply?contractName=CrawlerToken&chainId=1' onClick={(url) => dispatchUrl(url)}>totalSupply</Item>
