@@ -1,3 +1,4 @@
+const BN = require('bn.js');
 
 //--------------------------------
 // Constants
@@ -17,6 +18,22 @@ export const chainIdToNetworkName: Record<ChainId, NetworkName> = {
 	[1]: 'mainnet',
 	[5]: 'goerli',
 }
+
+export const bn_one = new BN('1')
+export const bn_zero = new BN('0')
+export const bn_uint32_max = new BN('ffffffff', 16)					// '4294967295'
+export const bn_uint64_max = new BN('ffffffffffffffff', 16)	// '18446744073709551615'
+export const bn_mask_Dir = bn_uint64_max
+export const bn_mask_North = bn_mask_Dir.shln(192)
+export const bn_mask_East = bn_mask_Dir.shln(128)
+export const bn_mask_West = bn_mask_Dir.shln(64)
+export const bn_mask_South = bn_mask_Dir
+export const bn_mask_NorthSouth = bn_mask_North.and(bn_mask_South)
+export const bn_mask_EastWest = bn_mask_East.and(bn_mask_West)
+export const bn_mask_NorthInv = bn_mask_North.notn(256)
+export const bn_mask_EastInv = bn_mask_East.notn(256)
+export const bn_mask_WestInv = bn_mask_West.notn(256)
+export const bn_mask_SouthInv = bn_mask_South.notn(256)
 
 
 //--------------------------------

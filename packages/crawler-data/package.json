@@ -25,6 +25,7 @@
 		"game"
 	],
 	"dependencies": {
+		"bn.js": "^5.2.1",
 		"lerna": "^6.5.1"
 	}
 }

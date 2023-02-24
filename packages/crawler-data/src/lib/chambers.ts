@@ -1,23 +1,13 @@
-import {
-	ChainId,
-	ViewName,
-	TokenIdToCoordsView,
-	ChamberCoords,
-	ChamberDataView,
-	ChamberData,
-	BNString,
-} from './types'
-import {
-	getView,
-} from './views'
+import * as T from './types'
+import { getView } from './views'
 
 
 /**
  ** @param chainId the network chain id (1 or 5)
  ** @returns total minted chambers count
  */
-const getChamberCount = (chainId: ChainId = ChainId.Mainnet): number => {
-	const tokenIdToCoord = getView(ViewName.tokenIdToCoord, chainId)
+const getChamberCount = (chainId: T.ChainId = T.ChainId.Mainnet): number => {
+	const tokenIdToCoord = getView(T.ViewName.tokenIdToCoord, chainId)
 	return Object.keys(tokenIdToCoord).length
 }
 
@@ -25,8 +15,8 @@ const getChamberCount = (chainId: ChainId = ChainId.Mainnet): number => {
  ** @param chainId the network chain id (1 or 5)
  ** @returns total static chambers count
  */
-const getStaticChamberCount = (chainId: ChainId = ChainId.Mainnet): number => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, chainId) as ChamberDataView
+const getStaticChamberCount = (chainId: T.ChainId = T.ChainId.Mainnet): number => {
+	const chamberData: T.ChamberDataView = getView(T.ViewName.chamberData, chainId) as T.ChamberDataView
 	return Object.values(chamberData).reduce(function (count, value) {
 		return count + (value.isStatic ? 1 : 0)
 	}, 0)
@@ -36,8 +26,8 @@ const getStaticChamberCount = (chainId: ChainId = ChainId.Mainnet): number => {
  ** @param chainId the network chain id (1 or 5)
  ** @returns total edge chambers count
  */
-const getEdgeChamberCount = (chainId: ChainId = ChainId.Mainnet): number => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, chainId) as ChamberDataView
+const getEdgeChamberCount = (chainId: T.ChainId = T.ChainId.Mainnet): number => {
+	const chamberData: T.ChamberDataView = getView(T.ViewName.chamberData, chainId) as T.ChamberDataView
 	return Object.values(chamberData).reduce(function (result, value) {
 		return result + (value.isStatic ? 0 : 1)
 	}, 0)
@@ -47,8 +37,8 @@ const getEdgeChamberCount = (chainId: ChainId = ChainId.Mainnet): number => {
  ** @param chainId the network chain id (1 or 5)
  ** @returns total edge chambers count
  */
-const getEdgeChambersId = (chainId: ChainId = ChainId.Mainnet): number[] => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, chainId) as ChamberDataView
+const getEdgeChambersId = (chainId: T.ChainId = T.ChainId.Mainnet): number[] => {
+	const chamberData: T.ChamberDataView = getView(T.ViewName.chamberData, chainId) as T.ChamberDataView
 	return Object.values(chamberData).reduce(function (result, value) {
 		if (!value.isStatic) {
 			result.push(value.tokenId)
@@ -61,15 +51,15 @@ const getEdgeChambersId = (chainId: ChainId = ChainId.Mainnet): number[] => {
  ** @param chainId the network chain id (1 or 5)
  ** @returns total edge chambers count
  */
-const getEdgeChambersCoord = (chainId: ChainId = ChainId.Mainnet): BNString[] => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, chainId) as ChamberDataView
-	const tokenIdToCoord = getView(ViewName.tokenIdToCoord, chainId) as TokenIdToCoordsView
+const getEdgeChambersCoord = (chainId: T.ChainId = T.ChainId.Mainnet): T.BNString[] => {
+	const chamberData: T.ChamberDataView = getView(T.ViewName.chamberData, chainId) as T.ChamberDataView
+	const tokenIdToCoord = getView(T.ViewName.tokenIdToCoord, chainId) as T.TokenIdToCoordsView
 	return Object.values(chamberData).reduce(function (result, value) {
 		if (!value.isStatic) {
 			result.push(tokenIdToCoord[value.tokenId].coord)
 		}
 		return result
-	}, [] as BNString[])
+	}, [] as T.BNString[])
 }
 
 /**
@@ -77,8 +67,8 @@ const getEdgeChambersCoord = (chainId: ChainId = ChainId.Mainnet): BNString[] =>
  ** @param chainId the network chain id (1 or 5)
  ** @returns the coordinates of the chamber
  */
-const getTokenCoords = (tokenId: number, chainId: ChainId = ChainId.Mainnet): ChamberCoords | null => {
-	const tokenIdToCoord = getView(ViewName.tokenIdToCoord, chainId) as TokenIdToCoordsView
+const getTokenCoords = (tokenId: number, chainId: T.ChainId = T.ChainId.Mainnet): T.ChamberCoords | null => {
+	const tokenIdToCoord = getView(T.ViewName.tokenIdToCoord, chainId) as T.TokenIdToCoordsView
 	return tokenIdToCoord[tokenId] ?? null
 }
 
@@ -87,15 +77,15 @@ const getTokenCoords = (tokenId: number, chainId: ChainId = ChainId.Mainnet): Ch
  ** @param chainId the network chain id (1 or 5)
  ** @returns the coordinates of multiple chambers
  */
-const getTokensCoords = (tokenIds: number[], chainId: ChainId = ChainId.Mainnet): TokenIdToCoordsView => {
-	const tokenIdToCoord = getView(ViewName.tokenIdToCoord, chainId) as TokenIdToCoordsView
+const getTokensCoords = (tokenIds: number[], chainId: T.ChainId = T.ChainId.Mainnet): T.TokenIdToCoordsView => {
+	const tokenIdToCoord = getView(T.ViewName.tokenIdToCoord, chainId) as T.TokenIdToCoordsView
 	return Object.entries(tokenIdToCoord).reduce(function (result, [key, value]) {
 		const tokenId = parseInt(key)
 		if (tokenIds.includes(tokenId)) {
 			result[tokenId] = value
 		}
 		return result
-	}, {} as TokenIdToCoordsView)
+	}, {} as T.TokenIdToCoordsView)
 }
 
 /**
@@ -103,8 +93,8 @@ const getTokensCoords = (tokenIds: number[], chainId: ChainId = ChainId.Mainnet)
  ** @param chainId the network chain id (1 or 5)
  ** @returns ChamberData of the chamber
  */
-const getChamberData = (coord: BNString, chainId: ChainId = ChainId.Mainnet): ChamberData | null => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, chainId) as ChamberDataView
+const getChamberData = (coord: T.BNString, chainId: T.ChainId = T.ChainId.Mainnet): T.ChamberData | null => {
+	const chamberData: T.ChamberDataView = getView(T.ViewName.chamberData, chainId) as T.ChamberDataView
 	return chamberData[coord] ?? null
 }
 
@@ -113,14 +103,14 @@ const getChamberData = (coord: BNString, chainId: ChainId = ChainId.Mainnet): Ch
  ** @param chainId the network chain id (1 or 5)
  ** @returns ChamberData of multiple chambers
  */
-const getChambersData = (coords: BNString[], chainId: ChainId = ChainId.Mainnet): ChamberDataView => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, chainId) as ChamberDataView
+const getChambersData = (coords: T.BNString[], chainId: T.ChainId = T.ChainId.Mainnet): T.ChamberDataView => {
+	const chamberData: T.ChamberDataView = getView(T.ViewName.chamberData, chainId) as T.ChamberDataView
 	return Object.entries(chamberData).reduce(function (result, [key, value]) {
 		if (coords.includes(key)) {
 			result[key] = value
 		}
 		return result
-	}, {} as ChamberDataView)
+	}, {} as T.ChamberDataView)
 }
 
 
