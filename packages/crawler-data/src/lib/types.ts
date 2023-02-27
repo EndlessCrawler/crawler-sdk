@@ -35,6 +35,15 @@ export const bn_mask_EastInv = bn_mask_East.notn(256)
 export const bn_mask_WestInv = bn_mask_West.notn(256)
 export const bn_mask_SouthInv = bn_mask_South.notn(256)
 
+export const int_max = Number.MAX_SAFE_INTEGER
+
+export enum Dir {
+	North = 0,
+	East = 1,
+	West = 2,
+	South = 3,
+}
+
 
 //--------------------------------
 // Types

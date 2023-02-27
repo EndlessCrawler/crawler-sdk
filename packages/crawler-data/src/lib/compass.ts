@@ -14,9 +14,6 @@ const BN = require('bn.js')
 //
 
 
-
-// const max_int = Number.MAX_SAFE_INTEGER
-
 // Validate a compass
 const validate = (compass: any): boolean => {
 	if (!compass) return false
@@ -26,8 +23,49 @@ const validate = (compass: any): boolean => {
 	if (!compass.east && !compass.west) return false
 	return true
 }
-const validateCoord = (bn_as_string: T.BNString | null): boolean => {
-	return validate(fromBN(bn_as_string))
+
+const validateCoord = (value: T.BNString | null): boolean => {
+	return validate(fromBN(value))
+}
+
+const isBN = (value: any): boolean => {
+	return BN.isBN(value) || value instanceof BN
+}
+
+const bnToNumber = (value: typeof BN): number => {
+	if (value.gt(T.bn_uint32_max)) {
+		console.warn(`BN too big for int32`, value.toJSON())
+		return T.bn_uint32_max.toNumber()
+	}
+	return value.toNumber()
+}
+
+const fromBN = (value: typeof BN | string) => {
+	const bn = isBN(value) ? value : new BN(value)
+	return {
+		north: bnToNumber(bn.shrn(192).and(T.bn_mask_Dir)),
+		east: bnToNumber(bn.shrn(128).and(T.bn_mask_Dir)),
+		west: bnToNumber(bn.shrn(64).and(T.bn_mask_Dir)),
+		south: bnToNumber(bn.and(T.bn_mask_Dir)),
+	}
+}
+
+// Covert Compass to BN coord
+// input can be compass { north, east, ... } or coord (BN)
+const toBN = (compass_or_coord: T.Compass | typeof BN): typeof BN | null => {
+	if (isBN(compass_or_coord)) {
+		return compass_or_coord
+	}
+	if (validate(compass_or_coord)) {
+		return fromBN(compass_or_coord)
+	}
+	return null
+}
+// Format coord as BN String
+// used as smart contract function arguments
+const toBigString = (compass_or_coord: T.Compass | typeof BN): T.BNString => {
+	let bn = toBN(compass_or_coord)
+	return (bn ? bn.toString() : '0')
 }
 
 // convert compass to string: N1,E1
@@ -58,45 +96,100 @@ const toStringLong = (compass: T.Compass): string => {
 	return parts.length == 2 ? parts[1] : ''
 }
 
-
-// // Covert BN coord to Compass
-// // input is any Compass.toString() result
-// // ex: S1E1, N12W44, S4 E4
-// const fromString = (input) => {
-// 	const north = /[Nn]\d+/g.exec(input)
-// 	const east = /[Ee]\d+/g.exec(input)
-// 	const west = /[Ww]\d+/g.exec(input)
-// 	const south = /[Ss]\d+/g.exec(input)
-// 	const result = {
-// 		north: parseInt(north?.[0].substring(1) ?? 0),
-// 		east: parseInt(east?.[0].substring(1) ?? 0),
-// 		west: parseInt(west?.[0].substring(1) ?? 0),
-// 		south: parseInt(south?.[0].substring(1) ?? 0),
-// 	}
-// 	// console.log(`Compass.fromString(${input}): `, result)
-// 	return Compass.validate(result) ? result : null
-// }
-
-const isBN = (value: any): boolean => {
-	return BN.isBN(value) || value instanceof BN
-}
-
-const bnToNumber = (value: typeof BN): number => {
-	if (value.gt(T.bn_uint32_max)) {
-		console.warn(`BN too big for int32`, value.toJSON())
-		return T.bn_uint32_max.toNumber()
+// input is any Compass.toString() result
+// ex: S1E1, N12W44, S4 E4
+const fromString = (input: string): T.Compass | null => {
+	const north = /[Nn]\d+/g.exec(input)
+	const east = /[Ee]\d+/g.exec(input)
+	const west = /[Ww]\d+/g.exec(input)
+	const south = /[Ss]\d+/g.exec(input)
+	const result = {
+		north: parseInt(north?.[0].substring(1) ?? '0'),
+		east: parseInt(east?.[0].substring(1) ?? '0'),
+		west: parseInt(west?.[0].substring(1) ?? '0'),
+		south: parseInt(south?.[0].substring(1) ?? '0'),
 	}
-	return value.toNumber()
+	return validate(result) ? result : null
 }
 
-const fromBN = (value: typeof BN | string) => {
-	const bn = isBN(value) ? value : new BN(value)
+
+// Convert Atlas XY coordinate to compass
+// Y < 0  : N
+// Y >= 0 : S
+// X < 0  : W
+// X >= 0 : E
+const fromXY = ([x, y]:[number,number]): T.Compass => {
 	return {
-		north: bnToNumber(bn.shrn(192).and(T.bn_mask_Dir)),
-		east: bnToNumber(bn.shrn(128).and(T.bn_mask_Dir)),
-		west: bnToNumber(bn.shrn(64).and(T.bn_mask_Dir)),
-		south: bnToNumber(bn.and(T.bn_mask_Dir)),
+		north: y < 0 ? Math.abs(y) : 0,
+		east: x >= 0 ? x + 1 : 0,
+		west: x < 0 ? Math.abs(x) : 0,
+		south: y >= 0 ? y + 1 : 0,
 	}
+}
+// Compass to Atlas XY
+const toXY = (compass: T.Compass) => {
+	if (!validate(compass)) return [0, 0]
+	const x = (compass.west && compass.west > 0) ? -compass.west : compass.east ? compass.east - 1 : 0
+	const y = (compass.north && compass.north > 0) ? -compass.north : compass.south ? compass.south - 1 : 0
+	return [x, y]
+}
+
+
+// Compares 2 coordinates
+// cupports both Compass and BN
+const equals = (a: T.Compass | typeof BN | null, b: T.Compass | typeof BN | null): boolean => {
+	if (!a || !b) {
+		return false
+	}
+	if (isBN(a) || isBN(b)) {
+		const bnA = toBN(a)
+		const bnB = toBN(b)
+		if (bnA && bnB) {
+			return bnA.eq(bnB)
+		}
+	} else if (validate(a) && validate(b)) {
+		return (
+			((a.north && a.north > 0 && a.north === b.north) || (a.south && a.south > 0 && a.south === b.south)) &&
+			((a.east && a.east > 0 && a.east === b.east) || (a.west && a.west > 0 && a.west === b.west))
+		)
+	}
+	console.warn(`Compass.equals() incompatible:`, a, b)
+	return false
+}
+
+// must equal to Crawl.offsetCoord()
+const offset = (compass: T.Compass, dir: T.Dir): T.Compass => {
+	let result = { ...compass } as T.Compass
+	if (dir == T.Dir.North) {
+		if (result.south && result.south > 1) {
+			result.south-- // --South
+		} else if (result.north && result.north < T.int_max) {
+			result.south = 0
+			result.north++ // ++North
+		}
+	} else if (dir == T.Dir.East) {
+		if (result.west && result.west > 1) {
+			result.west-- // --West
+		} else if (result.east && result.east < T.int_max) {
+			result.west = 0
+			result.east++ // ++East
+		}
+	} else if (dir == T.Dir.West) {
+		if (result.east && result.east > 1) {
+			result.east-- // --East
+		} else if (result.west && result.west < T.int_max) {
+			result.east = 0
+			result.west++ // ++West
+		}
+	} else { //if(dir == T.Dir.South) {
+		if (result.north && result.north > 1) {
+			result.north-- // --North
+		} else if (result.south && result.south < T.int_max) {
+			result.north = 0
+			result.south++ // ++South
+		}
+	}
+	return result
 }
 
 // Remove zero coordinates from a compass
@@ -109,102 +202,6 @@ const minify = (compass: T.Compass): T.Compass => {
 	return result
 }
 
-// // Covert Compass to BN coord
-// // input can be compass { north, east, ... } or coord (BN)
-// const toBN = (compass_or_coord) => {
-// 	if (Crawl.isBN(compass_or_coord)) {
-// 		return compass_or_coord
-// 	}
-// 	if (Compass.validate(compass_or_coord)) {
-// 		return Crawl.makeCoord(compass_or_coord)
-// 	}
-// 	return null
-// }
-// // Format coord as BN String
-// // used as smart contract function arguments
-// const toBigString = (compass_or_coord) => {
-// 	let bn = Compass.toBN(compass_or_coord)
-// 	return (bn ? bn.toString() : '0')
-// }
-
-// // Convert Atlas XY coordinate to compass
-// // Y < 0  : N
-// // Y >= 0 : S
-// // X < 0  : W
-// // X >= 0 : E
-// const fromXY = ([x, y]) => {
-// 	return {
-// 		north: y < 0 ? Math.abs(y) : 0,
-// 		east: x >= 0 ? x + 1 : 0,
-// 		west: x < 0 ? Math.abs(x) : 0,
-// 		south: y >= 0 ? y + 1 : 0,
-// 	}
-// }
-// // Compass to Atlas XY
-// const toXY = (compass) => {
-// 	if (!Compass.validate(compass)) return [0, 0]
-// 	const x = compass.west > 0 ? -compass.west : compass.east - 1
-// 	const y = compass.north > 0 ? -compass.north : compass.south - 1
-// 	return [x, y]
-// }
-
-// // Compares 2 coordinates
-// // cupports both Compass and BN
-// const equals = (a, b) => {
-// 	if (!a || !b) {
-// 		return false
-// 	}
-// 	if (Crawl.isBN(a) || Crawl.isBN(b)) {
-// 		const bnA = Crawl.toBN(a)
-// 		const bnB = Crawl.toBN(b)
-// 		if (bnA && bnB) {
-// 			return bnA.eq(bnB)
-// 		}
-// 	} else if (Compass.validate(a) && Compass.validate(b)) {
-// 		return (
-// 			((a.north > 0 && a.north === b.north) || (a.south > 0 && a.south === b.south)) &&
-// 			((a.east > 0 && a.east === b.east) || (a.west > 0 && a.west === b.west))
-// 		)
-// 	}
-// 	console.warn(`Compass.equals() incompatible:`, a, b)
-// 	return false
-// }
-
-// // equals to Crawl.offsetCoord()
-// const offset = (compass, dir) => {
-// 	let result = { ...compass }
-// 	if (dir == Crawl.Dir.North) {
-// 		if (compass.south > 1) {
-// 			result.south-- // --South
-// 		} else if (compass.north < Compass.max_int) {
-// 			result.south = 0
-// 			result.north++ // ++North
-// 		}
-// 	} else if (dir == Crawl.Dir.East) {
-// 		if (compass.west > 1) {
-// 			result.west-- // --West
-// 		} else if (compass.east < Compass.max_int) {
-// 			result.west = 0
-// 			result.east++ // ++East
-// 		}
-// 	} else if (dir == Crawl.Dir.West) {
-// 		if (compass.east > 1) {
-// 			result.east-- // --East
-// 		} else if (compass.west < Compass.max_int) {
-// 			result.east = 0
-// 			result.west++ // ++West
-// 		}
-// 	} else { //if(dir == Crawl.Dir.South) {
-// 		if (compass.north > 1) {
-// 			result.north-- // --North
-// 		} else if (compass.south < Compass.max_int) {
-// 			result.north = 0
-// 			result.south++ // ++South
-// 		}
-// 	}
-// 	return result
-// }
-
 
 
 //--------------------------------
@@ -212,14 +209,26 @@ const minify = (compass: T.Compass): T.Compass => {
 //
 
 export {
+	// validators
 	validate,
 	validateCoord,
-	toString,
-	toStringLat, 	// N/S
-	toStringLong,	// E/W
-	toSlug,
+	// bn
 	isBN,
 	bnToNumber,
 	fromBN,
+	toBN,
+	toBigString,
+	// string
+	toString,
+	toSlug,
+	toStringLat, 	// N/S
+	toStringLong,	// E/W
+	fromString,
+	// Atlas
+	fromXY,
+	toXY,
+	// operations
+	equals,
+	offset,
 	minify,
 }
