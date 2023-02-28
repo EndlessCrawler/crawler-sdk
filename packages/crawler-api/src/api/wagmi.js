@@ -41,6 +41,8 @@ export const getClient = () => {
 export const wagmiReadContract = async (contract, functionName, args = []) => {
 	const { chainId, contractAddress: address, abi } = contract
 
+	args = args.map(value => value == 'true' ? true : value == 'false' ? false : value)
+
 	let data = null
 	try {
 		data = await readContract({
@@ -59,9 +61,21 @@ export const wagmiReadContract = async (contract, functionName, args = []) => {
 	return { data: _parseData(data) }
 }
 
-const _parseData = (data) => {
+const _parseData = (data, level = 0) => {
 	if (ethers.BigNumber.isBigNumber(data)) {
 		return data.toString()
+	}
+	if (Array.isArray(data) && level > 0) {
+		return Object.entries(data).reduce(function (result, [key, value]) {
+			result.push(_parseData(value, level + 1))
+			return result
+		}, [])
+	}
+	if (typeof data === 'object') {
+		return Object.entries(data).reduce(function (result, [key, value]) {
+			result[key] = _parseData(value, level + 1)
+			return result
+		}, {})
 	}
 	return data
 }

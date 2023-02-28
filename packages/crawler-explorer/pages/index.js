@@ -16,7 +16,9 @@ export default function Home() {
 
 				/view
 				<p>
-					<UrlDispatcher url='/api/view/tokenIdToCoord?chainId=1&tokenId=1'>tokenIdToCoord</UrlDispatcher>
+					<UrlDispatcher url='/api/view/tokenIdToCoord/1/1?chainId=1'>tokenIdToCoord</UrlDispatcher>
+					<UrlDispatcher url='/api/view/chamberData/18446744073709551617/1/18446744073709551617/false?chainId=1'>chamberData</UrlDispatcher>
+					<UrlDispatcher url='/api/view/chamberData/18446744073709551617/1/18446744073709551617/true?chainId=1'>chamberData + maps</UrlDispatcher>
 				</p>
 
 			</Layout>

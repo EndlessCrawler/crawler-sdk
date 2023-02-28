@@ -13,10 +13,10 @@ import {
 
 export default async function handler(request, response) {
 	const { view } = request.query
-	const [functionName] = view
+	const [functionName, key] = view
+	const args = view.slice(2)
 
-	const { data, error } = await getView(functionName, request.query)
-	// console.log(`view result:`, data, error)
+	const { data, error } = await getView(functionName, key, args, request.query)
 
 	if (error) {
 		return response.status(400).json({

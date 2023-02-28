@@ -116,7 +116,8 @@ export interface ChamberData {
 	tokenId: number
 	chapter: number
 	seed: BNString
-	bitmap: BNString
+	bitmap?: BNString
+	tilemap?: BNString
 	name: string
 	compass: Compass
 	coord: BNString
