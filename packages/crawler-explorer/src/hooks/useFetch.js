@@ -12,8 +12,10 @@ export const useFetch = (url, params = {}, options = {}) => {
 	const [isFetching, setIsFetching] = useState(false);
 
 	useEffect(() => {
+		let _mounted = true
 		async function _fetch() {
 			const results = await fetchJson(url, options.method ?? 'GET', params, options);
+			if (!_mounted) return
 			if (results.error) {
 				console.error(`useFetch(${url}) error:`, results.error);
 				setError(results.error);
@@ -28,6 +30,9 @@ export const useFetch = (url, params = {}, options = {}) => {
 			setError(null);
 			setIsFetching(true);
 			_fetch();
+		}
+		return () => {
+			_mounted = false
 		}
 	}, [url, params]);
 

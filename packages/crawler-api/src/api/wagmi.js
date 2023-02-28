@@ -7,7 +7,7 @@ import {
 import { publicProvider } from '@wagmi/core/providers/public'
 import { alchemyProvider } from '@wagmi/core/providers/alchemy'
 import { infuraProvider } from '@wagmi/core/providers/infura'
-const { ethers } = require('ethers');
+const { ethers } = require('ethers')
 
 //---------------------
 // Client
@@ -35,6 +35,8 @@ export const getClient = () => {
 //---------------------
 // Read Contract
 //
+// contract: result from getContract()
+//
 
 export const wagmiReadContract = async (contract, functionName, args = []) => {
 	const { chainId, contractAddress: address, abi } = contract
@@ -51,10 +53,10 @@ export const wagmiReadContract = async (contract, functionName, args = []) => {
 	} catch (error) {
 		return {
 			error: error.toString(),
-		};
+		}
 	}
 
-	return { data: _parseData(data) };
+	return { data: _parseData(data) }
 }
 
 const _parseData = (data) => {

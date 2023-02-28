@@ -6,9 +6,8 @@ import JSONPretty from 'react-json-prettify';
 
 export default function Results() {
 	const { url, args, params, results } = useFetchState()
-	const { dispatchResults } = useContext(FetchContext)
 	const { data, error, isFetching } = useApi(url, args, params);
-	// console.log(url, args, params)
+	const { dispatchResults } = useContext(FetchContext)
 
 	useEffect(() => {
 	}, [url, args, params])

@@ -30,7 +30,7 @@ async function _fetch(url, method, params, options) {
 			});
 		if (result.status != 200) {
 			console.warn(`_fetch() ERROR STATUS:`, result)
-			result = { error: `_fetch() ERROR STATUS [${result.status}]: ${result.statusText}` }
+			result = { error: `_fetch() ERROR STATUS [${result.status}] (${result.statusText}) : ${await result.text()}` }
 		}
 	} catch (e) {
 		result = { error: `_fetch() EXCEPTION: ${e}` }

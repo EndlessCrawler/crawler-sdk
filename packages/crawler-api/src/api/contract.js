@@ -1,6 +1,7 @@
 import Contracts from '../contracts/Contracts'
 
-export const getContract = ({ contractName, contractAddress, chainId }) => {
+export const getContract = (options) => {
+	let { contractName, contractAddress, chainId } = options
 
 	if (!contractName) {
 		return {

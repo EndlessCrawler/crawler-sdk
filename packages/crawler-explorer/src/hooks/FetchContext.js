@@ -28,6 +28,7 @@ const FetchProvider = ({ children }) => {
 				newState.url = url
 				newState.args = args
 				newState.params = params
+				newState.results = {}
 				break
 			case FetchActions.FETCH_RESULTS:
 				newState.results = action.payload
