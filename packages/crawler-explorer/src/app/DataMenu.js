@@ -1,16 +1,11 @@
-import React, { useMemo, useContext } from 'react'
-import { Grid } from 'semantic-ui-react'
-import { FetchContext, useFetchState } from '@/hooks/FetchContext'
+import React, { useMemo } from 'react'
 import {
 	Views,
 	Chambers,
 } from '@avante/crawler-data'
+import { ResultsDispatcher } from '@/components/Dispatchers'
 
-const Row = Grid.Row;
-const Col = Grid.Column;
-
-export default function DrawerCached() {
-	const { dispatchResults } = useContext(FetchContext)
+export default function DataMenu() {
 
 	const views = useMemo(() => {
 		let result = []
@@ -19,9 +14,10 @@ export default function DrawerCached() {
 			const count = Object.keys(vs[viewName]).length
 			result.push(
 				<div key={viewName} >
-					<span className='Anchor' onClick={() => dispatchResults(Views.getView(viewName))}>
+					<ResultsDispatcher data={Views.getView(viewName)} br={false}>
 						{viewName}
-					</span> ({count})
+					</ResultsDispatcher>
+					({count})
 				</div>
 			)
 		}
@@ -39,24 +35,20 @@ export default function DrawerCached() {
 	const chamberData = useMemo(() => Chambers.getChamberData(tokenCoords.coord), [])
 	const chambersData = useMemo(() => Chambers.getChambersData(edgesCoord), [])
 
-	const _method = (label, data) => {
-		return <span className='Anchor' onClick={() => dispatchResults(data)}>{label}<br /></span>
-	}
-
 	return (
 		<div>
 
 			Chambers
 			<p>
-				{_method('getChamberCount()', chamberCount)}
-				{_method('getStaticChamberCount()', staticCount)}
-				{_method('getEdgeChamberCount()', edgeCount)}
-				{_method('getEdgeChambersId()', edgesId)}
-				{_method('getEdgeChambersCoord()', edgesCoord)}
-				{_method('getTokenCoords(1)', tokenCoords)}
-				{_method('getTokensCoords(edges)', tokensCoords)}
-				{_method('getChamberData(1)', chamberData)}
-				{_method('getChambersData(edges)', chambersData)}
+				<ResultsDispatcher data={chamberCount}>getChamberCount()</ResultsDispatcher>
+				<ResultsDispatcher data={staticCount}>getStaticChamberCount()</ResultsDispatcher>
+				<ResultsDispatcher data={edgeCount}>getEdgeChamberCount()</ResultsDispatcher>
+				<ResultsDispatcher data={edgesId}>getEdgeChambersId()</ResultsDispatcher>
+				<ResultsDispatcher data={edgesCoord}>getEdgeChambersCoord()</ResultsDispatcher>
+				<ResultsDispatcher data={tokenCoords}>getTokenCoords(1)</ResultsDispatcher>
+				<ResultsDispatcher data={tokensCoords}>getTokensCoords(edges)</ResultsDispatcher>
+				<ResultsDispatcher data={chamberData}>getChamberData(1)</ResultsDispatcher>
+				<ResultsDispatcher data={chambersData}>getChambersData(edges)</ResultsDispatcher>
 			</p>
 
 			Views

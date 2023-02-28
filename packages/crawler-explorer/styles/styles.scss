@@ -448,6 +448,10 @@ $ui-button-inborder-disabled: inset 0.05em 0.05em rgba($ec-shadow, 0.8), inset -
 //------------------------
 // Cacher
 //
+.Page {
+	position: relative !important;
+}
+
 .Logo {
 	width: 60px;
 	height: 60px;
