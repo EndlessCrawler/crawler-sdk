@@ -50,7 +50,7 @@ export enum Dir {
 //
 
 /** @type ethereum address */
-export type Address = string
+export type Address = `0x${string}`
 
 /** @type big number as decimal string */
 export type BNString = string
