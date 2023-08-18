@@ -20,6 +20,8 @@
 		},
 		"search.exclude": {
 			"**/package-lock.json": true,
+			"**/artifacts/**/*.json": true,
+			"**/contracts/**/*.json": true,
 		},
 	}
 }

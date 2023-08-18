@@ -13,13 +13,13 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
-		"@avante/crawler-api": "*",
-		"@avante/crawler-data": "*",
-		"next": "^13.1.6",
+		"@avante/crawler-api": "^0.0.1",
+		"@avante/crawler-data": "^0.0.1",
+		"next": "^13.4.18",
 		"react": "^18.2.0",
 		"react-cookie": "^4.1.1",
 		"react-json-prettify": "^0.2.0",
-		"sass": "^1.58.3",
+		"sass": "^1.66.0",
 		"semantic-ui-css": "^2.5.0",
 		"semantic-ui-react": "^2.1.4"
 	},

@@ -10,7 +10,7 @@
 	"scripts": {},
 	"dependencies": {
 		"@avante/crawler-data": "^0.0.1",
-		"@wagmi/core": "^0.9.6",
+		"@wagmi/core": "^0.9.7",
 		"bn.js": "^5.2.1",
 		"ethers": "^5.7.2"
 	},

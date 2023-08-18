@@ -1,11 +1,9 @@
 {
-	"extends": "../../tsconfig.json",
-	"compileOnSave": true,
+	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
 		"rootDir": "src",
-		"outDir": "dist",
-		"allowJs": true
-},
+		"outDir": "dist"
+	},
 	"include": [
 		"src/**/*.ts",
 		"src/**/*.json"
