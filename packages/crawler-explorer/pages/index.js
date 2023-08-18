@@ -1,6 +1,6 @@
 import React from 'react'
 import { Divider } from 'semantic-ui-react'
-import { UrlDispatcher, ResultsDispatcher } from '@/components/Dispatchers'
+import { UrlDispatcher, DataDispatcher, ActionDispatcher } from '@/components/Dispatchers'
 import Page from '@/components/Page'
 import Layout from '@/components/Layout'
 
@@ -24,14 +24,21 @@ export default function Home() {
 
 				<Divider hidden />
 
+				action
+				<div>
+					<ActionDispatcher onAction={() => Date.now()}>Date.now()</ActionDispatcher>
+				</div>
+
+				<Divider hidden />
+
 				data
 				<div>
-					<ResultsDispatcher data={123456}>int</ResultsDispatcher>
-					<ResultsDispatcher data={123.456}>float</ResultsDispatcher>
-					<ResultsDispatcher data={12345678901234567890n}>BigInt</ResultsDispatcher>
-					<ResultsDispatcher data={'Hello World!'}>string</ResultsDispatcher>
-					<ResultsDispatcher data={_object}>object</ResultsDispatcher>
-					<ResultsDispatcher data={_object.names}>array</ResultsDispatcher>
+					<DataDispatcher data={123456}>int</DataDispatcher>
+					<DataDispatcher data={123.456}>float</DataDispatcher>
+					<DataDispatcher data={12345678901234567890n}>BigInt</DataDispatcher>
+					<DataDispatcher data={'Hello World!'}>string</DataDispatcher>
+					<DataDispatcher data={_object}>object</DataDispatcher>
+					<DataDispatcher data={_object.names}>array</DataDispatcher>
 				</div>
 
 				<Divider hidden />

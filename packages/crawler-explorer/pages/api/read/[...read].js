@@ -1,6 +1,6 @@
 import {
 	getContract,
-	wagmiReadContract,
+	readContract,
 } from '@avante/crawler-api'
 
 export default async function handler(request, response) {
@@ -20,7 +20,7 @@ export default async function handler(request, response) {
 	const [functionName] = read
 	const args = read.slice(1)
 
-	const { data, error } = await wagmiReadContract(contract, functionName, args)
+	const { data, error } = await readContract(contract, functionName, args)
 	// console.log(`read result:`, data, error)
 
 	if (error) {

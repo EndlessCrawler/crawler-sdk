@@ -1,13 +1,13 @@
 import React from 'react'
 import Page from '@/components/Page'
 import Layout from '@/components/Layout'
-import ViewsMenu from '@/app/ApisMenu'
+import ApisMenu from '@/app/ApisMenu'
 
-export default function Home() {
+export default function ApisPage() {
 	return (
 		<Page>
 			<Layout>
-				<ViewsMenu />
+				<ApisMenu />
 			</Layout>
 		</Page>
 	);

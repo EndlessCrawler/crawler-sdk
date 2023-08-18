@@ -1,5 +1,5 @@
 import { getContract } from './contract'
-import { wagmiReadContract } from './wagmi'
+import { readContract } from './wagmi'
 import { Compass, Types as T } from '@avante/crawler-data'
 const { ethers } = require('ethers')
 const BN = require('bn.js');
@@ -78,7 +78,7 @@ export const getView = async (viewName, key, args, options) => {
 		}
 	}
 
-	const { data, error } = await wagmiReadContract(contract, functionName, args)
+	const { data, error } = await readContract(contract, functionName, args)
 
 	if (error) {
 		return { error }

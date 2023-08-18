@@ -5,7 +5,7 @@ import { useFetch } from '@/hooks/useFetch'
 import JSONPretty from 'react-json-prettify'
 
 export default function Results() {
-	const { url, args, params, results } = useFetchState()
+	const { name, url, args, params, results } = useFetchState()
 	const { data, error, isFetching } = useFetch(url, args, params)
 	const { dispatchResults } = useFetchContext()
 
@@ -32,7 +32,8 @@ export default function Results() {
 		<div>
 			<div className='Url'>
 				<LinkIcon url={url} />
-				{url}
+				{' '}
+				{url ?? name}
 			</div>
 
 			<div className='Url'>

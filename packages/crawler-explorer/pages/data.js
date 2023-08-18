@@ -3,7 +3,7 @@ import Page from '@/components/Page'
 import Layout from '@/components/Layout'
 import DataMenu from '@/app/DataMenu'
 
-export default function Home() {
+export default function DataPage() {
 	return (
 		<Page>
 			<Layout>

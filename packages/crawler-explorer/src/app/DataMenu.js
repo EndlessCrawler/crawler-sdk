@@ -4,7 +4,7 @@ import {
 	Views,
 	Chambers,
 } from '@avante/crawler-data'
-import { ResultsDispatcher } from '@/components/Dispatchers'
+import { DataDispatcher, ActionDispatcher } from '@/components/Dispatchers'
 
 export default function DataMenu() {
 
@@ -15,9 +15,9 @@ export default function DataMenu() {
 			const count = Object.keys(vs[viewName]).length
 			result.push(
 				<div key={viewName} >
-					<ResultsDispatcher data={Views.getView(viewName)} br={false}>
+					<DataDispatcher data={Views.getView(viewName)} br={false}>
 						{viewName}
-					</ResultsDispatcher>
+					</DataDispatcher>
 					{` `}[{count}]
 				</div>
 			)
@@ -26,38 +26,31 @@ export default function DataMenu() {
 	})
 
 	// Chambers
-	const chamberCount = useMemo(() => Chambers.getChamberCount(), [])
-	const staticCount = useMemo(() => Chambers.getStaticChamberCount(), [])
-	const edgeCount = useMemo(() => Chambers.getEdgeChamberCount(), [])
 	const edgesIds = useMemo(() => Chambers.getEdgeChambersId(), [])
 	const edgesCoord = useMemo(() => Chambers.getEdgeChambersCoord(), [])
 	const tokenCoords = useMemo(() => Chambers.getTokenCoords(1), [])
-	const tokensCoords = useMemo(() => Chambers.getTokensCoords(edgesIds), [])
-	const chamberData = useMemo(() => Chambers.getChamberData(tokenCoords.coord), [])
-	const chambersData = useMemo(() => Chambers.getChambersData(edgesCoord), [])
-	const viewNames = useMemo(() => Views.getViewNames(), [])
 
 	return (
 		<div>
 
 			Chambers
 			<div>
-				<ResultsDispatcher data={chamberCount}>getChamberCount()</ResultsDispatcher>
-				<ResultsDispatcher data={staticCount}>getStaticChamberCount()</ResultsDispatcher>
-				<ResultsDispatcher data={edgeCount}>getEdgeChamberCount()</ResultsDispatcher>
-				<ResultsDispatcher data={edgesIds}>getEdgeChambersId()</ResultsDispatcher>
-				<ResultsDispatcher data={edgesCoord}>getEdgeChambersCoord()</ResultsDispatcher>
-				<ResultsDispatcher data={tokenCoords}>getTokenCoords(1)</ResultsDispatcher>
-				<ResultsDispatcher data={tokensCoords}>getTokensCoords(edges)</ResultsDispatcher>
-				<ResultsDispatcher data={chamberData}>getChamberData(1)</ResultsDispatcher>
-				<ResultsDispatcher data={chambersData}>getChambersData(edges)</ResultsDispatcher>
+				<ActionDispatcher onAction={() => Chambers.getChamberCount()}>getChamberCount()</ActionDispatcher>
+				<ActionDispatcher onAction={() => Chambers.getStaticChamberCount()}>getStaticChamberCount()</ActionDispatcher>
+				<ActionDispatcher onAction={() => Chambers.getEdgeChamberCount()}>getEdgeChamberCount()</ActionDispatcher>
+				<ActionDispatcher onAction={() => Chambers.getEdgeChambersId()}>getEdgeChambersId()</ActionDispatcher>
+				<ActionDispatcher onAction={() => Chambers.getEdgeChambersCoord()}>getEdgeChambersCoord()</ActionDispatcher>
+				<ActionDispatcher onAction={() => Chambers.getTokenCoords(1)}>getTokenCoords(1)</ActionDispatcher>
+				<ActionDispatcher onAction={() => Chambers.getTokensCoords(edgesIds)}>getTokensCoords(edges)</ActionDispatcher>
+				<ActionDispatcher onAction={() => Chambers.getChamberData(tokenCoords.coord)}>getChamberData({tokenCoords.coord})</ActionDispatcher>
+				<ActionDispatcher onAction={() => Chambers.getChambersData(edgesCoord)}>getChambersData(edges)</ActionDispatcher>
 			</div>
 
 			<Divider hidden />
 
 			Views
 			<div>
-				<ResultsDispatcher data={viewNames}>getViewNames()</ResultsDispatcher>
+				<ActionDispatcher onAction={() => Views.getViewNames()}>getViewNames()</ActionDispatcher>
 				{views}
 			</div>
 

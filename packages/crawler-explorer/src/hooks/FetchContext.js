@@ -4,6 +4,7 @@ import React, { createContext, useReducer, useContext } from 'react'
 // Context
 //
 export const initialState = {
+	name: null,
 	url: null,
 	args: [],
 	params: {},
@@ -26,6 +27,7 @@ const FetchProvider = ({ children }) => {
 		switch (action.type) {
 			case FetchActions.FETCH_URL:
 				const { url, args, params } = action.payload
+				newState.name = null
 				newState.url = url
 				newState.args = args ?? []
 				newState.params = params ?? {}
@@ -35,10 +37,12 @@ const FetchProvider = ({ children }) => {
 				newState.results = action.payload
 				break
 			case FetchActions.FETCH_DATA:
+				const { data, name } = action.payload
+				newState.name = name
 				newState.url = null
 				newState.args = []
 				newState.params = {}
-				newState.results = action.payload
+				newState.results = data
 				break
 			default:
 				console.warn(`FetchProvider: Unknown action [${action.type}]`)
@@ -54,17 +58,17 @@ const FetchProvider = ({ children }) => {
 		})
 	}
 
-	const dispatchResults = (url) => {
+	const dispatchResults = (results) => {
 		dispatch({
 			type: FetchActions.FETCH_RESULTS,
-			payload: url,
+			payload: results,
 		})
 	}
 
-	const dispatchData = (data) => {
+	const dispatchData = (data, name) => {
 		dispatch({
 			type: FetchActions.FETCH_DATA,
-			payload: data,
+			payload: { data, name },
 		})
 	}
 
