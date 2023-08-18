@@ -18,23 +18,24 @@ export default function DataMenu() {
 					<ResultsDispatcher data={Views.getView(viewName)} br={false}>
 						{viewName}
 					</ResultsDispatcher>
-					({count})
+					{` `}[{count}]
 				</div>
 			)
 		}
-		return result;
+		return result
 	})
 
 	// Chambers
 	const chamberCount = useMemo(() => Chambers.getChamberCount(), [])
 	const staticCount = useMemo(() => Chambers.getStaticChamberCount(), [])
 	const edgeCount = useMemo(() => Chambers.getEdgeChamberCount(), [])
-	const edgesId = useMemo(() => Chambers.getEdgeChambersId(), [])
+	const edgesIds = useMemo(() => Chambers.getEdgeChambersId(), [])
 	const edgesCoord = useMemo(() => Chambers.getEdgeChambersCoord(), [])
 	const tokenCoords = useMemo(() => Chambers.getTokenCoords(1), [])
-	const tokensCoords = useMemo(() => Chambers.getTokensCoords(edgesId), [])
+	const tokensCoords = useMemo(() => Chambers.getTokensCoords(edgesIds), [])
 	const chamberData = useMemo(() => Chambers.getChamberData(tokenCoords.coord), [])
 	const chambersData = useMemo(() => Chambers.getChambersData(edgesCoord), [])
+	const viewNames = useMemo(() => Views.getViewNames(), [])
 
 	return (
 		<div>
@@ -44,7 +45,7 @@ export default function DataMenu() {
 				<ResultsDispatcher data={chamberCount}>getChamberCount()</ResultsDispatcher>
 				<ResultsDispatcher data={staticCount}>getStaticChamberCount()</ResultsDispatcher>
 				<ResultsDispatcher data={edgeCount}>getEdgeChamberCount()</ResultsDispatcher>
-				<ResultsDispatcher data={edgesId}>getEdgeChambersId()</ResultsDispatcher>
+				<ResultsDispatcher data={edgesIds}>getEdgeChambersId()</ResultsDispatcher>
 				<ResultsDispatcher data={edgesCoord}>getEdgeChambersCoord()</ResultsDispatcher>
 				<ResultsDispatcher data={tokenCoords}>getTokenCoords(1)</ResultsDispatcher>
 				<ResultsDispatcher data={tokensCoords}>getTokensCoords(edges)</ResultsDispatcher>
@@ -56,9 +57,10 @@ export default function DataMenu() {
 
 			Views
 			<div>
+				<ResultsDispatcher data={viewNames}>getViewNames()</ResultsDispatcher>
 				{views}
 			</div>
 
 		</div>
-	);
+	)
 }

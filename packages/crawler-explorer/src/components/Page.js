@@ -7,5 +7,5 @@ export default function Page({
 		<div className='Page'>
 			{children}
 		</div>
-	);
+	)
 }

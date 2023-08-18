@@ -6,15 +6,15 @@ export function CopyIcon({
 	content = null, // content to copy
 }) {
 	function _copy() {
-		navigator?.clipboard?.writeText(content);
+		navigator?.clipboard?.writeText(content)
 	}
 	return (
 		<Icon className='Anchor InfoIcon IconClick' name='copy' size={size} onClick={() => _copy()} />
-	);
+	)
 }
 
 export function LoadingIcon({
-	size=null,
+	size = null,
 }) {
 	return (
 		<Icon
@@ -22,20 +22,18 @@ export function LoadingIcon({
 			loading
 			name='spinner'
 			size={size}
-		/>);
+		/>)
 }
 
 export function LinkIcon({
 	size = null,
-	url='/',
+	url = null,
 }) {
+	const _icon = <Icon className='InfoIcon' name='hashtag' size={size} />
+	if (!url) return _icon
 	return (
 		<a href={url} target='_blank'>
-			<Icon
-				className='InfoIcon'
-				name='hashtag'
-				size={size}
-			/>
+			{_icon}
 		</a>
-	);
+	)
 }
