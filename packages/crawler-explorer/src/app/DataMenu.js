@@ -23,7 +23,7 @@ export default function DataMenu() {
 			)
 		}
 		return result
-	})
+	}, [])
 
 	// Chambers
 	const edgesIds = useMemo(() => Chambers.getEdgeChambersId(), [])

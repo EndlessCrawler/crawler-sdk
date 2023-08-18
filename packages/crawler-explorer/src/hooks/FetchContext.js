@@ -52,6 +52,7 @@ const FetchProvider = ({ children }) => {
 	}, initialState)
 
 	const dispatchUrl = (url, args = [], params = {}) => {
+		//@ts-ignore
 		dispatch({
 			type: FetchActions.FETCH_URL,
 			payload: { url, args, params },
@@ -59,6 +60,7 @@ const FetchProvider = ({ children }) => {
 	}
 
 	const dispatchResults = (results) => {
+		//@ts-ignore
 		dispatch({
 			type: FetchActions.FETCH_RESULTS,
 			payload: results,
@@ -66,6 +68,7 @@ const FetchProvider = ({ children }) => {
 	}
 
 	const dispatchData = (data, name) => {
+		//@ts-ignore
 		dispatch({
 			type: FetchActions.FETCH_DATA,
 			payload: { data, name },
@@ -73,6 +76,7 @@ const FetchProvider = ({ children }) => {
 	}
 
 	return (
+		//@ts-ignore
 		<FetchContext.Provider value={{ state, dispatch, dispatchUrl, dispatchResults, dispatchData }}>
 			{children}
 		</FetchContext.Provider>
