@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
-import { FetchContext } from '@/hooks/FetchContext'
+import React from 'react'
+import { useFetchContext } from '@/hooks/FetchContext'
 
 function UrlDispatcher({
 	url,
 	children,
 	br = true,
 }) {
-	const { dispatchUrl } = useContext(FetchContext)
+	const { dispatchUrl } = useFetchContext()
 	return (
 		<span className='Anchor' onClick={() => dispatchUrl(url)}>
 			{children}
@@ -20,9 +20,10 @@ function ResultsDispatcher({
 	children,
 	br = true,
 }) {
-	const { dispatchResults } = useContext(FetchContext)
+	const { dispatchData } = useFetchContext()
+
 	return (
-		<span className='Anchor' onClick={() => dispatchResults(data)}>
+		<span className='Anchor' onClick={() => dispatchData(data)}>
 			{children}
 			{br && <br />}
 		</span>

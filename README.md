@@ -4,7 +4,9 @@ Endless Crawler SDK
 
 ## Included Packages
 
-ALPHA. Use with caution, anything can change and break at any time!
+EARLY ALPHA. Use with caution, anything can change and break at any time.
+
+In development:
 
 * `@avante/crawler-data` : Game data and tools
 * `@avante/crawler-api` : Web3 API, contracts ABI
@@ -12,11 +14,20 @@ ALPHA. Use with caution, anything can change and break at any time!
 
 Planned:
 
-* `@avante/crawler-contracts` : Solidity contracts
 * `@avante/crawler-react` : React framework (off-chain, ready to use)
 * `@avante/crawler-web3` : React framework (on-chain, need web3 wallet)
+* `@avante/crawler-contracts` : Solidity contracts
+
+
 
 ## Which package should I get?
 
-table: vanilla/Typescript/React, on/off-chain, requires walet
+
+| Package                   |            |           |
+|---------------------------|------------|-----------|
+| @avante/crawler-data      | Typescript | off-chain |
+| @avante/crawler-api       | React      | off-chain |
+| @avante/crawler-web3      | Typescript | web3 / on-chain  |
+| @avante/crawler-react     | React      | web3 / on-chain  |
+| @avante/crawler-explorer  | Next.js    | web3 / on-chain  |
 

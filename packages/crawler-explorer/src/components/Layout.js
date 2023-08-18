@@ -34,7 +34,7 @@ export default function Home({
 				<div className='Padded'>
 					<Grid>
 						<Col width={4}><Link href='/'><img src='/door.png' className='Logo PixelArt' alt='' /></Link></Col>
-						<Col><h2>ENDLESS<br />CRAWLER</h2></Col>
+						<Col width={12}><h2>ENDLESS CRAWLER<br />EXPLORER</h2></Col>
 					</Grid>
 					<div>
 						{` · `}

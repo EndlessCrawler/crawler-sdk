@@ -14,6 +14,7 @@ const FetchContext = createContext(initialState)
 const FetchActions = {
 	FETCH_URL: 'FETCH_URL',
 	FETCH_RESULTS: 'FETCH_RESULTS',
+	FETCH_DATA: 'FETCH_DATA',
 }
 
 //--------------------------------
@@ -26,11 +27,17 @@ const FetchProvider = ({ children }) => {
 			case FetchActions.FETCH_URL:
 				const { url, args, params } = action.payload
 				newState.url = url
-				newState.args = args
-				newState.params = params
+				newState.args = args ?? []
+				newState.params = params ?? {}
 				newState.results = {}
 				break
 			case FetchActions.FETCH_RESULTS:
+				newState.results = action.payload
+				break
+			case FetchActions.FETCH_DATA:
+				newState.url = null
+				newState.args = []
+				newState.params = {}
 				newState.results = action.payload
 				break
 			default:
@@ -54,8 +61,15 @@ const FetchProvider = ({ children }) => {
 		})
 	}
 
+	const dispatchData = (data) => {
+		dispatch({
+			type: FetchActions.FETCH_DATA,
+			payload: data,
+		})
+	}
+
 	return (
-		<FetchContext.Provider value={{ state, dispatchUrl, dispatchResults, dispatch }}>
+		<FetchContext.Provider value={{ state, dispatch, dispatchUrl, dispatchResults, dispatchData }}>
 			{children}
 		</FetchContext.Provider>
 	)
@@ -67,6 +81,10 @@ export { FetchProvider, FetchContext, FetchActions }
 //--------------------------------
 // HOOKS
 //
+
+export const useFetchContext = () => {
+	return useContext(FetchContext)
+}
 
 export const useFetchState = () => {
 	const { state } = useContext(FetchContext)

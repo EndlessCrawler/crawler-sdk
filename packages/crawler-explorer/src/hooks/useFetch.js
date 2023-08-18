@@ -7,37 +7,39 @@ import {
 // Generic json Fetch
 //
 export const useFetch = (url, params = {}, options = {}) => {
-	const [data, setData] = useState(null);
-	const [error, setError] = useState(null);
-	const [isFetching, setIsFetching] = useState(false);
+	const [data, setData] = useState(null)
+	const [error, setError] = useState(null)
+	const [isFetching, setIsFetching] = useState(false)
 
 	useEffect(() => {
 		let _mounted = true
 		async function _fetch() {
-			const results = await fetchJson(url, options.method ?? 'GET', params, options);
+			const results = await fetchJson(url, options.method ?? 'GET', params, options)
 			if (!_mounted) return
 			if (results.error) {
-				console.error(`useFetch(${url}) error:`, results.error);
-				setError(results.error);
+				console.error(`useFetch(${url}) error:`, results.error)
+				setError(results.error)
 			} else {
 				// console.log(`Fetched:`, results)
-				setData(results);
+				setData(results)
 			}
-			setIsFetching(false);
+			setIsFetching(false)
 		}
+		setData(null)
+		setError(null)
 		if (url) {
-			setData(null);
-			setError(null);
-			setIsFetching(true);
-			_fetch();
+			setIsFetching(true)
+			_fetch()
+		} else {
+			setIsFetching(false)
 		}
 		return () => {
 			_mounted = false
 		}
-	}, [url, params]);
+	}, [url, params])
 
-	return { data, error, isFetching };
-};
+	return { data, error, isFetching }
+}
 
 
 //-------------------------------
@@ -45,21 +47,20 @@ export const useFetch = (url, params = {}, options = {}) => {
 // /api/route/params.../
 //
 export const useApi = (route, args = [], params = {}) => {
-	const [url, setUrl] = useState(null);
+	const [url, setUrl] = useState(null)
 
 	useEffect(() => {
 		if (!args.includes(null) && !args.includes(undefined)) {
-			let newUrl = route;
+			let newUrl = route
 			args.forEach((p) => {
-				newUrl += '/' + p;
-			});
-			setUrl(newUrl);
+				newUrl += '/' + p
+			})
+			setUrl(newUrl)
 		} else {
-			setUrl(null);
+			setUrl(null)
 		}
-	}, [route, args]);
+	}, [route, args])
 
-	return useFetch(url, params);
-};
-
+	return useFetch(url, params)
+}
 

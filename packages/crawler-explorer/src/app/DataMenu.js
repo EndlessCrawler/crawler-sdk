@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { Divider } from 'semantic-ui-react'
 import {
 	Views,
 	Chambers,
@@ -39,7 +40,7 @@ export default function DataMenu() {
 		<div>
 
 			Chambers
-			<p>
+			<div>
 				<ResultsDispatcher data={chamberCount}>getChamberCount()</ResultsDispatcher>
 				<ResultsDispatcher data={staticCount}>getStaticChamberCount()</ResultsDispatcher>
 				<ResultsDispatcher data={edgeCount}>getEdgeChamberCount()</ResultsDispatcher>
@@ -49,12 +50,15 @@ export default function DataMenu() {
 				<ResultsDispatcher data={tokensCoords}>getTokensCoords(edges)</ResultsDispatcher>
 				<ResultsDispatcher data={chamberData}>getChamberData(1)</ResultsDispatcher>
 				<ResultsDispatcher data={chambersData}>getChambersData(edges)</ResultsDispatcher>
-			</p>
+			</div>
+
+			<Divider hidden />
 
 			Views
-			<p>
+			<div>
 				{views}
-			</p>
+			</div>
+
 		</div>
 	);
 }

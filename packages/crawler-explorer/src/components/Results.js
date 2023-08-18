@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useEffect } from 'react'
 import { LinkIcon, LoadingIcon, CopyIcon } from '@/components/Icons'
-import { FetchContext, useFetchState } from '@/hooks/FetchContext'
-import { useApi } from '@/hooks/useFetch'
-import JSONPretty from 'react-json-prettify';
+import { useFetchContext, useFetchState } from '@/hooks/FetchContext'
+import { useFetch } from '@/hooks/useFetch'
+import JSONPretty from 'react-json-prettify'
 
 export default function Results() {
 	const { url, args, params, results } = useFetchState()
-	const { data, error, isFetching } = useApi(url, args, params);
-	const { dispatchResults } = useContext(FetchContext)
+	const { data, error, isFetching } = useFetch(url, args, params)
+	const { dispatchResults } = useFetchContext()
 
 	useEffect(() => {
 	}, [url, args, params])
@@ -20,11 +20,13 @@ export default function Results() {
 		} else if (error) {
 			dispatchResults(error)
 		}
-	}, [data, error, isFetching]);
+	}, [data, error, isFetching])
 
 	useEffect(() => {
 		dispatchResults(results)
 	}, [results])
+
+	const _jsonResults = typeof results == 'object' ? results  : [results]
 
 	return (
 		<div>
@@ -34,19 +36,18 @@ export default function Results() {
 			</div>
 
 			<div className='Url'>
-				{isFetching ?
-					<LoadingIcon />
+				{isFetching ? <LoadingIcon />
 					: <CopyIcon content={JSON.stringify(results)} />
 				}
 				{' '}
 				{isFetching ? 'Fetching...'
-					: typeof (results) == 'string' ? `data`
-						: Array.isArray(results) ? `Array size: ${results.length}`
-							: `Dict size: ${Object.keys(results).length}`
+					: Array.isArray(results) ? `Array size: ${results.length}`
+						: typeof results == 'object' ? `Dict size: ${Object.keys(results).length}`
+							: typeof results
 				}
 			</div>
 
-			<JSONPretty json={results} />
+			<JSONPretty json={_jsonResults} />
 		</div>
-	);
+	)
 }
