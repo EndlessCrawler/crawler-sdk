@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { LinkIcon, LoadingIcon, CopyIcon } from '@/components/Icons'
 import { useFetchContext, useFetchState } from '@/hooks/FetchContext'
 import { useFetch } from '@/hooks/useFetch'
-import JSONPretty from 'react-json-prettify'
+import MonacoEditor from '@/components/MonacoEditor'
 
 export default function Results() {
 	const { name, url, args, params, results } = useFetchState()
@@ -26,7 +26,8 @@ export default function Results() {
 		dispatchResults(results)
 	}, [results])
 
-	const _jsonResults = typeof results == 'object' ? results  : [results]
+	const _jsonResults = typeof results == 'object' ? results : [results]
+	// const _jsonResults = results
 
 	return (
 		<div>
@@ -48,7 +49,7 @@ export default function Results() {
 				}
 			</div>
 
-			<JSONPretty json={_jsonResults} />
+			<MonacoEditor content={_jsonResults} />
 		</div>
 	)
 }

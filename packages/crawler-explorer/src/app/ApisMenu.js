@@ -16,8 +16,8 @@ export default function ApisMenu() {
 			/view
 			<div>
 				<UrlDispatcher url='/api/view/tokenIdToCoord/1/1?chainId=1'>tokenIdToCoord(1)</UrlDispatcher>
-				<UrlDispatcher url='/api/view/chamberData/18446744073709551617/1/18446744073709551617/false?chainId=1'>chamberData</UrlDispatcher>
-				<UrlDispatcher url='/api/view/chamberData/18446744073709551617/1/18446744073709551617/true?chainId=1'>chamberData + maps</UrlDispatcher>
+				<UrlDispatcher url='/api/view/chamberData/18446744073709551617/1/18446744073709551617/false?chainId=1'>chamberData(1)</UrlDispatcher>
+				<UrlDispatcher url='/api/view/chamberData/18446744073709551617/1/18446744073709551617/true?chainId=1'>chamberData(1) + maps</UrlDispatcher>
 			</div>
 
 		</div>
