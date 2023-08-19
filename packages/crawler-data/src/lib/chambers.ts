@@ -5,7 +5,7 @@ import {
 	TokenIdToCoordsView,
 	ChamberData,
 	ChamberCoords,
-	BNString,
+	BigIntString,
 } from './types'
 import { getView } from './views'
 
@@ -83,7 +83,7 @@ export const getEdgeChamberCount = (chainId: ChainId = ChainId.Mainnet): number 
  ** @param chainId the network chain id (1 or 5)
  ** @returns total edge chambers count
  */
-export const getEdgeChambersCoord = (chainId: ChainId = ChainId.Mainnet): BNString[] => {
+export const getEdgeChambersCoord = (chainId: ChainId = ChainId.Mainnet): BigIntString[] => {
 	const chamberData: ChamberDataView = getView(ViewName.chamberData, chainId) as ChamberDataView
 	const tokenIdToCoord = getView(ViewName.tokenIdToCoord, chainId) as TokenIdToCoordsView
 	return Object.values(chamberData).reduce(function (result, value) {
@@ -91,7 +91,7 @@ export const getEdgeChambersCoord = (chainId: ChainId = ChainId.Mainnet): BNStri
 			result.push(tokenIdToCoord[value.tokenId].coord)
 		}
 		return result
-	}, [] as BNString[])
+	}, [] as BigIntString[])
 }
 	
 /**
@@ -109,21 +109,21 @@ export const getEdgeChambersId = (chainId: ChainId = ChainId.Mainnet): number[] 
 }
 
 /**
- ** @param coord chamber coordinate (BN)
+ ** @param coord chamber coordinate (bigint)
  ** @param chainId the network chain id (1 or 5)
  ** @returns ChamberData of the chamber
  */
-export const getChamberData = (coord: BNString, chainId: ChainId = ChainId.Mainnet): ChamberData | null => {
+export const getChamberData = (coord: BigIntString, chainId: ChainId = ChainId.Mainnet): ChamberData | null => {
 	const chamberData: ChamberDataView = getView(ViewName.chamberData, chainId) as ChamberDataView
 	return chamberData[coord] ?? null
 }
 
 /**
- ** @param coords chambers coordinates (BN)
+ ** @param coords chambers coordinates (bigint)
  ** @param chainId the network chain id (1 or 5)
  ** @returns ChamberData of multiple chambers
  */
-export const getChambersData = (coords: BNString[], chainId: ChainId = ChainId.Mainnet): ChamberDataView => {
+export const getChambersData = (coords: BigIntString[], chainId: ChainId = ChainId.Mainnet): ChamberDataView => {
 	const chamberData: ChamberDataView = getView(ViewName.chamberData, chainId) as ChamberDataView
 	return Object.entries(chamberData).reduce(function (result, [key, value]) {
 		if (coords.includes(key)) {

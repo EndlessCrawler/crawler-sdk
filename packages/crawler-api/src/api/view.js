@@ -1,23 +1,28 @@
 import { getContract } from './contract'
 import { readContract } from './wagmi'
-import { Compass, Types as T } from '@avante/crawler-data'
-const { ethers } = require('ethers')
-const BN = require('bn.js');
+import {
+	compassToSlug,
+	coordToCompass,
+	minifyCompas,
+	toHexString,
+	toByteArray,
+	ViewName,
+ } from '@avante/crawler-data'
 
 const views = {
-	[T.ViewName.tokenIdToCoord]: {
+	[ViewName.tokenIdToCoord]: {
 		contractName: 'CrawlerToken',
 		functionName: 'tokenIdToCoord',
 		transform: (coord) => {
-			const compass = Compass.fromBN(coord)
+			const compass = coordToCompass(coord)
 			return {
 				coord,
-				slug: Compass.toSlug(compass),
-				compass: Compass.minify(compass),
+				slug: compassToSlug(compass),
+				compass: minifyCompas(compass),
 			}
 		},
 	},
-	[T.ViewName.chamberData]: {
+	[ViewName.chamberData]: {
 		contractName: 'CrawlerToken',
 		functionName: 'coordToChamberData',
 		transform: (data) => {
@@ -26,11 +31,11 @@ const views = {
 				const locks = data.locks.map((v) => v != 0);
 				const locksCount = locks.reduce(function (n, val) { return n + (val ? 1 : 0); }, 0);
 				const chamberData = {
-					compass: Compass.fromBN(data.coord),
+					compass: coordToCompass(data.coord),
 					coord: data.coord,
-					seed: `0x${new BN(data.seed).toJSON()}`,
-					bitmap: data.bitmap != '0' ? `0x${new BN(data.bitmap).toJSON()}` : undefined,
-					tilemap: data.tilemap != '0x' ? Object.values(ethers.utils.arrayify(data.tilemap)) : undefined,
+					seed: toHexString(data.seed),
+					bitmap: data.bitmap != '0' ? toHexString(data.bitmap) : null,
+					tilemap: data.tilemap != '0x' ? toByteArray(data.tilemap) : null,
 					tokenId: parseInt(data.tokenId),
 					yonder: parseInt(data.yonder),
 					name: data.name ?? `Chamber #${data.tokenId}`,

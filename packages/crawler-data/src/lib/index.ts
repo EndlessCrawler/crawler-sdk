@@ -1,5 +1,4 @@
 export * from './types'
-export * from './crawl'
 
 export {
 	getContractAddressesForChainOrThrow,
@@ -26,3 +25,55 @@ export {
 	validateView,
 } from './views'
 
+export {
+	// Constants
+	Tile,
+	Terrain,
+	OppositeTerrain,
+	TerrainNames,
+	Gem,
+	GemNames,
+	Dir,
+	FlippedDir,
+	DirNames,
+	// Directions
+	flipDir,
+	getOppositeTerrain,
+	CompassDirMax,
+	CompassDirMaxNumber,
+	CompassMask,
+	CompassOne,
+	offsetCoord,
+	// Compass, slug, converters
+	validateCompass,
+	minifyCompas,
+	validateCoord,
+	validateSlug,
+	compassEquals,
+	coordToCompass,
+	compassToCoord,
+	slugSeparators,
+	defaultSlugSeparator,
+	SlugSeparator,
+	compassToSlug,
+	coordToSlug,
+	slugToCompass,
+	slugToCoord,
+	// Bitmap
+	uint4,
+	uint8,
+	BitmapPos,
+	bitmapPosToXY,
+	bitmapXYToPos,
+	flipDoorPositionXY,
+	flipDoorPosition,
+} from './crawl'
+
+export {
+	isString,
+	isNumber,
+	isBigInt,
+	resolveBigInt,
+	toHexString,
+	toByteArray,
+} from './utils'

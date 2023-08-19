@@ -7,7 +7,7 @@ import {
 import { publicProvider } from '@wagmi/core/providers/public'
 import { alchemyProvider } from '@wagmi/core/providers/alchemy'
 import { infuraProvider } from '@wagmi/core/providers/infura'
-const { ethers } = require('ethers')
+import { isBigInt } from '@avante/crawler-data'
 
 //---------------------
 // Client
@@ -62,7 +62,7 @@ export const readContract = async (contract, functionName, args = []) => {
 }
 
 const _parseData = (data, level = 0) => {
-	if (ethers.BigNumber.isBigNumber(data)) {
+	if (isBigInt(data)) {
 		return data.toString()
 	}
 	if (Array.isArray(data) && level > 0) {

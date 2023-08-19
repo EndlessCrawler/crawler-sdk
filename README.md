@@ -40,7 +40,7 @@ This is a **monorepo**, a single repository containing multiple packages.
 
 We use [Lerna](https://lerna.js.org/docs/introduction) to manage it.
 
-Execute a task on all packages...
+Execute a **task** (package scripts) on all packages...
 
 ```sh
 # on all packages
@@ -52,5 +52,17 @@ npx lerna run test,build,lint
 npx lerna run test --scope=crawler-data
 
 ```
+
+Execute a **command** on all packages...
+
+```sh
+# on all packages
+npx lerna exec npm install
+npx lerna exec npm update --save
+# on a single package
+npx lerna exec npm install --scope=crawler-data
+
+```
+
 
 

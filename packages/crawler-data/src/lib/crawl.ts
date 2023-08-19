@@ -1,6 +1,8 @@
 import {
 	Compass,
+	BigIntString,
 } from './types'
+import { resolveBigInt } from './utils'
 
 //------------------------------
 // Constants
@@ -148,20 +150,21 @@ export const CompassOne = {
 }
 
 export const offsetCoord = (coord: bigint, dir: Dir): bigint => {
+	const _coord = resolveBigInt(coord) // convert to BigInt if in string format
 	if (dir == Dir.North) {
-		if ((coord & CompassMask.South) > CompassOne.South) return coord - CompassOne.South // --South
-		if ((coord & CompassMask.North) != CompassMask.North) return (coord & CompassMask.InvSouth) + CompassOne.North // ++North
+		if ((_coord & CompassMask.South) > CompassOne.South) return _coord - CompassOne.South // --South
+		if ((_coord & CompassMask.North) != CompassMask.North) return (_coord & CompassMask.InvSouth) + CompassOne.North // ++North
 	} else if (dir == Dir.East) {
-		if ((coord & CompassMask.West) > CompassOne.West) return coord - CompassOne.West // --West
-		if ((coord & CompassMask.East) != CompassMask.East) return (coord & CompassMask.InvWest) + CompassOne.East // ++East
+		if ((_coord & CompassMask.West) > CompassOne.West) return _coord - CompassOne.West // --West
+		if ((_coord & CompassMask.East) != CompassMask.East) return (_coord & CompassMask.InvWest) + CompassOne.East // ++East
 	} else if (dir == Dir.West) {
-		if ((coord & CompassMask.East) > CompassOne.East) return coord - CompassOne.East // --East
-		if ((coord & CompassMask.West) != CompassMask.West) return (coord & CompassMask.InvEast) + CompassOne.West // ++West
+		if ((_coord & CompassMask.East) > CompassOne.East) return _coord - CompassOne.East // --East
+		if ((_coord & CompassMask.West) != CompassMask.West) return (_coord & CompassMask.InvEast) + CompassOne.West // ++West
 	} else if (dir == Dir.South) {
-		if ((coord & CompassMask.North) > CompassOne.North) return coord - CompassOne.North // --North
-		if ((coord & CompassMask.South) != CompassMask.South) return (coord & CompassMask.InvNorth) + CompassOne.South // ++South
+		if ((_coord & CompassMask.North) > CompassOne.North) return _coord - CompassOne.North // --North
+		if ((_coord & CompassMask.South) != CompassMask.South) return (_coord & CompassMask.InvNorth) + CompassOne.South // ++South
 	}
-	return coord
+	return _coord
 }
 
 
@@ -184,6 +187,15 @@ export const validateCompass = (compass: Compass | null): boolean => {
 	return true
 }
 
+export const minifyCompas = (compass: Compass): Compass => {
+	let result = { ...compass }
+	if (!result?.north) delete result.north
+	if (!result?.east) delete result.east
+	if (!result?.west) delete result.west
+	if (!result?.south) delete result.south
+	return result
+}
+
 export const validateCoord = (coord: bigint): boolean => {
 	return coordToCompass(coord) != null
 }
@@ -203,12 +215,13 @@ export const compassEquals = (a: Compass | null, b: Compass | null): boolean => 
 }
 
 export const coordToCompass = (coord: bigint): Compass | null => {
-	if (coord == 0n) return null
+	const _coord = resolveBigInt(coord) // convert to BigInt if in string format
+	if (_coord == 0n) return null
 	const result = {
-		north: Number((coord & CompassMask.North) >> 192n),
-		east: Number((coord & CompassMask.East) >> 128n),
-		west: Number((coord & CompassMask.West) >> 64n),
-		south: Number(coord & CompassMask.South),
+		north: Number((_coord & CompassMask.North) >> 192n),
+		east: Number((_coord & CompassMask.East) >> 128n),
+		west: Number((_coord & CompassMask.West) >> 64n),
+		south: Number(_coord & CompassMask.South),
 	} as Compass
 	return validateCompass(result) ? result : null
 }
@@ -216,10 +229,10 @@ export const coordToCompass = (coord: bigint): Compass | null => {
 export const compassToCoord = (compass: Compass | null): bigint => {
 	let result = 0n
 	if (compass) {
-		if (compass.north && compass.north > 0) result += BigInt(compass.north) << 192n
-		if (compass.east && compass.east > 0) result += BigInt(compass.east) << 128n
-		if (compass.west && compass.west > 0) result += BigInt(compass.west) << 64n
-		if (compass.south && compass.south > 0) result += BigInt(compass.south)
+		if (compass.north && compass.north > 0) result += resolveBigInt(compass.north) << 192n
+		if (compass.east && compass.east > 0) result += resolveBigInt(compass.east) << 128n
+		if (compass.west && compass.west > 0) result += resolveBigInt(compass.west) << 64n
+		if (compass.south && compass.south > 0) result += resolveBigInt(compass.south)
 	}
 	return result
 }
@@ -306,5 +319,3 @@ export const flipDoorPositionXY = (xy: BitmapXY): BitmapXY => {
 export const flipDoorPosition = (pos: BitmapPos): BitmapPos => {
 	return bitmapXYToPos(flipDoorPositionXY(bitmapPosToXY(pos)))
 }
-
-

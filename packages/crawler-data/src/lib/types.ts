@@ -26,11 +26,23 @@ export const ChainIdToNetworkName: Record<ChainId, NetworkName> = {
 
 
 //--------------------------------
-// Contracts
+// Misc
 //
 
-/** @type ethereum address  */
+/** @type hex string starting with 0x */
+// export type HexString = `0x${string}` // not good for view types when converting from json
+export type HexString = string
+
+/** @type BigInt as decimal string */
+export type BigIntString = string
+
+/** @type ethereum address (hex string) */
 export type Address = string
+
+
+//--------------------------------
+// Contracts
+//
 
 /** @type all contract addresses of a network */
 export interface ContractAddresses {
@@ -84,12 +96,9 @@ export type Compass = CompassNE | CompassNW | CompassSE | CompassSW
 // View content types
 //
 
-/** @type big number as decimal string */
-export type BNString = string
-
 /** @type all the coordinates of a chamber */
 export interface ChamberCoords {
-	coord: BNString
+	coord: BigIntString
 	slug: string
 	compass: Compass
 }
@@ -99,11 +108,11 @@ export interface ChamberData {
 	// static data
 	tokenId: number
 	chapter: number
-	seed: BNString
-	bitmap: BNString
+	seed: HexString
+	bitmap: HexString
 	name: string
 	compass: Compass
-	coord: BNString
+	coord: BigIntString
 	yonder: number
 	terrain: number
 	entryDir: number
@@ -134,10 +143,10 @@ export enum ViewName {
 export type View = Record<string | number, string | object>
 
 /** @type tokenIdToCoord View */
-export type TokenIdToCoordsView = Record<number, ChamberCoords>
+export type TokenIdToCoordsView = Record<BigIntString, ChamberCoords>
 
 /** @type chamberData View */
-export type ChamberDataView = Record<BNString, ChamberData>
+export type ChamberDataView = Record<BigIntString, ChamberData>
 
 /** @type All view types, by name */
 export interface AllViews {
