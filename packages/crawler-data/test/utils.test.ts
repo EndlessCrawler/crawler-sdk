@@ -1,8 +1,9 @@
 import 'jest-expect-message'
 import {
 	resolveBigInt,
-	toHexString,
-	toByteArray,
+	bigIntToHexString,
+	bigIntToByteArray,
+	bigIntToNumberArray,
 } from '../src/lib/utils'
 import {
 	CompassDirMax,
@@ -29,48 +30,50 @@ describe('* utils', () => {
 		expect(resolveBigInt('0xffffffffffffffff'), 'resolveBigInt(): bad input').toBe(CompassDirMax)
 	})
 
-	it('toHexString()', () => {
-		expect(toHexString(0), 'toHexString(): bad input').toBe('0x00')
-		expect(toHexString(0n), 'toHexString(): bad input').toBe('0x00')
-		expect(toHexString('0'), 'toHexString(): bad input').toBe('0x00')
-		expect(toHexString('0x0'), 'toHexString(): bad input').toBe('0x00')
-		expect(toHexString('0x00'), 'toHexString(): bad input').toBe('0x00')
-		expect(toHexString('0x000'), 'toHexString(): bad input').toBe('0x00')
-		expect(toHexString('0x0000'), 'toHexString(): bad input').toBe('0x00')
+	it('bigIntToHexString()', () => {
+		expect(bigIntToHexString(0), 'bigIntToHexString(): bad input').toBe('0x00')
+		expect(bigIntToHexString(0n), 'bigIntToHexString(): bad input').toBe('0x00')
+		expect(bigIntToHexString('0'), 'bigIntToHexString(): bad input').toBe('0x00')
+		expect(bigIntToHexString('0x0'), 'bigIntToHexString(): bad input').toBe('0x00')
+		expect(bigIntToHexString('0x00'), 'bigIntToHexString(): bad input').toBe('0x00')
+		expect(bigIntToHexString('0x000'), 'bigIntToHexString(): bad input').toBe('0x00')
+		expect(bigIntToHexString('0x0000'), 'bigIntToHexString(): bad input').toBe('0x00')
 
-		expect(toHexString(1), 'toHexString(): bad input').toBe('0x01')
-		expect(toHexString(1n), 'toHexString(): bad input').toBe('0x01')
-		expect(toHexString('1'), 'toHexString(): bad input').toBe('0x01')
-		expect(toHexString('0x1'), 'toHexString(): bad input').toBe('0x01')
-		expect(toHexString('0x01'), 'toHexString(): bad input').toBe('0x01')
-		expect(toHexString('0x001'), 'toHexString(): bad input').toBe('0x01')
-		expect(toHexString('0x0001'), 'toHexString(): bad input').toBe('0x01')
+		expect(bigIntToHexString(1), 'bigIntToHexString(): bad input').toBe('0x01')
+		expect(bigIntToHexString(1n), 'bigIntToHexString(): bad input').toBe('0x01')
+		expect(bigIntToHexString('1'), 'bigIntToHexString(): bad input').toBe('0x01')
+		expect(bigIntToHexString('0x1'), 'bigIntToHexString(): bad input').toBe('0x01')
+		expect(bigIntToHexString('0x01'), 'bigIntToHexString(): bad input').toBe('0x01')
+		expect(bigIntToHexString('0x001'), 'bigIntToHexString(): bad input').toBe('0x01')
+		expect(bigIntToHexString('0x0001'), 'bigIntToHexString(): bad input').toBe('0x01')
 
-		expect(toHexString(255n), 'toHexString(): bad input').toBe('0xff')
-		expect(toHexString(256n), 'toHexString(): bad input').toBe('0x0100')
-		expect(toHexString(CompassDirMax), 'toHexString(): bad input').toBe('0xffffffffffffffff')
+		expect(bigIntToHexString(255n), 'bigIntToHexString(): bad input').toBe('0xff')
+		expect(bigIntToHexString(256n), 'bigIntToHexString(): bad input').toBe('0x0100')
+		expect(bigIntToHexString(CompassDirMax), 'bigIntToHexString(): bad input').toBe('0xffffffffffffffff')
 	})
 
-	it('toByteArray()', () => {
-		expect(toByteArray(0), 'toByteArray(): bad input').toEqual(new Uint8Array([0]))
-		expect(toByteArray(0n), 'toByteArray(): bad input').toEqual(new Uint8Array([0]))
-		expect(toByteArray('0'), 'toByteArray(): bad input').toEqual(new Uint8Array([0]))
-		expect(toByteArray('0x0'), 'toByteArray(): bad input').toEqual(new Uint8Array([0]))
-		expect(toByteArray('0x00'), 'toByteArray(): bad input').toEqual(new Uint8Array([0]))
+	it('bigIntToByteArray()', () => {
+		expect(bigIntToByteArray(0), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([0]))
+		expect(bigIntToByteArray(0n), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([0]))
+		expect(bigIntToByteArray('0'), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([0]))
+		expect(bigIntToByteArray('0x0'), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([0]))
+		expect(bigIntToByteArray('0x00'), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([0]))
 
-		expect(toByteArray(1), 'toByteArray(): bad input').toEqual(new Uint8Array([1]))
-		expect(toByteArray(1n), 'toByteArray(): bad input').toEqual(new Uint8Array([1]))
-		expect(toByteArray('1'), 'toByteArray(): bad input').toEqual(new Uint8Array([1]))
-		expect(toByteArray('0x1'), 'toByteArray(): bad input').toEqual(new Uint8Array([1]))
-		expect(toByteArray('0x01'), 'toByteArray(): bad input').toEqual(new Uint8Array([1]))
-		expect(toByteArray('0x001'), 'toByteArray(): bad input').toEqual(new Uint8Array([1]))
-		expect(toByteArray('0x0001'), 'toByteArray(): bad input').toEqual(new Uint8Array([1]))
-		expect(toByteArray('0x010203'), 'toByteArray(): bad input').toEqual(new Uint8Array([1, 2, 3]))
-		expect(toByteArray('0x010201'), 'toByteArray(): bad input').toEqual(new Uint8Array([1, 2, 1]))
+		expect(bigIntToByteArray(1), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1]))
+		expect(bigIntToByteArray(1n), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1]))
+		expect(bigIntToByteArray('1'), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1]))
+		expect(bigIntToByteArray('0x1'), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1]))
+		expect(bigIntToByteArray('0x01'), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1]))
+		expect(bigIntToByteArray('0x001'), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1]))
+		expect(bigIntToByteArray('0x0001'), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1]))
+		expect(bigIntToByteArray('0x010203'), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1, 2, 3]))
+		expect(bigIntToByteArray('0x010201'), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1, 2, 1]))
+		expect(bigIntToNumberArray('0x010201'), 'bigIntToByteArray(): bad input').toEqual([1, 2, 1])
 
-		expect(toByteArray(255n), 'toByteArray(): bad input').toEqual(new Uint8Array([255]))
-		expect(toByteArray(256n), 'toByteArray(): bad input').toEqual(new Uint8Array([1, 0]))
-		expect(toByteArray(CompassDirMax), 'toByteArray(): bad input').toEqual(new Uint8Array([255, 255, 255, 255, 255, 255, 255, 255]))
+		expect(bigIntToByteArray(255n), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([255]))
+		expect(bigIntToByteArray(256n), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1, 0]))
+		expect(bigIntToByteArray(CompassDirMax), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([255, 255, 255, 255, 255, 255, 255, 255]))
+
 	})
 
 })

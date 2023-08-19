@@ -4,8 +4,8 @@ import {
 	compassToSlug,
 	coordToCompass,
 	minifyCompas,
-	toHexString,
-	toByteArray,
+	bigIntToHexString,
+	bigIntToNumberArray,
 	ViewName,
  } from '@avante/crawler-data'
 
@@ -33,9 +33,9 @@ const views = {
 				const chamberData = {
 					compass: coordToCompass(data.coord),
 					coord: data.coord,
-					seed: toHexString(data.seed),
-					bitmap: data.bitmap != '0' ? toHexString(data.bitmap) : null,
-					tilemap: data.tilemap != '0x' ? toByteArray(data.tilemap) : null,
+					seed: bigIntToHexString(data.seed),
+					bitmap: data.bitmap != '0' ? bigIntToHexString(data.bitmap) : undefined,
+					tilemap: data.tilemap != '0x' ? bigIntToNumberArray(data.tilemap) : undefined,
 					tokenId: parseInt(data.tokenId),
 					yonder: parseInt(data.yonder),
 					name: data.name ?? `Chamber #${data.tokenId}`,

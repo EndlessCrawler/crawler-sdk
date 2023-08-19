@@ -74,6 +74,7 @@ export {
 	isNumber,
 	isBigInt,
 	resolveBigInt,
-	toHexString,
-	toByteArray,
+	bigIntToHexString,
+	bigIntToByteArray,
+	bigIntToNumberArray,
 } from './utils'

@@ -1,9 +1,9 @@
 import {
-	createClient,
 	configureChains,
-	mainnet, goerli,
+	createConfig,
 	readContract as wagmiReadContract,
 } from '@wagmi/core'
+import { mainnet, goerli } from 'viem/chains'
 import { publicProvider } from '@wagmi/core/providers/public'
 import { alchemyProvider } from '@wagmi/core/providers/alchemy'
 import { infuraProvider } from '@wagmi/core/providers/infura'
@@ -13,7 +13,7 @@ import { isBigInt } from '@avante/crawler-data'
 // Client
 //
 
-const { chains, provider, webSocketProvider } = configureChains(
+const { chains, publicClient, webSocketPublicClient } = configureChains(
 	[mainnet, goerli],
 	[
 		alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }),
@@ -22,15 +22,11 @@ const { chains, provider, webSocketProvider } = configureChains(
 	],
 )
 
-const client = createClient({
+const config = createConfig({
 	autoConnect: true,
-	provider,
-	webSocketProvider,
+	publicClient,
+	webSocketPublicClient,
 })
-
-export const getClient = () => {
-	return client
-}
 
 //---------------------
 // Read Contract
