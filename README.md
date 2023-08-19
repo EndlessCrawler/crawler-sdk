@@ -58,7 +58,7 @@ Execute a **command** on all packages...
 ```sh
 # on all packages
 npx lerna exec npm install
-npx lerna exec npm update --save
+npx lerna exec "npm update --save"
 # on a single package
 npx lerna exec npm install --scope=crawler-data
 
