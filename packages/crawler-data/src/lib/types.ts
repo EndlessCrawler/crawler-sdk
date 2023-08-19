@@ -39,6 +39,8 @@ export type BigIntString = string
 /** @type ethereum address (hex string) */
 export type Address = string
 
+/** @type types that can contain a BigInt */
+export type AnyBigInt = number | bigint | BigIntString | HexString
 
 //--------------------------------
 // Contracts

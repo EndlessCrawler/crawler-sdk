@@ -1,4 +1,5 @@
 export * from './types'
+export * from './data'
 
 export {
 	getContractAddressesForChainOrThrow,
@@ -70,6 +71,8 @@ export {
 } from './crawl'
 
 export {
+	isBrowser,
+	isNode,
 	isString,
 	isNumber,
 	isBigInt,
