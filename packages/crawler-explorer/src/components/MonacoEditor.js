@@ -84,7 +84,7 @@ const MonacoEditor = ({
 		typeof content == 'object' ? stringify(content, {
 			indent: '\t',
 			maxNesting: 1,
-			maxLength: 1200,
+			maxLength: 1300,
 			margins: true,
 		}) //JSON.stringify(content, null, '\t')
 			: typeof content != 'string' ? content.toString()

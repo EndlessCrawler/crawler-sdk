@@ -143,22 +143,32 @@ export enum ViewName {
 	chamberData = 'chamberData',
 }
 
-/** @type generic definition of a View */
-export type View = Record<string | number, string | object>
+/** @type View info */
+export interface ViewChainInfo {
+	chainId: ChainId
+	contractAddress: Address
+	timestamp: number
+}
+
+/** @type base View structure */
+export interface View<ViewDataType> {
+	chain: ViewChainInfo
+	data: ViewDataType
+}
 
 /** @type tokenIdToCoord View */
-export type TokenIdToCoordsView = Record<BigIntString, ChamberCoords>
+export type TokenIdToCoordsViewData = Record<BigIntString, ChamberCoords>
 
 /** @type chamberData View */
-export type ChamberDataView = Record<BigIntString, ChamberData>
+export type ChamberDataViewData = Record<BigIntString, ChamberData>
 
 /** @type All view types, by name */
 export interface AllViews {
-	[ViewName.tokenIdToCoord]: TokenIdToCoordsView
-	[ViewName.chamberData]: ChamberDataView
+	[ViewName.tokenIdToCoord]: View<TokenIdToCoordsViewData>
+	[ViewName.chamberData]: View<ChamberDataViewData>
 }
 
-/** @type The actual data from a chain */
+/** @type used by clients for importing a chain using importChainData() */
 export interface ChainData {
 	chainId: ChainId
 	data: AllViews

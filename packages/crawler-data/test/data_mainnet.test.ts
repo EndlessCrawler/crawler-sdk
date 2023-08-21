@@ -21,19 +21,17 @@ describe('* data_mainnet', () => {
 
 	it('getChainData()', () => {
 		const data1 = getChainData()
-		expect(data1).not.toBe(null)
+		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 
 		const data2 = getChainData({ chainId: ChainId.Mainnet })
-		expect(data2).not.toBe(null)
-
-		expect(data1).toEqual(data2)
+		expect(data2.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 
 		expect(() => getChainData({ chainId: ChainId.Goerli })).toThrow('InvalidCrawlerChainError')
 
 		importChainData([goerliData])
 
 		const data3 = getChainData({ chainId: ChainId.Goerli })
-		expect(data1).not.toEqual(data3)
+		expect(data3.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Goerli)
 	})
 
 })

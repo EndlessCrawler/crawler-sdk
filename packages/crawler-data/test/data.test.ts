@@ -24,47 +24,32 @@ describe('* data_mainnet', () => {
 
 		importChainData([mainnetData, goerliData])
 
+		// defaults to the first chain
 		const data1 = getChainData()
-		expect(data1).not.toBe(null)
-
-		const data2 = getChainData({ chainId: ChainId.Mainnet })
-		expect(data2).not.toBe(null)
-
-		expect(data1).toEqual(data2)
+		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 	})
 
 	it('getChainData()', () => {
 		const data1 = getChainData({ chainId: ChainId.Mainnet })
-		expect(data1).not.toBe(null)
+		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 
 		const data2 = getChainData({ chainId: ChainId.Goerli })
-		expect(data2).not.toBe(null)
-
-		expect(data1).not.toEqual(data2)
+		expect(data2.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Goerli)
 	})
 
 	it('setChainData()', () => {
 		const data1 = getChainData({ chainId: ChainId.Mainnet })
-		expect(data1).not.toBe(null)
+		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 
 		// new current
 		setChainData({ chainId: ChainId.Goerli })
-		// get current
 		const data2 = getChainData()
-		expect(data2).not.toBe(null)
-
-		// should be different
-		expect(data2).not.toEqual(data1)
+		expect(data2.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Goerli)
 
 		// new current
 		setChainData({ chainId: ChainId.Mainnet })
-		// get current
 		const data3 = getChainData()
-		expect(data3).not.toBe(null)
-
-		// compare the three
-		expect(data3).toEqual(data1)
-		expect(data3).not.toEqual(data2)
+		expect(data3.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 	})
 
 })

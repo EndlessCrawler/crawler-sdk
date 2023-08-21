@@ -1,8 +1,9 @@
 import {
 	Options,
 	ViewName,
-	ChamberDataView,
-	TokenIdToCoordsView,
+	View,
+	ChamberDataViewData,
+	TokenIdToCoordsViewData,
 	ChamberData,
 	ChamberCoords,
 	BigIntString,
@@ -19,8 +20,8 @@ import { getView } from './views'
  ** @returns total minted chambers count
  */
 export const getChamberCount = (options: Options = {}): number => {
-	const tokenIdToCoord = getView(ViewName.tokenIdToCoord, options)
-	return Object.keys(tokenIdToCoord).length
+	const tokenIdToCoordView = getView(ViewName.tokenIdToCoord, options)
+	return Object.keys(tokenIdToCoordView.data).length
 }
 
 /**
@@ -29,8 +30,8 @@ export const getChamberCount = (options: Options = {}): number => {
  ** @returns the coordinates of the chamber
  */
 export const getTokenCoords = (tokenId: number, options: Options = {}): ChamberCoords | null => {
-	const tokenIdToCoord = getView(ViewName.tokenIdToCoord, options) as TokenIdToCoordsView
-	return tokenIdToCoord[tokenId] ?? null
+	const tokenIdToCoordView = getView(ViewName.tokenIdToCoord, options) as View<TokenIdToCoordsViewData>
+	return tokenIdToCoordView.data[tokenId] ?? null
 }
 
 /**
@@ -38,15 +39,15 @@ export const getTokenCoords = (tokenId: number, options: Options = {}): ChamberC
  ** @param chainId the network chain id (1 or 5)
  ** @returns the coordinates of multiple chambers
  */
-export const getTokensCoords = (tokenIds: number[], options: Options = {}): TokenIdToCoordsView => {
-	const tokenIdToCoord = getView(ViewName.tokenIdToCoord, options) as TokenIdToCoordsView
-	return Object.entries(tokenIdToCoord).reduce(function (result, [key, value]) {
+export const getTokensCoords = (tokenIds: number[], options: Options = {}): TokenIdToCoordsViewData => {
+	const tokenIdToCoordView = getView(ViewName.tokenIdToCoord, options) as View<TokenIdToCoordsViewData>
+	return Object.entries(tokenIdToCoordView.data).reduce(function (result, [key, value]) {
 		const tokenId = parseInt(key)
 		if (tokenIds.includes(tokenId)) {
 			result[tokenId] = value
 		}
 		return result
-	}, {} as TokenIdToCoordsView)
+	}, {} as TokenIdToCoordsViewData)
 }
 
 
@@ -62,8 +63,8 @@ export const getTokensCoords = (tokenIds: number[], options: Options = {}): Toke
  ** @returns total static chambers count
  */
 export const getStaticChamberCount = (options: Options = {}): number => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, options) as ChamberDataView
-	return Object.values(chamberData).reduce(function (count, value) {
+	const chamberDataView = getView(ViewName.chamberData, options) as View<ChamberDataViewData>
+	return Object.values(chamberDataView.data).reduce(function (count, value) {
 		return count + (value.isStatic ? 1 : 0)
 	}, 0)
 }
@@ -73,8 +74,8 @@ export const getStaticChamberCount = (options: Options = {}): number => {
  ** @returns total edge chambers count
  */
 export const getEdgeChamberCount = (options: Options = {}): number => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, options) as ChamberDataView
-	return Object.values(chamberData).reduce(function (result, value) {
+	const chamberDataView = getView(ViewName.chamberData, options) as View<ChamberDataViewData>
+	return Object.values(chamberDataView.data).reduce(function (result, value) {
 		return result + (value.isStatic ? 0 : 1)
 	}, 0)
 }
@@ -84,11 +85,11 @@ export const getEdgeChamberCount = (options: Options = {}): number => {
  ** @returns total edge chambers count
  */
 export const getEdgeChambersCoord = (options: Options = {}): BigIntString[] => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, options) as ChamberDataView
-	const tokenIdToCoord = getView(ViewName.tokenIdToCoord, options) as TokenIdToCoordsView
-	return Object.values(chamberData).reduce(function (result, value) {
+	const chamberDataView = getView(ViewName.chamberData, options) as View<ChamberDataViewData>
+	const tokenIdToCoordView = getView(ViewName.tokenIdToCoord, options) as View<TokenIdToCoordsViewData>
+	return Object.values(chamberDataView.data).reduce(function (result, value) {
 		if (!value.isStatic) {
-			result.push(tokenIdToCoord[value.tokenId].coord)
+			result.push(tokenIdToCoordView.data[value.tokenId].coord)
 		}
 		return result
 	}, [] as BigIntString[])
@@ -99,8 +100,8 @@ export const getEdgeChambersCoord = (options: Options = {}): BigIntString[] => {
  ** @returns total edge chambers count
  */
 export const getEdgeChambersId = (options: Options = {}): number[] => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, options) as ChamberDataView
-	return Object.values(chamberData).reduce(function (result, value) {
+	const chamberDataView = getView(ViewName.chamberData, options) as View<ChamberDataViewData>
+	return Object.values(chamberDataView.data).reduce(function (result, value) {
 		if (!value.isStatic) {
 			result.push(value.tokenId)
 		}
@@ -114,8 +115,8 @@ export const getEdgeChambersId = (options: Options = {}): number[] => {
  ** @returns ChamberData of the chamber
  */
 export const getChamberData = (coord: BigIntString, options: Options = {}): ChamberData | null => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, options) as ChamberDataView
-	return chamberData[coord] ?? null
+	const chamberDataView = getView(ViewName.chamberData, options) as View<ChamberDataViewData>
+	return chamberDataView.data[coord] ?? null
 }
 
 /**
@@ -123,12 +124,12 @@ export const getChamberData = (coord: BigIntString, options: Options = {}): Cham
  ** @param chainId the network chain id (1 or 5)
  ** @returns ChamberData of multiple chambers
  */
-export const getChambersData = (coords: BigIntString[], options: Options = {}): ChamberDataView => {
-	const chamberData: ChamberDataView = getView(ViewName.chamberData, options) as ChamberDataView
-	return Object.entries(chamberData).reduce(function (result, [key, value]) {
+export const getChambersData = (coords: BigIntString[], options: Options = {}): ChamberDataViewData => {
+	const chamberDataView = getView(ViewName.chamberData, options) as View<ChamberDataViewData>
+	return Object.entries(chamberDataView.data).reduce(function (result, [key, value]) {
 		if (coords.includes(key)) {
 			result[key] = value
 		}
 		return result
-	}, {} as ChamberDataView)
+	}, {} as ChamberDataViewData)
 }

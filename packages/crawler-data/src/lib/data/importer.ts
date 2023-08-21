@@ -39,7 +39,7 @@ export const initializeChainData = (force: boolean = false) => {
 }
 
 /** used internally to load imported chain data into global scope
- * @param options.chainId The chainId to import
+ * @param options.chainId array of ChainData to import. The first chain will be set as the current, if none set yet
  */
 export const importChainData = (chainData: ChainData[]) => {
 	if (_global) {

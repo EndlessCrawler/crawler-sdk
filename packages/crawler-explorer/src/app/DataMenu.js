@@ -30,7 +30,7 @@ export default function DataMenu() {
 		for (const viewName of getViewNames()) {
 			//@ts-ignore
 			const view = getView(viewName)
-			const count = Object.keys(vs[viewName]).length
+			const count = Object.keys(vs[viewName].data).length
 			result.push(
 				<div key={viewName} >
 					<DataDispatcher data={view} br={false}>
