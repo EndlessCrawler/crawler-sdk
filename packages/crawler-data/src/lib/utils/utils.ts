@@ -1,7 +1,7 @@
 import {
 	AnyBigInt,
 	HexString,
-} from './types'
+} from '../types'
 
 /** @returns true if running on a client (browser) */
 //@ts-ignore

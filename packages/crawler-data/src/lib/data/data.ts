@@ -29,3 +29,9 @@ export const goerliData: ChainData = {
 		[ViewName.chamberData]: _goerli_chamberData,
 	},
 }
+
+
+//-------------------------------
+// Export single 
+//
+export const allChainData: ChainData[] = [mainnetData, goerliData]

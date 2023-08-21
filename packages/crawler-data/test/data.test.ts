@@ -9,7 +9,6 @@ import {
 	setChainData,
 } from '../src/lib'
 import {
-	AllViews,
 	ChainId,
 } from '../src/lib/types'
 

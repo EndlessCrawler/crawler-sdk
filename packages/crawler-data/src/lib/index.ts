@@ -1,39 +1,7 @@
 export * from './types'
-
-export {
-	mainnetData,
-	goerliData,
-} from './data/data'
-
-export {
-	initializeChainData,
-	importChainData,
-	setChainData,
-	getChainData
-} from './data/importer'
-
-export {
-	getViewNames,
-	getAllViews,
-	getView,
-	validateView,
-} from './views/views'
-
-export {
-	getContractAddressesForChainOrThrow,
-} from './views/addresses'
-
-export {
-	getChamberCount,
-	getTokenCoords,
-	getTokensCoords,
-	getStaticChamberCount,
-	getEdgeChamberCount,
-	getEdgeChambersId,
-	getEdgeChambersCoord,
-	getChamberData,
-	getChambersData,
-} from './views/chambers'
+export * from './data'
+export * from './views'
+export * from './utils'
 
 export {
 	// Constants
@@ -78,15 +46,3 @@ export {
 	flipDoorPositionXY,
 	flipDoorPosition,
 } from './crawl'
-
-export {
-	isBrowser,
-	isNode,
-	isString,
-	isNumber,
-	isBigInt,
-	resolveBigInt,
-	bigIntToHexString,
-	bigIntToByteArray,
-	bigIntToNumberArray,
-} from './utils'

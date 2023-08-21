@@ -9,7 +9,6 @@ import {
 } from '../src/lib'
 import {
 	ChainId,
-	AllViews,
 } from '../src/lib/types'
 
 describe('* data_mainnet', () => {

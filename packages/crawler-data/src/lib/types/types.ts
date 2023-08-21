@@ -1,29 +1,6 @@
-
-//--------------------------------
-// Constants
-//
-
-/** @type supported networks */
-export enum NetworkName {
-	Mainnet = 'mainnet',
-	Goerli = 'goerli',
-	// Sepolia = 'sepolia',
-}
-
-/** @type supported networks */
-export enum ChainId {
-	Mainnet = 1,
-	Goerli = 5,
-	// Sepolia = 11155111,
-}
-
-/** @type chain id to name lookup */
-export const ChainIdToNetworkName: Record<ChainId, NetworkName> = {
-	[ChainId.Mainnet]: NetworkName.Mainnet,
-	[ChainId.Goerli]: NetworkName.Goerli,
-	// [ChainId.Sepolia]: NetworkName.Sepolia,
-}
-
+import {
+	ChainId
+} from './chains'
 
 //--------------------------------
 // Misc
@@ -186,21 +163,3 @@ export interface Options {
 }
 
 
-
-//--------------------------------
-// custom throw errors
-//
-
-export class InvalidCrawlerChainError extends Error {
-	constructor(chainId: ChainId) {
-		super(`InvalidCrawlerChainError: Chain not imported. Did you forget to call importChainData(${chainId}) ?`)
-		this.name = 'InvalidCrawlerChainError'
-	}
-}
-
-export class CrawlerChainNotSetError extends Error {
-	constructor() {
-		super(`CrawlerChainNotSetError: No chain imported. Did you forget to call importChainData() ?`)
-		this.name = 'CrawlerChainNotSetError'
-	}
-}
