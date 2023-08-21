@@ -1,6 +1,5 @@
 import 'jest-expect-message'
 import {
-	// do better here!
 	goerliData,
 	importChainData,
 	// ---
@@ -11,7 +10,7 @@ import {
 	ChainId,
 } from '../src/lib/types'
 
-importChainData(ChainId.Goerli, goerliData)
+importChainData([goerliData])
 
 describe('* data_goerli', () => {
 	let data: AllViews | null = null

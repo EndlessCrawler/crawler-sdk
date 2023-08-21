@@ -2,9 +2,8 @@ import React, { useMemo } from 'react'
 import { Divider } from 'semantic-ui-react'
 import {
 	// do better here!
-	ChainId,
-	importChainData,
 	mainnetData,
+	importChainData,
 	//
 	getAllViews,
 	getViewNames,
@@ -21,7 +20,7 @@ import {
 } from '@avante/crawler-data'
 import { DataDispatcher, ActionDispatcher } from '@/components/Dispatchers'
 
-importChainData(ChainId.Mainnet, mainnetData)
+importChainData([mainnetData])
 
 export default function DataMenu() {
 

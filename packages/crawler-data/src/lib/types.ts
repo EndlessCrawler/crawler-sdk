@@ -158,6 +158,12 @@ export interface AllViews {
 	[ViewName.chamberData]: ChamberDataView
 }
 
+/** @type The actual data from a chain */
+export interface ChainData {
+	chainId: ChainId
+	data: AllViews
+}
+
 
 
 //--------------------------------

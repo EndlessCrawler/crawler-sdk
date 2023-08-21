@@ -1,5 +1,9 @@
 export * from './types'
-export * from './data'
+
+export {
+	mainnetData,
+	goerliData,
+} from './data'
 
 export {
 	importChainData,

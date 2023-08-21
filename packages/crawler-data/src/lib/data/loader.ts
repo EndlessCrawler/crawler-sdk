@@ -2,6 +2,7 @@ import {
 	ChainId,
 	Options,
 	AllViews,
+	ChainData,
 } from '../types'
 import {
 	isBrowser,
@@ -33,12 +34,14 @@ if (_global) {
 }
 
 /** used internally to load imported chain data into global scope */
-export const importChainData = (chainId: ChainId, data: AllViews) => {
+export const importChainData = (chainData: ChainData[]) => {
 	if (_global) {
-		_global.CrawlerData.data[chainId] = data
-		if (_global.CrawlerData.currentChainId == 0) {
-			_global.CrawlerData.currentChainId = chainId
-		}
+		chainData.forEach((cd) => {
+			_global.CrawlerData.data[cd.chainId] = cd.data
+			if (_global.CrawlerData.currentChainId == 0) {
+				_global.CrawlerData.currentChainId = cd.chainId
+			}
+		})
 	}
 }
 

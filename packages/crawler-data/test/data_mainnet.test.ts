@@ -1,6 +1,5 @@
 import 'jest-expect-message'
 import {
-	// do better here!
 	mainnetData,
 	importChainData,
 	// ---
@@ -11,7 +10,7 @@ import {
 	AllViews,
 } from '../src/lib/types'
 
-importChainData(ChainId.Mainnet, mainnetData)
+importChainData([mainnetData])
 
 describe('* data_mainnet', () => {
 	let data: AllViews | null = null
