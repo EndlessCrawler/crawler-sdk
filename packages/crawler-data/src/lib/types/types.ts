@@ -1,5 +1,6 @@
 import {
-	ChainId
+	ChainId,
+	ContractName,
 } from './chains'
 
 //--------------------------------
@@ -22,14 +23,14 @@ export type AnyBigInt = number | bigint | BigIntString | HexString
 
 
 //--------------------------------
-// Contracts
+// Chains Contracts view
 //
 
 /** @type all contract addresses of a network */
-export interface ContractAddresses {
-	crawlerToken: Address
-	cardsMinter: Address
-}
+export type ContractAddresses = Record<ContractName, Address>
+
+/** @type all contract addresses of a network */
+export type ContractsView = Record<ChainId, ContractAddresses>
 
 
 

@@ -6,8 +6,11 @@ export {
 } from './views'
 
 export {
-	getContractAddressesForChainOrThrow,
-} from './addresses'
+	getAllChainIds,
+	getAllNetworkNames,
+	getChainContractAddresses,
+	getContractAddress,
+} from './chains'
 
 export {
 	getChamberCount,

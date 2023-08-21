@@ -17,6 +17,8 @@ import {
 	getTokensCoords,
 	getChamberData,
 	getChambersData,
+	getChainContractAddresses,
+	ChainId,
 } from '@avante/crawler-data'
 import { DataDispatcher, ActionDispatcher } from '@/components/Dispatchers'
 
@@ -70,6 +72,7 @@ export default function DataMenu() {
 			<div>
 				<ActionDispatcher onAction={() => getViewNames()}>getViewNames()</ActionDispatcher>
 				{views}
+				<ActionDispatcher onAction={() => getChainContractAddresses(ChainId.Mainnet)}>getChainContractAddresses(1)</ActionDispatcher>
 			</div>
 
 		</div>

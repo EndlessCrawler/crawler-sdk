@@ -26,3 +26,10 @@ export const NetworkNameToChainId: Record<NetworkName, ChainId> = {
 	[NetworkName.Goerli]: ChainId.Goerli,
 	// [NetworkName.Sepolia]: ChainId.Sepolia,
 }
+
+/** @type all contract addresses of a network */
+export enum ContractName {
+	CrawlerToken = 'crawlerToken',
+	CrawlerCards = 'cardsMinter',
+}
+

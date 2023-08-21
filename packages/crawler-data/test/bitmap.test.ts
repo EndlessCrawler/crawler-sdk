@@ -1,6 +1,6 @@
 
 
-describe('* bitmap', () => {
+describe.skip('* bitmap', () => {
 
 	it('bitmapPosToXY()', () => {
 	})

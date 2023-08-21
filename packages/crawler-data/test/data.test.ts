@@ -7,9 +7,11 @@ import {
 	// ---
 	getChainData,
 	setChainData,
+	getAllChainIds,
+	getViewNames,
 } from '../src/lib'
 import {
-	ChainId,
+	ChainId, ViewName,
 } from '../src/lib/types'
 
 describe('* data_mainnet', () => {
@@ -29,11 +31,20 @@ describe('* data_mainnet', () => {
 	})
 
 	it('getChainData()', () => {
-		const data1 = getChainData({ chainId: ChainId.Mainnet })
-		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
+		const allChainIds = getAllChainIds()
+		const allViewNames = getViewNames()
 
-		const data2 = getChainData({ chainId: ChainId.Goerli })
-		expect(data2.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Goerli)
+		for (let i = 0; i < allChainIds.length; ++i) {
+			const chainId = allChainIds[i]
+			const data = getChainData({ chainId })
+			expect(data).not.toBe(null)
+
+			for (let v = 0; v < allViewNames.length; ++v) {
+				const viewName = allViewNames[v] as ViewName
+				expect(data[viewName]).not.toBe(null)
+				expect(data[viewName]?.chain?.chainId).toBe(chainId)
+			}
+		}
 	})
 
 	it('setChainData()', () => {
