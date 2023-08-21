@@ -1,5 +1,5 @@
 {
-	"name": "@avante/crawler-monorepo",
+	"name": "@avante/crawler-sdk",
 	"version": "0.0.1",
 	"description": "Endless Crawler SDK Monorepo",
 	"author": "Studio Avante",
@@ -7,7 +7,7 @@
 	"homepage": "https://github.com/EndlessCrawler",
 	"private": false,
 	"bugs": {
-		"url": "https://github.com/EndlessCrawler/crawler-monorepo/issues"
+		"url": "https://github.com/EndlessCrawler/crawler-sdk/issues"
 	},
 	"scripts": {
 		"build": "npx lerna run build",
