@@ -3,5 +3,5 @@ export { _goerli_ } from './goerli'
 
 export {
 	getChainData,
-	switchChainData,
-} from './importer'
+	setChainData as switchChainData,
+} from './loader'

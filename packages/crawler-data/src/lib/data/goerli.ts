@@ -3,7 +3,7 @@ import {
 	ChainId,
 	ViewName,
 } from '../types'
-import { importData } from './importer'
+import { loadChainData } from './loader'
 
 import _goerli_tokenIdToCoord from '../../data/goerli/tokenIdToCoord.json'
 import _goerli_chamberData from '../../data/goerli/chamberData.json'
@@ -13,4 +13,4 @@ export const _goerli_: AllViews = {
 	[ViewName.chamberData]: _goerli_chamberData,
 }
 
-importData(ChainId.Goerli, _goerli_)
+loadChainData(ChainId.Goerli, _goerli_)

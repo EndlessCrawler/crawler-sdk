@@ -38,18 +38,18 @@ if (_global) {
 
 //
 // called when importing chain data scripts
-export const importData = (chainId: ChainId, data: AllViews) => {
+export const loadChainData = (chainId: ChainId, data: AllViews) => {
 	if (_global) {
 		_global.CrawlerData.data[chainId] = data
-		// if (_global.CrawlerData.currentChainId == 0) {
+		if (_global.CrawlerData.currentChainId == 0) {
 			_global.CrawlerData.currentChainId = chainId
-		// }
+		}
 	}
 }
 
 //
 // called by clients to switch current chain data
-export const switchChainData = (chainId: ChainId) => {
+export const setChainData = (chainId: ChainId) => {
 	if (_global) {
 		_global.CrawlerData.currentChainId = chainId
 	}
