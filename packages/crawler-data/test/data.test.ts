@@ -1,34 +1,40 @@
 import 'jest-expect-message'
 import {
-	_mainnet_,
-	_goerli_,
+	// do better here!
+	mainnetData,
+	goerliData,
+	importChainData,
+	// ---
 	getChainData,
-	switchChainData,
-} from '../src/lib/data'
+	setChainData,
+} from '../src/lib'
 import {
 	AllViews,
 	ChainId,
 } from '../src/lib/types'
 
+importChainData(ChainId.Mainnet, mainnetData)
+importChainData(ChainId.Goerli, goerliData)
+
 describe('* data_mainnet', () => {
 	let data: AllViews | null = null
 
 	it('getChainData()', () => {
-		const data1 = getChainData(ChainId.Mainnet)
+		const data1 = getChainData({ chainId: ChainId.Mainnet })
 		expect(data1).not.toBe(null)
 
-		const data2 = getChainData(ChainId.Goerli)
+		const data2 = getChainData({ chainId: ChainId.Goerli })
 		expect(data2).not.toBe(null)
 
 		expect(data1).not.toEqual(data2)
 	})
 
-	it('switchChainData()', () => {
-		const data1 = getChainData(ChainId.Mainnet)
+	it('setChainData()', () => {
+		const data1 = getChainData({ chainId: ChainId.Mainnet })
 		expect(data1).not.toBe(null)
 
 		// new current
-		switchChainData(ChainId.Goerli)
+		setChainData({ chainId: ChainId.Goerli })
 		// get current
 		const data2 = getChainData()
 		expect(data2).not.toBe(null)
@@ -37,7 +43,7 @@ describe('* data_mainnet', () => {
 		expect(data1).not.toEqual(data2)
 
 		// new current
-		switchChainData(ChainId.Mainnet)
+		setChainData({ chainId: ChainId.Mainnet })
 		// get current
 		const data3 = getChainData()
 		expect(data3).not.toBe(null)

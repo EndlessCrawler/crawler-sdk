@@ -42,6 +42,8 @@ export type Address = string
 /** @type types that can contain a BigInt */
 export type AnyBigInt = number | bigint | BigIntString | HexString
 
+
+
 //--------------------------------
 // Contracts
 //
@@ -157,3 +159,12 @@ export interface AllViews {
 }
 
 
+
+//--------------------------------
+// ChamberData access
+//
+
+/** @type Base arguments containing just the chain id */
+export interface Options {
+	chainId?: ChainId
+}

@@ -2,6 +2,19 @@ export * from './types'
 export * from './data'
 
 export {
+	importChainData,
+	setChainData,
+	getChainData
+} from './data/loader'
+
+export {
+	getViewNames,
+	getAllViews,
+	getView,
+	validateView,
+} from './views'
+
+export {
 	getContractAddressesForChainOrThrow,
 } from './addresses'
 
@@ -18,13 +31,6 @@ export {
 	getChamberData,
 	getChambersData,
 } from './chambers'
-
-export {
-	getViewNames,
-	getAllViews,
-	getView,
-	validateView,
-} from './views'
 
 export {
 	// Constants

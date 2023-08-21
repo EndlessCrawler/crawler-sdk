@@ -1,6 +1,11 @@
 import React, { useMemo } from 'react'
 import { Divider } from 'semantic-ui-react'
 import {
+	// do better here!
+	ChainId,
+	importChainData,
+	mainnetData,
+	//
 	getAllViews,
 	getViewNames,
 	getView,
@@ -16,16 +21,20 @@ import {
 } from '@avante/crawler-data'
 import { DataDispatcher, ActionDispatcher } from '@/components/Dispatchers'
 
+importChainData(ChainId.Mainnet, mainnetData)
+
 export default function DataMenu() {
 
 	const views = useMemo(() => {
 		let result = []
 		const vs = getAllViews()
 		for (const viewName of getViewNames()) {
+			//@ts-ignore
+			const view = getView(viewName)
 			const count = Object.keys(vs[viewName]).length
 			result.push(
 				<div key={viewName} >
-					<DataDispatcher data={getView(viewName)} br={false}>
+					<DataDispatcher data={view} br={false}>
 						{viewName}
 					</DataDispatcher>
 					{` `}[{count}]

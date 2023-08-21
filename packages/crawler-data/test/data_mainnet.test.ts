@@ -1,31 +1,36 @@
 import 'jest-expect-message'
 import {
-	_mainnet_,
+	// do better here!
+	mainnetData,
+	importChainData,
+	// ---
 	getChainData,
-} from '../src/lib/data'
+} from '../src/lib'
 import {
-	AllViews,
 	ChainId,
+	AllViews,
 } from '../src/lib/types'
 
-describe.skip('* data_mainnet', () => {
+importChainData(ChainId.Mainnet, mainnetData)
+
+describe('* data_mainnet', () => {
 	let data: AllViews | null = null
 
 	it('getChainData()', () => {
 		const data1 = getChainData()
 		expect(data1).not.toBe(null)
 
-		const data2 = getChainData(ChainId.Mainnet)
+		const data2 = getChainData({ chainId: ChainId.Mainnet })
 		expect(data2).not.toBe(null)
 
 		expect(data1).toEqual(data2)
 
 		// should pass only on exported site
-		const noData = getChainData(ChainId.Goerli)
+		const noData = getChainData({ chainId: ChainId.Goerli })
 		expect(noData).toBe(null)
 
-		// const data3 = getChainData(ChainId.Goerli)
-		// expect(data1).not.toEqual(data3)
+		const data3 = getChainData({ chainId: ChainId.Goerli })
+		expect(data1).not.toEqual(data3)
 	})
 
 })

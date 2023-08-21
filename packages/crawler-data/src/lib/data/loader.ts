@@ -1,24 +1,13 @@
 import {
-	AllViews,
 	ChainId,
+	Options,
+	AllViews,
 } from '../types'
 import {
 	isBrowser,
 	isNode,
 } from '../utils'
 
-//
-// add only imported chains
-//
-
-export interface CrawlerDataNamespace {
-	currentChainId: ChainId
-	data: Record<ChainId, AllViews>
-}
-
-declare global {
-	interface Window { CrawlerData: CrawlerDataNamespace }
-}
 
 //@ts-ignore
 let _global: any = null
@@ -27,8 +16,15 @@ if (isBrowser()) _global = window
 //@ts-ignore
 if (isNode()) _global = global
 
-//
-// initialize namespace
+// initialize global scope namespace
+export interface CrawlerDataNamespace {
+	currentChainId: ChainId
+	data: Record<ChainId, AllViews>
+}
+declare global {
+	interface Window { CrawlerData: CrawlerDataNamespace }
+}
+
 if (_global) {
 	_global.CrawlerData = {
 		currentChainId: 0,
@@ -36,9 +32,8 @@ if (_global) {
 	}
 }
 
-//
-// called when importing chain data scripts
-export const loadChainData = (chainId: ChainId, data: AllViews) => {
+/** used internally to load imported chain data into global scope */
+export const importChainData = (chainId: ChainId, data: AllViews) => {
 	if (_global) {
 		_global.CrawlerData.data[chainId] = data
 		if (_global.CrawlerData.currentChainId == 0) {
@@ -47,19 +42,21 @@ export const loadChainData = (chainId: ChainId, data: AllViews) => {
 	}
 }
 
-//
-// called by clients to switch current chain data
-export const setChainData = (chainId: ChainId) => {
+/** called by clients to switch current default chain data */
+export const setChainData = (options: Options) => {
 	if (_global) {
-		_global.CrawlerData.currentChainId = chainId
+		_global.CrawlerData.currentChainId = options.chainId
 	}
 }
 
-//
-// called by clients to get chain data
-export const getChainData = (chainId: ChainId | null = null): AllViews | null => {
-	if (_global) {
-		return _global.CrawlerData.data[chainId ?? _global.CrawlerData.currentChainId] ?? null
+/** called by clients to get chain data */
+export const getChainData = (options: Options = {}): AllViews => {
+	if (options.chainId && _global.CrawlerData.data[options.chainId]) {
+		return _global.CrawlerData.data[options.chainId]
 	}
-	return null
+	if (_global.CrawlerData.data[_global.CrawlerData.currentChainId]) {
+		return _global.CrawlerData.data[_global.CrawlerData.currentChainId]
+	}
+	//@ts-ignore
+	throw (`Invalid Crawler chain [${_global.CrawlerData.data[options.chainId]}] or [${_global.CrawlerData.currentChainId}]`)
 }
