@@ -1,9 +1,9 @@
-import addresses from '../data/addresses.json'
+import addresses from '../../data/addresses.json'
 import {
 	ChainId,
 	ContractAddresses,
 	NetworkName,
-} from './types'
+} from '../types'
 
 /**
  * Get addresses of contracts that have been deployed to the

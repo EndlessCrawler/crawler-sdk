@@ -2,8 +2,8 @@ import {
 	Options,
 	ViewName,
 	AllViews,
-} from './types'
-import { getChainData } from './data/loader'
+} from '../types'
+import { getChainData } from '../data/importer'
 
 
 //--------------------------------	

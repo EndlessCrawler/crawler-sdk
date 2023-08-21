@@ -3,39 +3,37 @@ export * from './types'
 export {
 	mainnetData,
 	goerliData,
-} from './data'
+} from './data/data'
 
 export {
 	initializeChainData,
 	importChainData,
 	setChainData,
 	getChainData
-} from './data/loader'
+} from './data/importer'
 
 export {
 	getViewNames,
 	getAllViews,
 	getView,
 	validateView,
-} from './views'
+} from './views/views'
 
 export {
 	getContractAddressesForChainOrThrow,
-} from './addresses'
+} from './views/addresses'
 
 export {
-	// ViewName.chamberData
 	getChamberCount,
 	getTokenCoords,
 	getTokensCoords,
-	// ViewName.chamberData
 	getStaticChamberCount,
 	getEdgeChamberCount,
 	getEdgeChambersId,
 	getEdgeChambersCoord,
 	getChamberData,
 	getChambersData,
-} from './chambers'
+} from './views/chambers'
 
 export {
 	// Constants
