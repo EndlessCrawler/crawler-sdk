@@ -1,7 +1,9 @@
 import 'jest-expect-message'
 import {
-	goerliData,
+	initializeChainData,
 	importChainData,
+	mainnetData,
+	goerliData,
 	// ---
 	getChainData,
 } from '../src/lib'
@@ -10,10 +12,15 @@ import {
 	ChainId,
 } from '../src/lib/types'
 
-importChainData([goerliData])
-
 describe('* data_goerli', () => {
-	let data: AllViews | null = null
+
+	beforeAll(() => {
+		// console.log(`===== Before`, global)
+		initializeChainData()
+		// console.log(`===== Cleaned`, global)
+		importChainData([goerliData])
+		// console.log(`===== Imported`, global)
+	})
 
 	it('getChainData()', () => {
 		const data1 = getChainData()
@@ -24,9 +31,9 @@ describe('* data_goerli', () => {
 
 		expect(data1).toEqual(data2)
 
-		// should pass only on exported site
-		const noData = getChainData({ chainId: ChainId.Mainnet })
-		expect(noData).toBe(null)
+		expect(() => getChainData({ chainId: ChainId.Mainnet })).toThrow('InvalidCrawlerChainError')
+
+		importChainData([mainnetData])
 
 		const data3 = getChainData({ chainId: ChainId.Mainnet })
 		expect(data1).not.toEqual(data3)

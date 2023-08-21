@@ -24,8 +24,8 @@ export const isBigInt = (num: any): boolean => (typeof num === 'bigint')
 export const resolveBigInt = (num: AnyBigInt): bigint => (typeof num === 'bigint' ? num : BigInt(num))
 
 /** converts a number or bigint to hex string
- ** @returns result starts with '0x' and is always even, as in '0x01'
- **/
+ * @returns result starts with '0x' and is always even, as in '0x01'
+ */
 export const bigIntToHexString = (num: AnyBigInt): HexString => {
 	const hex = resolveBigInt(num).toString(16).toLowerCase()
 	return `0x${hex.length % 2 == 1 ? '0' : ''}${hex}`

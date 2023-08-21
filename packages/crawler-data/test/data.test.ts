@@ -1,8 +1,9 @@
 import 'jest-expect-message'
 import {
+	initializeChainData,
+	importChainData,
 	mainnetData,
 	goerliData,
-	importChainData,
 	// ---
 	getChainData,
 	setChainData,
@@ -12,10 +13,25 @@ import {
 	ChainId,
 } from '../src/lib/types'
 
-importChainData([mainnetData, goerliData])
-
 describe('* data_mainnet', () => {
-	let data: AllViews | null = null
+
+	it('importChainData()', () => {
+		expect(() => getChainData()).toThrow('CrawlerChainNotSetError')
+
+		initializeChainData()
+		
+		expect(() => getChainData()).toThrow('CrawlerChainNotSetError')
+
+		importChainData([mainnetData, goerliData])
+
+		const data1 = getChainData()
+		expect(data1).not.toBe(null)
+
+		const data2 = getChainData({ chainId: ChainId.Mainnet })
+		expect(data2).not.toBe(null)
+
+		expect(data1).toEqual(data2)
+	})
 
 	it('getChainData()', () => {
 		const data1 = getChainData({ chainId: ChainId.Mainnet })
@@ -38,7 +54,7 @@ describe('* data_mainnet', () => {
 		expect(data2).not.toBe(null)
 
 		// should be different
-		expect(data1).not.toEqual(data2)
+		expect(data2).not.toEqual(data1)
 
 		// new current
 		setChainData({ chainId: ChainId.Mainnet })

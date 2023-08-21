@@ -6,6 +6,7 @@ export {
 } from './data'
 
 export {
+	initializeChainData,
 	importChainData,
 	setChainData,
 	getChainData
