@@ -12,6 +12,4 @@ ALCHEMY_API_KEY
 
 Optionals:
 
-ETH_NETWORK: [mainnet|goerli|ganache] (defaults to mainnet)
-
 SERVER_URL: (defaults to http://localhost:3000)
