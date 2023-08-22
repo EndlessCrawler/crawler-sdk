@@ -1,10 +1,6 @@
 import React, { useRef, useEffect } from 'react'
+import { useFormatter } from '@/hooks/useFormatter'
 import Editor from '@monaco-editor/react'
-
-// compact stringify options:
-// https://github.com/AitoDotAI/json-stringify-pretty-compact
-//@ts-ignore
-var stringify = require('@aitodotai/json-stringify-pretty-compact')
 
 //
 // Monaco Editor (too vanilla)
@@ -75,25 +71,17 @@ const MonacoEditor = ({
 		}
 	}
 
+	const { formatted } = useFormatter(content)
+
 	// const _theme = 'vs' // default
 	const _theme = 'vs-dark'
 	// const _theme = 'hc-black'
 	// const _theme = 'hc-light'
 
-	const _content =
-		typeof content == 'object' ? stringify(content, {
-			indent: '\t',
-			maxNesting: 1,
-			maxLength: 1300,
-			margins: true,
-		}) //JSON.stringify(content, null, '\t')
-			: typeof content != 'string' ? content.toString()
-				: content
-
 	if (disabled) return <></>
 
 	return <Editor
-		value={_content}
+		value={formatted}
 		language={language}
 		onChange={(value, _event) => {
 			onChange(value)
