@@ -10,6 +10,8 @@
 		"url": "https://github.com/EndlessCrawler/crawler-sdk/issues"
 	},
 	"scripts": {
+		"install": "npx lerna exec npm install",
+		"update": "npx lerna exec \"npm update --save\"",
 		"build": "npx lerna run build",
 		"test": "npx lerna run test",
 		"graph": "npx nx graph",
