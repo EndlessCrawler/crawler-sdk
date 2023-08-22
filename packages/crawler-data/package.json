@@ -10,8 +10,8 @@
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"clean": "rimraf dist tsconfig.tsbuildinfo",
-		"prepare": "npm run build",
-		"build": "npm run clean && tsc -p tsconfig.json",
+		"prepare": "npm run clean && npm run build",
+		"build": "tsc -p tsconfig.json",
 		"test": "jest",
 		"watch": "tsc -w",
 		"publish": "npm publish --access public"
