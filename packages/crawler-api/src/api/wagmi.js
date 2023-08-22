@@ -7,7 +7,6 @@ import { mainnet, goerli } from 'viem/chains'
 import { publicProvider } from '@wagmi/core/providers/public'
 import { alchemyProvider } from '@wagmi/core/providers/alchemy'
 import { infuraProvider } from '@wagmi/core/providers/infura'
-import { isBigInt } from '@avante/crawler-data'
 
 //---------------------
 // Client
@@ -54,24 +53,5 @@ export const readContract = async (contract, functionName, args = []) => {
 		}
 	}
 
-	return { data: _parseData(data) }
-}
-
-const _parseData = (data, level = 0) => {
-	if (isBigInt(data)) {
-		return data.toString()
-	}
-	if (Array.isArray(data) && level > 0) {
-		return Object.entries(data).reduce(function (result, [key, value]) {
-			result.push(_parseData(value, level + 1))
-			return result
-		}, [])
-	}
-	if (typeof data === 'object') {
-		return Object.entries(data).reduce(function (result, [key, value]) {
-			result[key] = _parseData(value, level + 1)
-			return result
-		}, {})
-	}
-	return data
+	return { data }
 }
