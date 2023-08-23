@@ -9,6 +9,7 @@ export default function ApisMenu() {
 			<div>
 				<UrlDispatcher url='/api/read/totalSupply?contractName=CrawlerToken&chainId=1'>totalSupply()</UrlDispatcher>
 				<UrlDispatcher url='/api/read/ownerOf/1?contractName=CrawlerToken&chainId=1'>ownerOf(1)</UrlDispatcher>
+				<UrlDispatcher url='/api/read/tokenURI/1?contractName=CrawlerToken&chainId=1'>tokenURI(1)</UrlDispatcher>
 			</div>
 
 			<Divider hidden />

@@ -33,7 +33,9 @@
 		"generative",
 		"composable",
 		"on-chain",
+		"game",
 		"web3",
-		"game"
+		"erc-721",
+		"nft"
 	]
 }

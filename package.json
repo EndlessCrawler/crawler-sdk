@@ -10,13 +10,13 @@
 		"url": "https://github.com/EndlessCrawler/crawler-sdk/issues"
 	},
 	"scripts": {
-		"install": "npx lerna exec npm install",
-		"update": "npx lerna exec \"npm update --save\"",
-		"build": "npx lerna run build",
-		"test": "npx lerna run test",
-		"graph": "npx nx graph",
-		"watch": " npx lerna watch --scope=\"@avante/crawler-data\" -- npx lerna run build --scope=\\$LERNA_PACKAGE_NAME",
-		"explorer": "npx lerna run dev --scope=@avante/crawler-explorer"
+		"_install": "npx lerna exec npm install",
+		"_update": "npx lerna exec \"npm update --save\"",
+		"_build": "npx lerna run build",
+		"_test": "npx lerna run test",
+		"_watch": " npx lerna watch --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\" -- npx lerna run build --scope=\\$LERNA_PACKAGE_NAME",
+		"explorer": "npx lerna run dev --scope=@avante/crawler-explorer",
+		"graph": "npx nx graph"
 	},
 	"workspaces": [
 		"packages/*"
@@ -30,7 +30,9 @@
 		"generative",
 		"composable",
 		"on-chain",
+		"game",
 		"web3",
-		"game"
+		"erc-721",
+		"nft"
 	]
 }

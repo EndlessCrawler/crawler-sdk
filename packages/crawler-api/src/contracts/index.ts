@@ -1,17 +1,22 @@
+import {
+	ContractName,
+	ContractArtifacts,
+} from '../types'
+
 // Chambers
-import CrawlerToken from './crawler/CrawlerToken.json';
-import CrawlerIndex from './crawler/CrawlerIndex.json';
-import CrawlerPlayer from './crawler/CrawlerPlayer.json';
-import CrawlerQueryV1 from './crawler/CrawlerQueryV1.json';
-import LimboToken from './crawler/LimboToken.json';
+import CrawlerToken from './crawler/CrawlerToken.json'
+import CrawlerIndex from './crawler/CrawlerIndex.json'
+import CrawlerPlayer from './crawler/CrawlerPlayer.json'
+import CrawlerQueryV1 from './crawler/CrawlerQueryV1.json'
+import LimboToken from './crawler/LimboToken.json'
 // Cards
-import CardsMinter from './cards/CardsMinter.json';
-import FounderStoreV2 from './cards/FounderStoreV2.json';
+import CardsMinter from './cards/CardsMinter.json'
+import FounderStoreV2 from './cards/FounderStoreV2.json'
 // Interfaces
-import ICardsStore from './cards/ICardsStore.json';
-import ICrawlerContract from './crawler/ICrawlerContract.json';
-import ICrawlerMapper from './crawler/ICrawlerMapper.json';
-import Ownable from './crawler/Ownable.json';
+import ICardsStore from './cards/ICardsStore.json'
+import ICrawlerContract from './crawler/ICrawlerContract.json'
+import ICrawlerMapper from './crawler/ICrawlerMapper.json'
+import Ownable from './crawler/Ownable.json'
 import { erc721ABI } from '@wagmi/core'
 
 
@@ -29,19 +34,21 @@ import { erc721ABI } from '@wagmi/core'
 // 	}
 // }
 //
-const _parseNetworks = (networks) => {
+const _parseNetworks = (networks: any) => {
+	//@ts-ignore
 	return Object.keys(networks).reduce(function (previous, networkId) {
-		const address = networks[networkId]?.address ?? null;
+		const address = networks[networkId]?.address ?? null
 		if (address) {
 			return {
 				...previous,
 				[networkId]: address,
 			}
 		}
-	}, {});
+	}, {})
 }
-const _parseArtifacts = (contract) => {
-	const isInterface = !Boolean(contract.networks);
+
+const _parseArtifacts = (contract: any) => {
+	const isInterface = !Boolean(contract.networks)
 	return {
 		abi: contract.abi,
 		networks: isInterface ? {} : _parseNetworks(contract.networks),
@@ -49,7 +56,7 @@ const _parseArtifacts = (contract) => {
 	}
 }
 
-const Contracts = {
+const Contracts: Record<ContractName, ContractArtifacts> = {
 	CrawlerToken: _parseArtifacts({
 		abi: CrawlerToken.abi,
 		networks: CrawlerToken.networks,
@@ -95,6 +102,6 @@ const Contracts = {
 	Ownable: _parseArtifacts({
 		abi: Ownable.abi,
 	}),
-};
+}
 
-export default Contracts;
+export { Contracts }

@@ -187,7 +187,8 @@ export const validateCompass = (compass: Compass | null): boolean => {
 	return true
 }
 
-export const minifyCompas = (compass: Compass): Compass => {
+export const minifyCompas = (compass: Compass | null): Compass | null => {
+	if (!compass) return null
 	let result = { ...compass }
 	if (!result?.north) delete result.north
 	if (!result?.east) delete result.east

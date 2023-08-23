@@ -1,4 +1,11 @@
 {
+	// fix VSCode include confusion
+  "files": [],
+  "references": [
+    { "path": "./packages/crawler-data/tsconfig.json" },
+    { "path": "./packages/crawler-api/tsconfig.json" },
+  ],
+	
 	"compilerOptions": {
 		// "assumeChangesOnlyAffectDirectDependencies": true,
 		"allowSyntheticDefaultImports": true,
@@ -18,8 +25,9 @@
 		"strictNullChecks": true,
 		"target": "es2021",
 		"lib": [
-			"esnext"
+			"esnext",
+			"DOM"
 		],
 	},
-	"compileOnSave": true
+	"compileOnSave": true,
 }

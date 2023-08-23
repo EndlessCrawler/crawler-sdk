@@ -46,8 +46,8 @@ There is no reason to download this repository unless you want to contribute. As
 ```sh
 npm install
 npx lerna init
-npx lerna run prepare
 npx lerna link
+npx lerna run build
 ```
 
 

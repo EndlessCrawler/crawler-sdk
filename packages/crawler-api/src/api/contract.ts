@@ -1,6 +1,12 @@
-import Contracts from '../contracts/Contracts'
+import {
+	ContractInfo,
+	ContractAbi,
+	ErrorResult,
+} from '../types'
 
-export const getContract = (options) => {
+import { Contracts } from '../contracts'
+
+export const getContract = (options: ContractInfo): ContractAbi | ErrorResult => {
 	let { contractName, contractAddress, chainId } = options
 
 	if (!contractName) {
@@ -31,4 +37,3 @@ export const getContract = (options) => {
 
 	return { chainId, contractAddress, abi }
 }
-
