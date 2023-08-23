@@ -4,7 +4,7 @@ import {
 	ErrorResult,
 } from '../types'
 
-import { Contracts } from '../contracts'
+import { Contracts } from './abis'
 
 export const getContract = (options: ContractInfo): ContractAbi | ErrorResult => {
 	let { contractName, contractAddress, chainId } = options

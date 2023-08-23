@@ -29,3 +29,5 @@ export {
 	formatAddress,
 	validateArgs,
 } from './utils'
+
+export { Contracts } from './abis'

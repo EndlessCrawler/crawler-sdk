@@ -8,6 +8,15 @@ import prettierPluginBabel from 'prettier/plugins/babel.mjs'
 import prettierPluginEstree from 'prettier/plugins/estree.mjs'
 import { isString, isObject } from '@avante/crawler-data'
 
+// javascript version
+//@ts-ignore
+// BigInt.prototype.toJSON = function () { return this.toString() }
+
+// typescript version
+(BigInt.prototype as any).toJSON = function () {
+	return this.toString()
+}
+
 export const formatViewData = async (data: any = {}): Promise<string> => {
 	if (isString(data)) {
 		return data

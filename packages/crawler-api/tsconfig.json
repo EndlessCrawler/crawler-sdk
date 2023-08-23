@@ -9,6 +9,7 @@
 		"src/**/*.json"
 	],
 	"exclude": [
+		"src/contracts/**/*",
 		"test",
 		"dist"
 	]
