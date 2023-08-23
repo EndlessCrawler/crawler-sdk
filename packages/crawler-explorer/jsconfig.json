@@ -6,8 +6,8 @@
 		"checkJs": true,
 		"jsx": "react",
 		// Allow BigInt notation as 0n
-		"target": "ES2021",
-		"module": "ESNext",
+		"target": "es2021",
+		"module": "esnext",
 		"moduleResolution": "node",
 		// allows VSCode to prompt for path rename when files are moved/renamed
 		"baseUrl": ".",

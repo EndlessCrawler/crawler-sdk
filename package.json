@@ -12,9 +12,10 @@
 	"scripts": {
 		"_install": "npx lerna exec npm install",
 		"_update": "npx lerna exec \"npm update --save\"",
-		"_build": "npx lerna run build",
 		"_test": "npx lerna run test",
-		"_watch": " npx lerna watch --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\" -- npx lerna run build --scope=\\$LERNA_PACKAGE_NAME",
+		"_clean": "npx lerna run clean --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\"",
+		"_build": "npx lerna run build --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\"",
+		"watch": " npx lerna watch --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\" -- npx lerna run build --scope=\\$LERNA_PACKAGE_NAME",
 		"explorer": "npx lerna run dev --scope=@avante/crawler-explorer",
 		"graph": "npx nx graph"
 	},

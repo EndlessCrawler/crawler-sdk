@@ -17,15 +17,15 @@
 		"forceConsistentCasingInFileNames": true,
 		"incremental": true,
 		"composite": true,
-		"module": "CommonJS",
-		"moduleResolution": "node",
 		"noImplicitThis": true,
 		"skipLibCheck": true,
 		"strict": true,
 		"strictNullChecks": true,
+		"moduleResolution": "node",
+		"module": "esnext",
 		"target": "es2021",
 		"lib": [
-			"esnext",
+			"es2021",
 			"DOM"
 		],
 	},
