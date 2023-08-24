@@ -12,7 +12,7 @@
 	"scripts": {
 		"clean": "rimraf dist tsconfig.tsbuildinfo",
 		"build": "tsc -p tsconfig.json",
-		"test": "echo jest",
+		"test": "NODE_OPTIONS=--experimental-vm-modules jest",
 		"watch": "tsc -w",
 		"publish": "npm publish --access public"
 	},
