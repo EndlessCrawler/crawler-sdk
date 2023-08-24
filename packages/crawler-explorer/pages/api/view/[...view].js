@@ -16,6 +16,7 @@ export default async function handler(request, response) {
 	const [functionName, key] = view
 	const args = view.slice(2)
 
+	//@ts-ignore
 	const { data, error } = await readViewRecord(functionName, key, args, request.query)
 
 	if (error) {

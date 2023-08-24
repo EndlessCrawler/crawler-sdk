@@ -10,6 +10,7 @@ import { infuraProvider } from '@wagmi/core/providers/infura'
 
 import {
 	ContractAbi,
+	DataResult,
 	ErrorResult,
 } from './types'
 
@@ -40,7 +41,7 @@ const config = createConfig({
 // contract: result from getContract()
 //
 
-export const readContract = async (contract: ContractAbi, functionName:string, args:any[] = []): Promise<any | ErrorResult> => {
+export const readContract = async (contract: ContractAbi, functionName: string, args: any[] = []): Promise<DataResult | ErrorResult> => {
 	const { chainId, contractAddress, abi } = contract
 
 	args = args.map(value => value == 'true' ? true : value == 'false' ? false : value)
@@ -56,10 +57,8 @@ export const readContract = async (contract: ContractAbi, functionName:string, a
 			chainId,
 		})
 	} catch (error) {
-		return {
-			//@ts-ignore
-			error: error.toString(),
-		}
+		//@ts-ignore
+		return { error: error.toString() }
 	}
 
 	return { data }

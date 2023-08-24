@@ -10,9 +10,21 @@ import {
 } from '@avante/crawler-data'
 
 export default (): ViewDefinitionT<ChamberData> => ({
+	//
+	// View info
 	contractName: ContractName.CrawlerToken,
 	functionName: 'coordToChamberData',
-	transform: (data: any): ChamberData => {
+
+	//
+	// updated number of total records
+	getTotalCount: async (): Promise<number> => {
+		///@ts-ignore
+		return 0
+	},
+
+	//
+	// transform fetched data to View
+	transform: async (data: any): Promise<ChamberData> => {
 		console.log(data)
 		const locks = data.locks.map((v: number) => v != 0)
 		const locksCount = locks.reduce((result: number, val: number) => { return result + (val ? 1 : 0) }, 0)

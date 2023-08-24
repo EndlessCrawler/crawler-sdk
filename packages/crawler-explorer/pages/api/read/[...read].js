@@ -21,6 +21,7 @@ export default async function handler(request, response) {
 	const [functionName] = read
 	const args = read.slice(1)
 
+	//@ts-ignore
 	const { data, error } = await readContract(contract, functionName, args)
 	// console.log(`read result:`, data, error)
 

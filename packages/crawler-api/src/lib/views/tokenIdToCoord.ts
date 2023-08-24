@@ -11,9 +11,21 @@ import {
 } from '@avante/crawler-data'
 
 export default (): ViewDefinitionT<ChamberCoords> => ({
+	//
+	// View info
 	contractName: ContractName.CrawlerToken,
 	functionName: 'tokenIdToCoord',
-	transform: (coord: bigint): ChamberCoords => {
+
+	//
+	// updated number of total records
+	getTotalCount: async (): Promise<number> => {
+		///@ts-ignore
+		return 0
+	},
+
+	//
+	// transform fetched data to View
+	transform: async (coord: bigint): Promise<ChamberCoords> => {
 		const compass = coordToCompass(coord)
 		return {
 			coord: coord.toString(),

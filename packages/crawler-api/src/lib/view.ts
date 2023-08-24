@@ -8,6 +8,8 @@ import {
 import {
 	ContractAbi,
 	ContractInfo,
+	DataResult,
+	ErrorResult,
 	ViewDefinition,
 	isErrorResult,
 } from './types'
@@ -20,41 +22,33 @@ const views: Record<ViewName, ViewDefinition> = {
 	[ViewName.chamberData]: chamberData(),
 }
 
+//----------------------------------
+// read a View record on-chain
+//
+export const readViewRecord = async (viewName: ViewName, key: any, args: any[], options: ContractInfo): Promise<DataResult | ErrorResult> => {
+	const chainId = resolveChainId(options)
 
-
-export const readViewRecord = async (viewName: ViewName, key: any, args: any[], options: ContractInfo) => {
 	const view = views[viewName]
-	if (!view) {
-		return {
-			error: `View not found [${viewName}]`,
-		}
-	}
 	const { contractName, functionName, transform } = view
 
-	// Get contract
-	const chainId = resolveChainId(options)
 	const contract = getContractAbi({
 		...options,
 		chainId,
 		contractName,
 	})
-	// console.log(`contract:`, contractName, contract.contractAddress)
 
 	if (isErrorResult(contract)) {
-		return {
-			error: contract.error,
-		}
+		return contract
 	}
 
-	const { data, error } = await readContract(contract as ContractAbi, functionName, args)
-
-	if (error) {
-		return { error }
+	const result = await readContract(contract as ContractAbi, functionName, args)
+	if (isErrorResult(result)) {
+		return result
 	}
 
 	return {
 		data: {
-			[key]: transform?.(data) ?? data
+			[key]: await transform?.(result.data) ?? result.data
 		}
 	}
 }

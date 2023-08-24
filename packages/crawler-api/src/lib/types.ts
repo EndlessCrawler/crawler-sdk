@@ -47,19 +47,31 @@ export interface ErrorResult {
 	error: string
 }
 
+/** @type generic data result from functions */
+export interface DataResult {
+	data: any
+}
+
 /** @type check if a function result is ErrorResult */
-export function isErrorResult(obj: any): obj is ErrorResult {
-	return obj && obj.error && typeof (obj.error) == 'string'
+export function isErrorResult(instance: any): instance is ErrorResult {
+	return instance && instance.error && typeof (instance.error) == 'string'
+}
+
+/** @type check if a function result is DataResult */
+export function isDataResult(instance: any): instance is DataResult {
+	return instance && instance.data && typeof (instance.data) == 'string'
 }
 
 /** @type view definition for on-chain fetch */
 export interface ViewDefinition {
 	contractName: ContractName
-	functionName: string,
-	transform: (data: any) => any
+	functionName: string
+	getTotalCount: any
+	transform: any
 }
 
 /** @type view definition for on-chain fetch */
 export interface ViewDefinitionT<T> extends ViewDefinition {
-	transform: (data: any) => T
+	getTotalCount: () => Promise<number>
+	transform: (data: any) => Promise<T>
 }
