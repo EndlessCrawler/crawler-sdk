@@ -57,7 +57,7 @@ export const importChainData = (chainData: ChainData[]) => {
  * @param options.chainId The chainId to use
  */
 export const setChainData = (options: Options) => {
-	if (_global && _global.CrawlerData && options.chainId) {
+	if (options.chainId && _global?.CrawlerData?.data[options.chainId]) {
 		_global.CrawlerData.currentChainId = options.chainId
 		return
 	}
@@ -70,7 +70,7 @@ export const setChainData = (options: Options) => {
  * @returns the full chain data, throws error if chain is invalid
  */
 export const getChainData = (options: Options = {}): AllViews => {
-	if (_global && _global.CrawlerData) {
+	if (_global?.CrawlerData) {
 		// use desired chain
 		if (options.chainId) {
 			if (_global.CrawlerData.data[options.chainId]) {
@@ -87,5 +87,16 @@ export const getChainData = (options: Options = {}): AllViews => {
 		}
 	}
 	//@ts-ignore
+	throw new CrawlerChainNotSetError()
+}
+
+/** @returns the currently selected chain id */
+export const resolveChainId = (options: Options = {}): ChainId => {
+	if (options.chainId) {
+		return options.chainId
+	}
+	if (_global?.CrawlerData?.currentChainId) {
+		return _global.CrawlerData.currentChainId
+	}
 	throw new CrawlerChainNotSetError()
 }

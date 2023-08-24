@@ -8,5 +8,6 @@ export {
 	initializeChainData,
 	importChainData,
 	setChainData,
-	getChainData
+	getChainData,
+	resolveChainId,
 } from './importer'

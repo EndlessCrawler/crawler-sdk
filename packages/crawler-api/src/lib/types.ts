@@ -1,6 +1,7 @@
 import {
 	ChainId,
 	Address,
+	Options,
 } from '@avante/crawler-data'
 
 /** @type included contract names */
@@ -28,15 +29,15 @@ export interface ContractArtifacts {
 }
 
 /** @type passed to getContract() */
-export interface ContractInfo {
-	chainId: ChainId
+export interface ContractInfo extends Options {
+	chainId: ChainId // from Options
 	contractName: ContractName
 	contractAddress?: Address
 }
 
 /** @type result from getContract() */
-export interface ContractAbi {
-	chainId: ChainId,
+export interface ContractAbi extends Options {
+	chainId: ChainId // from Options
 	contractAddress: Address,
 	abi: any
 }
@@ -46,6 +47,19 @@ export interface ErrorResult {
 	error: string
 }
 
+/** @type check if a function result is ErrorResult */
 export function isErrorResult(obj: any): obj is ErrorResult {
 	return obj && obj.error && typeof (obj.error) == 'string'
+}
+
+/** @type view definition for on-chain fetch */
+export interface ViewDefinition {
+	contractName: ContractName
+	functionName: string,
+	transform: (data: any) => any
+}
+
+/** @type view definition for on-chain fetch */
+export interface ViewDefinitionT<T> extends ViewDefinition {
+	transform: (data: any) => T
 }

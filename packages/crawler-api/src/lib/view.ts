@@ -1,71 +1,28 @@
 import { getContractAbi } from './contract'
 import { readContract } from './wagmi'
 import {
-	compassToSlug,
-	coordToCompass,
-	minifyCompas,
-	bigIntToHexString,
-	bigIntToNumberArray,
+	Options,
 	ViewName,
-	Compass,
-	ChamberCoords,
-	ChamberData,
+	resolveChainId,
 } from '@avante/crawler-data'
 import {
 	ContractAbi,
+	ContractInfo,
+	ViewDefinition,
 	isErrorResult,
 } from './types'
 
-const views = {
-	[ViewName.tokenIdToCoord]: {
-		contractName: 'CrawlerToken',
-		functionName: 'tokenIdToCoord',
-		transform: (coord: bigint): ChamberCoords => {
-			const compass = coordToCompass(coord)
-			return {
-				coord: coord.toString(),
-				slug: compassToSlug(compass) as string,
-				compass: minifyCompas(compass) as Compass,
-			}
-		},
-	},
-	[ViewName.chamberData]: {
-		contractName: 'CrawlerToken',
-		functionName: 'coordToChamberData',
-		transform: (data: any): ChamberData => {
-			console.log(data)
-			const locks = data.locks.map((v: number) => v != 0)
-			const locksCount = locks.reduce((result: number, val: number) => { return result + (val ? 1 : 0) }, 0)
-			const chamberData = {
-				compass: coordToCompass(data.coord),
-				coord: data.coord,
-				seed: bigIntToHexString(data.seed),
-				bitmap: data.bitmap != '0' ? bigIntToHexString(data.bitmap) : undefined,
-				tilemap: data.tilemap != '0x' ? bigIntToNumberArray(data.tilemap) : undefined,
-				tokenId: parseInt(data.tokenId),
-				yonder: parseInt(data.yonder),
-				name: data.name ?? `Chamber #${data.tokenId}`,
-				chapter: data.chapter,
-				terrain: data.terrain,
-				entryDir: data.entryDir,
-				gemPos: data.gemPos,
-				gemType: data.hoard.gemType,
-				coins: data.hoard.coins,
-				worth: data.hoard.worth,
-				doors: data.doors,
-				locks,
-				isStatic: (locksCount == 0),
-			} as ChamberData
-			return chamberData
-		},
-	},
+import tokenIdToCoord from './views/tokenIdToCoord'
+import chamberData from './views/chamberData'
+
+const views: Record<ViewName, ViewDefinition> = {
+	[ViewName.tokenIdToCoord]: tokenIdToCoord(),
+	[ViewName.chamberData]: chamberData(),
 }
 
-//
-//	options  {
-//		chainId:
-//
-export const readViewRecord = async (viewName: ViewName, key: any, args: any[], options: any) => {
+
+
+export const readViewRecord = async (viewName: ViewName, key: any, args: any[], options: ContractInfo) => {
 	const view = views[viewName]
 	if (!view) {
 		return {
@@ -75,8 +32,10 @@ export const readViewRecord = async (viewName: ViewName, key: any, args: any[], 
 	const { contractName, functionName, transform } = view
 
 	// Get contract
+	const chainId = resolveChainId(options)
 	const contract = getContractAbi({
 		...options,
+		chainId,
 		contractName,
 	})
 	// console.log(`contract:`, contractName, contract.contractAddress)
