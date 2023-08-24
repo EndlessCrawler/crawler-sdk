@@ -26,11 +26,17 @@ export function formatAddress(address: Address, short: false = false): string {
 }
 
 export function validateArgs(args: any[] = []): boolean {
-	const hasNullArgs = args.reduce((result, value) => result || value == null, false)
-	return !hasNullArgs
+	for (let i = 0; i < args.length; ++i) {
+		if (args[i] == null) {
+			return false
+		}
+		if (Array.isArray(args[i])) {
+			if (!validateArgs(args[i])) return false
+		}
+	}
+	return true
 }
 
 export {
-	isAddress,
 	zeroAddress,
 }
