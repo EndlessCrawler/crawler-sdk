@@ -2,11 +2,11 @@ import {
 	ContractInfo,
 	ContractAbi,
 	ErrorResult,
-} from '../types'
+} from './types'
 
 import { Contracts } from './abis'
 
-export const getContract = (options: ContractInfo): ContractAbi | ErrorResult => {
+export const getContractAbi = (options: ContractInfo): ContractAbi | ErrorResult => {
 	let { contractName, contractAddress, chainId } = options
 
 	if (!contractName) {

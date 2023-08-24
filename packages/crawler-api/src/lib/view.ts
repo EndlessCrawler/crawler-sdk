@@ -1,4 +1,4 @@
-import { getContract } from './contract'
+import { getContractAbi } from './contract'
 import { readContract } from './wagmi'
 import {
 	compassToSlug,
@@ -14,7 +14,7 @@ import {
 import {
 	ContractAbi,
 	isErrorResult,
-} from '../types'
+} from './types'
 
 const views = {
 	[ViewName.tokenIdToCoord]: {
@@ -65,7 +65,7 @@ const views = {
 //	options  {
 //		chainId:
 //
-export const getView = async (viewName: ViewName, key: any, args: any[], options: any) => {
+export const readViewRecord = async (viewName: ViewName, key: any, args: any[], options: any) => {
 	const view = views[viewName]
 	if (!view) {
 		return {
@@ -75,7 +75,7 @@ export const getView = async (viewName: ViewName, key: any, args: any[], options
 	const { contractName, functionName, transform } = view
 
 	// Get contract
-	const contract = getContract({
+	const contract = getContractAbi({
 		...options,
 		contractName,
 	})

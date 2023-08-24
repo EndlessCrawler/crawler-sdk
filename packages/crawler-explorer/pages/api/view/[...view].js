@@ -1,5 +1,5 @@
 import {
-	getView,
+	readViewRecord,
 } from '@avante/crawler-api'
 
 // TODO: TEST OK
@@ -16,7 +16,7 @@ export default async function handler(request, response) {
 	const [functionName, key] = view
 	const args = view.slice(2)
 
-	const { data, error } = await getView(functionName, key, args, request.query)
+	const { data, error } = await readViewRecord(functionName, key, args, request.query)
 
 	if (error) {
 		return response.status(400).json({

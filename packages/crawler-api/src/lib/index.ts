@@ -1,5 +1,7 @@
+export * from './types'
+
 export {
-	getContract,
+	getContractAbi,
 } from './contract'
 
 export {
@@ -9,7 +11,7 @@ export {
 } from './fetch'
 
 export {
-	getView,
+	readViewRecord,
 } from './view'
 
 export {
@@ -21,7 +23,6 @@ export {
 } from './formatter'
 
 export {
-	isAddress,
 	zeroAddress,
 	isZeroAddress,
 	validateAddress,

@@ -6,7 +6,7 @@ import {
 	isSameAddress,
 	formatAddress,
 	validateArgs,
-} from '../src/api'
+} from '../src/lib'
 
 const _address = [
 	'0x0000000000000000000000000000000000000000',

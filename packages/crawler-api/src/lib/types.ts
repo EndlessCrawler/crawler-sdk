@@ -3,6 +3,7 @@ import {
 	Address,
 } from '@avante/crawler-data'
 
+/** @type included contract names */
 export enum ContractName {
 	CrawlerToken = 'CrawlerToken',
 	// CrawlerIndex = 'CrawlerIndex',
@@ -20,28 +21,31 @@ export enum ContractName {
 	// Ownable = 'Ownable',
 }
 
+/** @type contract address and abi for on-chain calls */
 export interface ContractArtifacts {
 	abi: any
 	networks: any
 }
 
-/** passed to getContract() */
+/** @type passed to getContract() */
 export interface ContractInfo {
 	chainId: ChainId
 	contractName: ContractName
 	contractAddress?: Address
 }
 
-/** result from getContract() */
+/** @type result from getContract() */
 export interface ContractAbi {
 	chainId: ChainId,
 	contractAddress: Address,
 	abi: any
 }
 
+/** @type generic error result from functions */
 export interface ErrorResult {
 	error: string
 }
+
 export function isErrorResult(obj: any): obj is ErrorResult {
 	return obj && obj.error && typeof (obj.error) == 'string'
 }

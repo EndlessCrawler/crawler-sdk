@@ -1,7 +1,7 @@
 import {
 	ContractName,
 	ContractArtifacts,
-} from '../types'
+} from './types'
 
 // Chambers
 import CrawlerToken from '../artifacts/CrawlerToken.json'

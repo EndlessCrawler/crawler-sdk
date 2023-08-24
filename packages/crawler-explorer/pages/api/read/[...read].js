@@ -1,14 +1,15 @@
 import {
-	getContract,
+	getContractAbi,
 	readContract,
+	isErrorResult,
 } from '@avante/crawler-api'
 
 export default async function handler(request, response) {
 	// Get contract
-	const contract = getContract(request.query)
+	const contract = getContractAbi(request.query)
 	// console.log(`contract:`, contract.contractName, contract.contractAddress)
 
-	if (contract.error) {
+	if (isErrorResult(contract)) {
 		return response.status(400).json({
 			error: contract.error,
 			query: request.query,

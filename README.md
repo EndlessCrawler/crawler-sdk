@@ -15,7 +15,7 @@ In development:
 Planned:
 
 * `@avante/crawler-react` : React framework (off-chain, ready to use)
-* `@avante/crawler-web3` : React framework (on-chain, need web3 wallet)
+* `@avante/crawler-react3` : React framework (on-chain, need web3 wallet)
 * `@avante/crawler-contracts` : Solidity contracts
 
 
@@ -27,8 +27,8 @@ Planned:
 |---------------------------|------------|------------------|
 | @avante/crawler-data      | Typescript | off-chain        |
 | @avante/crawler-react     | React      | off-chain        |
-| @avante/crawler-web3      | Typescript | web3 / on-chain  |
-| @avante/crawler-react ?   | React      | web3 / on-chain  |
+| @avante/crawler-api       | Typescript | web3 / on-chain  |
+| @avante/crawler-react3?   | React      | web3 / on-chain  |
 | @avante/crawler-explorer  | Next.js    | web3 / on-chain  |
 
 

@@ -11,7 +11,7 @@ import { infuraProvider } from '@wagmi/core/providers/infura'
 import {
 	ContractAbi,
 	ErrorResult,
-} from '../types'
+} from './types'
 
 //---------------------
 // Client
