@@ -1,6 +1,5 @@
 import {
 	ViewDefinitionT,
-	ContractName,
 } from '../types'
 import {
 	ChamberCoords,
@@ -8,6 +7,7 @@ import {
 	coordToCompass,
 	minifyCompas,
 	Compass,
+	ContractName,
 } from '@avante/crawler-data'
 
 export default (): ViewDefinitionT<ChamberCoords> => ({

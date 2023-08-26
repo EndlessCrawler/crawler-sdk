@@ -1,6 +1,8 @@
 export * from './types'
 
 export {
+	getAllContractNames,
+	getContractAddress,
 	getContractAbi,
 } from './contract'
 

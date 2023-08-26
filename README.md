@@ -1,18 +1,22 @@
 # crawler-sdk
 
-Endless Crawler SDK Monorepo
+[Endless Crawler](https://endlesscrawler.io/) SDK Monorepo
 
-## Included Packages
+[@ EndlessCrawler](https://twitter.com/EndlessCrawler)
 
-**EARLY ALPHA**. Use with caution, anything can change and break at any time.
+## SDK structure
 
-In development:
+**EARLY ALPHA**
+
+Things can change and break at any time.
+
+#### Packages in development
 
 * `@avante/crawler-data` : Game data and tools
 * `@avante/crawler-api` : Web3 API, contracts ABI
 * `@avante/crawler-explorer` : Data explorer, examples, cacher
 
-Planned:
+#### Planned
 
 * `@avante/crawler-react` : React framework (off-chain, ready to use)
 * `@avante/crawler-react3` : React framework (on-chain, need web3 wallet)
@@ -47,7 +51,7 @@ There is no reason to download this repository unless you want to contribute. As
 npm install
 npx lerna init
 npx lerna link
-npx lerna run build
+npx lerna run build  # or: npm run _build
 ```
 
 
@@ -55,8 +59,8 @@ npx lerna run build
 
 ```sh
 # on all packages
-npx lerna run build
-npx lerna run test
+npx lerna run build  # or: npm run _build
+npx lerna run test   # or: npm run _test
 npx lerna run test,build,lint
 
 # on a single package
@@ -72,6 +76,15 @@ npx lerna exec "npm update --save"
 
 # on a single package
 npx lerna exec npm install --scope=crawler-data
+```
+
+#### Watch and build Typescript changes...
+
+```sh
+# recompile Typescript packages on changes
+npm run watch
+# recompile and run tests
+npm run watchtest
 ```
 
 

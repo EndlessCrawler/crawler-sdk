@@ -1,4 +1,3 @@
-
 /** @type supported networks */
 export enum NetworkName {
 	Mainnet = 'mainnet',
@@ -27,9 +26,21 @@ export const NetworkNameToChainId: Record<NetworkName, ChainId> = {
 	// [NetworkName.Sepolia]: ChainId.Sepolia,
 }
 
-/** @type all contract addresses of a network */
+/** @type included contract names */
 export enum ContractName {
-	CrawlerToken = 'crawlerToken',
-	CrawlerCards = 'cardsMinter',
+	CrawlerToken = 'CrawlerToken',
+	// CrawlerIndex = 'CrawlerIndex',
+	// CrawlerPlayer = 'CrawlerPlayer',
+	// CrawlerQueryV1 = 'CrawlerQueryV1',
+	// LimboToken = 'LimboToken',
+	// // Cards
+	// CardsMinter = 'CardsMinter',
+	// FounderStoreV2 = 'FounderStoreV2',
+	// // Interfaces
+	// IERC721 = 'IERC721',
+	// ICardsStore = 'ICardsStore',
+	// ICrawlerContract = 'ICrawlerContract',
+	// ICrawlerMapper = 'ICrawlerMapper',
+	// Ownable = 'Ownable',
 }
 

@@ -23,18 +23,6 @@ export type AnyBigInt = number | bigint | BigIntString | HexString
 
 
 //--------------------------------
-// Chains Contracts view
-//
-
-/** @type all contract addresses of a network */
-export type ContractAddresses = Record<ContractName, Address>
-
-/** @type all contract addresses of a network */
-export type ContractsView = Record<ChainId, ContractAddresses>
-
-
-
-//--------------------------------
 // Crawler Types
 //
 
@@ -124,6 +112,7 @@ export enum ViewName {
 /** @type View info */
 export interface ViewChainInfo {
 	chainId: ChainId
+	contractName: ContractName
 	contractAddress: Address
 	timestamp: number
 }

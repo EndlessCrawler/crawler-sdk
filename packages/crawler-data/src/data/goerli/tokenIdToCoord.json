@@ -1,6 +1,7 @@
 {
 	"chain": {
 		"chainId": 5,
+		"contractName": "CrawlerToken",
 		"contractAddress": "0x64DCeA44e1DC1CB91E5718306C5440f33C2f1666",
 		"timestamp": 0
 	},

@@ -66,12 +66,12 @@ export const setChainData = (options: Options) => {
 }
 
 /** called by clients to get chain data
- * @param options.chainId The desired chainId, or chain set by setChainData()
+ * @param options.chainId The specified chainId, or chain set by setChainData()
  * @returns the full chain data, throws error if chain is invalid
  */
 export const getChainData = (options: Options = {}): AllViews => {
 	if (_global?.CrawlerData) {
-		// use desired chain
+		// use specified chain
 		if (options.chainId) {
 			if (_global.CrawlerData.data[options.chainId]) {
 				return _global.CrawlerData.data[options.chainId]

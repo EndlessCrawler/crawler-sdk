@@ -1,6 +1,5 @@
 import {
 	ChainId,
-	ContractName,
 } from './chains'
 
 export class InvalidCrawlerChainError extends Error {
@@ -17,9 +16,3 @@ export class CrawlerChainNotSetError extends Error {
 	}
 }
 
-export class InvalidCrawlerContractError extends Error {
-	constructor(contractName: ContractName) {
-		super(`InvalidCrawlerContractError: Invlaid contract name [${contractName}]`)
-		this.name = 'InvalidCrawlerContractError'
-	}
-}

@@ -9,12 +9,9 @@ import {
 	ChainIdToNetworkName,
 	NetworkNameToChainId,
 	getChainData,
-	getContractAddress,
-	setChainData,
 } from '../src/lib'
 import {
 	ChainId,
-	ContractName,
 	NetworkName,
 } from '../src/lib/types'
 
@@ -70,22 +67,5 @@ describe('* chains', () => {
 			expect(data.tokenIdToCoord?.chain?.chainId).toBe(chainId)
 		}
 	})
-
-	it('getContractAddress()', () => {
-
-		for (let i = 0; i < chainIds.length; ++i) {
-			const chainId = chainIds[i]
-
-			setChainData({ chainId })
-			const data = getChainData({ chainId })
-			const address1 = data.tokenIdToCoord?.chain?.contractAddress
-			expect(address1).not.toBe(null)
-
-			const address2 = getContractAddress(ContractName.CrawlerToken, chainId)
-			expect(address2).toBe(address1)
-		}
-	})
-
-
 
 })

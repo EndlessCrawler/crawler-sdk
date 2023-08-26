@@ -1,7 +1,10 @@
 import {
-	ViewName,
 	ChainId,
 	ChainData,
+	ViewName,
+	View,
+	ChamberDataViewData,
+	TokenIdToCoordsViewData,
 } from '../types'
 
 //-------------------------------
@@ -12,8 +15,8 @@ import _mainnet_chamberData from '../../data/mainnet/chamberData.json'
 export const mainnetData: ChainData = {
 	chainId: ChainId.Mainnet,
 	data: {
-		[ViewName.tokenIdToCoord]: _mainnet_tokenIdToCoord,
-		[ViewName.chamberData]: _mainnet_chamberData,
+		[ViewName.tokenIdToCoord]: _mainnet_tokenIdToCoord as View<TokenIdToCoordsViewData>,
+		[ViewName.chamberData]: _mainnet_chamberData as View<ChamberDataViewData>,
 	},
 }
 
@@ -25,8 +28,8 @@ import _goerli_chamberData from '../../data/goerli/chamberData.json'
 export const goerliData: ChainData = {
 	chainId: ChainId.Goerli,
 	data: {
-		[ViewName.tokenIdToCoord]: _goerli_tokenIdToCoord,
-		[ViewName.chamberData]: _goerli_chamberData,
+		[ViewName.tokenIdToCoord]: _goerli_tokenIdToCoord as View<TokenIdToCoordsViewData>,
+		[ViewName.chamberData]: _goerli_chamberData as View<ChamberDataViewData>,
 	},
 }
 

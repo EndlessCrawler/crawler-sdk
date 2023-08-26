@@ -8,8 +8,8 @@ export {
 export {
 	getAllChainIds,
 	getAllNetworkNames,
-	getChainContractAddresses,
-	getContractAddress,
+	chainIdToNetworkName,
+	networkNameToChainId,
 } from './chains'
 
 export {

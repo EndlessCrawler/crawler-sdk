@@ -1,9 +1,9 @@
 import {
 	ViewDefinitionT,
-	ContractName,
 } from '../types'
 import {
 	ChamberData,
+	ContractName,
 	coordToCompass,
 	bigIntToHexString,
 	bigIntToNumberArray,
