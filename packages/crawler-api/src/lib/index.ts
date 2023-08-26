@@ -1,4 +1,7 @@
 export * from './types'
+export * from './utils'
+
+export { Contracts } from './abis'
 
 export {
 	getAllContractNames,
@@ -10,7 +13,7 @@ export {
 	fetchJson,
 	fetchText,
 	addParamsToUrl,
-} from './fetch'
+} from './utils/fetch'
 
 export {
 	readViewRecord,
@@ -22,15 +25,4 @@ export {
 
 export {
 	formatViewData,
-} from './formatter'
-
-export {
-	zeroAddress,
-	isZeroAddress,
-	validateAddress,
-	isSameAddress,
-	formatAddress,
-	validateArgs,
-} from './utils'
-
-export { Contracts } from './abis'
+} from './utils/formatter'
