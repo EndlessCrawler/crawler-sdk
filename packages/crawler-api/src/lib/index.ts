@@ -1,4 +1,5 @@
 export * from './types'
+export * from './calls'
 export * from './utils'
 
 export { Contracts } from './abis'
