@@ -2,13 +2,9 @@ import {
 	Address,
 	ChainId,
 	ContractName,
-	resolveChainId,
 	InvalidCrawlerChainError,
 } from '@avante/crawler-data'
 import {
-	ContractInfo,
-	ContractAbi,
-	ErrorResult,
 	InvalidCrawlerContractError,
 } from './types'
 
@@ -20,11 +16,7 @@ export const getAllContractNames = (): ContractName[] => {
 	return Object.keys(Contracts) as ContractName[]
 }
 
-/**
- ** @param contractName the contract name
- ** @param chainId the network chain id
- ** @returns a contract's address for the specified chain
- */
+/** @returns a contract's address for the specified chain */
 export const getContractAddress = (contractName: ContractName, chainId: ChainId): Address => {
 	if (!Contracts[contractName]) {
 		throw new InvalidCrawlerContractError(contractName)
@@ -36,19 +28,10 @@ export const getContractAddress = (contractName: ContractName, chainId: ChainId)
 	return result
 }
 
-/** @returns a contract's abi and address for the specified chain */
-export const getContractAbi = (options: ContractInfo): ContractAbi => {
-	const chainId = resolveChainId(options)
-	let { contractName, contractAddress } = options
-
+/** @returns a contract's abi for the specified chain */
+export const getContractAbi = (contractName: ContractName): any => {
 	if (!Contracts[contractName]) {
 		throw new InvalidCrawlerContractError(contractName)
 	}
-	const abi = Contracts[contractName].abi
-
-	if (!contractAddress) {
-		contractAddress = getContractAddress(contractName, chainId)
-	}
-
-	return { chainId, contractAddress, abi }
+	return Contracts[contractName].abi
 }

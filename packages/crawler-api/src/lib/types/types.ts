@@ -3,6 +3,7 @@ import {
 	ContractName,
 	Address,
 	Options,
+	ViewName,
 } from '@avante/crawler-data'
 
 /** @type contract address and abi for on-chain calls */
@@ -11,18 +12,25 @@ export interface ContractArtifacts {
 	networks: any
 }
 
-/** @type passed to getContract() */
-export interface ContractInfo extends Options {
-	chainId: ChainId // from Options
-	contractName: ContractName
-	contractAddress?: Address
+/** @type passed to readViewRecordOrThrow() for on-chain read */
+export interface ReadViewOptions extends Options {
+	chainId?: ChainId  // from Options
+	viewName: ViewName,
+	key: any,
+	args: any[],
 }
 
-/** @type result from getContract() */
-export interface ContractAbi extends Options {
-	chainId: ChainId // from Options
-	contractAddress: Address,
-	abi: any
+/** @type result from readViewRecordOrThrow() */
+export interface ReadViewResult {
+	[key: string]: any
+}
+
+/** @type passed to readContract() for on-chain read */
+export interface ReadContractOptions extends Options {
+	chainId?: ChainId  // from Options
+	contractName: ContractName,
+	functionName: string,
+	args: any[],
 }
 
 /** @type generic error result from functions */

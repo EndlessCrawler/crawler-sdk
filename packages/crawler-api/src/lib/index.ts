@@ -16,11 +16,11 @@ export {
 } from './utils/fetch'
 
 export {
-	readViewRecord,
+	readViewRecordOrThrow,
 } from './view'
 
 export {
-	readContract,
+	readContractOrThrow,
 } from './wagmi'
 
 export {

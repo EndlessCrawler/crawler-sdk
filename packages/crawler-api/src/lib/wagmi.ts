@@ -1,7 +1,7 @@
 import {
 	configureChains,
 	createConfig,
-	readContract as wagmiReadContract,
+	readContract,
 } from '@wagmi/core'
 import { mainnet, goerli } from 'viem/chains'
 import { publicProvider } from '@wagmi/core/providers/public'
@@ -9,10 +9,15 @@ import { alchemyProvider } from '@wagmi/core/providers/alchemy'
 import { infuraProvider } from '@wagmi/core/providers/infura'
 
 import {
-	ContractAbi,
-	DataResult,
-	ErrorResult,
+	resolveChainId,
+} from '@avante/crawler-data'
+import {
+	ReadContractOptions,
 } from './types'
+import {
+	getContractAddress,
+	getContractAbi,
+} from './contract'
 
 //---------------------
 // Client
@@ -39,25 +44,26 @@ const config = createConfig({
 // contract: result from getContract()
 //
 
-export const readContract = async (contract: ContractAbi, functionName: string, args: any[] = []): Promise<DataResult | ErrorResult> => {
-	const { chainId, contractAddress, abi } = contract
+const _normalizeArgs = (args: any[]): any[] => {
+	return args.map(value => value == 'true' ? true : value == 'false' ? false : value)
+}
 
-	args = args.map(value => value == 'true' ? true : value == 'false' ? false : value)
+export const readContractOrThrow = async (options: ReadContractOptions): Promise<any> => {
+	const chainId = resolveChainId(options)
+	const { contractName, functionName, args } = options
 
-	let data = null
-	try {
-		data = await wagmiReadContract({
-			//@ts-ignore
-			address: contractAddress,
-			abi,
-			functionName,
-			args,
-			chainId,
-		})
-	} catch (error) {
+	const address = getContractAddress(contractName, chainId)
+	const abi = getContractAbi(contractName)
+
+	// will throw on contract error
+	const data = await readContract({
 		//@ts-ignore
-		return { error: error.toString() }
-	}
+		address,
+		abi,
+		functionName,
+		args: _normalizeArgs(args),
+		chainId,
+	})
 
-	return { data }
+	return data
 }

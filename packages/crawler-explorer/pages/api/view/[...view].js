@@ -1,29 +1,36 @@
 import {
-	readViewRecord,
+	readViewRecordOrThrow,
 } from '@avante/crawler-api'
 
 // TODO: TEST OK
-// http://localhost:3000/api/view/tokenIdToCoord?chainId=1&tokenId=1
+// http://localhost:3000/api/view/1/tokenIdToCoord?tokenId=1
 // TODO: TEST NOK
-// http://localhost:3000/api/view/xxxxx?chainId=1&tokenId=1
-// http://localhost:3000/api/view/tokenIdToCoord?chainId=999&tokenId=1
-// http://localhost:3000/api/view/tokenIdToCoord?chainId=1
-// http://localhost:3000/api/view/tokenIdToCoord?chainId=1&tokenId=0
-// http://localhost:3000/api/view/tokenIdToCoord?chainId=1&tokenId=10000
+// http://localhost:3000/api/view/1/xxxxx/1
+// http://localhost:3000/api/view/1/tokenIdToCoord
+// http://localhost:3000/api/view/1/tokenIdToCoord/0
+// http://localhost:3000/api/view/1/tokenIdToCoord/1000
+// http://localhost:3000/api/view/999/tokenIdToCoord/1
 
 export default async function handler(request, response) {
 	const { view } = request.query
-	const [functionName, key] = view
-	const args = view.slice(2)
+	const [chainId, viewName, key] = view
+	const args = view.slice(3)
 
-	//@ts-ignore
-	const { data, error } = await readViewRecord(functionName, key, args, request.query)
+	const readViewOptions = {
+		chainId: parseInt(chainId),
+		viewName,
+		key,
+		args,
+	}
 
-	if (error) {
+	let data = null
+	try {
+		data = await readViewRecordOrThrow(readViewOptions)
+	} catch(error) {
 		return response.status(400).json({
 			error,
 			query: request.query,
-		});
+		})
 	}
 
 	return response.status(200).json(data);

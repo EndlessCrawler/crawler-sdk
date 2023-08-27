@@ -1,17 +1,11 @@
-import { getContractAbi } from './contract'
-import { readContract } from './wagmi'
+import { readContractOrThrow } from './wagmi'
 import {
-	Options,
 	ViewName,
-	resolveChainId,
 } from '@avante/crawler-data'
 import {
-	ContractAbi,
-	ContractInfo,
-	DataResult,
-	ErrorResult,
+	ReadViewOptions,
+	ReadViewResult,
 	ViewDefinition,
-	isErrorResult,
 } from './types'
 
 import tokenIdToCoord from './views/tokenIdToCoord'
@@ -25,30 +19,21 @@ const views: Record<ViewName, ViewDefinition> = {
 //----------------------------------
 // read a View record on-chain
 //
-export const readViewRecord = async (viewName: ViewName, key: any, args: any[], options: ContractInfo): Promise<DataResult | ErrorResult> => {
-	const chainId = resolveChainId(options)
-
+export const readViewRecordOrThrow = async (options: ReadViewOptions): Promise<ReadViewResult> => {
+	const { viewName, key } = options
 	const view = views[viewName]
 	const { contractName, functionName, transform } = view
 
-	const contract = getContractAbi({
+	const readContractOptions = {
 		...options,
-		chainId,
 		contractName,
-	})
-
-	if (isErrorResult(contract)) {
-		return contract
+		functionName,
 	}
 
-	const result = await readContract(contract as ContractAbi, functionName, args)
-	if (isErrorResult(result)) {
-		return result
-	}
+	// will throw on contract error
+	const result = await readContractOrThrow(readContractOptions)
 
 	return {
-		data: {
-			[key]: await transform?.(result.data) ?? result.data
-		}
+		[key]: await transform?.(result) ?? result
 	}
 }
