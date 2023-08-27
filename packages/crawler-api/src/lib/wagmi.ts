@@ -17,16 +17,14 @@ import {
 //---------------------
 // Client
 //
-
+const alchemyKey = process.env.ALCHEMY_API_KEY
+const infuraKey = process.env.INFURA_API_KEY
 const { chains, publicClient, webSocketPublicClient } = configureChains(
 	[mainnet, goerli],
-	[
-		//@ts-ignore
-		alchemyProvider({ apiKey: process.env.ALCHEMY_API_KEY }),
-		//@ts-ignore
-		infuraProvider({ apiKey: process.env.INFURA_API_KEY }),
-		publicProvider(),
-	],
+	alchemyKey && infuraKey ? [alchemyProvider({ apiKey: alchemyKey }), infuraProvider({ apiKey: infuraKey }), publicProvider()]
+		: alchemyKey ? [alchemyProvider({ apiKey: alchemyKey }), publicProvider()]
+			: infuraKey ? [infuraProvider({ apiKey: infuraKey }), publicProvider()] :
+				[publicProvider()],
 )
 
 const config = createConfig({
