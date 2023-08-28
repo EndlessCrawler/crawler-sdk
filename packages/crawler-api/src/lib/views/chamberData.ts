@@ -52,7 +52,7 @@ export default (): ViewDefinitionT<ChamberData> => ({
 			doors: data.doors,
 			locks,
 			locksCount,
-			isStatic: (locksCount == 0),
+			isDynamic: (locksCount > 0),
 		}
 		return chamberData
 	}

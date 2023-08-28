@@ -95,7 +95,7 @@ export interface ChamberData {
 	doors: number[]
 	locks: boolean[]
 	locksCount: number
-	isStatic: boolean
+	isDynamic: boolean
 }
 
 

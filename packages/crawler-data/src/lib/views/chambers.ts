@@ -65,7 +65,7 @@ export const getTokensCoords = (tokenIds: number[], options: Options = {}): Toke
 export const getStaticChamberCount = (options: Options = {}): number => {
 	const chamberDataView = getView(ViewName.chamberData, options) as ViewT<ChamberDataViewData>
 	return Object.values(chamberDataView.data).reduce(function (count, value) {
-		return count + (value.isStatic ? 1 : 0)
+		return count + (value.isDynamic ? 0 : 1)
 	}, 0)
 }
 
@@ -73,10 +73,10 @@ export const getStaticChamberCount = (options: Options = {}): number => {
  ** @param options.chainId the network chain id (1 or 5)
  ** @returns total edge chambers count
  */
-export const getEdgeChamberCount = (options: Options = {}): number => {
+export const getDynamicChamberCount = (options: Options = {}): number => {
 	const chamberDataView = getView(ViewName.chamberData, options) as ViewT<ChamberDataViewData>
 	return Object.values(chamberDataView.data).reduce(function (result, value) {
-		return result + (value.isStatic ? 0 : 1)
+		return result + (value.isDynamic ? 1 : 0)
 	}, 0)
 }
 
@@ -84,11 +84,11 @@ export const getEdgeChamberCount = (options: Options = {}): number => {
  ** @param options.chainId the network chain id (1 or 5)
  ** @returns total edge chambers count
  */
-export const getEdgeChambersCoord = (options: Options = {}): BigIntString[] => {
+export const getDynamicChambersCoord = (options: Options = {}): BigIntString[] => {
 	const chamberDataView = getView(ViewName.chamberData, options) as ViewT<ChamberDataViewData>
 	const tokenIdToCoordView = getView(ViewName.tokenIdToCoord, options) as ViewT<TokenIdToCoordsViewData>
 	return Object.values(chamberDataView.data).reduce(function (result, value) {
-		if (!value.isStatic) {
+		if (value.isDynamic) {
 			result.push(tokenIdToCoordView.data[value.tokenId].coord)
 		}
 		return result
@@ -99,10 +99,10 @@ export const getEdgeChambersCoord = (options: Options = {}): BigIntString[] => {
  ** @param options.chainId the network chain id (1 or 5)
  ** @returns total edge chambers count
  */
-export const getEdgeChambersId = (options: Options = {}): number[] => {
+export const getDynamicChambersId = (options: Options = {}): number[] => {
 	const chamberDataView = getView(ViewName.chamberData, options) as ViewT<ChamberDataViewData>
 	return Object.values(chamberDataView.data).reduce(function (result, value) {
-		if (!value.isStatic) {
+		if (value.isDynamic) {
 			result.push(value.tokenId)
 		}
 		return result

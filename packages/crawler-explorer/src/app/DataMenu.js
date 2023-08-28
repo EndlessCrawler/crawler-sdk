@@ -11,9 +11,9 @@ import {
 	getViewDataCount,
 	getChamberCount,
 	getStaticChamberCount,
-	getEdgeChamberCount,
-	getEdgeChambersId,
-	getEdgeChambersCoord,
+	getDynamicChamberCount,
+	getDynamicChambersId,
+	getDynamicChambersCoord,
 	getTokenCoords,
 	getTokensCoords,
 	getChamberData,
@@ -47,8 +47,8 @@ export default function DataMenu() {
 	}, [])
 
 	// Chambers
-	const edgesIds = useMemo(() => getEdgeChambersId(), [])
-	const edgesCoord = useMemo(() => getEdgeChambersCoord(), [])
+	const edgesIds = useMemo(() => getDynamicChambersId(), [])
+	const edgesCoord = useMemo(() => getDynamicChambersCoord(), [])
 	const tokenCoords = useMemo(() => getTokenCoords(1), [])
 
 	return (
@@ -58,9 +58,9 @@ export default function DataMenu() {
 			<div>
 				<ActionDispatcher label='getChamberCount()' onAction={() => getChamberCount()} />
 				<ActionDispatcher label='getStaticChamberCount()' onAction={() => getStaticChamberCount()} />
-				<ActionDispatcher label='getEdgeChamberCount()' onAction={() => getEdgeChamberCount()} />
-				<ActionDispatcher label='getEdgeChambersId()' onAction={() => getEdgeChambersId()} />
-				<ActionDispatcher label='getEdgeChambersCoord()' onAction={() => getEdgeChambersCoord()} />
+				<ActionDispatcher label='getDynamicChamberCount()' onAction={() => getDynamicChamberCount()} />
+				<ActionDispatcher label='getDynamicChambersId()' onAction={() => getDynamicChambersId()} />
+				<ActionDispatcher label='getDynamicChambersCoord()' onAction={() => getDynamicChambersCoord()} />
 				<ActionDispatcher label='getTokenCoords(1)' onAction={() => getTokenCoords(1)} />
 				<ActionDispatcher label='getTokensCoords(edges)' onAction={() => getTokensCoords(edgesIds)} />
 				<ActionDispatcher label={`getChamberData(${tokenCoords.coord})`} onAction={() => getChamberData(tokenCoords.coord)} />

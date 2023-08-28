@@ -41,7 +41,7 @@
 			"doors": [11, 143, 80, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"73786976294838206468": {
 			"compass": { "west": 4, "south": 4 },
@@ -79,7 +79,7 @@
 			"doors": [10, 159, 0, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361530393837781782840539911707748382214717440": {
 			"compass": { "north": 2, "east": 8 },
@@ -117,7 +117,7 @@
 			"doors": [0, 0, 176, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"3062541302288446171170371466885913903110": {
 			"compass": { "east": 9, "south": 6 },
@@ -156,7 +156,7 @@
 			"doors": [6, 95, 80, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2041694201525630780780247644590609268743": {
 			"compass": { "east": 6, "south": 7 },
@@ -194,7 +194,7 @@
 			"doors": [6, 175, 144, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"92233720368547758083": {
 			"compass": { "west": 5, "south": 3 },
@@ -232,7 +232,7 @@
 			"doors": [6, 111, 112, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2041694201525630780780247644590609268744": {
 			"compass": { "east": 6, "south": 8 },
@@ -270,7 +270,7 @@
 			"doors": [10, 0, 176, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2041694201525630780780247644590609268745": {
 			"compass": { "east": 6, "south": 9 },
@@ -307,7 +307,7 @@
 			"doors": [4, 111, 96, 247],
 			"locks": [false, false, true, true],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"680564733841876926926749214863536422918": {
 			"compass": { "east": 2, "south": 6 },
@@ -347,7 +347,7 @@
 			"doors": [7, 175, 176, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723055343157692830665664501655498224685809664": {
 			"compass": { "north": 4, "west": 5 },
@@ -385,7 +385,7 @@
 			"doors": [4, 79, 160, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"3062541302288446171170371466885913903108": {
 			"compass": { "east": 9, "south": 4 },
@@ -422,7 +422,7 @@
 			"doors": [10, 143, 80, 249],
 			"locks": [false, true, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"36893488147419103238": {
 			"compass": { "west": 2, "south": 6 },
@@ -461,7 +461,7 @@
 			"doors": [6, 191, 144, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1701411834604692317316873037158841057288": {
 			"compass": { "east": 5, "south": 8 },
@@ -499,7 +499,7 @@
 			"doors": [6, 191, 128, 246],
 			"locks": [false, false, false, true],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"1020847100762815390390123822295304634374": {
 			"compass": { "east": 3, "south": 6 },
@@ -537,7 +537,7 @@
 			"doors": [6, 79, 160, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1020847100762815390390123822295304634375": {
 			"compass": { "east": 3, "south": 7 },
@@ -576,7 +576,7 @@
 			"doors": [10, 159, 160, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1361129467683753853853498429727072845832": {
 			"compass": { "east": 4, "south": 8 },
@@ -614,7 +614,7 @@
 			"doors": [6, 143, 0, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"3402823669209384634633746074317682114566": {
 			"compass": { "east": 10, "south": 6 },
@@ -651,7 +651,7 @@
 			"doors": [10, 127, 80, 251],
 			"locks": [false, true, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"1361129467683753853853498429727072845831": {
 			"compass": { "east": 4, "south": 7 },
@@ -689,7 +689,7 @@
 			"doors": [5, 127, 144, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1701411834604692317316873037158841057287": {
 			"compass": { "east": 5, "south": 7 },
@@ -726,7 +726,7 @@
 			"doors": [0, 159, 112, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403819178947116038332080548670710467591667712": {
 			"compass": { "north": 5, "west": 2 },
@@ -763,7 +763,7 @@
 			"doors": [4, 127, 64, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403819178947116038332080567117454541301219328": {
 			"compass": { "north": 5, "west": 3 },
@@ -800,7 +800,7 @@
 			"doors": [11, 79, 0, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723055343157692830665664483208754150976258048": {
 			"compass": { "north": 4, "west": 4 },
@@ -839,7 +839,7 @@
 			"doors": [8, 0, 64, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403819178947116038332080585564198615010770944": {
 			"compass": { "north": 5, "west": 4 },
@@ -878,7 +878,7 @@
 			"doors": [11, 0, 144, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"37662610412320084583014736539245998496687919643079045283840": {
 			"compass": { "north": 6, "west": 4 },
@@ -916,7 +916,7 @@
 			"doors": [11, 111, 64, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"37662610412320084583014736539245998496669472899005335732224": {
 			"compass": { "north": 6, "west": 3 },
@@ -953,7 +953,7 @@
 			"doors": [6, 191, 96, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"37662610412320084583014736539245998496651026154931626180608": {
 			"compass": { "north": 6, "west": 2 },
@@ -991,7 +991,7 @@
 			"doors": [11, 79, 176, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"37662610412320084583014736539245998496632579410857916628992": {
 			"compass": { "north": 6, "west": 1 },
@@ -1028,7 +1028,7 @@
 			"doors": [4, 127, 64, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"43939712147706765346850525962453664912753381599395660693504": {
 			"compass": { "north": 7, "west": 2 },
@@ -1065,7 +1065,7 @@
 			"doors": [9, 175, 0, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"43939712147706765346850525962453664912734934855321951141888": {
 			"compass": { "north": 7, "west": 1 },
@@ -1102,7 +1102,7 @@
 			"doors": [5, 143, 160, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"50216813883093446110686315385661331328837290299785985654784": {
 			"compass": { "north": 8, "west": 1 },
@@ -1140,7 +1140,7 @@
 			"doors": [6, 79, 64, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"50216813883093446110686315385661331328855737043859695206400": {
 			"compass": { "north": 8, "west": 2 },
@@ -1177,7 +1177,7 @@
 			"doors": [7, 79, 96, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403819178947116038332080604010942688720322560": {
 			"compass": { "north": 5, "west": 5 },
@@ -1216,7 +1216,7 @@
 			"doors": [7, 159, 128, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"37662610412320084583014736539245998496706366387152754835456": {
 			"compass": { "north": 6, "west": 5 },
@@ -1255,7 +1255,7 @@
 			"doors": [7, 79, 112, 247],
 			"locks": [false, false, true, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"43939712147706765346850525962453664912808721831616789348352": {
 			"compass": { "north": 7, "west": 5 },
@@ -1295,7 +1295,7 @@
 			"doors": [8, 143, 64, 247],
 			"locks": [false, false, true, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"43939712147706765346850525962453664912790275087543079796736": {
 			"compass": { "north": 7, "west": 4 },
@@ -1334,7 +1334,7 @@
 			"doors": [8, 111, 128, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"43939712147706765346850525962453664912771828343469370245120": {
 			"compass": { "north": 7, "west": 3 },
@@ -1373,7 +1373,7 @@
 			"doors": [5, 0, 96, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403820199794216801147470901901044615477198848": {
 			"compass": { "north": 5, "east": 3 },
@@ -1410,7 +1410,7 @@
 			"doors": [4, 0, 0, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"37662610412320084583695301273087875423540881881647743500288": {
 			"compass": { "north": 6, "east": 2 },
@@ -1448,7 +1448,7 @@
 			"doors": [8, 0, 144, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"43939712147706765347190808329374603376179862718680009801728": {
 			"compass": { "north": 7, "east": 1 },
@@ -1485,7 +1485,7 @@
 			"doors": [10, 111, 128, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042291507368269622999248417746797834360848384": {
 			"compass": { "north": 3, "west": 6 },
@@ -1521,7 +1521,7 @@
 			"doors": [10, 79, 144, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723055343157692830665664520102242298395361280": {
 			"compass": { "north": 4, "west": 6 },
@@ -1558,7 +1558,7 @@
 			"doors": [6, 175, 128, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"110680464442257309697": {
 			"compass": { "west": 6, "south": 1 },
@@ -1596,7 +1596,7 @@
 			"doors": [6, 95, 128, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"110680464442257309698": {
 			"compass": { "west": 6, "south": 2 },
@@ -1633,7 +1633,7 @@
 			"doors": [11, 0, 160, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"110680464442257309699": {
 			"compass": { "west": 6, "south": 3 },
@@ -1670,7 +1670,7 @@
 			"doors": [6, 127, 80, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"129127208515966861314": {
 			"compass": { "west": 7, "south": 2 },
@@ -1707,7 +1707,7 @@
 			"doors": [4, 175, 96, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"73786976294838206469": {
 			"compass": { "west": 4, "south": 5 },
@@ -1746,7 +1746,7 @@
 			"doors": [9, 95, 64, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"55340232221128654854": {
 			"compass": { "west": 3, "south": 6 },
@@ -1785,7 +1785,7 @@
 			"doors": [10, 159, 128, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042291507368269622999248436193541908070400000": {
 			"compass": { "north": 3, "west": 7 },
@@ -1822,7 +1822,7 @@
 			"doors": [9, 159, 112, 0],
 			"locks": [false, false, true, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"55340232221128654855": {
 			"compass": { "west": 3, "south": 7 },
@@ -1861,7 +1861,7 @@
 			"doors": [10, 95, 64, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"37662610412320084584035583640008813887004256489079511711744": {
 			"compass": { "north": 6, "east": 3 },
@@ -1898,7 +1898,7 @@
 			"doors": [5, 111, 0, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"43939712147706765347871373063216480303106611933543546224640": {
 			"compass": { "north": 7, "east": 3 },
@@ -1935,7 +1935,7 @@
 			"doors": [4, 127, 0, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2381976568446569244243622252022377480201": {
 			"compass": { "east": 7, "south": 9 },
@@ -1972,7 +1972,7 @@
 			"doors": [0, 191, 96, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"3062541302288446171170371466885913903109": {
 			"compass": { "east": 9, "south": 5 },
@@ -2011,7 +2011,7 @@
 			"doors": [9, 143, 80, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361527671578846415332832352284841517745438720": {
 			"compass": { "north": 2, "west": 8 },
@@ -2049,7 +2049,7 @@
 			"doors": [5, 191, 80, 248],
 			"locks": [true, false, true, true],
 			"locksCount": 3,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"2381976568446569244243622252022377480202": {
 			"compass": { "east": 7, "south": 10 },
@@ -2086,7 +2086,7 @@
 			"doors": [7, 95, 128, 245],
 			"locks": [false, false, true, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"25108406941546723055343157692830665664538548986372104912896": {
 			"compass": { "north": 4, "west": 7 },
@@ -2123,7 +2123,7 @@
 			"doors": [4, 143, 64, 249],
 			"locks": [true, false, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"31385508676933403819178947116038332080622457686762429874176": {
 			"compass": { "north": 5, "west": 6 },
@@ -2162,7 +2162,7 @@
 			"doors": [11, 143, 80, 246],
 			"locks": [true, false, true, false],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"2722258935367507707706996859454145691655": {
 			"compass": { "east": 8, "south": 7 },
@@ -2200,7 +2200,7 @@
 			"doors": [7, 175, 80, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"56493915618480126874522104808868997744958092488323729719296": {
 			"compass": { "north": 9, "west": 2 },
@@ -2236,7 +2236,7 @@
 			"doors": [11, 111, 64, 247],
 			"locks": [true, false, true, false],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"2381976568446569244243622252022377480203": {
 			"compass": { "east": 7, "south": 11 },
@@ -2273,7 +2273,7 @@
 			"doors": [5, 175, 176, 247],
 			"locks": [false, true, true, true],
 			"locksCount": 3,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"2381976568446569244243622252022377480200": {
 			"compass": { "east": 7, "south": 8 },
@@ -2312,7 +2312,7 @@
 			"doors": [5, 111, 0, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"680564733841876926926749214863536422919": {
 			"compass": { "east": 2, "south": 7 },
@@ -2351,7 +2351,7 @@
 			"doors": [10, 175, 176, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"340282366920938463463374607431768211463": {
 			"compass": { "east": 1, "south": 7 },
@@ -2390,7 +2390,7 @@
 			"doors": [4, 191, 160, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"36893488147419103239": {
 			"compass": { "west": 2, "south": 7 },
@@ -2428,7 +2428,7 @@
 			"doors": [10, 111, 80, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"73786976294838206471": {
 			"compass": { "west": 4, "south": 7 },
@@ -2467,7 +2467,7 @@
 			"doors": [11, 79, 160, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"73786976294838206470": {
 			"compass": { "west": 4, "south": 6 },
@@ -2506,7 +2506,7 @@
 			"doors": [8, 143, 144, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"92233720368547758085": {
 			"compass": { "west": 5, "south": 5 },
@@ -2544,7 +2544,7 @@
 			"doors": [10, 79, 80, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"92233720368547758084": {
 			"compass": { "west": 5, "south": 4 },
@@ -2582,7 +2582,7 @@
 			"doors": [6, 0, 64, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2722258935367507707706996859454145691649": {
 			"compass": { "east": 8, "south": 1 },
@@ -2621,7 +2621,7 @@
 			"doors": [6, 175, 80, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042293889344838069568492550688585414481018880": {
 			"compass": { "north": 3, "east": 7 },
@@ -2658,7 +2658,7 @@
 			"doors": [0, 143, 128, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042294229627204990506956014063192846249230336": {
 			"compass": { "north": 3, "east": 8 },
@@ -2696,7 +2696,7 @@
 			"doors": [7, 111, 128, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723058065416628198173372116418637310283743232": {
 			"compass": { "north": 4, "east": 8 },
@@ -2734,7 +2734,7 @@
 			"doors": [7, 191, 96, 247],
 			"locks": [false, true, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"43939712147706765347531090696295541839643237326111778013184": {
 			"compass": { "north": 7, "east": 2 },
@@ -2771,7 +2771,7 @@
 			"doors": [11, 0, 96, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"50216813883093446111026597752582269792282218163144044314624": {
 			"compass": { "north": 8, "east": 1 },
@@ -2810,7 +2810,7 @@
 			"doors": [8, 79, 64, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"50216813883093446111366880119503208255745592770575812526080": {
 			"compass": { "north": 8, "east": 2 },
@@ -2848,7 +2848,7 @@
 			"doors": [6, 175, 64, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"56493915618480126874862387175789936208384573607608078827520": {
 			"compass": { "north": 9, "east": 1 },
@@ -2887,7 +2887,7 @@
 			"doors": [4, 175, 64, 248],
 			"locks": [true, false, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"56493915618480126875202669542710874671847948215039847038976": {
 			"compass": { "north": 9, "east": 2 },
@@ -2926,7 +2926,7 @@
 			"doors": [11, 175, 160, 246],
 			"locks": [true, false, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"50216813883093446111707162486424146719208967378007580737536": {
 			"compass": { "north": 8, "east": 3 },
@@ -2965,7 +2965,7 @@
 			"doors": [8, 79, 160, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"50216813883093446112047444853345085182672341985439348948992": {
 			"compass": { "north": 8, "east": 4 },
@@ -3004,7 +3004,7 @@
 			"doors": [11, 111, 64, 247],
 			"locks": [true, true, false, false],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"43939712147706765348211655430137418766569986540975314436096": {
 			"compass": { "north": 7, "east": 4 },
@@ -3043,7 +3043,7 @@
 			"doors": [7, 95, 112, 246],
 			"locks": [false, true, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"37662610412320084584375866006929752350467631096511279923200": {
 			"compass": { "north": 6, "east": 4 },
@@ -3082,7 +3082,7 @@
 			"doors": [6, 95, 96, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403820880358950643024397828650259479013621760": {
 			"compass": { "north": 5, "east": 5 },
@@ -3120,7 +3120,7 @@
 			"doors": [6, 127, 64, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403821220641317563962861292024866910781833216": {
 			"compass": { "north": 5, "east": 6 },
@@ -3159,7 +3159,7 @@
 			"doors": [6, 143, 112, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723057384851894356296445189669422446747320320": {
 			"compass": { "north": 4, "east": 6 },
@@ -3198,7 +3198,7 @@
 			"doors": [10, 175, 160, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723057044569527435357981726294815014979108864": {
 			"compass": { "north": 4, "east": 5 },
@@ -3237,7 +3237,7 @@
 			"doors": [8, 175, 160, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"110680464442257309701": {
 			"compass": { "west": 6, "south": 5 },
@@ -3274,7 +3274,7 @@
 			"doors": [6, 95, 112, 246],
 			"locks": [false, false, true, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"110680464442257309700": {
 			"compass": { "west": 6, "south": 4 },
@@ -3311,7 +3311,7 @@
 			"doors": [9, 79, 128, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"129127208515966861316": {
 			"compass": { "west": 7, "south": 4 },
@@ -3349,7 +3349,7 @@
 			"doors": [10, 143, 112, 249],
 			"locks": [false, false, false, true],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"129127208515966861315": {
 			"compass": { "west": 7, "south": 3 },
@@ -3387,7 +3387,7 @@
 			"doors": [0, 95, 160, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"37662610412320084584716148373850690813931005703943048134656": {
 			"compass": { "north": 6, "east": 5 },
@@ -3425,7 +3425,7 @@
 			"doors": [11, 0, 80, 246],
 			"locks": [true, false, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"18446744073709551624": {
 			"compass": { "west": 1, "south": 8 },
@@ -3463,7 +3463,7 @@
 			"doors": [11, 79, 144, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042294569909571911445419477437800278017441792": {
 			"compass": { "north": 3, "east": 9 },
@@ -3500,7 +3500,7 @@
 			"doors": [9, 191, 96, 245],
 			"locks": [true, true, false, false],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"147573952589676412931": {
 			"compass": { "west": 8, "south": 3 },
@@ -3537,7 +3537,7 @@
 			"doors": [7, 175, 64, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"50216813883093446110686315385661331328911077276080823861248": {
 			"compass": { "north": 8, "west": 5 },
@@ -3575,7 +3575,7 @@
 			"doors": [4, 111, 64, 248],
 			"locks": [true, false, true, false],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"92233720368547758086": {
 			"compass": { "west": 5, "south": 6 },
@@ -3614,7 +3614,7 @@
 			"doors": [8, 159, 144, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361530734120148703779003375082355813982928896": {
 			"compass": { "north": 2, "east": 9 },
@@ -3652,7 +3652,7 @@
 			"doors": [5, 127, 0, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"36893488147419103240": {
 			"compass": { "west": 2, "south": 8 },
@@ -3689,7 +3689,7 @@
 			"doors": [7, 159, 128, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"73786976294838206472": {
 			"compass": { "west": 4, "south": 8 },
@@ -3727,7 +3727,7 @@
 			"doors": [6, 175, 128, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"680564733841876926926749214863536422920": {
 			"compass": { "east": 2, "south": 8 },
@@ -3766,7 +3766,7 @@
 			"doors": [5, 159, 144, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361531074402515624717466838456963245751140352": {
 			"compass": { "north": 2, "east": 10 },
@@ -3803,7 +3803,7 @@
 			"doors": [4, 111, 112, 244],
 			"locks": [true, true, false, false],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"50216813883093446110686315385661331328892630532007114309632": {
 			"compass": { "north": 8, "west": 4 },
@@ -3842,7 +3842,7 @@
 			"doors": [10, 79, 96, 248],
 			"locks": [true, false, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"3062541302288446171170371466885913903105": {
 			"compass": { "east": 9, "south": 1 },
@@ -3881,7 +3881,7 @@
 			"doors": [0, 175, 160, 0],
 			"locks": [false, true, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"6277101735386680766898330725496112587272726911349948416000": {
 			"compass": { "north": 1, "east": 9 },
@@ -3918,7 +3918,7 @@
 			"doors": [7, 127, 0, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"56493915618480126875542951909631813135311322822471615250432": {
 			"compass": { "north": 9, "east": 3 },
@@ -3957,7 +3957,7 @@
 			"doors": [4, 79, 160, 248],
 			"locks": [true, true, false, false],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"18446744073709551625": {
 			"compass": { "west": 1, "south": 9 },
@@ -3994,7 +3994,7 @@
 			"doors": [5, 159, 64, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723055343157692830665664556995730445814464512": {
 			"compass": { "north": 4, "west": 8 },
@@ -4032,7 +4032,7 @@
 			"doors": [5, 79, 64, 251],
 			"locks": [true, false, true, true],
 			"locksCount": 3,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"92233720368547758087": {
 			"compass": { "west": 5, "south": 7 },
@@ -4071,7 +4071,7 @@
 			"doors": [6, 175, 96, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"3062541302288446171170371466885913903111": {
 			"compass": { "east": 9, "south": 7 },
@@ -4108,7 +4108,7 @@
 			"doors": [10, 95, 160, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"3062541302288446171170371466885913903112": {
 			"compass": { "east": 9, "south": 8 },
@@ -4145,7 +4145,7 @@
 			"doors": [5, 159, 80, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"3402823669209384634633746074317682114567": {
 			"compass": { "east": 10, "south": 7 },
@@ -4183,7 +4183,7 @@
 			"doors": [11, 127, 80, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"3402823669209384634633746074317682114568": {
 			"compass": { "east": 10, "south": 8 },
@@ -4221,7 +4221,7 @@
 			"doors": [4, 111, 144, 250],
 			"locks": [false, true, false, true],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"50216813883093446110686315385661331328874183787933404758016": {
 			"compass": { "north": 8, "west": 3 },
@@ -4260,7 +4260,7 @@
 			"doors": [7, 111, 64, 245],
 			"locks": [true, false, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"25108406941546723057725134261277234908653044029878515531776": {
 			"compass": { "north": 4, "east": 7 },
@@ -4299,7 +4299,7 @@
 			"doors": [4, 111, 160, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403821560923684484901324755399474342550044672": {
 			"compass": { "north": 5, "east": 7 },
@@ -4338,7 +4338,7 @@
 			"doors": [11, 159, 128, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403821901206051405839788218774081774318256128": {
 			"compass": { "north": 5, "east": 8 },
@@ -4377,7 +4377,7 @@
 			"doors": [8, 191, 144, 247],
 			"locks": [true, false, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"31385508676933403822241488418326778251682148689206086467584": {
 			"compass": { "north": 5, "east": 9 },
@@ -4414,7 +4414,7 @@
 			"doors": [11, 143, 176, 245],
 			"locks": [false, true, false, true],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"37662610412320084585056430740771629277394380311374816346112": {
 			"compass": { "north": 6, "east": 6 },
@@ -4451,7 +4451,7 @@
 			"doors": [7, 95, 0, 246],
 			"locks": [true, false, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"37662610412320084585396713107692567740857754918806584557568": {
 			"compass": { "north": 6, "east": 7 },
@@ -4489,7 +4489,7 @@
 			"doors": [11, 143, 80, 251],
 			"locks": [true, true, false, false],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"37662610412320084586077277841534444667784504133670120980480": {
 			"compass": { "north": 6, "east": 9 },
@@ -4526,7 +4526,7 @@
 			"doors": [4, 191, 80, 251],
 			"locks": [true, true, true, false],
 			"locksCount": 3,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"2722258935367507707706996859454145691656": {
 			"compass": { "east": 8, "south": 8 },
@@ -4565,7 +4565,7 @@
 			"doors": [10, 95, 96, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1361129467683753853853498429727072845833": {
 			"compass": { "east": 4, "south": 9 },
@@ -4604,7 +4604,7 @@
 			"doors": [5, 175, 160, 246],
 			"locks": [false, true, false, true],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"6277101735386680767238613092417051050736101518781716627456": {
 			"compass": { "north": 1, "east": 10 },
@@ -4640,7 +4640,7 @@
 			"doors": [4, 175, 112, 247],
 			"locks": [false, true, false, true],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"340282366920938463463374607431768211464": {
 			"compass": { "east": 1, "south": 8 },
@@ -4677,7 +4677,7 @@
 			"doors": [0, 159, 64, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"129127208515966861313": {
 			"compass": { "west": 7, "south": 1 },
@@ -4714,7 +4714,7 @@
 			"doors": [6, 143, 176, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680763835789423207666416231482652980001374208": {
 			"compass": { "north": 1, "west": 7 },
@@ -4751,7 +4751,7 @@
 			"doors": [5, 127, 128, 246],
 			"locks": [false, false, true, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"340282366920938463463374607431768211465": {
 			"compass": { "east": 1, "south": 9 },
@@ -4788,7 +4788,7 @@
 			"doors": [9, 159, 144, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"55340232221128654856": {
 			"compass": { "west": 3, "south": 8 },
@@ -4824,7 +4824,7 @@
 			"doors": [6, 143, 160, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"340282366920938463463374607431768211466": {
 			"compass": { "east": 1, "south": 10 },
@@ -4863,7 +4863,7 @@
 			"doors": [8, 95, 96, 247],
 			"locks": [false, false, false, true],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"18446744073709551626": {
 			"compass": { "west": 1, "south": 10 },
@@ -4900,7 +4900,7 @@
 			"doors": [8, 111, 112, 246],
 			"locks": [false, false, false, true],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"36893488147419103242": {
 			"compass": { "west": 2, "south": 10 },
@@ -4937,7 +4937,7 @@
 			"doors": [8, 127, 176, 247],
 			"locks": [false, false, false, true],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"55340232221128654858": {
 			"compass": { "west": 3, "south": 10 },
@@ -4973,7 +4973,7 @@
 			"doors": [10, 191, 80, 248],
 			"locks": [false, false, true, true],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"73786976294838206473": {
 			"compass": { "west": 4, "south": 9 },
@@ -5011,7 +5011,7 @@
 			"doors": [7, 79, 96, 249],
 			"locks": [false, false, true, true],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"55340232221128654857": {
 			"compass": { "west": 3, "south": 9 },
@@ -5048,7 +5048,7 @@
 			"doors": [11, 111, 64, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"36893488147419103241": {
 			"compass": { "west": 2, "south": 9 },
@@ -5086,7 +5086,7 @@
 			"doors": [8, 79, 96, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"110680464442257309702": {
 			"compass": { "west": 6, "south": 6 },
@@ -5124,7 +5124,7 @@
 			"doors": [6, 159, 112, 247],
 			"locks": [false, false, true, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"110680464442257309703": {
 			"compass": { "west": 6, "south": 7 },
@@ -5163,7 +5163,7 @@
 			"doors": [7, 111, 64, 249],
 			"locks": [false, false, true, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"110680464442257309704": {
 			"compass": { "west": 6, "south": 8 },
@@ -5202,7 +5202,7 @@
 			"doors": [9, 143, 112, 246],
 			"locks": [false, false, true, true],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"92233720368547758088": {
 			"compass": { "west": 5, "south": 8 },
@@ -5241,7 +5241,7 @@
 			"doors": [5, 143, 128, 246],
 			"locks": [false, false, false, true],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"56493915618480126874522104808868997744939645744250020167680": {
 			"compass": { "north": 9, "west": 1 },
@@ -5278,7 +5278,7 @@
 			"doors": [6, 79, 96, 246],
 			"locks": [true, false, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"1020847100762815390390123822295304634376": {
 			"compass": { "east": 3, "south": 8 },
@@ -5314,7 +5314,7 @@
 			"doors": [4, 0, 144, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"3743106036130323098097120681749450326023": {
 			"compass": { "east": 11, "south": 7 },
@@ -5351,7 +5351,7 @@
 			"doors": [8, 143, 112, 247],
 			"locks": [true, true, false, true],
 			"locksCount": 3,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"1020847100762815390390123822295304634377": {
 			"compass": { "east": 3, "south": 9 },
@@ -5388,7 +5388,7 @@
 			"doors": [9, 175, 112, 249],
 			"locks": [false, false, false, true],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"3062541302288446171170371466885913903106": {
 			"compass": { "east": 9, "south": 2 },
@@ -5425,7 +5425,7 @@
 			"doors": [0, 95, 144, 251],
 			"locks": [false, true, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"3402823669209384634633746074317682114565": {
 			"compass": { "east": 10, "south": 5 },
@@ -5464,7 +5464,7 @@
 			"doors": [4, 175, 128, 250],
 			"locks": [true, false, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"3743106036130323098097120681749450326021": {
 			"compass": { "east": 11, "south": 5 },
@@ -5502,7 +5502,7 @@
 			"doors": [8, 79, 160, 250],
 			"locks": [true, true, false, true],
 			"locksCount": 3,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"2722258935367507707706996859454145691657": {
 			"compass": { "east": 8, "south": 9 },
@@ -5540,7 +5540,7 @@
 			"doors": [0, 79, 176, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2722258935367507707706996859454145691658": {
 			"compass": { "east": 8, "south": 10 },
@@ -5577,7 +5577,7 @@
 			"doors": [11, 127, 80, 247],
 			"locks": [false, true, false, true],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"3062541302288446171170371466885913903113": {
 			"compass": { "east": 9, "south": 9 },
@@ -5615,7 +5615,7 @@
 			"doors": [7, 159, 64, 249],
 			"locks": [false, true, false, true],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"3062541302288446171170371466885913903107": {
 			"compass": { "east": 9, "south": 3 },
@@ -5653,7 +5653,7 @@
 			"doors": [11, 127, 128, 250],
 			"locks": [false, true, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"147573952589676412929": {
 			"compass": { "west": 8, "south": 1 },
@@ -5692,7 +5692,7 @@
 			"doors": [7, 191, 144, 246],
 			"locks": [true, false, true, false],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"147573952589676412932": {
 			"compass": { "west": 8, "south": 4 },
@@ -5729,7 +5729,7 @@
 			"doors": [11, 127, 64, 246],
 			"locks": [false, false, false, true],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"166020696663385964548": {
 			"compass": { "west": 9, "south": 4 },
@@ -5768,7 +5768,7 @@
 			"doors": [10, 79, 128, 248],
 			"locks": [false, false, false, true],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"166020696663385964547": {
 			"compass": { "west": 9, "south": 3 },
@@ -5806,7 +5806,7 @@
 			"doors": [0, 79, 128, 250],
 			"locks": [false, false, true, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"184467440737095516164": {
 			"compass": { "west": 10, "south": 4 },
@@ -5843,7 +5843,7 @@
 			"doors": [11, 143, 80, 249],
 			"locks": [true, false, true, true],
 			"locksCount": 3,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"147573952589676412930": {
 			"compass": { "west": 8, "south": 2 },
@@ -5881,7 +5881,7 @@
 			"doors": [6, 111, 176, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"166020696663385964546": {
 			"compass": { "west": 9, "south": 2 },
@@ -5920,7 +5920,7 @@
 			"doors": [7, 191, 112, 0],
 			"locks": [true, false, true, false],
 			"locksCount": 2,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"6277101735386680763835789423207666416120802188537744064512": {
 			"compass": { "north": 1, "west": 1 },
@@ -5957,7 +5957,7 @@
 			"doors": [11, 191, 128, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680764176071790128604879565730051895802724352": {
 			"compass": { "north": 1, "east": 1 },
@@ -5994,7 +5994,7 @@
 			"doors": [4, 191, 176, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"340282366920938463463374607431768211457": {
 			"compass": { "east": 1, "south": 1 },
@@ -6033,7 +6033,7 @@
 			"doors": [11, 175, 128, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"340282366920938463463374607431768211458": {
 			"compass": { "east": 1, "south": 2 },
@@ -6072,7 +6072,7 @@
 			"doors": [11, 143, 80, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18446744073709551618": {
 			"compass": { "west": 1, "south": 2 },
@@ -6110,7 +6110,7 @@
 			"doors": [5, 95, 64, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"36893488147419103233": {
 			"compass": { "west": 2, "south": 1 },
@@ -6147,7 +6147,7 @@
 			"doors": [10, 95, 80, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"36893488147419103234": {
 			"compass": { "west": 2, "south": 2 },
@@ -6185,7 +6185,7 @@
 			"doors": [7, 79, 144, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680763835789423207666416139248932611453616128": {
 			"compass": { "north": 1, "west": 2 },
@@ -6223,7 +6223,7 @@
 			"doors": [10, 143, 112, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361528011861213336271295668085496359837237248": {
 			"compass": { "north": 2, "east": 1 },
@@ -6260,7 +6260,7 @@
 			"doors": [6, 143, 80, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680764516354157049543343029104659327570935808": {
 			"compass": { "north": 1, "east": 2 },
@@ -6298,7 +6298,7 @@
 			"doors": [5, 175, 176, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361527671578846415332832223157633001778577408": {
 			"compass": { "north": 2, "west": 1 },
@@ -6336,7 +6336,7 @@
 			"doors": [7, 95, 64, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18446744073709551619": {
 			"compass": { "west": 1, "south": 3 },
@@ -6375,7 +6375,7 @@
 			"doors": [8, 143, 80, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361528352143580257209759131460103791605448704": {
 			"compass": { "north": 2, "east": 2 },
@@ -6412,7 +6412,7 @@
 			"doors": [6, 159, 128, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"340282366920938463463374607431768211459": {
 			"compass": { "east": 1, "south": 3 },
@@ -6451,7 +6451,7 @@
 			"doors": [11, 159, 128, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680763835789423207666416157695676685163167744": {
 			"compass": { "north": 1, "west": 3 },
@@ -6488,7 +6488,7 @@
 			"doors": [7, 127, 96, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"680564733841876926926749214863536422913": {
 			"compass": { "east": 2, "south": 1 },
@@ -6527,7 +6527,7 @@
 			"doors": [10, 95, 160, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042291847650636543937711770440940823871750144": {
 			"compass": { "north": 3, "east": 1 },
@@ -6564,7 +6564,7 @@
 			"doors": [4, 143, 96, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361527671578846415332832241604377075488129024": {
 			"compass": { "north": 2, "west": 2 },
@@ -6599,7 +6599,7 @@
 			"doors": [8, 79, 64, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042292187933003464876175233815548255639961600": {
 			"compass": { "north": 3, "east": 2 },
@@ -6638,7 +6638,7 @@
 			"doors": [9, 127, 128, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"680564733841876926926749214863536422914": {
 			"compass": { "east": 2, "south": 2 },
@@ -6677,7 +6677,7 @@
 			"doors": [4, 95, 128, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361527671578846415332832260051121149197680640": {
 			"compass": { "north": 2, "west": 3 },
@@ -6715,7 +6715,7 @@
 			"doors": [9, 79, 176, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"36893488147419103235": {
 			"compass": { "west": 2, "south": 3 },
@@ -6753,7 +6753,7 @@
 			"doors": [4, 95, 96, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"340282366920938463463374607431768211460": {
 			"compass": { "east": 1, "south": 4 },
@@ -6791,7 +6791,7 @@
 			"doors": [5, 191, 128, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042291507368269622999248343959821539522641920": {
 			"compass": { "north": 3, "west": 2 },
@@ -6827,7 +6827,7 @@
 			"doors": [9, 159, 64, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042291507368269622999248325513077465813090304": {
 			"compass": { "north": 3, "west": 1 },
@@ -6865,7 +6865,7 @@
 			"doors": [8, 111, 144, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042292528215370385814638697190155687408173056": {
 			"compass": { "north": 3, "east": 3 },
@@ -6904,7 +6904,7 @@
 			"doors": [7, 0, 112, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042291507368269622999248362406565613232193536": {
 			"compass": { "north": 3, "west": 3 },
@@ -6942,7 +6942,7 @@
 			"doors": [10, 79, 64, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723055343157692830665664427868521929847603200": {
 			"compass": { "north": 4, "west": 1 },
@@ -6980,7 +6980,7 @@
 			"doors": [8, 143, 128, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18446744073709551620": {
 			"compass": { "west": 1, "south": 4 },
@@ -7020,7 +7020,7 @@
 			"doors": [6, 143, 112, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"55340232221128654849": {
 			"compass": { "west": 3, "south": 1 },
@@ -7058,7 +7058,7 @@
 			"doors": [9, 95, 128, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361527671578846415332832278497865222907232256": {
 			"compass": { "north": 2, "west": 4 },
@@ -7095,7 +7095,7 @@
 			"doors": [5, 191, 144, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680764856636523970481806492479266759339147264": {
 			"compass": { "north": 1, "east": 3 },
@@ -7134,7 +7134,7 @@
 			"doors": [0, 0, 160, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"36893488147419103236": {
 			"compass": { "west": 2, "south": 4 },
@@ -7173,7 +7173,7 @@
 			"doors": [7, 127, 144, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361528692425947178148222594834711223373660160": {
 			"compass": { "north": 2, "east": 3 },
@@ -7210,7 +7210,7 @@
 			"doors": [0, 79, 144, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"680564733841876926926749214863536422915": {
 			"compass": { "east": 2, "south": 3 },
@@ -7248,7 +7248,7 @@
 			"doors": [11, 175, 144, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1020847100762815390390123822295304634369": {
 			"compass": { "east": 3, "south": 1 },
@@ -7287,7 +7287,7 @@
 			"doors": [6, 143, 80, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1020847100762815390390123822295304634370": {
 			"compass": { "east": 3, "south": 2 },
@@ -7325,7 +7325,7 @@
 			"doors": [9, 191, 80, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723055683440059751604127872796385287906263040": {
 			"compass": { "north": 4, "east": 1 },
@@ -7362,7 +7362,7 @@
 			"doors": [9, 0, 128, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"680564733841876926926749214863536422916": {
 			"compass": { "east": 2, "south": 4 },
@@ -7400,7 +7400,7 @@
 			"doors": [0, 143, 176, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18446744073709551621": {
 			"compass": { "west": 1, "south": 5 },
@@ -7439,7 +7439,7 @@
 			"doors": [10, 159, 144, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042291507368269622999248380853309686941745152": {
 			"compass": { "north": 3, "west": 4 },
@@ -7477,7 +7477,7 @@
 			"doors": [9, 79, 64, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1361129467683753853853498429727072845826": {
 			"compass": { "east": 4, "south": 2 },
@@ -7515,7 +7515,7 @@
 			"doors": [9, 79, 176, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1701411834604692317316873037158841057282": {
 			"compass": { "east": 5, "south": 2 },
@@ -7554,7 +7554,7 @@
 			"doors": [0, 191, 64, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680763835789423207666416176142420758872719360": {
 			"compass": { "north": 1, "west": 4 },
@@ -7593,7 +7593,7 @@
 			"doors": [7, 111, 176, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361529032708314099086686058209318655141871616": {
 			"compass": { "north": 2, "east": 4 },
@@ -7631,7 +7631,7 @@
 			"doors": [7, 79, 64, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680765196918890891420269955853874191107358720": {
 			"compass": { "north": 1, "east": 4 },
@@ -7668,7 +7668,7 @@
 			"doors": [9, 127, 0, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042292868497737306753102160564763119176384512": {
 			"compass": { "north": 3, "east": 4 },
@@ -7705,7 +7705,7 @@
 			"doors": [11, 159, 0, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1361129467683753853853498429727072845825": {
 			"compass": { "east": 4, "south": 1 },
@@ -7744,7 +7744,7 @@
 			"doors": [0, 0, 128, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1361129467683753853853498429727072845827": {
 			"compass": { "east": 4, "south": 3 },
@@ -7781,7 +7781,7 @@
 			"doors": [10, 127, 0, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361527671578846415332832296944609296616783872": {
 			"compass": { "north": 2, "west": 5 },
@@ -7820,7 +7820,7 @@
 			"doors": [7, 159, 160, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680765537201257812358733419228481622875570176": {
 			"compass": { "north": 1, "east": 5 },
@@ -7858,7 +7858,7 @@
 			"doors": [7, 143, 112, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"55340232221128654850": {
 			"compass": { "west": 3, "south": 2 },
@@ -7896,7 +7896,7 @@
 			"doors": [8, 159, 96, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680765877483624733297196882603089054643781632": {
 			"compass": { "north": 1, "east": 6 },
@@ -7933,7 +7933,7 @@
 			"doors": [8, 159, 128, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1020847100762815390390123822295304634371": {
 			"compass": { "east": 3, "south": 3 },
@@ -7971,7 +7971,7 @@
 			"doors": [0, 0, 160, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680763835789423207666416194589164832582270976": {
 			"compass": { "north": 1, "west": 5 },
@@ -8010,7 +8010,7 @@
 			"doors": [7, 191, 160, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042291507368269622999248399300053760651296768": {
 			"compass": { "north": 3, "west": 5 },
@@ -8048,7 +8048,7 @@
 			"doors": [4, 79, 64, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"92233720368547758081": {
 			"compass": { "west": 5, "south": 1 },
@@ -8087,7 +8087,7 @@
 			"doors": [4, 95, 80, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"73786976294838206466": {
 			"compass": { "west": 4, "south": 2 },
@@ -8125,7 +8125,7 @@
 			"doors": [0, 111, 96, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"340282366920938463463374607431768211461": {
 			"compass": { "east": 1, "south": 5 },
@@ -8163,7 +8163,7 @@
 			"doors": [8, 79, 144, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"73786976294838206465": {
 			"compass": { "west": 4, "south": 1 },
@@ -8202,7 +8202,7 @@
 			"doors": [6, 143, 80, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"680564733841876926926749214863536422917": {
 			"compass": { "east": 2, "south": 5 },
@@ -8239,7 +8239,7 @@
 			"doors": [7, 159, 64, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1701411834604692317316873037158841057281": {
 			"compass": { "east": 5, "south": 1 },
@@ -8278,7 +8278,7 @@
 			"doors": [11, 175, 0, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"36893488147419103237": {
 			"compass": { "west": 2, "south": 5 },
@@ -8316,7 +8316,7 @@
 			"doors": [5, 159, 112, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361527671578846415332832315391353370326335488": {
 			"compass": { "north": 2, "west": 6 },
@@ -8355,7 +8355,7 @@
 			"doors": [0, 175, 80, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"55340232221128654851": {
 			"compass": { "west": 3, "south": 3 },
@@ -8393,7 +8393,7 @@
 			"doors": [9, 111, 112, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723056364004793593481054799545600151442685952": {
 			"compass": { "north": 4, "east": 3 },
@@ -8432,7 +8432,7 @@
 			"doors": [7, 159, 176, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1361129467683753853853498429727072845828": {
 			"compass": { "east": 4, "south": 4 },
@@ -8469,7 +8469,7 @@
 			"doors": [10, 111, 96, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042293208780104227691565623939370550944595968": {
 			"compass": { "north": 3, "east": 5 },
@@ -8507,7 +8507,7 @@
 			"doors": [8, 79, 144, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18446744073709551622": {
 			"compass": { "west": 1, "south": 6 },
@@ -8544,7 +8544,7 @@
 			"doors": [9, 79, 176, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2381976568446569244243622252022377480194": {
 			"compass": { "east": 7, "south": 2 },
@@ -8582,7 +8582,7 @@
 			"doors": [0, 79, 144, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1701411834604692317316873037158841057283": {
 			"compass": { "east": 5, "south": 3 },
@@ -8619,7 +8619,7 @@
 			"doors": [11, 79, 112, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361527671578846415332832333838097444035887104": {
 			"compass": { "north": 2, "west": 7 },
@@ -8658,7 +8658,7 @@
 			"doors": [0, 95, 176, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1701411834604692317316873037158841057284": {
 			"compass": { "east": 5, "south": 4 },
@@ -8696,7 +8696,7 @@
 			"doors": [8, 79, 96, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723056704287160514419518262920207583210897408": {
 			"compass": { "north": 4, "east": 4 },
@@ -8733,7 +8733,7 @@
 			"doors": [7, 175, 144, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"92233720368547758082": {
 			"compass": { "west": 5, "south": 2 },
@@ -8770,7 +8770,7 @@
 			"doors": [6, 111, 0, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2041694201525630780780247644590609268737": {
 			"compass": { "east": 6, "south": 1 },
@@ -8807,7 +8807,7 @@
 			"doors": [4, 111, 160, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1020847100762815390390123822295304634373": {
 			"compass": { "east": 3, "south": 5 },
@@ -8845,7 +8845,7 @@
 			"doors": [5, 127, 144, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2381976568446569244243622252022377480193": {
 			"compass": { "east": 7, "south": 1 },
@@ -8883,7 +8883,7 @@
 			"doors": [11, 95, 96, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403819178947116038332080530223966393882116096": {
 			"compass": { "north": 5, "west": 1 },
@@ -8920,7 +8920,7 @@
 			"doors": [4, 191, 112, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361530053555414861902076448333140950446505984": {
 			"compass": { "north": 2, "east": 7 },
@@ -8956,7 +8956,7 @@
 			"doors": [11, 191, 144, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361529713273047940963612984958533518678294528": {
 			"compass": { "north": 2, "east": 6 },
@@ -8993,7 +8993,7 @@
 			"doors": [8, 159, 112, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403820540076583722085934365275652047245410304": {
 			"compass": { "north": 5, "east": 4 },
@@ -9030,7 +9030,7 @@
 			"doors": [9, 79, 0, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"73786976294838206467": {
 			"compass": { "west": 4, "south": 3 },
@@ -9067,7 +9067,7 @@
 			"doors": [9, 127, 96, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1020847100762815390390123822295304634372": {
 			"compass": { "east": 3, "south": 4 },
@@ -9104,7 +9104,7 @@
 			"doors": [0, 111, 128, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403819519229482959270543975151829751940775936": {
 			"compass": { "north": 5, "east": 1 },
@@ -9142,7 +9142,7 @@
 			"doors": [10, 79, 176, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2381976568446569244243622252022377480195": {
 			"compass": { "east": 7, "south": 3 },
@@ -9180,7 +9180,7 @@
 			"doors": [10, 175, 128, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680766558048358575174123809352303918180204544": {
 			"compass": { "north": 1, "east": 8 },
@@ -9219,7 +9219,7 @@
 			"doors": [9, 0, 96, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"55340232221128654853": {
 			"compass": { "west": 3, "south": 5 },
@@ -9258,7 +9258,7 @@
 			"doors": [8, 127, 80, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723055343157692830665664446315266003557154816": {
 			"compass": { "north": 4, "west": 2 },
@@ -9296,7 +9296,7 @@
 			"doors": [9, 143, 144, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2041694201525630780780247644590609268739": {
 			"compass": { "east": 6, "south": 3 },
@@ -9335,7 +9335,7 @@
 			"doors": [7, 143, 64, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2041694201525630780780247644590609268740": {
 			"compass": { "east": 6, "south": 4 },
@@ -9374,7 +9374,7 @@
 			"doors": [9, 191, 64, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1701411834604692317316873037158841057285": {
 			"compass": { "east": 5, "south": 5 },
@@ -9412,7 +9412,7 @@
 			"doors": [5, 175, 112, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2041694201525630780780247644590609268741": {
 			"compass": { "east": 6, "south": 5 },
@@ -9451,7 +9451,7 @@
 			"doors": [4, 95, 160, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2381976568446569244243622252022377480196": {
 			"compass": { "east": 7, "south": 4 },
@@ -9490,7 +9490,7 @@
 			"doors": [9, 175, 176, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723056023722426672542591336170992719674474496": {
 			"compass": { "north": 4, "east": 2 },
@@ -9529,7 +9529,7 @@
 			"doors": [11, 191, 0, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2722258935367507707706996859454145691651": {
 			"compass": { "east": 8, "south": 3 },
@@ -9565,7 +9565,7 @@
 			"doors": [8, 143, 160, 249],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2722258935367507707706996859454145691652": {
 			"compass": { "east": 8, "south": 4 },
@@ -9602,7 +9602,7 @@
 			"doors": [9, 95, 160, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2381976568446569244243622252022377480197": {
 			"compass": { "east": 7, "south": 5 },
@@ -9641,7 +9641,7 @@
 			"doors": [4, 191, 80, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2722258935367507707706996859454145691650": {
 			"compass": { "east": 8, "south": 2 },
@@ -9678,7 +9678,7 @@
 			"doors": [4, 159, 64, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"31385508676933403819859511849880209007438526437183708987392": {
 			"compass": { "north": 5, "east": 2 },
@@ -9715,7 +9715,7 @@
 			"doors": [8, 0, 64, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1361129467683753853853498429727072845829": {
 			"compass": { "east": 4, "south": 5 },
@@ -9753,7 +9753,7 @@
 			"doors": [6, 127, 112, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2381976568446569244243622252022377480198": {
 			"compass": { "east": 7, "south": 6 },
@@ -9792,7 +9792,7 @@
 			"doors": [11, 175, 128, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680763835789423207666416213035908906291822592": {
 			"compass": { "north": 1, "west": 6 },
@@ -9831,7 +9831,7 @@
 			"doors": [4, 175, 112, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18446744073709551623": {
 			"compass": { "west": 1, "south": 7 },
@@ -9870,7 +9870,7 @@
 			"doors": [9, 175, 96, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2722258935367507707706996859454145691653": {
 			"compass": { "east": 8, "south": 5 },
@@ -9909,7 +9909,7 @@
 			"doors": [10, 95, 176, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"18831305206160042293549062471148630029087313977982712807424": {
 			"compass": { "north": 3, "east": 6 },
@@ -9946,7 +9946,7 @@
 			"doors": [0, 143, 64, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2722258935367507707706996859454145691654": {
 			"compass": { "east": 8, "south": 6 },
@@ -9985,7 +9985,7 @@
 			"doors": [10, 95, 160, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1701411834604692317316873037158841057286": {
 			"compass": { "east": 5, "south": 6 },
@@ -10022,7 +10022,7 @@
 			"doors": [9, 0, 80, 0],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2041694201525630780780247644590609268742": {
 			"compass": { "east": 6, "south": 6 },
@@ -10059,7 +10059,7 @@
 			"doors": [0, 143, 0, 246],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2381976568446569244243622252022377480199": {
 			"compass": { "east": 7, "south": 7 },
@@ -10098,7 +10098,7 @@
 			"doors": [5, 95, 160, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"1361129467683753853853498429727072845830": {
 			"compass": { "east": 4, "south": 6 },
@@ -10135,7 +10135,7 @@
 			"doors": [10, 95, 64, 245],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"37662610412320084583355018906166936960077507274215975288832": {
 			"compass": { "north": 6, "east": 1 },
@@ -10172,7 +10172,7 @@
 			"doors": [10, 159, 112, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"340282366920938463463374607431768211462": {
 			"compass": { "east": 1, "south": 6 },
@@ -10209,7 +10209,7 @@
 			"doors": [10, 191, 64, 244],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"25108406941546723055343157692830665664464762010077266706432": {
 			"compass": { "north": 4, "west": 3 },
@@ -10246,7 +10246,7 @@
 			"doors": [5, 159, 0, 250],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"55340232221128654852": {
 			"compass": { "west": 3, "south": 4 },
@@ -10284,7 +10284,7 @@
 			"doors": [6, 159, 144, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"2041694201525630780780247644590609268738": {
 			"compass": { "east": 6, "south": 2 },
@@ -10323,7 +10323,7 @@
 			"doors": [0, 159, 176, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"12554203470773361529372990681020025149521583926086910083072": {
 			"compass": { "north": 2, "east": 5 },
@@ -10360,7 +10360,7 @@
 			"doors": [4, 127, 64, 247],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"6277101735386680766217765991654235660345977696486411993088": {
 			"compass": { "north": 1, "east": 7 },
@@ -10398,7 +10398,7 @@
 			"doors": [7, 111, 144, 251],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"680564733841876926926749214863536422922": {
 			"compass": { "east": 2, "south": 10 },
@@ -10438,7 +10438,7 @@
 			"doors": [8, 159, 80, 250],
 			"locks": [false, true, false, false],
 			"locksCount": 1,
-			"isStatic": false
+			"isDynamic": true
 		},
 		"680564733841876926926749214863536422921": {
 			"compass": { "east": 2, "south": 9 },
@@ -10476,7 +10476,7 @@
 			"doors": [9, 127, 144, 248],
 			"locks": [false, false, false, false],
 			"locksCount": 0,
-			"isStatic": true
+			"isDynamic": false
 		},
 		"680564733841876926926749214863536422923": {
 			"compass": { "east": 2, "south": 11 },
@@ -10516,7 +10516,7 @@
 			"doors": [10, 143, 96, 250],
 			"locks": [false, true, true, true],
 			"locksCount": 3,
-			"isStatic": false
+			"isDynamic": true
 		}
 	}
 }

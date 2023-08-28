@@ -18,9 +18,9 @@ export {
 	getTokenCoords,
 	getTokensCoords,
 	getStaticChamberCount,
-	getEdgeChamberCount,
-	getEdgeChambersId,
-	getEdgeChambersCoord,
+	getDynamicChamberCount,
+	getDynamicChambersId,
+	getDynamicChambersCoord,
 	getChamberData,
 	getChambersData,
 } from './chambers'
