@@ -19,10 +19,7 @@ import {
 	getChamberData,
 	getChambersData,
 } from '@avante/crawler-data'
-import {
-	readViewTotalCount,
-} from '@avante/crawler-api'
-import { ActionDispatcher, AsyncActionDispatcher } from '@/components/Dispatchers'
+import { ActionDispatcher } from '@/components/Dispatchers'
 
 importChainData([mainnetData])
 
@@ -36,13 +33,12 @@ export default function DataMenu() {
 			const view = getView(viewName)
 			const count = Object.keys(view.data).length
 			result.push(
-				<div>
+				<div key={viewName} >
+					<Divider hidden />
 					{`>`} {viewName} [{count}]
-					<div key={viewName} >
-						<ActionDispatcher onAction={() => getView(viewName)}>getView()</ActionDispatcher>
-						<ActionDispatcher onAction={() => getViewDataCount(viewName)}>getViewDataCount()</ActionDispatcher>
-						{/* @ts-ignore */}
-						<AsyncActionDispatcher onAction={() => readViewTotalCount(viewName)}>readViewTotalCount()</AsyncActionDispatcher>
+					<div>
+						<ActionDispatcher label='getView()' onAction={() => getView(viewName)} />
+						<ActionDispatcher label='getViewDataCount()' onAction={() => getViewDataCount(viewName)} />
 					</div>
 				</div>
 			)
@@ -60,23 +56,23 @@ export default function DataMenu() {
 
 			Chambers
 			<div>
-				<ActionDispatcher onAction={() => getChamberCount()}>getChamberCount()</ActionDispatcher>
-				<ActionDispatcher onAction={() => getStaticChamberCount()}>getStaticChamberCount()</ActionDispatcher>
-				<ActionDispatcher onAction={() => getEdgeChamberCount()}>getEdgeChamberCount()</ActionDispatcher>
-				<ActionDispatcher onAction={() => getEdgeChambersId()}>getEdgeChambersId()</ActionDispatcher>
-				<ActionDispatcher onAction={() => getEdgeChambersCoord()}>getEdgeChambersCoord()</ActionDispatcher>
-				<ActionDispatcher onAction={() => getTokenCoords(1)}>getTokenCoords(1)</ActionDispatcher>
-				<ActionDispatcher onAction={() => getTokensCoords(edgesIds)}>getTokensCoords(edges)</ActionDispatcher>
-				<ActionDispatcher onAction={() => getChamberData(tokenCoords.coord)}>getChamberData({tokenCoords.coord})</ActionDispatcher>
-				<ActionDispatcher onAction={() => getChambersData(edgesCoord)}>getChambersData(edges)</ActionDispatcher>
+				<ActionDispatcher label='getChamberCount()' onAction={() => getChamberCount()} />
+				<ActionDispatcher label='getStaticChamberCount()' onAction={() => getStaticChamberCount()} />
+				<ActionDispatcher label='getEdgeChamberCount()' onAction={() => getEdgeChamberCount()} />
+				<ActionDispatcher label='getEdgeChambersId()' onAction={() => getEdgeChambersId()} />
+				<ActionDispatcher label='getEdgeChambersCoord()' onAction={() => getEdgeChambersCoord()} />
+				<ActionDispatcher label='getTokenCoords(1)' onAction={() => getTokenCoords(1)} />
+				<ActionDispatcher label='getTokensCoords(edges)' onAction={() => getTokensCoords(edgesIds)} />
+				<ActionDispatcher label={`getChamberData(${tokenCoords.coord})`} onAction={() => getChamberData(tokenCoords.coord)} />
+				<ActionDispatcher label='getChambersData(edges)' onAction={() => getChambersData(edgesCoord)} />
 			</div>
 
 			<Divider hidden />
 
 			Views
 			<div>
-				<ActionDispatcher onAction={() => getViewNames()}>getViewNames()</ActionDispatcher>
-				<ActionDispatcher onAction={() => getAllViews()}>getAllViews(current)</ActionDispatcher>
+				<ActionDispatcher label='getViewNames()' onAction={() => getViewNames()} />
+				<ActionDispatcher label='getAllViews(current)' onAction={() => getAllViews()} />
 				{views}
 			</div>
 

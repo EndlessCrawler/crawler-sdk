@@ -12,33 +12,33 @@ export default function Home() {
 
 				api route
 				<div>
-					<UrlDispatcher url='/api/hello'>/api/hello</UrlDispatcher>
+					<UrlDispatcher label='/api/hello' url='/api/hello' />
 				</div>
 
 				<Divider hidden />
 				
 				url
 				<div>
-					<UrlDispatcher url='https://brasilapi.com.br/api/feriados/v1/2023'>/feriados</UrlDispatcher>
+					<UrlDispatcher label='/feriados' url='https://brasilapi.com.br/api/feriados/v1/2023' />
 				</div>
 
 				<Divider hidden />
 
 				action
 				<div>
-					<ActionDispatcher onAction={() => Date.now()}>Date.now()</ActionDispatcher>
+					<ActionDispatcher label='Date.now()' onAction={() => Date.now()} />
 				</div>
 
 				<Divider hidden />
 
 				data
 				<div>
-					<DataDispatcher data={123456}>int</DataDispatcher>
-					<DataDispatcher data={123.456}>float</DataDispatcher>
-					<DataDispatcher data={12345678901234567890n}>BigInt</DataDispatcher>
-					<DataDispatcher data={'Hello World!'}>string</DataDispatcher>
-					<DataDispatcher data={_object}>object</DataDispatcher>
-					<DataDispatcher data={_object.names}>array</DataDispatcher>
+					<DataDispatcher label='int' data={123456} />
+					<DataDispatcher label='float' data={123.456} />
+					<DataDispatcher label='BigInt' data={12345678901234567890n} />
+					<DataDispatcher label='string' data={'Hello World!'} />
+					<DataDispatcher label='object' data={_object} />
+					<DataDispatcher label='array' data={_object.names} />
 				</div>
 
 				<Divider hidden />

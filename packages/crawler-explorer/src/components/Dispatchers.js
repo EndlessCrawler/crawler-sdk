@@ -5,14 +5,14 @@ import { useFetchContext } from '@/hooks/FetchContext'
 // Dispatch a URL to the FetchContext
 //
 function UrlDispatcher({
+	label,
 	url,
-	children,
 	br = true,
 }) {
 	const { dispatchUrl } = useFetchContext()
 	return (
 		<span className='Anchor' onClick={() => dispatchUrl(url)}>
-			{children}
+			{label}
 			{br && <br />}
 		</span>
 	)
@@ -23,14 +23,14 @@ function UrlDispatcher({
 // Dispatch any arbitrary DATA to the FetchContext
 //
 function DataDispatcher({
+	label,
 	data = {},
-	children,
 	br = true,
 }) {
 	const { dispatchData } = useFetchContext()
 	return (
-		<span className='Anchor' onClick={() => dispatchData(data, children)}>
-			{children}
+		<span className='Anchor' onClick={() => dispatchData(data, label)}>
+			{label}
 			{br && <br />}
 		</span>
 	)
@@ -41,22 +41,22 @@ function DataDispatcher({
 // Dispatch any arbitrary DATA to the FetchContext
 //
 function ActionDispatcher({
+	label,
 	onAction = () => {},
-	children,
 	br = true,
 }) {
 	const { dispatchData } = useFetchContext()
 	return (
-		<span className='Anchor' onClick={() => dispatchData(onAction(), children)}>
-			{children}
+		<span className='Anchor' onClick={() => dispatchData(onAction(), label)}>
+			{label}
 			{br && <br />}
 		</span>
 	)
 }
 
 function AsyncActionDispatcher({
+	label,
 	onAction = async () => { },
-	children,
 	br = true,
 }) {
 	const { dispatchData } = useFetchContext()
@@ -67,13 +67,13 @@ function AsyncActionDispatcher({
 		const _fetch = async () => {
 			const _data = await onAction()
 			if(_mounted) {
-				dispatchData(_data, children)
+				dispatchData(_data, label)
 				setFetching(false)
 			}
 		}
 
 		if (fetching) {
-			dispatchData('...', children)
+			dispatchData('...', label)
 			_fetch()
 		}
 		return () => { _mounted = false }
@@ -81,7 +81,7 @@ function AsyncActionDispatcher({
 
 	return (
 		<span className='Anchor' onClick={() => setFetching(true)}>
-			{children}
+			{label}
 			{br && <br />}
 		</span>
 	)

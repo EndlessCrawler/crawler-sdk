@@ -1,25 +1,57 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Divider } from 'semantic-ui-react'
-import { UrlDispatcher } from '@/components/Dispatchers'
+import {
+	getAllViews,
+	getViewNames,
+	getView,
+} from '@avante/crawler-data'
+import {
+	readViewTotalCount,
+} from '@avante/crawler-api'
+import { UrlDispatcher, AsyncActionDispatcher } from '@/components/Dispatchers'
 
 export default function ApisMenu() {
+
+	const views = useMemo(() => {
+		let result = []
+		const vs = getAllViews()
+		for (const viewName of getViewNames()) {
+			//@ts-ignore
+			const view = getView(viewName)
+			const count = Object.keys(view.data).length
+			result.push(
+				<div key={viewName} >
+					<Divider hidden />
+					{`>`} {viewName} [{count}]
+					<div>
+						{/* @ts-ignore */}
+						<AsyncActionDispatcher label='readViewTotalCount()' onAction={() => readViewTotalCount(viewName)} />
+					</div>
+				</div>
+			)
+		}
+		return result
+	}, [])
+
 	return (
 		<div>
 			/readContract
 			<div>
-				<UrlDispatcher url='/api/read/1/CrawlerToken/totalSupply'>totalSupply()</UrlDispatcher>
-				<UrlDispatcher url='/api/read/1/CrawlerToken/ownerOf/1'>ownerOf(1)</UrlDispatcher>
-				<UrlDispatcher url='/api/read/1/CrawlerToken/tokenURI/1'>tokenURI(1)</UrlDispatcher>
+				<UrlDispatcher label='totalSupply()' url='/api/read/1/CrawlerToken/totalSupply' />
+				<UrlDispatcher label='ownerOf(1)' url='/api/read/1/CrawlerToken/ownerOf/1' />
+				<UrlDispatcher label='tokenURI(1)' url='/api/read/1/CrawlerToken/tokenURI/1' />
 			</div>
 
 			<Divider hidden />
 
 			/view
 			<div>
-				<UrlDispatcher url='/api/view/1/tokenIdToCoord/1/1'>tokenIdToCoord(1)</UrlDispatcher>
-				<UrlDispatcher url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/false'>chamberData(1)</UrlDispatcher>
-				<UrlDispatcher url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/true'>chamberData(1) + maps</UrlDispatcher>
+				<UrlDispatcher label='tokenIdToCoord(1)' url='/api/view/1/tokenIdToCoord/1/1' />
+				<UrlDispatcher label='chamberData(1)' url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/false' />
+				<UrlDispatcher label='chamberData(1) + maps' url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/true' />
 			</div>
+			
+			{views}
 
 		</div>
 	)
