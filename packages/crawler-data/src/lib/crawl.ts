@@ -189,11 +189,12 @@ export const validateCompass = (compass: Compass | null): boolean => {
 
 export const minifyCompas = (compass: Compass | null): Compass | null => {
 	if (!compass) return null
-	let result = { ...compass }
-	if (!result?.north) delete result.north
-	if (!result?.east) delete result.east
-	if (!result?.west) delete result.west
-	if (!result?.south) delete result.south
+	//@ts-ignore to sort directions in NEWS order
+	let result: Compass = {}
+	if (compass?.north) result.north = compass.north
+	if (compass?.south) result.south = compass.south
+	if (compass?.east) result.east = compass.east
+	if (compass?.west) result.west = compass.west
 	return result
 }
 

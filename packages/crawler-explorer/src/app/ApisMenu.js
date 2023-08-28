@@ -22,7 +22,7 @@ export default function ApisMenu() {
 			result.push(
 				<div key={viewName} >
 					<Divider hidden />
-					{`>`} {viewName} [{count}]
+					{`_`}{viewName} [{count}]
 					<div>
 						{/* @ts-ignore */}
 						<AsyncActionDispatcher label='readViewTotalCount()' onAction={() => readViewTotalCount(viewName)} />
@@ -35,20 +35,20 @@ export default function ApisMenu() {
 
 	return (
 		<div>
-			/readContract
+			/api/read
 			<div>
-				<UrlDispatcher label='totalSupply()' url='/api/read/1/CrawlerToken/totalSupply' />
-				<UrlDispatcher label='ownerOf(1)' url='/api/read/1/CrawlerToken/ownerOf/1' />
-				<UrlDispatcher label='tokenURI(1)' url='/api/read/1/CrawlerToken/tokenURI/1' />
+				<UrlDispatcher label='totalSupply' url='/api/read/1/CrawlerToken/totalSupply' />
+				<UrlDispatcher label='ownerOf/1' url='/api/read/1/CrawlerToken/ownerOf/1' />
+				<UrlDispatcher label='tokenURI/1' url='/api/read/1/CrawlerToken/tokenURI/1' />
 			</div>
 
 			<Divider hidden />
 
-			/view
+			/api/view
 			<div>
-				<UrlDispatcher label='tokenIdToCoord(1)' url='/api/view/1/tokenIdToCoord/1/1' />
-				<UrlDispatcher label='chamberData(1)' url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/false' />
-				<UrlDispatcher label='chamberData(1) + maps' url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/true' />
+				<UrlDispatcher label='tokenIdToCoord/1' url='/api/view/1/tokenIdToCoord/1/1' />
+				<UrlDispatcher label='chamberData/1' url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/false' />
+				<UrlDispatcher label='chamberData/1 + maps' url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/true' />
 			</div>
 			
 			{views}
