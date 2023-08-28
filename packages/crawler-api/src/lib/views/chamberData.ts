@@ -1,13 +1,19 @@
 import {
-	ViewDefinitionT,
-} from '../types'
-import {
 	ChamberData,
 	ContractName,
 	coordToCompass,
+	minifyCompas,
 	bigIntToHexString,
 	bigIntToNumberArray,
+	Options,
+	Compass,
 } from '@avante/crawler-data'
+import {
+	ViewDefinitionT,
+} from '../types'
+import {
+	readTotalSupply,
+} from '../calls'
 
 export default (): ViewDefinitionT<ChamberData> => ({
 	//
@@ -17,9 +23,8 @@ export default (): ViewDefinitionT<ChamberData> => ({
 
 	//
 	// updated number of total records
-	getTotalCount: async (): Promise<number> => {
-		///@ts-ignore
-		return 0
+	readTotalCount: async (options: Options): Promise<number> => {
+		return readTotalSupply(ContractName.CrawlerToken, options)
 	},
 
 	//
@@ -28,8 +33,8 @@ export default (): ViewDefinitionT<ChamberData> => ({
 		console.log(data)
 		const locks = data.locks.map((v: number) => v != 0)
 		const locksCount = locks.reduce((result: number, val: number) => { return result + (val ? 1 : 0) }, 0)
-		const chamberData = {
-			compass: coordToCompass(data.coord),
+		const chamberData: ChamberData = {
+			compass: minifyCompas(coordToCompass(data.coord)) as Compass,
 			coord: data.coord,
 			seed: bigIntToHexString(data.seed),
 			bitmap: data.bitmap != '0' ? bigIntToHexString(data.bitmap) : undefined,
@@ -46,8 +51,9 @@ export default (): ViewDefinitionT<ChamberData> => ({
 			worth: data.hoard.worth,
 			doors: data.doors,
 			locks,
+			locksCount,
 			isStatic: (locksCount == 0),
-		} as ChamberData
+		}
 		return chamberData
 	}
 })

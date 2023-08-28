@@ -57,12 +57,12 @@ export function isDataResult(instance: any): instance is DataResult {
 export interface ViewDefinition {
 	contractName: ContractName
 	functionName: string
-	getTotalCount: any
+	readTotalCount: any
 	transform: any
 }
 
 /** @type view definition for on-chain fetch */
 export interface ViewDefinitionT<T> extends ViewDefinition {
-	getTotalCount: () => Promise<number>
+	readTotalCount: (options: Options) => Promise<number>
 	transform: (data: any) => Promise<T>
 }

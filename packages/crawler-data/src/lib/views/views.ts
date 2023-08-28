@@ -11,8 +11,8 @@ import { getChainData } from '../data/importer'
 //
 
 /** @returns all the views names **/
-export const getViewNames = (): string[] => {
-	return Object.keys(ViewName)
+export const getViewNames = (): ViewName[] => {
+	return Object.keys(ViewName) as ViewName[]
 }
 
 /** @returns all the views of the defautl or specific chain **/
@@ -23,6 +23,11 @@ export const getAllViews = (options: Options = {}): AllViews => {
 /** @returns all one view of the defautl or specific chain **/
 export const getView = (viewName: ViewName, options: Options = {}): AllViews[keyof AllViews] => {
 	return getChainData(options)?.[viewName]
+}
+
+/** @returns all one view of the defautl or specific chain **/
+export const getViewDataCount = (viewName: ViewName, options: Options = {}): number => {
+	return Object.keys(getView(viewName, options).data).length
 }
 
 /** @returns validates view object **/

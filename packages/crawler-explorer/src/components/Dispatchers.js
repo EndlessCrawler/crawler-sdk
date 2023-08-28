@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFetchContext } from '@/hooks/FetchContext'
 
 //---------------------------------------------------------
@@ -54,9 +54,43 @@ function ActionDispatcher({
 	)
 }
 
+function AsyncActionDispatcher({
+	onAction = async () => { },
+	children,
+	br = true,
+}) {
+	const { dispatchData } = useFetchContext()
+	const [fetching, setFetching] = useState(false)
+
+	useEffect(() => {
+		let _mounted = true
+		const _fetch = async () => {
+			const _data = await onAction()
+			if(_mounted) {
+				dispatchData(_data, children)
+				setFetching(false)
+			}
+		}
+
+		if (fetching) {
+			dispatchData('...', children)
+			_fetch()
+		}
+		return () => { _mounted = false }
+	}, [fetching])
+
+	return (
+		<span className='Anchor' onClick={() => setFetching(true)}>
+			{children}
+			{br && <br />}
+		</span>
+	)
+}
+
 
 export {
 	UrlDispatcher,
 	DataDispatcher,
 	ActionDispatcher,
+	AsyncActionDispatcher,
 }

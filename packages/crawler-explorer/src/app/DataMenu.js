@@ -8,6 +8,7 @@ import {
 	getAllViews,
 	getViewNames,
 	getView,
+	getViewDataCount,
 	getChamberCount,
 	getStaticChamberCount,
 	getEdgeChamberCount,
@@ -17,10 +18,11 @@ import {
 	getTokensCoords,
 	getChamberData,
 	getChambersData,
-	getChainContractAddresses,
-	ChainId,
 } from '@avante/crawler-data'
-import { DataDispatcher, ActionDispatcher } from '@/components/Dispatchers'
+import {
+	readViewTotalCount,
+} from '@avante/crawler-api'
+import { ActionDispatcher, AsyncActionDispatcher } from '@/components/Dispatchers'
 
 importChainData([mainnetData])
 
@@ -32,13 +34,16 @@ export default function DataMenu() {
 		for (const viewName of getViewNames()) {
 			//@ts-ignore
 			const view = getView(viewName)
-			const count = Object.keys(vs[viewName].data).length
+			const count = Object.keys(view.data).length
 			result.push(
-				<div key={viewName} >
-					<DataDispatcher data={view} br={false}>
-						{viewName}
-					</DataDispatcher>
-					{` `}[{count}]
+				<div>
+					{`>`} {viewName} [{count}]
+					<div key={viewName} >
+						<ActionDispatcher onAction={() => getView(viewName)}>getView()</ActionDispatcher>
+						<ActionDispatcher onAction={() => getViewDataCount(viewName)}>getViewDataCount()</ActionDispatcher>
+						{/* @ts-ignore */}
+						<AsyncActionDispatcher onAction={() => readViewTotalCount(viewName)}>readViewTotalCount()</AsyncActionDispatcher>
+					</div>
 				</div>
 			)
 		}
@@ -71,8 +76,8 @@ export default function DataMenu() {
 			Views
 			<div>
 				<ActionDispatcher onAction={() => getViewNames()}>getViewNames()</ActionDispatcher>
+				<ActionDispatcher onAction={() => getAllViews()}>getAllViews(current)</ActionDispatcher>
 				{views}
-				<ActionDispatcher onAction={() => getChainContractAddresses(ChainId.Mainnet)}>getChainContractAddresses(1)</ActionDispatcher>
 			</div>
 
 		</div>

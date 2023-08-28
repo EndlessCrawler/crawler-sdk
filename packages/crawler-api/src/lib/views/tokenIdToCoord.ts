@@ -1,14 +1,18 @@
 import {
-	ViewDefinitionT,
-} from '../types'
-import {
 	ChamberCoords,
 	compassToSlug,
 	coordToCompass,
 	minifyCompas,
 	Compass,
 	ContractName,
+	Options,
 } from '@avante/crawler-data'
+import {
+	ViewDefinitionT,
+} from '../types'
+import {
+	readTotalSupply,
+} from '../calls'
 
 export default (): ViewDefinitionT<ChamberCoords> => ({
 	//
@@ -18,9 +22,8 @@ export default (): ViewDefinitionT<ChamberCoords> => ({
 
 	//
 	// updated number of total records
-	getTotalCount: async (): Promise<number> => {
-		///@ts-ignore
-		return 0
+	readTotalCount: async (options: Options): Promise<number> => {
+		return readTotalSupply(ContractName.CrawlerToken, options)
 	},
 
 	//

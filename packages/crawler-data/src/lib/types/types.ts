@@ -79,7 +79,7 @@ export interface ChamberData {
 	tokenId: number
 	chapter: number
 	seed: HexString
-	bitmap: HexString
+	bitmap?: HexString
 	name: string
 	compass: Compass
 	coord: BigIntString
@@ -91,7 +91,7 @@ export interface ChamberData {
 	coins: number
 	worth: number
 	// TODO: Remove this? (not static)
-	tilemap: number[]
+	tilemap?: number[]
 	doors: number[]
 	locks: boolean[]
 	locksCount: number
@@ -103,13 +103,13 @@ export interface ChamberData {
 // View definitions
 //
 
-/** @type View names */
+/** @type ViewT names */
 export enum ViewName {
 	tokenIdToCoord = 'tokenIdToCoord',
 	chamberData = 'chamberData',
 }
 
-/** @type View info */
+/** @type ViewT info */
 export interface ViewChainInfo {
 	chainId: ChainId
 	contractName: ContractName
@@ -118,7 +118,7 @@ export interface ViewChainInfo {
 }
 
 /** @type base View structure */
-export interface View<ViewDataType> {
+export interface ViewT<ViewDataType> {
 	chain: ViewChainInfo
 	data: ViewDataType
 }
@@ -131,8 +131,8 @@ export type ChamberDataViewData = Record<BigIntString, ChamberData>
 
 /** @type All view types, by name */
 export interface AllViews {
-	[ViewName.tokenIdToCoord]: View<TokenIdToCoordsViewData>
-	[ViewName.chamberData]: View<ChamberDataViewData>
+	[ViewName.tokenIdToCoord]: ViewT<TokenIdToCoordsViewData>
+	[ViewName.chamberData]: ViewT<ChamberDataViewData>
 }
 
 /** @type used by clients for importing a chain using importChainData() */

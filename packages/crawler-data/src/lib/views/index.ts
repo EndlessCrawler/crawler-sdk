@@ -2,6 +2,7 @@ export {
 	getViewNames,
 	getAllViews,
 	getView,
+	getViewDataCount,
 	validateView,
 } from './views'
 

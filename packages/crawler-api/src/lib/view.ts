@@ -1,6 +1,7 @@
 import { readContractOrThrow } from './wagmi'
 import {
 	ViewName,
+	Options,
 } from '@avante/crawler-data'
 import {
 	ReadViewOptions,
@@ -36,4 +37,9 @@ export const readViewRecordOrThrow = async (options: ReadViewOptions): Promise<R
 	return {
 		[key]: await transform?.(result) ?? result
 	}
+}
+
+export const readViewTotalCount = async (viewName: ViewName, options: Options): Promise<number> => {
+	const view = views[viewName]
+	return view.readTotalCount(options)
 }
