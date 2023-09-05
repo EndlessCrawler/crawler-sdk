@@ -32,6 +32,7 @@ export const readViewRecordOrThrow = async (options: ReadViewOptions): Promise<R
 	}
 
 	// will throw on contract error
+	console.log(`readContractOptions:`, readContractOptions)
 	const result = await readContractOrThrow(readContractOptions)
 
 	return {
@@ -43,3 +44,4 @@ export const readViewTotalCount = async (viewName: ViewName, options: Options): 
 	const view = views[viewName]
 	return view.readTotalCount(options)
 }
+

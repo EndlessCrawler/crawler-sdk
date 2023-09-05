@@ -18,6 +18,7 @@ import {
 export default (): ViewDefinitionT<ChamberData> => ({
 	//
 	// View info
+	// function coordToChamberData(uint8 chapterNumber, uint256 coord, bool generateMaps) public view override returns (Crawl.ChamberData memory result)
 	contractName: ContractName.CrawlerToken,
 	functionName: 'coordToChamberData',
 

@@ -6,6 +6,7 @@ import {
 	getView,
 } from '@avante/crawler-data'
 import {
+	readViewRecordOrThrow,
 	readViewTotalCount,
 } from '@avante/crawler-api'
 import { UrlDispatcher, AsyncActionDispatcher } from '@/components/Dispatchers'
@@ -19,6 +20,11 @@ export default function ApisMenu() {
 			//@ts-ignore
 			const view = getView(viewName)
 			const count = Object.keys(view.data).length
+			const readViewOptions = {
+				viewName,
+				key: '1',
+				args: [1],
+			}
 			result.push(
 				<div key={viewName} >
 					<Divider hidden />
@@ -26,6 +32,8 @@ export default function ApisMenu() {
 					<div>
 						{/* @ts-ignore */}
 						<AsyncActionDispatcher label='readViewTotalCount()' onAction={() => readViewTotalCount(viewName)} />
+						{/* @ts-ignore */}
+						<AsyncActionDispatcher label='readViewRecordOrThrow()' onAction={() => readViewRecordOrThrow(readViewOptions)} />
 					</div>
 				</div>
 			)
