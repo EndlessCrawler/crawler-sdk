@@ -18,8 +18,7 @@ Things can change and break at any time.
 
 #### Planned
 
-* `@avante/crawler-react` : React framework (off-chain, ready to use)
-* `@avante/crawler-react3` : React framework (on-chain, need web3 wallet)
+* `@avante/crawler-react` : React framework (off-chain/on-chain, ready to use)
 * `@avante/crawler-contracts` : Solidity contracts
 
 
@@ -27,13 +26,13 @@ Things can change and break at any time.
 ## Which package should I get?
 
 
-| Package                   |            |                  |
-|---------------------------|------------|------------------|
-| @avante/crawler-data      | Typescript | off-chain        |
-| @avante/crawler-react     | React      | off-chain        |
-| @avante/crawler-api       | Typescript | web3 / on-chain  |
-| @avante/crawler-react3?   | React      | web3 / on-chain  |
-| @avante/crawler-explorer  | Next.js    | web3 / on-chain  |
+| Package                   |            |                  |                  |
+|---------------------------|------------|------------------|------------------|
+| @avante/crawler-data      | Typescript | off-chain        | just cached data |
+| @avante/crawler-core      | Typescript | off-chain        | chamber access api |
+| @avante/crawler-web3      | Typescript | on-chain         |  |
+| @avante/crawler-react     | React      | on/off-chain     |  |
+| @avante/crawler-explorer  | Next.js    | on-chain         | api explorer |
 
 
 
@@ -78,13 +77,15 @@ npx lerna exec "npm update --save"
 npx lerna exec npm install --scope=crawler-data
 ```
 
-#### Watch and build Typescript changes...
+#### Watch Typescript changes and recompile...
 
 ```sh
-# recompile Typescript packages on changes
+# recompile all TS packages on changes
 npm run watch
 # recompile and run tests
 npm run watchtest
+# og way
+npx lerna watch -- npx lerna run build
 ```
 
 
