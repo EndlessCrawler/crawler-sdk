@@ -6,10 +6,16 @@ module.exports = {
 		// https://dashboard.alchemy.com/
 		INFURA_API_KEY: process.env.INFURA_API_KEY,
 		ALCHEMY_API_KEY: process.env.ALCHEMY_API_KEY,
+		WALLETCONNECT_PROJECT_ID: process.env.WALLETCONNECT_PROJECT_ID,
 	},
 	reactStrictMode: true,
 	transpilePackages: [
 		'@avante/crawler-api',
 		'@avante/crawler-data',
-	]
+	],
+	webpack: (config) => {
+		// walletconnect
+		config.resolve.fallback = { fs: false, net: false, tls: false, lokijs: false, encoding: false, 'pino-pretty': false }
+		return config
+	},
 }

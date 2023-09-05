@@ -1,7 +1,9 @@
 import 'semantic-ui-css/semantic.min.css'
 import '/styles/styles.scss'
-import { FetchProvider } from '@/hooks/FetchContext'
+import React from 'react'
+import Wagmi from '@/components/Wagmi'
 import Head from '@/components/Head'
+import { FetchProvider } from '@/hooks/FetchContext'
 
 import {
 	mainnetData,
@@ -13,10 +15,12 @@ importChainData([mainnetData, goerliData])
 
 function _app({ Component, pageProps }) {
 	return (
-		<FetchProvider>
-			<Head />
-			<Component {...pageProps} />
-		</FetchProvider>
+		<Wagmi>
+			<FetchProvider>
+				<Head />
+				<Component {...pageProps} />
+			</FetchProvider>
+		</Wagmi>
 	)
 }
 
