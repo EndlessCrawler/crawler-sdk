@@ -24,7 +24,7 @@
 		"packages/*"
 	],
 	"devDependencies": {
-		"lerna": "^7.1.5"
+		"lerna": "^7.2.0"
 	},
 	"keywords": [
 		"dungeon",
