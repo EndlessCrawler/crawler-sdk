@@ -15,7 +15,7 @@ $ec-text: #B58776;
 $ec-bold: #F3E9C3;
 $ec-link: #FFBEA6;
 $ec-border: rgba($ec-link, 0.2);
-$ec-header-height: 95px;
+$ec-header-height: 65px;
 $ec-drawer-width: 300px;
 
 
@@ -456,8 +456,8 @@ $ui-button-inborder-disabled: inset 0.05em 0.05em rgba($ec-shadow, 0.8), inset -
 }
 
 .Logo {
-	width: 60px;
-	height: 60px;
+	width: 30px;
+	height: 30px;
 }
 
 .Header {
@@ -483,8 +483,8 @@ $ui-button-inborder-disabled: inset 0.05em 0.05em rgba($ec-shadow, 0.8), inset -
 	height: calc(100vh - $ec-header-height);
 }
 
-.DrawerWidth {
-	width: $ec-drawer-width;
+.HeaderMenu {
+	width: 320px;
 }
 
 .ResultsContainer {

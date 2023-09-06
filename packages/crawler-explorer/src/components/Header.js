@@ -42,11 +42,11 @@ export default function Header() {
 	return (
 		<div>
 			<div className='Header Padded'>
-				<div className='DrawerWidth'>
+				<div className='HeaderMenu'>
 
 					<Grid>
-						<Col width={4}><Link href='/'><img src='/door.png' className='Logo PixelArt' alt='' /></Link></Col>
-						<Col width={12}><h2>CRAWLER SDK<br />EXPLORER</h2></Col>
+						<Col width={2}><Link href='/'><img src='/door.png' className='Logo PixelArt' alt='' /></Link></Col>
+						<Col width={14}><h2>CRAWLER SDK EXPLORER</h2></Col>
 					</Grid>
 
 					<div>

@@ -52,7 +52,7 @@ export function isDataResult(instance: any): instance is DataResult {
 	return instance && instance.data && typeof (instance.data) == 'string'
 }
 
-/** @type view definition for on-chain fetch */
+/** @type view definition to read on-chain data */
 export interface ViewDefinition {
 	contractName: ContractName
 	functionName: string
@@ -62,7 +62,7 @@ export interface ViewDefinition {
 	transform: any
 }
 
-/** @type view definition for on-chain fetch */
+/** @type view definition to read on-chain data */
 export interface ViewDefinitionT<T> extends ViewDefinition {
 	readTotalCount: (options: Options) => Promise<number>
 	keyToArgs: (key: any) => any[]
