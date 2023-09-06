@@ -2,8 +2,7 @@ import React, { useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Grid, Divider } from 'semantic-ui-react'
-import Header from '@/components/Header'
-import Results from '@/components/Results'
+import { ConnectKitProvider, ConnectKitButton, getDefaultConfig } from 'connectkit'
 
 const Row = Grid.Row
 const Col = Grid.Column
@@ -17,9 +16,7 @@ const pages = {
 	}
 }
 
-export default function Layout({
-	children,
-}) {
+export default function Header() {
 	const router = useRouter()
 
 	const currentSlug = useMemo(() => {
@@ -42,27 +39,26 @@ export default function Layout({
 		return result
 	}, [currentSlug])
 
-	const onChain = useMemo(() => {
-		return currentSlug ? (pages[currentSlug]?.onChain) : undefined
-	}, [currentSlug])
-	// console.log(currentSlug)
-
 	return (
 		<div>
-			<Header />
-			
-			<div className='Drawer'>
+			<div className='Header Padded'>
+				<div className='DrawerWidth'>
 
-				<div className='Padded'>
-					{onChain === true && <p>(on-chain)</p>}
-					{onChain === false && <p>(off-chain)</p>}
-					<Divider hidden />
-					{children}
+					<Grid>
+						<Col width={4}><Link href='/'><img src='/door.png' className='Logo PixelArt' alt='' /></Link></Col>
+						<Col width={12}><h2>CRAWLER SDK<br />EXPLORER</h2></Col>
+					</Grid>
+
+					<div>
+						{`· `}
+						{menu}
+					</div>
 				</div>
-			</div>
 
-			<div className='ResultsContainer'>
-				<Results />
+				<div className='ConnectCorner'>
+					<ConnectKitButton />
+				</div>
+
 			</div>
 		</div>
 	)

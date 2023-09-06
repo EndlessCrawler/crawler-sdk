@@ -15,7 +15,10 @@ $ec-text: #B58776;
 $ec-bold: #F3E9C3;
 $ec-link: #FFBEA6;
 $ec-border: rgba($ec-link, 0.2);
+$ec-header-height: 95px;
 $ec-drawer-width: 300px;
+
+
 html {
 	overflow-y: scroll;
 	scroll-behavior: smooth;
@@ -457,18 +460,37 @@ $ui-button-inborder-disabled: inset 0.05em 0.05em rgba($ec-shadow, 0.8), inset -
 	height: 60px;
 }
 
+.Header {
+	background-color: $ec-bg-view;
+	width: 100%;
+	height: $ec-header-height;
+	border-bottom: 1px solid rgba($ec-shadow, 0.2);
+}
+
+.ConnectCorner {
+	@extend .Padded;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
 .Drawer {
 	background-color: $ec-bg-view;
 	position: absolute;
-	top: 0;
+	top: $ec-header-height;
 	left: 0;
 	width: $ec-drawer-width;
 	height: 100vh;
 }
+
+.DrawerWidth {
+	width: $ec-drawer-width;
+}
+
 .ResultsContainer {
 	background-color: $ec-bg;
 	position: absolute;
-	top: 0;
+	top: $ec-header-height;
 	left: 0;
 	margin-left: $ec-drawer-width;
 	width: calc(100% - $ec-drawer-width);
