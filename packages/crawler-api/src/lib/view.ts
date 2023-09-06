@@ -4,6 +4,7 @@ import {
 	Options,
 } from '@avante/crawler-data'
 import {
+	ReadContractOptions,
 	ReadViewOptions,
 	ReadViewResult,
 	ViewDefinition,
@@ -23,12 +24,15 @@ const views: Record<ViewName, ViewDefinition> = {
 export const readViewRecordOrThrow = async (options: ReadViewOptions): Promise<ReadViewResult> => {
 	const { viewName, key } = options
 	const view = views[viewName]
-	const { contractName, functionName, transform } = view
+	const { contractName, functionName, keyToArgs, transform } = view
 
-	const readContractOptions = {
-		...options,
+	const args = keyToArgs(key)
+
+	const readContractOptions: ReadContractOptions = {
+		...options, // copy chainId
 		contractName,
 		functionName,
+		args,
 	}
 
 	// will throw on contract error

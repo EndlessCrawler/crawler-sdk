@@ -22,6 +22,10 @@ export default (): ViewDefinitionT<ChamberData> => ({
 	contractName: ContractName.CrawlerToken,
 	functionName: 'coordToChamberData',
 
+	keyToArgs: (key: any): any[] => {
+		return [0, key, true]
+	},
+
 	//
 	// updated number of total records
 	readTotalCount: async (options: Options): Promise<number> => {

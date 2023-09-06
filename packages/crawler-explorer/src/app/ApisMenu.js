@@ -4,6 +4,8 @@ import {
 	getAllViews,
 	getViewNames,
 	getView,
+	ViewName,
+	getTokenCoords,
 } from '@avante/crawler-data'
 import {
 	readViewRecordOrThrow,
@@ -13,6 +15,8 @@ import { UrlDispatcher, AsyncActionDispatcher } from '@/components/Dispatchers'
 
 export default function ApisMenu() {
 
+	const tokenCoords = useMemo(() => getTokenCoords(1), [])
+
 	const views = useMemo(() => {
 		let result = []
 		const vs = getAllViews()
@@ -20,11 +24,16 @@ export default function ApisMenu() {
 			//@ts-ignore
 			const view = getView(viewName)
 			const count = Object.keys(view.data).length
-			const readViewOptions = {
-				viewName,
-				key: '1',
-				args: [1],
-			}
+			const readViewOptions =
+				viewName == ViewName.tokenIdToCoord ? {
+					viewName,
+					key: '1',
+				} : viewName == ViewName.chamberData ? {
+					viewName,
+					key: tokenCoords.coord.toString(),
+				} : {
+					viewName,
+				}
 			result.push(
 				<div key={viewName} >
 					<Divider hidden />
@@ -33,7 +42,7 @@ export default function ApisMenu() {
 						{/* @ts-ignore */}
 						<AsyncActionDispatcher label='readViewTotalCount()' onAction={() => readViewTotalCount(viewName)} />
 						{/* @ts-ignore */}
-						<AsyncActionDispatcher label='readViewRecordOrThrow()' onAction={() => readViewRecordOrThrow(readViewOptions)} />
+						<AsyncActionDispatcher label={`readViewRecordOrThrow(${readViewOptions.key})`} onAction={() => readViewRecordOrThrow(readViewOptions)} />
 					</div>
 				</div>
 			)
@@ -56,9 +65,9 @@ export default function ApisMenu() {
 			<div>
 				<UrlDispatcher label='tokenIdToCoord/1' url='/api/view/1/tokenIdToCoord/1/1' />
 				<UrlDispatcher label='chamberData/1' url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/false' />
-				<UrlDispatcher label='chamberData/1 + maps' url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/true' />
+				<UrlDispatcher label='chamberData/1+maps' url='/api/view/1/chamberData/18446744073709551617/1/18446744073709551617/true' />
 			</div>
-			
+
 			{views}
 
 		</div>

@@ -21,6 +21,10 @@ export default (): ViewDefinitionT<ChamberCoords> => ({
 	contractName: ContractName.CrawlerToken,
 	functionName: 'tokenIdToCoord',
 
+	keyToArgs: (key: any): any[] => {
+		return [key.toString()]
+	},
+
 	//
 	// updated number of total records
 	readTotalCount: async (options: Options): Promise<number> => {

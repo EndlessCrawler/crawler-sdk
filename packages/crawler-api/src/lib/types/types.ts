@@ -17,7 +17,6 @@ export interface ReadViewOptions extends Options {
 	chainId?: ChainId  // from Options
 	viewName: ViewName,
 	key: any,
-	args: any[],
 }
 
 /** @type result from readViewRecordOrThrow() */
@@ -57,6 +56,8 @@ export function isDataResult(instance: any): instance is DataResult {
 export interface ViewDefinition {
 	contractName: ContractName
 	functionName: string
+	// extend...
+	keyToArgs: any
 	readTotalCount: any
 	transform: any
 }
@@ -64,5 +65,6 @@ export interface ViewDefinition {
 /** @type view definition for on-chain fetch */
 export interface ViewDefinitionT<T> extends ViewDefinition {
 	readTotalCount: (options: Options) => Promise<number>
+	keyToArgs: (key: any) => any[]
 	transform: (data: any) => Promise<T>
 }
