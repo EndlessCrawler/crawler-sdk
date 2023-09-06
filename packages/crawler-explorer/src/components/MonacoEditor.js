@@ -94,8 +94,7 @@ const MonacoEditor = ({
 		//@ts-ignore
 		options={options}
 		theme={_theme}
-		// width='60em'
-		height='80em'
+		height='60em'
 	/>
 }
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { WagmiConfig, createConfig } from 'wagmi'
-import { ConnectKitProvider, ConnectKitButton, getDefaultConfig } from 'connectkit'
+import { ConnectKitProvider, getDefaultConfig } from 'connectkit'
 
 const config = createConfig(
 	getDefaultConfig({
@@ -17,11 +17,15 @@ const config = createConfig(
 	}),
 )
 
+const _customTheme = {
+	"--ck-font-family": '"Noto Sans Mono", monospace',
+	"--ck-border-radius": '2px',
+}
+
 const Wagmi = ({children}) => {
 	return (
 		<WagmiConfig config={config}>
-			<ConnectKitProvider>
-				<ConnectKitButton />
+			<ConnectKitProvider mode='dark' customTheme={_customTheme}>
 				{children}
 			</ConnectKitProvider>
 		</WagmiConfig>

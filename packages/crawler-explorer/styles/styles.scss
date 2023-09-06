@@ -480,7 +480,7 @@ $ui-button-inborder-disabled: inset 0.05em 0.05em rgba($ec-shadow, 0.8), inset -
 	top: $ec-header-height;
 	left: 0;
 	width: $ec-drawer-width;
-	height: 100vh;
+	height: calc(100vh - $ec-header-height);
 }
 
 .DrawerWidth {
@@ -493,8 +493,8 @@ $ui-button-inborder-disabled: inset 0.05em 0.05em rgba($ec-shadow, 0.8), inset -
 	top: $ec-header-height;
 	left: 0;
 	margin-left: $ec-drawer-width;
-	width: calc(100% - $ec-drawer-width);
-	height: 100%;
+	width: calc(100vw - $ec-drawer-width);
+	height: calc(100% - $ec-header-height);
 }
 .Url {
 	width: 100%;
