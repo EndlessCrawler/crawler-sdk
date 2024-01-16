@@ -19,7 +19,7 @@
 			"**/.env*": true,
 		},
 		"search.exclude": {
-			"**/package-lock.json": true,
+			"**/*-lock.*": true,
 		},
 	}
 }

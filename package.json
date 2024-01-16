@@ -17,7 +17,6 @@
 		"_build": "npx lerna run build --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\"",
 		"watch": " npx lerna watch --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\" -- npx lerna run build --scope=\\$LERNA_PACKAGE_NAME",
 		"watchtest": " npx lerna watch --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\" -- npx lerna run build,test --scope=\\$LERNA_PACKAGE_NAME",
-		"explorer": "npx lerna run dev --scope=@avante/crawler-explorer",
 		"graph": "npx nx graph"
 	},
 	"workspaces": [

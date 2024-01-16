@@ -14,7 +14,7 @@ Things can change and break at any time.
 
 * `@avante/crawler-data` : Game data and tools
 * `@avante/crawler-api` : Web3 API, contracts ABI
-* `@avante/crawler-explorer` : Data explorer, examples, cacher
+* `sdk-explorer` : SDK explorer, examples, cacher
 
 #### Planned
 
@@ -26,13 +26,17 @@ Things can change and break at any time.
 ## Which package should I get?
 
 
-| Package                   |            |                  |                  |
-|---------------------------|------------|------------------|------------------|
-| @avante/crawler-data      | Typescript | off-chain        | just cached data |
+| Packages                  |            |                  |                    |
+|---------------------------|------------|------------------|--------------------|
+| @avante/crawler-data      | Typescript | off-chain        | just cached data   |
 | @avante/crawler-core      | Typescript | off-chain        | chamber access api |
 | @avante/crawler-web3      | Typescript | on-chain         |  |
 | @avante/crawler-react     | React      | on/off-chain     |  |
-| @avante/crawler-explorer  | Next.js    | on-chain         | api explorer |
+
+
+| Apps                      |            |                  |                  |
+|---------------------------|------------|------------------|------------------|
+| /apps/sdk-explorer        | Next.js    | on-chain         | sdk example app  |
 
 
 

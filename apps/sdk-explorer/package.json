@@ -1,7 +1,7 @@
 {
-	"name": "@avante/crawler-explorer",
+	"name": "sdk-explorer",
 	"version": "0.0.1",
-	"description": "Endless Crawler Explorer/Cacher App",
+	"description": "Crawler SDK Explorer",
 	"author": "Studio Avante",
 	"license": "CC0-1.0",
 	"homepage": "https://github.com/EndlessCrawler",
