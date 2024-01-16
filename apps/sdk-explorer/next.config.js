@@ -4,9 +4,9 @@ module.exports = {
 		// these keys are public, need to secure on the dashboard
 		// https://app.infura.io/dashboard/
 		// https://dashboard.alchemy.com/
-		INFURA_API_KEY: process.env.INFURA_API_KEY,
-		ALCHEMY_API_KEY: process.env.ALCHEMY_API_KEY,
-		WALLETCONNECT_PROJECT_ID: process.env.WALLETCONNECT_PROJECT_ID,
+		INFURA_API_KEY: process.env.INFURA_API_KEY ?? '',
+		ALCHEMY_API_KEY: process.env.ALCHEMY_API_KEY ?? '',
+		WALLETCONNECT_PROJECT_ID: process.env.WALLETCONNECT_PROJECT_ID ?? '',
 	},
 	reactStrictMode: true,
 	transpilePackages: [
