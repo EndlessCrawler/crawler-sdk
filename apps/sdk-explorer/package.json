@@ -30,6 +30,10 @@
 		"eslint": "8.18.0",
 		"eslint-config-next": "12.1.6"
 	},
+	"engines": {
+		"node": "18",
+		"pnpm": "8"
+	},
 	"keywords": [
 		"dungeon",
 		"crawler",

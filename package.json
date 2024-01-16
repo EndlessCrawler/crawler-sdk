@@ -10,20 +10,18 @@
 		"url": "https://github.com/EndlessCrawler/crawler-sdk/issues"
 	},
 	"scripts": {
-		"_install": "npx lerna exec npm install",
-		"_update": "npx lerna exec \"npm update --save\"",
-		"_test": "npx lerna run test",
-		"_clean": "npx lerna run clean --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\"",
-		"_build": "npx lerna run build --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\"",
-		"watch": " npx lerna watch --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\" -- npx lerna run build --scope=\\$LERNA_PACKAGE_NAME",
-		"watchtest": " npx lerna watch --scope=\"@avante/crawler-data\" --scope=\"@avante/crawler-api\" -- npx lerna run build,test --scope=\\$LERNA_PACKAGE_NAME",
-		"graph": "npx nx graph"
+		"_update": "pnpm -r run update",
+		"_test": "pnpm -r run test",
+		"_clean": "pnpm -r run clean",
+		"_build": "pnpm -r run build",
+		"watch": "pnpm --filter '@avante/*' --parallel run watch",
+		"watchtest": "pnpm --filter '@avante/*' --parallel run watchtest"
 	},
-	"workspaces": [
-		"packages/*"
-	],
 	"devDependencies": {
-		"lerna": "^7.2.0"
+	},
+	"engines": {
+		"node": "18",
+		"pnpm": "8"
 	},
 	"keywords": [
 		"dungeon",

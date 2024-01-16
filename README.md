@@ -43,53 +43,72 @@ Things can change and break at any time.
 
 ## Monorepo workflow
 
-This is a **monorepo**, a single repository containing multiple packages. We use [Lerna](https://lerna.js.org/docs/introduction) and [npm workspaces](https://docs.npmjs.com/cli/v9/using-npm/workspaces) to manage it.
+This is a **monorepo**, a single repository containing multiple packages, managed with [pnpm](https://pnpm.io/workspaces).
 
-There is no reason to download this repository unless you want to contribute. As an SDK user, better [choose](#included-packages) one of the included packages instead.
+There is no reason to download this repository unless you want to contribute. As an SDK user, better [choose](#which-package-should-i-get) one of the included packages instead.
 
 
 #### Initialize this monorepo after download
 
+Install [pnpm](https://pnpm.io/installation) first.
+
 ```sh
-npm install
-npx lerna init
-npx lerna link
-npx lerna run build  # or: npm run _build
+pnpm install
+pnpm -r run build
 ```
 
 
-#### Execute a **task** (package scripts) on all packages...
+#### To execute a script/task on all packages...
+
+> [pnpm run](https://pnpm.io/cli/run)
 
 ```sh
 # on all packages
-npx lerna run build  # or: npm run _build
-npx lerna run test   # or: npm run _test
-npx lerna run test,build,lint
-
-# on a single package
-npx lerna run test --scope=crawler-data
+pnpm -r run build
+pnpm -r run test
+pnpm -r run update
+pnpm -r run lint
 ```
 
-#### Execute a **command** on all packages...
+
+#### To execute a script/task on specific packages...
+
+> [filtering](https://pnpm.io/filtering)
 
 ```sh
-# on all packages
-npx lerna exec npm install
-npx lerna exec "npm update --save"
+# multiple
+pnpm --filter "@avante/*" test
+pnpm --filter "@avante/*" install -D tsc-watch
 
-# on a single package
-npx lerna exec npm install --scope=crawler-data
+# single
+pnpm --filter sdk-explorer build
+pnpm --filter "@avante/crawler-api" test
+pnpm --filter "*/crawler-api" test
+pnpm --filter "*api" test
+pnpm --filter "*api" install @types/node -D
 ```
 
-#### Watch Typescript changes and recompile...
+#### To execute a shell command on all packages...
+
+> [pnpm exec](https://pnpm.io/cli/exec)
 
 ```sh
-# recompile all TS packages on changes
-npm run watch
-# recompile and run tests
-npm run watchtest
-# og way
-npx lerna watch -- npx lerna run build
+pnpm -r exec jest
+```
+
+#### To work on apps/sdk-explorer, watching all packages
+
+terminal 1:
+
+```sh
+pnpm run watch
+```
+
+terminal 2:
+
+```sh
+cd apps/sdk-explorer
+npm run dev
 ```
 
 
