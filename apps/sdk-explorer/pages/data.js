@@ -6,7 +6,7 @@ import DataMenu from '@/app/DataMenu'
 export default function DataPage() {
 	return (
 		<Page>
-			<Layout>
+			<Layout title='off-chain calls'>
 				<DataMenu />
 			</Layout>
 		</Page>

@@ -6,7 +6,7 @@ import ApisMenu from '@/app/ApisMenu'
 export default function ApisPage() {
 	return (
 		<Page>
-			<Layout>
+			<Layout title='on-chain calls'>
 				<ApisMenu />
 			</Layout>
 		</Page>

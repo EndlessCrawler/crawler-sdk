@@ -8,7 +8,7 @@ export default function Home() {
 	const _object = { name: 'John D. Doe', names: ['John', 'D', 'Doe'] }
 	return (
 		<Page>
-			<Layout>
+			<Layout title='sample results'>
 
 				api route
 				<div>

@@ -26,7 +26,7 @@ export default function Results() {
 		dispatchResults(results)
 	}, [results])
 
-	const _jsonResults = typeof results == 'object' ? results : [results]
+	const _jsonResults = typeof results == 'bigint' ? { hex: `0x${results.toString(16)}`, number: `${results.toString()}n` } : results
 	// const _jsonResults = results
 
 	return (
