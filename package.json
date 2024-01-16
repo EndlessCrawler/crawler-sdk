@@ -10,10 +10,10 @@
 		"url": "https://github.com/EndlessCrawler/crawler-sdk/issues"
 	},
 	"scripts": {
-		"_update": "pnpm -r run update",
-		"_test": "pnpm -r run test",
-		"_clean": "pnpm -r run clean",
-		"_build": "pnpm -r run build",
+		"update": "pnpm --color -r run update",
+		"test": "pnpm --color -r run test",
+		"clean": "pnpm --color -r run clean",
+		"build": "pnpm --color -r run build",
 		"watch": "pnpm --filter '@avante/*' --parallel run watch",
 		"watchtest": "pnpm --filter '@avante/*' --parallel run watchtest"
 	},

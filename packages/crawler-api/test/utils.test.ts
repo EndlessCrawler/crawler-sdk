@@ -21,8 +21,8 @@ const _tx = [
 	'0xa087c632eb728b1db48341fbfce52716494a23d6a437bc1564f44e30c06cfb1d',
 ]
 
-const _lowerCase = (value:string) => (value.toLowerCase())
-const _upperCase = (value:string) => (`0x${value.slice(2).toLowerCase()}`)
+const _lowerCase = (value: string) => (value.toLowerCase())
+const _upperCase = (value: string) => (`0x${value.slice(2).toLowerCase()}`)
 
 describe('* utils', () => {
 
