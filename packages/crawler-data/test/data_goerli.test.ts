@@ -1,11 +1,11 @@
 import 'jest-expect-message'
 import {
-	initializeChainData,
-	importChainData,
-	mainnetData,
-	goerliData,
+	initializeDataSet,
+	importDataSet,
+	mainnetDataSet,
+	goerliDataSet,
 	// ---
-	getChainData,
+	getDataSet,
 } from '../src/lib'
 import {
 	ChainId,
@@ -14,22 +14,22 @@ import {
 describe('* data_goerli', () => {
 
 	beforeAll(() => {
-		initializeChainData()
-		importChainData([goerliData])
+		initializeDataSet()
+		importDataSet([goerliDataSet])
 	})
 
-	it('getChainData()', () => {
-		const data1 = getChainData()
+	it('getDataSet()', () => {
+		const data1 = getDataSet()
 		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Goerli)
 
-		const data2 = getChainData({ chainId: ChainId.Goerli })
+		const data2 = getDataSet({ chainId: ChainId.Goerli })
 		expect(data2.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Goerli)
 
-		expect(() => getChainData({ chainId: ChainId.Mainnet })).toThrow('InvalidCrawlerChainError')
+		expect(() => getDataSet({ chainId: ChainId.Mainnet })).toThrow('InvalidCrawlerChainError')
 
-		importChainData([mainnetData])
+		importDataSet([mainnetDataSet])
 
-		const data3 = getChainData({ chainId: ChainId.Mainnet })
+		const data3 = getDataSet({ chainId: ChainId.Mainnet })
 		expect(data3.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 	})
 

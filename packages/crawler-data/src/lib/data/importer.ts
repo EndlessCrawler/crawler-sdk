@@ -2,7 +2,7 @@ import {
 	ChainId,
 	Options,
 	AllViews,
-	ChainData,
+	DataSet,
 	InvalidCrawlerChainError,
 	CrawlerChainNotSetError,
 } from '../types'
@@ -29,7 +29,7 @@ declare global {
 }
 
 /** used internally to initialzie and clear the global scope */
-export const initializeChainData = (force: boolean = false) => {
+export const initializeDataSet = (force: boolean = false) => {
 	if (_global && (!_global.CrawlerData || force)) {
 		_global.CrawlerData = {
 			currentChainId: 0,
@@ -39,15 +39,15 @@ export const initializeChainData = (force: boolean = false) => {
 }
 
 /** used internally to load imported chain data into global scope
- * @param options.chainId array of ChainData to import. The first chain will be set as the current, if none set yet
+ * @param options.chainId array of DataSet to import. The first chain will be set as the current, if none set yet
  */
-export const importChainData = (chainData: ChainData[]) => {
+export const importDataSet = (dataSet: DataSet[]) => {
 	if (_global) {
-		initializeChainData()
-		chainData.forEach((cd) => {
-			_global.CrawlerData.data[cd.chainId] = cd.data
+		initializeDataSet()
+		dataSet.forEach((set) => {
+			_global.CrawlerData.data[set.chainId] = set.data
 			if (_global.CrawlerData.currentChainId == 0) {
-				_global.CrawlerData.currentChainId = cd.chainId
+				_global.CrawlerData.currentChainId = set.chainId
 			}
 		})
 	}
@@ -56,7 +56,7 @@ export const importChainData = (chainData: ChainData[]) => {
 /** called by clients to switch current default chain data
  * @param options.chainId The chainId to use
  */
-export const setChainData = (options: Options) => {
+export const setDataSet = (options: Options) => {
 	if (options.chainId && _global?.CrawlerData?.data[options.chainId]) {
 		_global.CrawlerData.currentChainId = options.chainId
 		return
@@ -66,10 +66,10 @@ export const setChainData = (options: Options) => {
 }
 
 /** called by clients to get chain data
- * @param options.chainId The specified chainId, or chain set by setChainData()
+ * @param options.chainId The specified chainId, or chain set by setDataSet()
  * @returns the full chain data, throws error if chain is invalid
  */
-export const getChainData = (options: Options = {}): AllViews => {
+export const getDataSet = (options: Options = {}): AllViews => {
 	if (_global?.CrawlerData) {
 		// use specified chain
 		if (options.chainId) {

@@ -6,12 +6,12 @@ import Head from '@/components/Head'
 import { FetchProvider } from '@/hooks/FetchContext'
 
 import {
-	mainnetData,
-	goerliData,
-	importChainData,
+	mainnetDataSet,
+	goerliDataSet,
+	importDataSet,
 } from '@avante/crawler-data'
 
-importChainData([mainnetData, goerliData])
+importDataSet([mainnetDataSet, goerliDataSet])
 
 function _app({ Component, pageProps }) {
 	return (

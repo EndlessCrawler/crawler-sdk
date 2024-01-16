@@ -1,9 +1,9 @@
 import 'jest-expect-message'
 import {
-	initializeChainData,
-	importChainData,
-	mainnetData,
-	goerliData,
+	initializeDataSet,
+	importDataSet,
+	mainnetDataSet,
+	goerliDataSet,
 	// ---
 	ChainId,
 	ContractName,
@@ -27,8 +27,8 @@ describe('* chains', () => {
 	let _owners: Record<string, string> = {}
 
 	beforeAll(() => {
-		initializeChainData()
-		importChainData([mainnetData, goerliData])
+		initializeDataSet()
+		importDataSet([mainnetDataSet, goerliDataSet])
 	})
 
 	it('readTotalSupply', async () => {

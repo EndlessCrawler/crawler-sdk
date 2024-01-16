@@ -18,7 +18,7 @@ export type BigIntString = string
 export type Address = string
 
 /** @type types that can contain a BigInt */
-export type AnyBigInt = number | bigint | BigIntString | HexString
+export type BigIntIsh = number | bigint | BigIntString | HexString
 
 
 
@@ -135,8 +135,8 @@ export interface AllViews {
 	[ViewName.chamberData]: ViewT<ChamberDataViewData>
 }
 
-/** @type used by clients for importing a chain using importChainData() */
-export interface ChainData {
+/** @type used by clients for importing a chain using importDataSet() */
+export interface DataSet {
 	chainId: ChainId
 	data: AllViews
 }

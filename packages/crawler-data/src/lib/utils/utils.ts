@@ -1,5 +1,5 @@
 import {
-	AnyBigInt,
+	BigIntIsh,
 	HexString,
 } from '../types'
 
@@ -24,18 +24,18 @@ export const isNumber = (value: any): boolean => !isNaN(parseInt(value))
 export const isBigInt = (value: any): boolean => (typeof value === 'bigint')
 
 /** @returns a bigint */
-export const resolveBigInt = (value: AnyBigInt): bigint => (typeof value === 'bigint' ? value : BigInt(value))
+export const resolveBigInt = (value: BigIntIsh): bigint => (typeof value === 'bigint' ? value : BigInt(value))
 
 /** converts a number or bigint to hex string
  * @returns result starts with '0x' and is always even, as in '0x01'
  */
-export const bigIntToHexString = (value: AnyBigInt): HexString => {
+export const bigIntToHexString = (value: BigIntIsh): HexString => {
 	const hex = resolveBigInt(value).toString(16).toLowerCase()
 	return `0x${hex.length % 2 == 1 ? '0' : ''}${hex}`
 }
 
 /** converts a number or bigint to Uint8Array */
-export const bigIntToByteArray = (value: AnyBigInt): Uint8Array => {
+export const bigIntToByteArray = (value: BigIntIsh): Uint8Array => {
 	const hex = bigIntToHexString(value).slice(2)
 	const result = new Uint8Array(hex.length / 2)
 	for (let i = 0; i < result.length; i++) {
@@ -46,4 +46,4 @@ export const bigIntToByteArray = (value: AnyBigInt): Uint8Array => {
 }
 
 /** converts a number or bigint to Uint8Array */
-export const bigIntToNumberArray = (value: AnyBigInt): number[] => Array.from(bigIntToByteArray(value))
+export const bigIntToNumberArray = (value: BigIntIsh): number[] => Array.from(bigIntToByteArray(value))

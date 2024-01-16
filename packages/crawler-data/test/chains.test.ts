@@ -1,14 +1,14 @@
 import 'jest-expect-message'
 import {
-	initializeChainData,
-	importChainData,
-	allChainData,
+	initializeDataSet,
+	importDataSet,
+	allDataSets,
 	// ---
 	getAllChainIds,
 	getAllNetworkNames,
 	ChainIdToNetworkName,
 	NetworkNameToChainId,
-	getChainData,
+	getDataSet,
 } from '../src/lib'
 import {
 	ChainId,
@@ -54,15 +54,15 @@ describe('* chains', () => {
 		}
 	})
 
-	it('ChainData', () => {
-		expect(allChainData.length, 'allChainData does not contain all chains').toBe(chainIds.length)
+	it('DataSet', () => {
+		expect(allDataSets.length, 'allDataSets does not contain all chains').toBe(chainIds.length)
 
-		initializeChainData()
-		importChainData(allChainData)
+		initializeDataSet()
+		importDataSet(allDataSets)
 
 		for (let i = 0; i < chainIds.length; ++i) {
 			const chainId = chainIds[i]
-			const data = getChainData({ chainId })
+			const data = getDataSet({ chainId })
 			expect(data).not.toBe(null)
 			expect(data.tokenIdToCoord?.chain?.chainId).toBe(chainId)
 		}

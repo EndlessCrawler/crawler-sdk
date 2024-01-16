@@ -1,13 +1,13 @@
 export {
-	mainnetData,
-	goerliData,
-	allChainData,
+	mainnetDataSet,
+	goerliDataSet,
+	allDataSets,
 } from './data'
 
 export {
-	initializeChainData,
-	importChainData,
-	setChainData,
-	getChainData,
+	initializeDataSet,
+	importDataSet,
+	setDataSet,
+	getDataSet,
 	resolveChainId,
 } from './importer'

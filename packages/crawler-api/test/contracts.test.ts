@@ -1,8 +1,8 @@
 import 'jest-expect-message'
 import {
-	initializeChainData,
-	importChainData,
-	allChainData,
+	initializeDataSet,
+	importDataSet,
+	allDataSets,
 	// ---
 	ChainId,
 	ContractName,
@@ -20,8 +20,8 @@ describe('* chains', () => {
 	let allChainIds: ChainId[]
 
 	beforeAll(() => {
-		initializeChainData()
-		importChainData(allChainData)
+		initializeDataSet()
+		importDataSet(allDataSets)
 
 		allContractNames = getAllContractNames()
 		allChainIds = getAllChainIds()

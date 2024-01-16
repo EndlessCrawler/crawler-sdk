@@ -1,6 +1,6 @@
 import {
 	ChainId,
-	ChainData,
+	DataSet,
 	ViewName,
 	ViewT,
 	ChamberDataViewData,
@@ -12,7 +12,7 @@ import {
 //
 import _mainnet_tokenIdToCoord from '../../data/mainnet/tokenIdToCoord.json'
 import _mainnet_chamberData from '../../data/mainnet/chamberData.json'
-export const mainnetData: ChainData = {
+export const mainnetDataSet: DataSet = {
 	chainId: ChainId.Mainnet,
 	data: {
 		[ViewName.tokenIdToCoord]: _mainnet_tokenIdToCoord as ViewT<TokenIdToCoordsViewData>,
@@ -25,7 +25,7 @@ export const mainnetData: ChainData = {
 //
 import _goerli_tokenIdToCoord from '../../data/goerli/tokenIdToCoord.json'
 import _goerli_chamberData from '../../data/goerli/chamberData.json'
-export const goerliData: ChainData = {
+export const goerliDataSet: DataSet = {
 	chainId: ChainId.Goerli,
 	data: {
 		[ViewName.tokenIdToCoord]: _goerli_tokenIdToCoord as ViewT<TokenIdToCoordsViewData>,
@@ -37,4 +37,4 @@ export const goerliData: ChainData = {
 //-------------------------------
 // Export single 
 //
-export const allChainData: ChainData[] = [mainnetData, goerliData]
+export const allDataSets: DataSet[] = [mainnetDataSet, goerliDataSet]

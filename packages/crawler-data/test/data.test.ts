@@ -1,12 +1,12 @@
 import 'jest-expect-message'
 import {
-	initializeChainData,
-	importChainData,
-	mainnetData,
-	goerliData,
+	initializeDataSet,
+	importDataSet,
+	mainnetDataSet,
+	goerliDataSet,
 	// ---
-	getChainData,
-	setChainData,
+	getDataSet,
+	setDataSet,
 	getAllChainIds,
 	getViewNames,
 } from '../src/lib'
@@ -16,27 +16,27 @@ import {
 
 describe('* data_mainnet', () => {
 
-	it('importChainData()', () => {
-		expect(() => getChainData()).toThrow('CrawlerChainNotSetError')
+	it('importDataSet()', () => {
+		expect(() => getDataSet()).toThrow('CrawlerChainNotSetError')
 
-		initializeChainData()
+		initializeDataSet()
 		
-		expect(() => getChainData()).toThrow('CrawlerChainNotSetError')
+		expect(() => getDataSet()).toThrow('CrawlerChainNotSetError')
 
-		importChainData([mainnetData, goerliData])
+		importDataSet([mainnetDataSet, goerliDataSet])
 
 		// defaults to the first chain
-		const data1 = getChainData()
+		const data1 = getDataSet()
 		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 	})
 
-	it('getChainData()', () => {
+	it('getDataSet()', () => {
 		const allChainIds = getAllChainIds()
 		const allViewNames = getViewNames()
 
 		for (let i = 0; i < allChainIds.length; ++i) {
 			const chainId = allChainIds[i]
-			const data = getChainData({ chainId })
+			const data = getDataSet({ chainId })
 			expect(data).not.toBe(null)
 
 			for (let v = 0; v < allViewNames.length; ++v) {
@@ -47,18 +47,18 @@ describe('* data_mainnet', () => {
 		}
 	})
 
-	it('setChainData()', () => {
-		const data1 = getChainData({ chainId: ChainId.Mainnet })
+	it('setDataSet()', () => {
+		const data1 = getDataSet({ chainId: ChainId.Mainnet })
 		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 
 		// new current
-		setChainData({ chainId: ChainId.Goerli })
-		const data2 = getChainData()
+		setDataSet({ chainId: ChainId.Goerli })
+		const data2 = getDataSet()
 		expect(data2.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Goerli)
 
 		// new current
-		setChainData({ chainId: ChainId.Mainnet })
-		const data3 = getChainData()
+		setDataSet({ chainId: ChainId.Mainnet })
+		const data3 = getDataSet()
 		expect(data3.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 	})
 
