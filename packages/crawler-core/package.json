@@ -10,11 +10,11 @@
 	"types": "dist/index.d.ts",
 	"type": "module",
 	"scripts": {
-		"clean": "rimraf dist tsconfig.tsbuildinfo",
-		"build": "tsc -p tsconfig.json",
+		"clean": "rimraf dist tsconfig.build.tsbuildinfo",
+		"build": "tsc -p tsconfig.build.json",
 		"test": "jest",
-		"watch": "tsc-watch",
-		"watch:test": "tsc-watch --onSuccess 'npm run test'",
+		"watch": "tsc-watch -p tsconfig.build.json",
+		"watch:test": "tsc-watch -p tsconfig.build.json --onSuccess 'npm run test'",
 		"publish": "npm publish --access public"
 	},
 	"devDependencies": {

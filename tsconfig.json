@@ -1,0 +1,29 @@
+{
+	//
+	// this is used by vscode only!
+	// for production build we use tsconfig.build.json, extending tsconfig.base.json
+	//
+	"extends": "./tsconfig.base.json",
+
+	// fix VSCode include confusion
+  "references": [
+    { "path": "./packages/crawler-core/tsconfig.build.json" },
+    { "path": "./packages/crawler-data/tsconfig.build.json" },
+    { "path": "./packages/crawler-api/tsconfig.build.json" },
+  ],
+
+	"compilerOptions": {
+		// make vscode "Go To Source Definition" work. example: 
+		// https://medium.com/@NiGhTTraX/how-to-set-up-a-typescript-monorepo-with-lerna-c6acda7d4559
+		// https://github.com/machariamuguku/lerna-yarn-react-typescript-monorepo-with-hot-reload
+		"baseUrl": ".",
+		"paths": {
+			"@avante/*": [
+				"packages/*/src"
+			],
+		}
+	},
+	"include": [
+		"packages/"
+	],
+}
