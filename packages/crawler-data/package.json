@@ -1,7 +1,7 @@
 {
 	"name": "@avante/crawler-data",
 	"version": "0.0.1",
-	"description": "Endless Crawler Game Data and Tools",
+	"description": "Endless Crawler Cached Map Data",
 	"author": "Studio Avante",
 	"license": "CC0-1.0",
 	"homepage": "https://github.com/EndlessCrawler",
@@ -12,10 +12,13 @@
 	"scripts": {
 		"clean": "rimraf dist tsconfig.tsbuildinfo",
 		"build": "tsc -p tsconfig.json",
-		"test": "jest",
+		"test": "NODE_OPTIONS=--experimental-vm-modules jest",
 		"watch": "tsc-watch",
-		"watchtest": "tsc-watch --onSuccess 'npm run test'",
+		"watch:test": "tsc-watch --onSuccess 'npm run test'",
 		"publish": "npm publish --access public"
+	},
+	"peerDependencies": {
+		"@avante/crawler-core": "^0.0.1"
 	},
 	"devDependencies": {
 		"@types/jest": "^29.5.11",

@@ -1,19 +1,12 @@
 import 'jest-expect-message'
 import {
-	initializeDataSet,
-	importDataSet,
-	allDataSets,
-	// ---
+	ChainId,
+	NetworkName,
 	getAllChainIds,
 	getAllNetworkNames,
 	ChainIdToNetworkName,
 	NetworkNameToChainId,
-	getDataSet,
-} from '../src/lib'
-import {
-	ChainId,
-	NetworkName,
-} from '../src/lib/types'
+} from '../src'
 
 describe('* chains', () => {
 	let chainIds: ChainId[]
@@ -51,20 +44,6 @@ describe('* chains', () => {
 			const chainId = chainIds[i]
 			const networkName = ChainIdToNetworkName[chainId] as NetworkName
 			expect(chainId, 'ChainIdToNetworkName / NetworkNameToChainId inconsistency').toBe(NetworkNameToChainId[networkName])
-		}
-	})
-
-	it('DataSet', () => {
-		expect(allDataSets.length, 'allDataSets does not contain all chains').toBe(chainIds.length)
-
-		initializeDataSet()
-		importDataSet(allDataSets)
-
-		for (let i = 0; i < chainIds.length; ++i) {
-			const chainId = chainIds[i]
-			const data = getDataSet({ chainId })
-			expect(data).not.toBe(null)
-			expect(data.tokenIdToCoord?.chain?.chainId).toBe(chainId)
 		}
 	})
 

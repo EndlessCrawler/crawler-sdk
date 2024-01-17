@@ -2,7 +2,7 @@ import {
 	Options,
 	ContractName,
 	Address,
-} from '@avante/crawler-data'
+} from '@avante/crawler-core'
 import {
 	readContractOrThrow,
 } from '../wagmi'

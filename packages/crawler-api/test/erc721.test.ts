@@ -1,20 +1,20 @@
 import 'jest-expect-message'
 import {
-	initializeDataSet,
-	importDataSet,
-	mainnetDataSet,
-	goerliDataSet,
-	// ---
 	ChainId,
 	ContractName,
-	Address,
+	initializeDataSet,
+	importDataSet,
+} from '@avante/crawler-core'
+import {
+	mainnetDataSet,
+	goerliDataSet,
 } from '@avante/crawler-data'
 import {
 	readTotalSupply,
 	readOwnerOf,
 	readBalanceOf,
 	validateAddress,
-} from '../src/lib'
+} from '../src'
 
 const _address = [
 	'0xD7137B798B67d5bd55E64c9351C4b82492dc97a4',

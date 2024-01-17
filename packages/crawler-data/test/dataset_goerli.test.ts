@@ -1,15 +1,14 @@
 import 'jest-expect-message'
 import {
+	ChainId,
 	initializeDataSet,
 	importDataSet,
+	getDataSet,
+} from '@avante/crawler-core'
+import {
 	mainnetDataSet,
 	goerliDataSet,
-	// ---
-	getDataSet,
-} from '../src/lib'
-import {
-	ChainId,
-} from '../src/lib/types'
+} from '../src'
 
 describe('* data_goerli', () => {
 

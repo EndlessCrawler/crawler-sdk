@@ -10,7 +10,7 @@ import { infuraProvider } from '@wagmi/core/providers/infura'
 
 import {
 	resolveChainId,
-} from '@avante/crawler-data'
+} from '@avante/crawler-core'
 import {
 	ReadContractOptions,
 } from './types'

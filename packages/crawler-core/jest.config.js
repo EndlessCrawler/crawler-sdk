@@ -1,7 +1,7 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 export default {
 	// preset: 'ts-jest',
-	// preset: 'ts-jest/presets/js-with-ts',
+	preset: 'ts-jest/presets/js-with-ts',
 	testEnvironment: 'node',
 	extensionsToTreatAsEsm: ['.ts'],
 	verbose: true,

@@ -4,7 +4,7 @@ import {
 	CompassDirMax,
 	offsetCoord,
 	validateCoord,
-} from '../src/lib/crawl'
+} from '../src'
 
 type NumOrBig = number | bigint
 

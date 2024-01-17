@@ -4,9 +4,8 @@ import {
 	isZeroAddress,
 	validateAddress,
 	isSameAddress,
-	formatAddress,
 	validateArgs,
-} from '../src/lib'
+} from '../src'
 
 const _address = [
 	'0x0000000000000000000000000000000000000000',

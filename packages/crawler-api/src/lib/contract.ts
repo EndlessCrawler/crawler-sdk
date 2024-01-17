@@ -3,7 +3,7 @@ import {
 	ChainId,
 	ContractName,
 	InvalidCrawlerChainError,
-} from '@avante/crawler-data'
+} from '@avante/crawler-core'
 import {
 	InvalidCrawlerContractError,
 } from './types'

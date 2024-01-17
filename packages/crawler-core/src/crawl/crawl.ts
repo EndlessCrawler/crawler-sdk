@@ -1,8 +1,9 @@
 import {
 	Compass,
-	BigIntString,
-} from './types'
-import { resolveBigInt } from './utils'
+} from '../types'
+import {
+	resolveBigInt,
+} from '../utils'
 
 //------------------------------
 // Constants

@@ -1,8 +1,6 @@
 import 'jest-expect-message'
 import {
 	Compass,
-} from '../src/lib/types'
-import {
 	slugToCompass,
 	slugToCoord,
 	validateSlug,
@@ -15,7 +13,7 @@ import {
 	compassToSlug,
 	coordToSlug,
 	SlugSeparator,
-} from '../src/lib/crawl'
+} from '../src'
 
 type TestPair = {
 	slug: string

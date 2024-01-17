@@ -6,7 +6,7 @@ import * as prettier from 'prettier/standalone.mjs'
 import prettierPluginBabel from 'prettier/plugins/babel.mjs'
 //@ts-ignore
 import prettierPluginEstree from 'prettier/plugins/estree.mjs'
-import { isString, isObject } from '@avante/crawler-data'
+import { isString, isObject } from '@avante/crawler-core'
 
 // javascript version
 //@ts-ignore

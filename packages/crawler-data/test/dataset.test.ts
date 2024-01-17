@@ -1,18 +1,18 @@
 import 'jest-expect-message'
 import {
+	ChainId, ViewName,
 	initializeDataSet,
 	importDataSet,
-	mainnetDataSet,
-	goerliDataSet,
-	// ---
 	getDataSet,
 	setDataSet,
 	getAllChainIds,
 	getViewNames,
-} from '../src/lib'
+} from '@avante/crawler-core'
 import {
-	ChainId, ViewName,
-} from '../src/lib/types'
+	mainnetDataSet,
+	goerliDataSet,
+	allDataSets,
+} from '../src'
 
 describe('* data_mainnet', () => {
 
@@ -60,6 +60,22 @@ describe('* data_mainnet', () => {
 		setDataSet({ chainId: ChainId.Mainnet })
 		const data3 = getDataSet()
 		expect(data3.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
+	})
+
+	it('allDataSets', () => {
+		let allChainIds: ChainId[] = getAllChainIds()
+
+		expect(allDataSets.length, 'allDataSets does not contain all chains').toBe(allChainIds.length)
+
+		initializeDataSet()
+		importDataSet(allDataSets)
+
+		for (let i = 0; i < allChainIds.length; ++i) {
+			const chainId: ChainId = allChainIds[i]
+			const data = getDataSet({ chainId })
+			expect(data).not.toBe(null)
+			expect(data.tokenIdToCoord?.chain?.chainId).toBe(chainId)
+		}
 	})
 
 })

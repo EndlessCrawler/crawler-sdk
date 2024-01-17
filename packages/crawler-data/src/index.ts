@@ -1,1 +1,5 @@
-export * from './lib'
+export {
+	mainnetDataSet,
+	goerliDataSet,
+	allDataSets,
+} from './data'

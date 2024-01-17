@@ -10,8 +10,9 @@ module.exports = {
 	},
 	reactStrictMode: true,
 	transpilePackages: [
-		'@avante/crawler-api',
+		'@avante/crawler-core',
 		'@avante/crawler-data',
+		'@avante/crawler-api',
 	],
 	webpack: (config) => {
 		// walletconnect

@@ -6,7 +6,7 @@ import {
 	getView,
 	ViewName,
 	getTokenCoords,
-} from '@avante/crawler-data'
+} from '@avante/crawler-core'
 import {
 	readViewRecordOrThrow,
 	readViewTotalCount,

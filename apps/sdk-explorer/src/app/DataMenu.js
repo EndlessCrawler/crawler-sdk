@@ -14,7 +14,7 @@ import {
 	getTokensCoords,
 	getChamberData,
 	getChambersData,
-} from '@avante/crawler-data'
+} from '@avante/crawler-core'
 import { ActionDispatcher } from '@/components/Dispatchers'
 
 export default function DataMenu() {

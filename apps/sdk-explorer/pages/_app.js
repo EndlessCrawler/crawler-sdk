@@ -6,9 +6,11 @@ import Head from '@/components/Head'
 import { FetchProvider } from '@/hooks/FetchContext'
 
 import {
+	importDataSet,
+} from '@avante/crawler-core'
+import {
 	mainnetDataSet,
 	goerliDataSet,
-	importDataSet,
 } from '@avante/crawler-data'
 
 importDataSet([mainnetDataSet, goerliDataSet])

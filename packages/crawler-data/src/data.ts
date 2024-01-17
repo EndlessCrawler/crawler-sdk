@@ -5,13 +5,13 @@ import {
 	ViewT,
 	ChamberDataViewData,
 	TokenIdToCoordsViewData,
-} from '../types'
+} from '@avante/crawler-core'
 
 //-------------------------------
 // Ethereum Mainnet
 //
-import _mainnet_tokenIdToCoord from '../../data/mainnet/tokenIdToCoord.json'
-import _mainnet_chamberData from '../../data/mainnet/chamberData.json'
+import _mainnet_tokenIdToCoord from './data/mainnet/tokenIdToCoord.json'
+import _mainnet_chamberData from './data/mainnet/chamberData.json'
 export const mainnetDataSet: DataSet = {
 	chainId: ChainId.Mainnet,
 	data: {
@@ -23,8 +23,8 @@ export const mainnetDataSet: DataSet = {
 //-------------------------------
 // Ethereum Goerli testnet
 //
-import _goerli_tokenIdToCoord from '../../data/goerli/tokenIdToCoord.json'
-import _goerli_chamberData from '../../data/goerli/chamberData.json'
+import _goerli_tokenIdToCoord from './data/goerli/tokenIdToCoord.json'
+import _goerli_chamberData from './data/goerli/chamberData.json'
 export const goerliDataSet: DataSet = {
 	chainId: ChainId.Goerli,
 	data: {

@@ -1,6 +1,6 @@
 import {
 	ContractName,
-} from '@avante/crawler-data'
+} from '@avante/crawler-core'
 import {
 	ContractArtifacts,
 } from './types'

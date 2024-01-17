@@ -4,7 +4,7 @@ import {
 	Address,
 	Options,
 	ViewName,
-} from '@avante/crawler-data'
+} from '@avante/crawler-core'
 
 /** @type contract address and abi for on-chain calls */
 export interface ContractArtifacts {

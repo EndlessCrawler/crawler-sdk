@@ -1,10 +1,7 @@
 import {
-	Compass,
-} from '../src/lib/types'
-import {
 	validateCompass,
 	CompassDirMaxNumber,
-} from '../src/lib/crawl'
+} from '../src'
 
 describe('* ompass', () => {
 	it('validate(): true', () => {

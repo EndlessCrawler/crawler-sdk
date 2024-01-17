@@ -6,7 +6,7 @@ import {
 	flipDir,
 	getOppositeTerrain,
 	Terrain
-} from '../src/lib/crawl'
+} from '../src'
 
 
 const _max = 18446744073709551615n

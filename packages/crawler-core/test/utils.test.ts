@@ -4,10 +4,8 @@ import {
 	bigIntToHexString,
 	bigIntToByteArray,
 	bigIntToNumberArray,
-} from '../src/lib/utils'
-import {
 	CompassDirMax,
-} from '../src/lib/crawl'
+} from '../src'
 
 describe('* utils', () => {
 

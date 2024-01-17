@@ -2,18 +2,20 @@ import 'jest-expect-message'
 import {
 	initializeDataSet,
 	importDataSet,
-	allDataSets,
 	// ---
 	ChainId,
 	ContractName,
 	ViewName,
 	getAllChainIds,
 	getAllViews,
+} from '@avante/crawler-core'
+import {
+	allDataSets,
 } from '@avante/crawler-data'
 import {
 	getAllContractNames,
 	getContractAddress,
-} from '../src/lib'
+} from '../src'
 
 describe('* chains', () => {
 	let allContractNames: ContractName[]

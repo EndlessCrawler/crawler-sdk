@@ -6,7 +6,7 @@ import {
 	Compass,
 	ContractName,
 	Options,
-} from '@avante/crawler-data'
+} from '@avante/crawler-core'
 import {
 	ViewDefinitionT,
 } from '../types'

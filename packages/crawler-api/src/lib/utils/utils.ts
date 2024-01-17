@@ -1,5 +1,5 @@
 import { isAddress, zeroAddress } from 'viem'
-import { Address } from '@avante/crawler-data'
+import { Address } from '@avante/crawler-core'
 
 export function isZeroAddress(address: Address): boolean {
 	return (address == zeroAddress || (address?.length > 2 && zeroAddress.startsWith(address)))

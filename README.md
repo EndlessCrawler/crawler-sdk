@@ -8,35 +8,19 @@
 
 **EARLY ALPHA**
 
-Things can change and break at any time.
+Things still changing and breaking.
 
-#### Packages in development
+| Packages                  |            |                  |                      | Status  |
+|---------------------------|------------|------------------|----------------------|---------|
+| @avante/crawler-core      | Typescript | off-chain        | types and api        | alpha   |
+| @avante/crawler-data      | Typescript | off-chain        | cached map data      | alpha   |
+| @avante/crawler-api       | Typescript | on-chain         | web3 api             | alpha   |
+| @avante/crawler-react     | React      | on/off-chain     | components and hooks | planned |
+| @avante/crawler-contracts | Sol/Cairo  | on-chain         | contracts and abi    | planned |
 
-* `@avante/crawler-data` : Game data and tools
-* `@avante/crawler-api` : Web3 API, contracts ABI
-* `sdk-explorer` : SDK explorer, examples, cacher
-
-#### Planned
-
-* `@avante/crawler-react` : React framework (off-chain/on-chain, ready to use)
-* `@avante/crawler-contracts` : Solidity contracts
-
-
-
-## Which package should I get?
-
-
-| Packages                  |            |                  |                    |
-|---------------------------|------------|------------------|--------------------|
-| @avante/crawler-data      | Typescript | off-chain        | just cached data   |
-| @avante/crawler-core      | Typescript | off-chain        | chamber access api |
-| @avante/crawler-web3      | Typescript | on-chain         |  |
-| @avante/crawler-react     | React      | on/off-chain     |  |
-
-
-| Apps                      |            |                  |                  |
-|---------------------------|------------|------------------|------------------|
-| /apps/sdk-explorer        | Next.js    | on-chain         | sdk example app  |
+| Apps                      |            |                  |                      | Status  |
+|---------------------------|------------|------------------|----------------------|---------|
+| /apps/sdk-explorer        | Next.js    | on-chain         | sdk examples         | alpha   |
 
 
 
@@ -63,7 +47,6 @@ pnpm -r run build
 > [pnpm run](https://pnpm.io/cli/run)
 
 ```sh
-# on all packages
 pnpm -r run build
 pnpm -r run test
 pnpm -r run update
@@ -76,16 +59,15 @@ pnpm -r run lint
 > [filtering](https://pnpm.io/filtering)
 
 ```sh
-# multiple
+# multiple packages
 pnpm --filter "@avante/*" test
-pnpm --filter "@avante/*" install -D tsc-watch
+pnpm --filter "@avante/*" update -D typescript
 
-# single
+# single package
 pnpm --filter sdk-explorer build
 pnpm --filter "@avante/crawler-api" test
 pnpm --filter "*/crawler-api" test
-pnpm --filter "*api" test
-pnpm --filter "*api" install @types/node -D
+pnpm --filter "*api" update -D typescript
 ```
 
 #### To execute a shell command on all packages...

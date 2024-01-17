@@ -14,6 +14,7 @@
 	},
 	"dependencies": {
 		"@avante/crawler-api": "^0.0.1",
+		"@avante/crawler-core": "^0.0.1",
 		"@avante/crawler-data": "^0.0.1",
 		"@monaco-editor/react": "^4.6.0",
 		"connectkit": "^1.5.2",

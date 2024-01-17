@@ -1,6 +1,6 @@
 import {
 	ContractName,
-} from '@avante/crawler-data'
+} from '@avante/crawler-core'
 
 export class InvalidCrawlerContractError extends Error {
 	constructor(contractName: ContractName) {

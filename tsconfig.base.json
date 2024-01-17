@@ -2,6 +2,7 @@
 	// fix VSCode include confusion
   "files": [],
   "references": [
+    { "path": "./packages/crawler-core/tsconfig.json" },
     { "path": "./packages/crawler-data/tsconfig.json" },
     { "path": "./packages/crawler-api/tsconfig.json" },
   ],

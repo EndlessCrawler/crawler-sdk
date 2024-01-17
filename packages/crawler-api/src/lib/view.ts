@@ -2,7 +2,7 @@ import { readContractOrThrow } from './wagmi'
 import {
 	ViewName,
 	Options,
-} from '@avante/crawler-data'
+} from '@avante/crawler-core'
 import {
 	ReadContractOptions,
 	ReadViewOptions,
