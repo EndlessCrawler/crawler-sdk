@@ -174,6 +174,7 @@ export const offsetCoord = (coord: bigint, dir: Dir): bigint => {
 // Compass, slug, converters
 //
 
+// TODO: DELETE ME
 export const validateCompass = (compass: Compass | null): boolean => {
 	if (!compass) return false
 	const hasNorth = (compass.north && compass.north > 0)
@@ -188,6 +189,7 @@ export const validateCompass = (compass: Compass | null): boolean => {
 	return true
 }
 
+// TODO: DELETE ME
 export const minifyCompas = (compass: Compass | null): Compass | null => {
 	if (!compass) return null
 	//@ts-ignore to sort directions in NEWS order

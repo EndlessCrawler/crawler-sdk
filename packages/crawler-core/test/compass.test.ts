@@ -1,9 +1,10 @@
 import {
 	validateCompass,
+	minifyCompas,
 	CompassDirMaxNumber,
 } from '../src'
 
-describe('* ompass', () => {
+describe('* Compass', () => {
 	it('validate(): true', () => {
 		expect(validateCompass({ north: 1, east: 1 })).toBe(true)
 		expect(validateCompass({ north: 1, west: 1 })).toBe(true)
@@ -31,6 +32,7 @@ describe('* ompass', () => {
 		expect(validateCompass({ south: CompassDirMaxNumber, east: CompassDirMaxNumber })).toBe(true)
 		expect(validateCompass({ south: CompassDirMaxNumber, west: CompassDirMaxNumber })).toBe(true)
 	})
+
 	it('validate(): false', () => {
 		expect(validateCompass({} as any)).toBe(false)
 
@@ -60,5 +62,11 @@ describe('* ompass', () => {
 		expect(validateCompass({ south: 1, east: 0 })).toBe(false)
 		expect(validateCompass({ south: 0, west: 1 })).toBe(false)
 		expect(validateCompass({ south: 1, west: 0 })).toBe(false)
+	})
+
+	it('minifyCompas()', () => {
+
+		// TODO...
+		// (rename minifyCompas() > minifyCompass()
 	})
 })

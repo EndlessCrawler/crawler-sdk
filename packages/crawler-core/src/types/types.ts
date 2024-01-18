@@ -2,6 +2,11 @@ import {
 	ChainId,
 	ContractName,
 } from './chains'
+import {
+	CompassBase,
+} from '../modules/modules'
+import { ModuleId } from '../modules/modules'
+
 
 //--------------------------------
 // Misc
@@ -21,7 +26,6 @@ export type Address = string
 export type BigIntIsh = number | bigint | BigIntString | HexString
 
 
-
 //--------------------------------
 // Crawler Types
 //
@@ -29,36 +33,32 @@ export type BigIntIsh = number | bigint | BigIntString | HexString
 //
 // Compass and coors
 
+// TODO: DELETE ME
 export type AbsentDir = 0 | null | undefined
-
 export interface CompassNE {
 	north: number
 	east: number
 	west?: AbsentDir
 	south?: AbsentDir
 }
-
 export interface CompassNW {
 	north: number
 	east?: AbsentDir
 	west: number
 	south?: AbsentDir
 }
-
 export interface CompassSE {
 	north?: AbsentDir
 	east: number
 	west?: AbsentDir
 	south: number
 }
-
 export interface CompassSW {
 	north?: AbsentDir
 	east?: AbsentDir
 	west: number
 	south: number
 }
-
 export type Compass = CompassNE | CompassNW | CompassSE | CompassSW
 
 
@@ -137,10 +137,10 @@ export interface AllViews {
 
 /** @type used by clients for importing a chain using importDataSet() */
 export interface DataSet {
+	moduleId: ModuleId
 	chainId: ChainId
 	data: AllViews
 }
-
 
 
 //--------------------------------
@@ -151,5 +151,3 @@ export interface DataSet {
 export interface Options {
 	chainId?: ChainId
 }
-
-

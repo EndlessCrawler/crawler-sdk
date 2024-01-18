@@ -12,6 +12,9 @@
 	"scripts": {
 		"update": "pnpm --color -r run update",
 		"test": "pnpm --color -r run test",
+		"test:core": "pnpm --color --filter '@avante/crawler-core' run test",
+		"test:data": "pnpm --color --filter '@avante/crawler-data' run test",
+		"test:api": "pnpm --color --filter '@avante/crawler-api' run test",
 		"clean": "pnpm --color -r run clean",
 		"build:all": "pnpm --color -r run build",
 		"build": "pnpm --color --filter '@avante/*' run build",
