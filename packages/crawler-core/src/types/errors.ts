@@ -23,3 +23,9 @@ export class CrawlerChainNotSetError extends Error {
 	}
 }
 
+export class MissingImplementationError extends Error {
+	constructor(name: string) {
+		super(`MissingImplementationError: Missing implementation for [${name}]`)
+		this.name = 'MissingImplementationError'
+	}
+}

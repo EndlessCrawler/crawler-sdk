@@ -3,12 +3,10 @@ import { ModuleId } from './modules'
 import { EndlessCrawler } from './module.ec'
 import { LootUnderworld } from './module.luw'
 
-export type Modules = EndlessCrawler.Module | LootUnderworld.Module
-
 export const createClient = (
 	// TODO: generic DataSet
 	datasets: DataSet[] | ModuleId
-): Modules => {
+): EndlessCrawler.Module | LootUnderworld.Module => {
 	const moduleId = Array.isArray(datasets) ? datasets[0]?.moduleId : datasets
 	if (moduleId == ModuleId.EndlessCrawler) {
 		return new EndlessCrawler.Module()

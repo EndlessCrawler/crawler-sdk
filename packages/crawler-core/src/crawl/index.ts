@@ -19,7 +19,7 @@ export {
 	offsetCoord,
 	// Compass, slug, converters
 	validateCompass,
-	minifyCompas,
+	minifyCompass,
 	validateCoord,
 	validateSlug,
 	compassEquals,

@@ -1,8 +1,16 @@
 export {
+	createClient,
+} from './client'
+
+export {
 	ModuleId,
 	ModuleInterface,
 } from './modules'
 
 export {
-	createClient,
-} from './client'
+	EndlessCrawler,
+} from './module.ec'
+
+export {
+	LootUnderworld,
+} from './module.luw'

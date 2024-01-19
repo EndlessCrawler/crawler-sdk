@@ -2,7 +2,7 @@ import {
 	ChamberData,
 	ContractName,
 	coordToCompass,
-	minifyCompas,
+	minifyCompass,
 	bigIntToHexString,
 	bigIntToNumberArray,
 	Options,
@@ -39,7 +39,7 @@ export default (): ViewDefinitionT<ChamberData> => ({
 		const locks = data.locks.map((v: number) => v != 0)
 		const locksCount = locks.reduce((result: number, val: number) => { return result + (val ? 1 : 0) }, 0)
 		const chamberData: ChamberData = {
-			compass: minifyCompas(coordToCompass(data.coord)) as Compass,
+			compass: minifyCompass(coordToCompass(data.coord)) as Compass,
 			coord: data.coord,
 			seed: bigIntToHexString(data.seed),
 			bitmap: data.bitmap != '0' ? bigIntToHexString(data.bitmap) : undefined,

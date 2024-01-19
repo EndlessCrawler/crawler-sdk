@@ -1,9 +1,7 @@
 import {
 	Compass,
-} from '../types'
-import {
 	resolveBigInt,
-} from '../utils'
+} from '..'
 
 //------------------------------
 // Constants
@@ -78,6 +76,8 @@ export enum Dir {
 	East = 1,
 	West = 2,
 	South = 3,
+	Over = 4,
+	Under = 5,
 }
 
 export const FlippedDir = {
@@ -85,13 +85,17 @@ export const FlippedDir = {
 	[Dir.East]: Dir.West,
 	[Dir.West]: Dir.East,
 	[Dir.South]: Dir.North,
+	[Dir.Over]: Dir.Under,
+	[Dir.Under]: Dir.Over,
 }
 
 export const DirNames = {
-	[Dir.North]: 'North',
-	[Dir.East]: 'East',
-	[Dir.West]: 'West',
-	[Dir.South]: 'South',
+  [Dir.North]: 'North',
+  [Dir.East]: 'East',
+  [Dir.West]: 'West',
+  [Dir.South]: 'South',
+  [Dir.Over]: 'Over',
+  [Dir.Under]: 'Under',
 }
 
 
@@ -124,13 +128,13 @@ export const getOppositeTerrain = (terrain: Terrain): Terrain => {
 // just because it is catchy and easy to remember
 //
 
+// TODO: DELETE ME
 // The maximum value in any Compass direction
 export const CompassDirMax = 0xffffffffffffffffn // 64-bit, 18446744073709551615n, 18_446_744_073_709_551_615
 export const CompassDirMaxNumber = Number(CompassDirMax) // 18446744073709552000
-
 // coord bit mask for each Compass direction
 export const CompassMask = {
-	// mask of each directin inside uint256
+	// mask of each direction inside uint256
 	North: (CompassDirMax << 192n),
 	East: (CompassDirMax << 128n),
 	West: (CompassDirMax << 64n),
@@ -141,7 +145,6 @@ export const CompassMask = {
 	InvWest: ~(CompassDirMax << 64n),
 	InvSouth: ~CompassDirMax,
 }
-
 // The number 1 in each Compass direction
 export const CompassOne = {
 	North: (1n << 192n),
@@ -150,6 +153,7 @@ export const CompassOne = {
 	South: 1n,
 }
 
+// TODO: DELETE ME
 export const offsetCoord = (coord: bigint, dir: Dir): bigint => {
 	const _coord = resolveBigInt(coord) // convert to BigInt if in string format
 	if (dir == Dir.North) {
@@ -190,7 +194,7 @@ export const validateCompass = (compass: Compass | null): boolean => {
 }
 
 // TODO: DELETE ME
-export const minifyCompas = (compass: Compass | null): Compass | null => {
+export const minifyCompass = (compass: Compass | null): Compass | null => {
 	if (!compass) return null
 	//@ts-ignore to sort directions in NEWS order
 	let result: Compass = {}
@@ -201,14 +205,17 @@ export const minifyCompas = (compass: Compass | null): Compass | null => {
 	return result
 }
 
+// TODO: DELETE ME
 export const validateCoord = (coord: bigint): boolean => {
 	return coordToCompass(coord) != null
 }
 
+// TODO: DELETE ME
 export const validateSlug = (slug: string | null): boolean => {
 	return slugToCompass(slug) != null
 }
 
+// TODO: DELETE ME
 export const compassEquals = (a: Compass | null, b: Compass | null): boolean => {
 	if (!a || !b) return false
 	if (!validateCompass(a) || !validateCompass(b)) return false
@@ -219,6 +226,7 @@ export const compassEquals = (a: Compass | null, b: Compass | null): boolean => 
 	return true
 }
 
+// TODO: DELETE ME
 export const coordToCompass = (coord: bigint): Compass | null => {
 	const _coord = resolveBigInt(coord) // convert to BigInt if in string format
 	if (_coord == 0n) return null
@@ -231,6 +239,7 @@ export const coordToCompass = (coord: bigint): Compass | null => {
 	return validateCompass(result) ? result : null
 }
 
+// TODO: DELETE ME
 export const compassToCoord = (compass: Compass | null): bigint => {
 	let result = 0n
 	if (compass) {
@@ -242,10 +251,12 @@ export const compassToCoord = (compass: Compass | null): bigint => {
 	return result
 }
 
+// TODO: DELETE ME
 export const slugSeparators = [null, '', ',', '.', ';', '-'] as const
 export const defaultSlugSeparator = ','
 export type SlugSeparator = typeof slugSeparators[number]
 
+// TODO: DELETE ME
 export const compassToSlug = (compass: Compass | null, separator: SlugSeparator = defaultSlugSeparator): string | null => {
 	if (!compass || !validateCompass(compass)) return null
 	let result = ''
@@ -257,10 +268,12 @@ export const compassToSlug = (compass: Compass | null, separator: SlugSeparator 
 	return result
 }
 
+// TODO: DELETE ME
 export const coordToSlug = (coord: bigint, separator: SlugSeparator = defaultSlugSeparator): string | null => {
 	return compassToSlug(coordToCompass(coord), separator)
 }
 
+// TODO: DELETE ME
 const _slugSeparatorTester: string = slugSeparators.join('') + '0123456789'
 export const slugToCompass = (slug: string | null): Compass | null => {
 	if (!slug) return null
@@ -282,6 +295,7 @@ export const slugToCompass = (slug: string | null): Compass | null => {
 	return validateCompass(result) ? result : null
 }
 
+// TODO: DELETE ME
 export const slugToCoord = (slug: string | null): bigint => {
 	return compassToCoord(slugToCompass(slug))
 }

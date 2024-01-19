@@ -1,6 +1,6 @@
 import {
 	validateCompass,
-	minifyCompas,
+	minifyCompass,
 	CompassDirMaxNumber,
 } from '../src'
 
@@ -64,9 +64,4 @@ describe('* Compass', () => {
 		expect(validateCompass({ south: 1, west: 0 })).toBe(false)
 	})
 
-	it('minifyCompas()', () => {
-
-		// TODO...
-		// (rename minifyCompas() > minifyCompass()
-	})
 })

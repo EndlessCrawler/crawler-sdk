@@ -2,7 +2,7 @@ import {
 	ChamberCoords,
 	compassToSlug,
 	coordToCompass,
-	minifyCompas,
+	minifyCompass,
 	Compass,
 	ContractName,
 	Options,
@@ -38,7 +38,7 @@ export default (): ViewDefinitionT<ChamberCoords> => ({
 		return {
 			coord: coord.toString(),
 			slug: compassToSlug(compass) as string,
-			compass: minifyCompas(compass) as Compass,
+			compass: minifyCompass(compass) as Compass,
 		}
 	}
 })

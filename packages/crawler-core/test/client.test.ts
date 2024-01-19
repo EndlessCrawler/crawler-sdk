@@ -3,7 +3,7 @@ import {
 	ModuleId,
 } from '../src'
 
-describe('* createClient', () => {
+describe('createClient()', () => {
 
 	it('createClient(EndlessCrawler)', () => {
 		const client = createClient(ModuleId.EndlessCrawler)

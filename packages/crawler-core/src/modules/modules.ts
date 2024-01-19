@@ -1,3 +1,7 @@
+import {
+	Dir,
+} from ".."
+
 /** @type existing modules */
 export enum ModuleId {
 	EndlessCrawler = 'ec',
@@ -11,21 +15,27 @@ export enum ModuleId {
 // (can be customised by Modules)
 //
 
-
-export type AbsentCompassDir = 0 | null | undefined
-export type AnyCompassDir = number | bigint | null | undefined
+export type AbsentCompassDir = 0 | null | undefined;
+export type AnyCompassDir = number | null | undefined;
 
 /** @type CompassBase contains all the possible fields that can be used by Modules */
 export interface CompassBase {
-	domainId?: AnyCompassDir
-	tokenId?: AnyCompassDir
-	over?: AnyCompassDir
-	under?: AnyCompassDir
 	north?: AnyCompassDir
 	east?: AnyCompassDir
 	west?: AnyCompassDir
 	south?: AnyCompassDir
+	// introduced in Loot Underworld
+	domainId?: AnyCompassDir
+	tokenId?: AnyCompassDir
+	over?: AnyCompassDir
+	under?: AnyCompassDir
 }
+
+export const slugSeparators = [null, '', ',', '.', ';', '-'] as const;
+export const defaultSlugSeparator = ',';
+export const slugSeparatorTester: string = slugSeparators.join('') + '0123456789';
+export type SlugSeparator = typeof slugSeparators[number];
+
 
 
 //-------------------------------
@@ -36,7 +46,7 @@ export interface CompassBase {
 export interface ModuleInterface {
 	
 	//
-	// Module properties
+	// properties
 	//
 
 	/** @type {ModuleId} the module type */
@@ -45,43 +55,44 @@ export interface ModuleInterface {
 	moduleDescription: string;
 
 	//
-	// abstract methods (must be implemented by Modules)
+	// abstract methods
+	// (must be implemented by Modules)
 	//
 
 	/** @returns true if the Compass is valid */
 	validateCompass(compass: CompassBase | null): boolean;
+	/** @returns the Compass, if is valid */
+	validatedCompass(compass: CompassBase | null): CompassBase | null;
+	/** @returns the Compass offeset by 1 chamber in direction Dir */
+	offsetCompass(compass: CompassBase | null, dir: Dir): CompassBase | null;
+	/** @returns the Coord (bigint) offeset by 1 chamber in direction Dir */
+	offsetCoord(coord: bigint, dir: Dir): bigint;
+	/** @returns the Coord (bigint) converted to a Compass */
+	coordToCompass(coord: bigint): CompassBase | null;
+	/** @returns the Compass converted to a Coord (bigint) */
+	compassToCoord(compass: CompassBase | null): bigint;
+	/** @returns the Compass converted to a readable Slug (string) */
+	compassToSlug(compass: CompassBase | null, yonder: number, separator: SlugSeparator): string | null;
+	/** @returns the Slug (string) converted to a Compass */
+	slugToCompass(slug: string | null): CompassBase | null;
 
 	//
-	// generic methods (implemented by ModuleBase)
+	// generic methods
+	// (implemented by ModuleBase)
 	//
 
 	/** @returns the Compass without all the empty fields, or null if is invalid */
-	minifyCompas(compass: CompassBase | null): CompassBase | null;
+	minifyCompass(compass: CompassBase | null): CompassBase | null;
+	/** @returns true if both Compass are equal */
+	compassEquals(a: CompassBase | null, b: CompassBase | null): boolean;
+	/** @returns true if Coord is valid */
+	validateCoord (coord: bigint): boolean;
+	/** @returns true if slug is valid */
+	validateSlug (slug: string | null): boolean;
+	/** @returns the Coord (bigint) converted to a readable Slug (string) */
+	coordToSlug(coord: bigint, yonder: number, separator: SlugSeparator): string | null;
+	/** @returns the Slug (string) converted to a Coord (bigint) */
+	slugToCoord(slug: string | null): bigint;
+
 }
 
-
-//-------------------------------
-// Base Module implementation
-//
-
-/**
- * ModuleBase contains generic functions that can be used by any Module
- * Implementations of ModuleInterface must extend ModuleBase
- */
-export abstract class ModuleBase implements Partial<ModuleInterface> {
-
-	/** @returns the Compass without all the empty fields, or null if is invalid */
-	minifyCompas(compass: CompassBase | null): CompassBase | null {
-		if (!compass || !this.validateCompass(compass)) {
-			return null
-		}
-		return Object.keys(compass).reduce((acc, key) => {
-			const _key = key as keyof CompassBase
-			if (compass[_key]) acc[_key] = compass[_key]
-			return acc
-		}, {} as CompassBase)
-	}
-
-	// referenced by ModuleBase that need to be implemented
-	abstract validateCompass(compass: CompassBase | null): boolean;
-}
