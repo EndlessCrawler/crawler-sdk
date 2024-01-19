@@ -10,6 +10,7 @@ import {
 	SlugSeparator,
 	defaultSlugSeparator,
 	slugSeparatorTester,
+	AbsentCompassDir,
 } from './modules'
 import { ModuleBase } from './module.base'
 
@@ -130,6 +131,33 @@ export namespace LootUnderworld {
 
 		validatedCompass(compass: Compass | null): Compass | null {
 			return this.validateCompass(compass) ? compass : null
+		}
+
+		offsetCompass(compass: Compass | null, dir: Dir): Compass | null {
+			if (!compass) return null
+			const _add = (v: number | AbsentCompassDir) => (!v ? 1 : v < CoordMax ? v + 1 : v)
+			const _sub = (v: number | AbsentCompassDir) => (!v ? 0 : v - 1)
+			let result = { ...compass }
+			if (dir == Dir.North) {
+				result.south = _sub(result.south)
+				if (!result.south) result.north = _add(result.north)
+			} else if (dir == Dir.South) {
+				result.north = _sub(result.north)
+				if (!result.north) result.south = _add(result.south)
+			} else if (dir == Dir.East) {
+				result.west = _sub(result.west)
+				if (!result.west) result.east = _add(result.east)
+			} else if (dir == Dir.West) {
+				result.east = _sub(result.east)
+				if (!result.east) result.west = _add(result.west)
+			} else if (dir == Dir.Over) {
+				result.under = _sub(result.under)
+				if (!result.under) result.over = _add(result.over)
+			} else if (dir == Dir.Under) {
+				result.over = _sub(result.over)
+				if (!result.over) result.under = _add(result.under)
+			}
+			return this.validatedCompass(result)
 		}
 
 		offsetCoord(coord: bigint, dir: Dir): bigint {

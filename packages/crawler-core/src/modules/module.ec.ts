@@ -23,28 +23,28 @@ export namespace EndlessCrawler {
 
 	export type CompassNEWS = Pick<CompassBase, 'north' | 'east' | 'west' | 'south'>
 	export interface CompassNE extends CompassNEWS {
-		north: number
-		east: number
+		north: bigint
+		east: bigint
 		west?: AbsentCompassDir
 		south?: AbsentCompassDir
 	}
 	export interface CompassNW extends CompassNEWS {
-		north: number
+		north: bigint
 		east?: AbsentCompassDir
-		west: number
+		west: bigint
 		south?: AbsentCompassDir
 	}
 	export interface CompassSE extends CompassNEWS {
 		north?: AbsentCompassDir
-		east: number
+		east: bigint
 		west?: AbsentCompassDir
-		south: number
+		south: bigint
 	}
 	export interface CompassSW extends CompassNEWS {
 		north?: AbsentCompassDir
 		east?: AbsentCompassDir
-		west: number
-		south: number
+		west: bigint
+		south: bigint
 	}
 	/** @type {Compass} Coordinates of a chamber in NEWS format */
 	export type Compass = (CompassNE | CompassNW | CompassSE | CompassSW)
@@ -110,10 +110,10 @@ export namespace EndlessCrawler {
 
 		validateCompass(compass: Compass | null): boolean {
 			if (!compass) return false
-			const hasNorth = (compass.north && compass.north > 0)
-			const hasSouth = (compass.south && compass.south > 0)
-			const hasEast = (compass.east && compass.east > 0)
-			const hasWest = (compass.west && compass.west > 0)
+			const hasNorth = (compass.north && compass.north > 0n)
+			const hasSouth = (compass.south && compass.south > 0n)
+			const hasEast = (compass.east && compass.east > 0n)
+			const hasWest = (compass.west && compass.west > 0n)
 			if ((hasNorth && hasSouth)
 				|| (!hasNorth && !hasSouth)
 				|| (hasEast && hasWest)
@@ -124,6 +124,27 @@ export namespace EndlessCrawler {
 
 		validatedCompass(compass: Compass | null): Compass | null {
 			return this.validateCompass(compass) ? compass : null
+		}
+
+		offsetCompass(compass: Compass | null, dir: Dir): Compass | null {
+			if (!compass) return null
+			const _add = (v: bigint | AbsentCompassDir) => (!v ? 1n : v < CoordMax ? v + 1n : v)
+			const _sub = (v: bigint | AbsentCompassDir) => (!v ? 0n : v - 1n)
+			let result = { ...compass }
+			if (dir == Dir.North) {
+				result.south = _sub(result.south)
+				if (!result.south) result.north = _add(result.north)
+			} else if (dir == Dir.South) {
+				result.north = _sub(result.north)
+				if (!result.north) result.south = _add(result.south)
+			} else if (dir == Dir.East) {
+				result.west = _sub(result.west)
+				if (!result.west) result.east = _add(result.east)
+			} else if (dir == Dir.West) {
+				result.east = _sub(result.east)
+				if (!result.east) result.west = _add(result.west)
+			}
+			return this.validatedCompass(result)
 		}
 
 		offsetCoord(coord: bigint, dir: Dir): bigint {
@@ -146,11 +167,10 @@ export namespace EndlessCrawler {
 		coordToCompass(coord: bigint): Compass | null {
 			if (coord == 0n) return null
 			const result = {
-				north: Number((coord >> CoordOffset.North) & CoordMax),
-				east: Number((coord >> CoordOffset.East) & CoordMax),
-				west: Number((coord >> CoordOffset.West) & CoordMax),
-				south: Number(coord & CoordMax),
-
+				north: ((coord >> CoordOffset.North) & CoordMax),
+				east: ((coord >> CoordOffset.East) & CoordMax),
+				west: ((coord >> CoordOffset.West) & CoordMax),
+				south: (coord & CoordMax),
 			} as Compass
 			return this.validatedCompass(result)
 		}
@@ -158,10 +178,10 @@ export namespace EndlessCrawler {
 		compassToCoord(compass: Compass | null): bigint {
 			let result = 0n
 			if (compass && this.validateCompass(compass)) {
-				if (compass.north && compass.north > 0) result += BigInt(compass.north) << CoordOffset.North
-				if (compass.east && compass.east > 0) result += BigInt(compass.east) << CoordOffset.East
-				if (compass.west && compass.west > 0) result += BigInt(compass.west) << CoordOffset.West
-				if (compass.south && compass.south > 0) result += BigInt(compass.south)
+				if (compass.north && compass.north > 0n) result += (compass.north << CoordOffset.North)
+				if (compass.east && compass.east > 0n) result += (compass.east << CoordOffset.East)
+				if (compass.west && compass.west > 0n) result += (compass.west << CoordOffset.West)
+				if (compass.south && compass.south > 0n) result += (compass.south)
 			}
 			return result
 		}
@@ -169,11 +189,11 @@ export namespace EndlessCrawler {
 		compassToSlug(compass: Compass | null, yonder: number = 0, separator: SlugSeparator = defaultSlugSeparator): string | null {
 			let result = ''
 			if (compass && this.validateCompass(compass)) {
-				if (compass.north && compass.north > 0) result += `N${compass.north}`
-				if (compass.south && compass.south > 0) result += `S${compass.south}`
+				if (compass.north && compass.north > 0n) result += `N${compass.north}`
+				if (compass.south && compass.south > 0n) result += `S${compass.south}`
 				if (separator) result += separator
-				if (compass.east && compass.east > 0) result += `E${compass.east}`
-				if (compass.west && compass.west > 0) result += `W${compass.west}`
+				if (compass.east && compass.east > 0n) result += `E${compass.east}`
+				if (compass.west && compass.west > 0n) result += `W${compass.west}`
 				if (yonder) {
 					if (separator) result += separator
 					result += `Y${yonder}`

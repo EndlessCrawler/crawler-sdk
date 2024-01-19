@@ -6,7 +6,7 @@ import {
 	Dir,
 } from '../src'
 
-const CoordMax = Number(EndlessCrawler.CoordMax)
+const CoordMax = EndlessCrawler.CoordMax
 type Compass = EndlessCrawler.Compass
 
 describe('EndlessCrawler.Compass', () => {
@@ -103,72 +103,78 @@ describe('EndlessCrawler.Compass', () => {
 	})
 
 
-	it.skip('offsetCoord()', () => {
-		const _validateCoord = (coord: bigint, n: number, e: number, w: number, s: number) => {
-			// validate directions
-			const { north, east, west, south } = client.coordToCompass(coord) as Compass
-			expect(north).toBe(n)
-			expect(east).toBe(e)
-			expect(west).toBe(w)
-			expect(south).toBe(s)
+	it('offsetCoord(), offsetCompass()', () => {
+		const _validateCompass = (compass: Compass, north: bigint, east: bigint, west: bigint, south: bigint) => {
+			expect(compass.north?.toString()).toBe(north.toString())
+			expect(compass.east?.toString()).toBe(east.toString())
+			expect(compass.west?.toString()).toBe(west.toString())
+			expect(compass.south?.toString()).toBe(south.toString())
 		}
-		const _makeCoord = (north: number, east: number, west: number, south: number) => {
+		const _validateCoord = (coord: bigint, north: bigint, east: bigint, west: bigint, south: bigint) => {
+			_validateCompass(client.coordToCompass(coord) as Compass, north, east, west, south)
+		}
+		const _makeCoord = (north: bigint, east: bigint, west: bigint, south: bigint) => {
 			return client.compassToCoord({ north, east, west, south })
 		}
-		const _testOffset = (coord: bigint, dir: Dir, n: number, e: number, w: number, s: number): bigint => {
-			const newCoord = client.offsetCoord(coord, dir);
-			_validateCoord(newCoord, n, e, w, s);
-			return newCoord;
+		const _testOffset = (coord: bigint, dir: Dir, north: bigint, east: bigint, west: bigint, south: bigint): bigint => {
+			// validate offsetCoord()
+			const offCoord = client.offsetCoord(coord, dir);
+			_validateCoord(offCoord, north, east, west, south);
+			// validate offsetCompass()
+			const compass = client.coordToCompass(coord) as Compass
+			const offCompass = client.offsetCompass(compass, dir) as Compass;
+			_validateCompass(offCompass, north, east, west, south);
+			return offCoord;
 		}
 
 		// Offset North
 		let _coord
 		{
-			_coord = _makeCoord(0, 1, 0, 2);
-			_validateCoord(_coord, 0, 1, 0, 2);
-			_coord = _testOffset(_coord, Dir.North, 0, 1, 0, 1);
-			_coord = _testOffset(_coord, Dir.North, 1, 1, 0, 0);
-			_coord = _testOffset(_coord, Dir.North, 2, 1, 0, 0);
-			// limit, returns same
-			_coord = _makeCoord(CoordMax, 1, 0, 0);
-			_validateCoord(_coord, CoordMax, 1, 0, 0);
-			_coord = _testOffset(_coord, Dir.North, CoordMax, 1, 0, 0);
+			_coord = _makeCoord(0n, 1n, 0n, 2n);
+			_validateCoord(_coord, 0n, 1n, 0n, 2n);
+			_coord = _testOffset(_coord, Dir.North, 0n, 1n, 0n, 1n);
+			_coord = _testOffset(_coord, Dir.North, 1n, 1n, 0n, 0n);
+			_coord = _testOffset(_coord, Dir.North, 2n, 1n, 0n, 0n);
+			// limit: no overflow, returns same
+			_coord = _makeCoord(CoordMax, 1n, 0n, 0n);
+			_validateCoord(_coord, CoordMax, 1n, 0n, 0n);
+			_coord = _testOffset(_coord, Dir.North, CoordMax, 1n, 0n, 0n);
 		}
 		// Offset South
 		{
-			_coord = _makeCoord(2, 1, 0, 0);
-			_validateCoord(_coord, 2, 1, 0, 0);
-			_coord = _testOffset(_coord, Dir.South, 1, 1, 0, 0);
-			_coord = _testOffset(_coord, Dir.South, 0, 1, 0, 1);
-			_coord = _testOffset(_coord, Dir.South, 0, 1, 0, 2);
-			// limit, returns same
-			_coord = _makeCoord(0, 1, 0, CoordMax);
-			_validateCoord(_coord, 0, 1, 0, CoordMax);
-			_coord = _testOffset(_coord, Dir.South, 0, 1, 0, CoordMax);
+			_coord = _makeCoord(2n, 1n, 0n, 0n);
+			_validateCoord(_coord, 2n, 1n, 0n, 0n);
+			_coord = _testOffset(_coord, Dir.South, 1n, 1n, 0n, 0n);
+			_coord = _testOffset(_coord, Dir.South, 0n, 1n, 0n, 1n);
+			_coord = _testOffset(_coord, Dir.South, 0n, 1n, 0n, 2n);
+			// limit: no overflow, returns same
+			_coord = _makeCoord(0n, 1n, 0n, CoordMax);
+			_validateCoord(_coord, 0n, 1n, 0n, CoordMax);
+			_coord = _testOffset(_coord, Dir.South, 0n, 1n, 0n, CoordMax);
 		}
 		// Offset East
 		{
-			_coord = _makeCoord(1, 0, 2, 0);
-			_validateCoord(_coord, 1, 0, 2, 0);
-			_coord = _testOffset(_coord, Dir.East, 1, 0, 1, 0);
-			_coord = _testOffset(_coord, Dir.East, 1, 1, 0, 0);
-			_coord = _testOffset(_coord, Dir.East, 1, 2, 0, 0);
-			// limit, returns same
-			_coord = _makeCoord(1, CoordMax, 0, 0);
-			_validateCoord(_coord, 1, CoordMax, 0, 0);
-			_coord = _testOffset(_coord, Dir.East, 1, CoordMax, 0, 0);
+			_coord = _makeCoord(1n, 0n, 2n, 0n);
+			_validateCoord(_coord, 1n, 0n, 2n, 0n);
+			_coord = _testOffset(_coord, Dir.East, 1n, 0n, 1n, 0n);
+			_coord = _testOffset(_coord, Dir.East, 1n, 1n, 0n, 0n);
+			_coord = _testOffset(_coord, Dir.East, 1n, 2n, 0n, 0n);
+			// limit: no overflow, returns same
+			_coord = _makeCoord(1n, CoordMax, 0n, 0n);
+			_validateCoord(_coord, 1n, CoordMax, 0n, 0n);
+			_coord = _testOffset(_coord, Dir.East, 1n, CoordMax, 0n, 0n);
 		}
 		// Offset West
 		{
-			_coord = _makeCoord(1, 2, 0, 0);
-			_validateCoord(_coord, 1, 2, 0, 0);
-			_coord = _testOffset(_coord, Dir.West, 1, 1, 0, 0);
-			_coord = _testOffset(_coord, Dir.West, 1, 0, 1, 0);
-			_coord = _testOffset(_coord, Dir.West, 1, 0, 2, 0);
-			// limit, returns same
-			_coord = _makeCoord(1, 0, CoordMax, 0);
-			_validateCoord(_coord, 1, 0, CoordMax, 0);
-			_coord = _testOffset(_coord, Dir.West, 1, 0, CoordMax, 0);
+			_coord = _makeCoord(1n, 2n, 0n, 0n);
+			_validateCoord(_coord, 1n, 2n, 0n, 0n);
+			_coord = _testOffset(_coord, Dir.West, 1n, 1n, 0n, 0n);
+			_coord = _testOffset(_coord, Dir.West, 1n, 0n, 1n, 0n);
+			_coord = _testOffset(_coord, Dir.West, 1n, 0n, 2n, 0n);
+			// limit: no overflow, returns same
+			_coord = _makeCoord(1n, 0n, CoordMax, 0n);
+			_validateCoord(_coord, 1n, 0n, CoordMax, 0n);
+			_coord = _testOffset(_coord, Dir.West, 1n, 0n, CoordMax, 0n);
 		}
 
 

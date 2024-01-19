@@ -15,8 +15,8 @@ export enum ModuleId {
 // (can be customised by Modules)
 //
 
-export type AbsentCompassDir = 0 | null | undefined;
-export type AnyCompassDir = number | null | undefined;
+export type AbsentCompassDir = 0n | 0 | null | undefined;
+export type AnyCompassDir = bigint | number | null | undefined;
 
 /** @type CompassBase contains all the possible fields that can be used by Modules */
 export interface CompassBase {

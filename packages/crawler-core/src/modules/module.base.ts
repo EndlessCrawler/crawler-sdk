@@ -42,33 +42,6 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 		}, true)
 	}
 
-	offsetCompass(compass: CompassBase | null, dir: Dir): CompassBase | null {
-		if (!compass) return null
-		const _add = (v: AnyCompassDir) => (v ? v + 1 : 1)
-		const _sub = (v: AnyCompassDir) => (v && v > 1 ? v - 1 : 0)
-		let result = { ...compass }
-		if (dir == Dir.North) {
-			result.south = _sub(result.south)
-			if (!result.south) result.north = _add(result.north)
-		} else if (dir == Dir.South) {
-			result.north = _sub(result.north)
-			if (!result.north) result.south = _add(result.south)
-		} else if (dir == Dir.East) {
-			result.west = _sub(result.west)
-			if (!result.west) result.east = _add(result.east)
-		} else if (dir == Dir.West) {
-			result.east = _sub(result.east)
-			if (!result.east) result.west = _add(result.west)
-		} else if (dir == Dir.Over) {
-			result.under = _sub(result.under)
-			if (!result.under) result.over = _add(result.over)
-		} else if (dir == Dir.Under) {
-			result.over = _sub(result.over)
-			if (!result.over) result.under = _add(result.under)
-		}
-		return this.validatedCompass(result)
-	}
-
 	validateCoord(coord: bigint): boolean {
 		return this.coordToCompass(coord) != null
 	}
