@@ -9,7 +9,6 @@ import {
 	ModuleId,
 	SlugSeparator,
 	defaultSlugSeparator,
-	slugSeparatorTester,
 	AbsentCompassDir,
 } from './modules'
 import { ModuleBase } from './module.base'

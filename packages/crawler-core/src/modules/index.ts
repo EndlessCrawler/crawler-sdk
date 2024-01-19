@@ -5,6 +5,10 @@ export {
 export {
 	ModuleId,
 	ModuleInterface,
+	// types
+	SlugSeparator,
+	AnyCompassDir,
+	AbsentCompassDir,
 } from './modules'
 
 export {

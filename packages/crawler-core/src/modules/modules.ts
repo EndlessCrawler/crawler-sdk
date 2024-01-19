@@ -15,8 +15,8 @@ export enum ModuleId {
 // (can be customised by Modules)
 //
 
-export type AbsentCompassDir = 0n | 0 | null | undefined;
 export type AnyCompassDir = bigint | number | null | undefined;
+export type AbsentCompassDir = 0n | 0 | null | undefined;
 
 /** @type CompassBase contains all the possible fields that can be used by Modules */
 export interface CompassBase {
@@ -33,9 +33,7 @@ export interface CompassBase {
 
 export const slugSeparators = [null, '', ',', '.', ';', '-'] as const;
 export const defaultSlugSeparator = ',';
-export const slugSeparatorTester: string = slugSeparators.join('') + '0123456789';
 export type SlugSeparator = typeof slugSeparators[number];
-
 
 
 //-------------------------------
@@ -72,7 +70,7 @@ export interface ModuleInterface {
 	/** @returns the Compass converted to a Coord (bigint) */
 	compassToCoord(compass: CompassBase | null): bigint;
 	/** @returns the Compass converted to a readable Slug (string) */
-	compassToSlug(compass: CompassBase | null, yonder: number, separator: SlugSeparator): string | null;
+	compassToSlug(compass: CompassBase | null, yonder?: number, separator?: SlugSeparator): string | null;
 	/** @returns the Slug (string) converted to a Compass */
 	slugToCompass(slug: string | null): CompassBase | null;
 
@@ -90,7 +88,7 @@ export interface ModuleInterface {
 	/** @returns true if slug is valid */
 	validateSlug (slug: string | null): boolean;
 	/** @returns the Coord (bigint) converted to a readable Slug (string) */
-	coordToSlug(coord: bigint, yonder: number, separator: SlugSeparator): string | null;
+	coordToSlug(coord: bigint, yonder?: number, separator?: SlugSeparator): string | null;
 	/** @returns the Slug (string) converted to a Coord (bigint) */
 	slugToCoord(slug: string | null): bigint;
 

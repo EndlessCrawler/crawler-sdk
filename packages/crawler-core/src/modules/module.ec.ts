@@ -8,7 +8,7 @@ import {
 	AbsentCompassDir,
 	SlugSeparator,
 	defaultSlugSeparator,
-	slugSeparatorTester,
+	slugSeparators,
 } from './modules'
 import { ModuleBase } from './module.base'
 
@@ -212,14 +212,15 @@ export namespace EndlessCrawler {
 			const west = /[Ww]\d+/g.exec(slug)
 			const south = /[Ss]\d+/g.exec(slug)
 			// validate separator (will be a number if no separator)
+			const slugSeparatorTester: string = slugSeparators.join('') + '0123456789';
 			const separatorIndex: number = (east?.index ?? west?.index ?? 0) - 1
 			if (separatorIndex < 0 || !slugSeparatorTester.includes(slug.charAt(separatorIndex))) return null
 			// build compass
 			let result: any = {}
-			if (north) result.north = parseInt(north[0].slice(1))
-			if (east) result.east = parseInt(east[0].slice(1))
-			if (west) result.west = parseInt(west[0].slice(1))
-			if (south) result.south = parseInt(south[0].slice(1))
+			if (north) result.north = BigInt(north[0].slice(1))
+			if (east) result.east = BigInt(east[0].slice(1))
+			if (west) result.west = BigInt(west[0].slice(1))
+			if (south) result.south = BigInt(south[0].slice(1))
 			return this.validatedCompass(result)
 		}
 

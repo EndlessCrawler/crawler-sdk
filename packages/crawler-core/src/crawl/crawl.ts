@@ -252,9 +252,9 @@ export const compassToCoord = (compass: Compass | null): bigint => {
 }
 
 // TODO: DELETE ME
-export const slugSeparators = [null, '', ',', '.', ';', '-'] as const
-export const defaultSlugSeparator = ','
-export type SlugSeparator = typeof slugSeparators[number]
+const slugSeparators = [null, '', ',', '.', ';', '-'] as const
+const defaultSlugSeparator = ','
+type SlugSeparator = typeof slugSeparators[number]
 
 // TODO: DELETE ME
 export const compassToSlug = (compass: Compass | null, separator: SlugSeparator = defaultSlugSeparator): string | null => {

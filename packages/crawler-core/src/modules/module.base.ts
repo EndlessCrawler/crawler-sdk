@@ -50,7 +50,7 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 		return this.slugToCompass(slug) != null
 	}
 
-	coordToSlug(coord: bigint, yonder: number, separator: SlugSeparator = defaultSlugSeparator): string | null {
+	coordToSlug(coord: bigint, yonder: number = 0, separator: SlugSeparator = defaultSlugSeparator): string | null {
 		return this.compassToSlug(this.coordToCompass(coord), yonder, separator)
 	}
 
@@ -64,5 +64,5 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 	abstract coordToCompass(coord: bigint): CompassBase | null;
 	abstract slugToCompass(slug: string | null): CompassBase | null;
 	abstract compassToCoord(compass: CompassBase | null): bigint;
-	abstract compassToSlug(compass: CompassBase | null, yonder: number, separator: SlugSeparator): string | null;
+	abstract compassToSlug(compass: CompassBase | null, yonder?: number, separator?: SlugSeparator): string | null;
 }

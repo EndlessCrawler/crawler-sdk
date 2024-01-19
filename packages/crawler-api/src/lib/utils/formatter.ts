@@ -11,10 +11,12 @@ import { isString, isObject } from '@avante/crawler-core'
 // javascript version
 //@ts-ignore
 // BigInt.prototype.toJSON = function () { return this.toString() }
+// BigInt.prototype.toJSON = function () { return (this <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(this) : this.toString()) }
 
 // typescript version
 (BigInt.prototype as any).toJSON = function () {
-	return this.toString()
+	// return this.toString()
+	return (this <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(this) : this.toString())
 }
 
 export const formatViewData = async (data: any = {}): Promise<string> => {

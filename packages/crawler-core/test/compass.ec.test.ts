@@ -1,3 +1,4 @@
+import 'jest-expect-message'
 import {
 	createClient,
 	ModuleId,
@@ -6,10 +7,13 @@ import {
 	Dir,
 } from '../src'
 
+//@ts-ignore
+BigInt.prototype.toJSON = function () { return (this <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(this) : this.toString()) }
+
 const CoordMax = EndlessCrawler.CoordMax
 type Compass = EndlessCrawler.Compass
 
-describe('EndlessCrawler.Compass', () => {
+describe('compass.ec', () => {
 	let client: ModuleInterface
 
 	beforeAll(() => {
@@ -102,13 +106,12 @@ describe('EndlessCrawler.Compass', () => {
 		expect(client.compassEquals({ north: 11, south: 44 }, { south: 44, north: 11 })).toBe(false)
 	})
 
-
-	it('offsetCoord(), offsetCompass()', () => {
+	it('offsetCoord(), offsetCompass(), compassToCoord(), coordToCompass()', () => {
 		const _validateCompass = (compass: Compass, north: bigint, east: bigint, west: bigint, south: bigint) => {
-			expect(compass.north?.toString()).toBe(north.toString())
-			expect(compass.east?.toString()).toBe(east.toString())
-			expect(compass.west?.toString()).toBe(west.toString())
-			expect(compass.south?.toString()).toBe(south.toString())
+			expect(compass.north).toBe(north)
+			expect(compass.east).toBe(east)
+			expect(compass.west).toBe(west)
+			expect(compass.south).toBe(south)
 		}
 		const _validateCoord = (coord: bigint, north: bigint, east: bigint, west: bigint, south: bigint) => {
 			_validateCompass(client.coordToCompass(coord) as Compass, north, east, west, south)
@@ -176,14 +179,6 @@ describe('EndlessCrawler.Compass', () => {
 			_validateCoord(_coord, 1n, 0n, CoordMax, 0n);
 			_coord = _testOffset(_coord, Dir.West, 1n, 0n, CoordMax, 0n);
 		}
-
-
-
 	})
-
-
-
-
-
 
 })
