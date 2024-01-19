@@ -10,16 +10,22 @@
 		"url": "https://github.com/EndlessCrawler/crawler-sdk/issues"
 	},
 	"scripts": {
-		"update": "pnpm --color -r run update",
+		"clean": "pnpm --color -r run clean",
+		"build": "pnpm --color --filter '@avante/*' run build",
+		"build:core": "pnpm --color --filter '@avante/crawler-core' run build",
+		"build:data": "pnpm --color --filter '@avante/crawler-data' run build",
+		"build:api": "pnpm --color --filter '@avante/crawler-api' run build",
+		"build:all": "pnpm --color -r run build",
+		"watch": "pnpm --filter '@avante/*' --parallel run watch",
 		"test": "pnpm --color -r run test",
 		"test:core": "pnpm --color --filter '@avante/crawler-core' run test",
 		"test:data": "pnpm --color --filter '@avante/crawler-data' run test",
 		"test:api": "pnpm --color --filter '@avante/crawler-api' run test",
-		"clean": "pnpm --color -r run clean",
-		"build:all": "pnpm --color -r run build",
-		"build": "pnpm --color --filter '@avante/*' run build",
-		"watch": "pnpm --filter '@avante/*' --parallel run watch",
-		"watch:test": "pnpm --filter '@avante/*' --parallel run watch:test"
+		"watch:test": "pnpm --filter '@avante/*' --parallel run watch:test",
+		"watch:test:core": "pnpm --filter '@avante/crawler-core' run watch:test",
+		"watch:test:data": "pnpm --filter '@avante/crawler-data' run watch:test",
+		"watch:test:api": "pnpm --filter '@avante/crawler-api' run watch:test",
+		"update": "pnpm --color -r run update"
 	},
 	"devDependencies": {
 	},

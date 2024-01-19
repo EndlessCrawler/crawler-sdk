@@ -13,8 +13,8 @@
 		"clean": "rimraf dist tsconfig.build.tsbuildinfo",
 		"build": "tsc -p tsconfig.build.json",
 		"test": "NODE_OPTIONS=--experimental-vm-modules jest",
-		"watch": "tsc-watch -p tsconfig.build.json",
-		"watch:test": "tsc-watch -p tsconfig.build.json --onSuccess 'npm run test'",
+		"watch": "pnpm run build -watch",
+		"watch:test": "pnpm run test --watch",
 		"publish": "npm publish --access public"
 	},
 	"dependencies": {
@@ -31,7 +31,6 @@
 		"jest-expect-message": "^1.1.3",
 		"rimraf": "^5.0.5",
 		"ts-jest": "^29.1.1",
-		"tsc-watch": "^6.0.4",
 		"typescript": "^5.3.3"
 	},
 	"keywords": [
