@@ -40,6 +40,7 @@ export namespace LootUnderworld {
 		east?: number
 		west?: number
 		south?: number
+		yonder?: number // optional
 	}
 
 
@@ -212,7 +213,7 @@ export namespace LootUnderworld {
 			return result
 		}
 
-		compassToSlug(compass: Compass | null, yonder: number = 0, separator: SlugSeparator = defaultSlugSeparator): string | null {
+		compassToSlug(compass: Compass | null, separator: SlugSeparator = defaultSlugSeparator): string | null {
 			let result = ''
 			if (compass && this.validateCompass(compass)) {
 				if (compass.tokenId) {
@@ -229,9 +230,9 @@ export namespace LootUnderworld {
 				if (separator) result += separator
 				if (compass.east && compass.east > 0) result += `E${compass.east}`
 				if (compass.west && compass.west > 0) result += `W${compass.west}`
-				if (yonder) {
+				if (compass.yonder && compass.yonder > 0) {
 					if (separator) result += separator
-					result += `Y${yonder}`
+					result += `Y${compass.yonder}`
 				}
 			}
 			return result

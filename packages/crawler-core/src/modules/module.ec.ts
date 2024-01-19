@@ -21,30 +21,34 @@ export namespace EndlessCrawler {
 	// Types
 	//
 
-	export type CompassNEWS = Pick<CompassBase, 'north' | 'east' | 'west' | 'south'>
+	export type CompassNEWS = Pick<CompassBase, 'north' | 'east' | 'west' | 'south' | 'yonder'>
 	export interface CompassNE extends CompassNEWS {
 		north: bigint
 		east: bigint
 		west?: AbsentCompassDir
 		south?: AbsentCompassDir
+		yonder?: bigint // optional
 	}
 	export interface CompassNW extends CompassNEWS {
 		north: bigint
 		east?: AbsentCompassDir
 		west: bigint
 		south?: AbsentCompassDir
+		yonder?: bigint // optional
 	}
 	export interface CompassSE extends CompassNEWS {
 		north?: AbsentCompassDir
 		east: bigint
 		west?: AbsentCompassDir
 		south: bigint
+		yonder?: bigint // optional
 	}
 	export interface CompassSW extends CompassNEWS {
 		north?: AbsentCompassDir
 		east?: AbsentCompassDir
 		west: bigint
 		south: bigint
+		yonder?: bigint // optional
 	}
 	/** @type {Compass} Coordinates of a chamber in NEWS format */
 	export type Compass = (CompassNE | CompassNW | CompassSE | CompassSW)
@@ -186,7 +190,7 @@ export namespace EndlessCrawler {
 			return result
 		}
 
-		compassToSlug(compass: Compass | null, yonder: number = 0, separator: SlugSeparator = defaultSlugSeparator): string | null {
+		compassToSlug(compass: Compass | null, separator: SlugSeparator = defaultSlugSeparator): string | null {
 			let result = ''
 			if (compass && this.validateCompass(compass)) {
 				if (compass.north && compass.north > 0n) result += `N${compass.north}`
@@ -194,9 +198,9 @@ export namespace EndlessCrawler {
 				if (separator) result += separator
 				if (compass.east && compass.east > 0n) result += `E${compass.east}`
 				if (compass.west && compass.west > 0n) result += `W${compass.west}`
-				if (yonder) {
+				if (compass.yonder && compass.yonder > 0) {
 					if (separator) result += separator
-					result += `Y${yonder}`
+					result += `Y${compass.yonder}`
 				}
 			}
 			return result
@@ -205,22 +209,26 @@ export namespace EndlessCrawler {
 		// TODO: make this generic?
 		slugToCompass(slug: string | null): Compass | null {
 			if (!slug) return null
-			if (!/^[NnSs]\d+.{0,1}[EeWw]\d+$/g.exec(slug)) return null
+			// const _regex = /^[NnSs]\d+.{0,1}[EeWw]\d+$/g // NEWS
+			const _regex = /^[NnSs]\d+.{0,1}[EeWw]\d+(?:.{0,1}[Yy]\d+)?$/g // NEWS[Y]
+			if (!_regex.exec(slug)) return null
 			// match each direction
 			const north = /[Nn]\d+/g.exec(slug)
 			const east = /[Ee]\d+/g.exec(slug)
 			const west = /[Ww]\d+/g.exec(slug)
 			const south = /[Ss]\d+/g.exec(slug)
+			const yonder = /[Yy]\d+/g.exec(slug)
 			// validate separator (will be a number if no separator)
-			const slugSeparatorTester: string = slugSeparators.join('') + '0123456789';
+			const _slugSeparatorTester: string = slugSeparators.join('') + '0123456789';
 			const separatorIndex: number = (east?.index ?? west?.index ?? 0) - 1
-			if (separatorIndex < 0 || !slugSeparatorTester.includes(slug.charAt(separatorIndex))) return null
+			if (separatorIndex < 0 || !_slugSeparatorTester.includes(slug.charAt(separatorIndex))) return null
 			// build compass
 			let result: any = {}
 			if (north) result.north = BigInt(north[0].slice(1))
 			if (east) result.east = BigInt(east[0].slice(1))
 			if (west) result.west = BigInt(west[0].slice(1))
 			if (south) result.south = BigInt(south[0].slice(1))
+			if (yonder) result.yonder = BigInt(yonder[0].slice(1))
 			return this.validatedCompass(result)
 		}
 

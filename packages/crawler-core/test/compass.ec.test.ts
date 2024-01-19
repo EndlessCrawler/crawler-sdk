@@ -91,6 +91,9 @@ describe('compass.ec', () => {
 		expect(Object.keys(client.minifyCompass({ south: 44, west: 33, north: undefined, east: undefined }) as Compass)).toEqual(expect.not.arrayContaining(['north', 'east']))
 		expect(Object.keys(client.minifyCompass({ south: 44, west: 33, east: null }) as Compass)).toEqual(expect.not.arrayContaining(['north', 'east']))
 		expect(Object.keys(client.minifyCompass({ south: 44, west: 33, east: undefined }) as Compass)).toEqual(expect.not.arrayContaining(['north', 'east']))
+		// yonder too
+		expect(Object.keys(client.minifyCompass({ north: 11, east: 22, yonder: 0 }) as Compass)).toEqual(expect.not.arrayContaining(['yonder']))
+		expect(Object.keys(client.minifyCompass({ north: 11, east: 22, yonder: 33 }) as Compass)).toEqual(expect.arrayContaining(['yonder']))
 	})
 
 	it('compassEquals()', () => {
@@ -179,6 +182,9 @@ describe('compass.ec', () => {
 			_validateCoord(_coord, 1n, 0n, CoordMax, 0n);
 			_coord = _testOffset(_coord, Dir.West, 1n, 0n, CoordMax, 0n);
 		}
+		// offset should keep yonder
+		const yonderCompass = client.offsetCompass({ south: 1n, east: 2n, yonder: 3n }, Dir.East) as Compass;
+		expect(yonderCompass.yonder).toBe(3n)
 	})
 
 })

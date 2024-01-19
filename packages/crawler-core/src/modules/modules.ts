@@ -24,6 +24,7 @@ export interface CompassBase {
 	east?: AnyCompassDir
 	west?: AnyCompassDir
 	south?: AnyCompassDir
+	yonder?: AnyCompassDir
 	// introduced in Loot Underworld
 	domainId?: AnyCompassDir
 	tokenId?: AnyCompassDir
@@ -70,7 +71,7 @@ export interface ModuleInterface {
 	/** @returns the Compass converted to a Coord (bigint) */
 	compassToCoord(compass: CompassBase | null): bigint;
 	/** @returns the Compass converted to a readable Slug (string) */
-	compassToSlug(compass: CompassBase | null, yonder?: number, separator?: SlugSeparator): string | null;
+	compassToSlug(compass: CompassBase | null, separator?: SlugSeparator): string | null;
 	/** @returns the Slug (string) converted to a Compass */
 	slugToCompass(slug: string | null): CompassBase | null;
 
@@ -88,7 +89,7 @@ export interface ModuleInterface {
 	/** @returns true if slug is valid */
 	validateSlug (slug: string | null): boolean;
 	/** @returns the Coord (bigint) converted to a readable Slug (string) */
-	coordToSlug(coord: bigint, yonder?: number, separator?: SlugSeparator): string | null;
+	coordToSlug(coord: bigint, separator?: SlugSeparator): string | null;
 	/** @returns the Slug (string) converted to a Coord (bigint) */
 	slugToCoord(slug: string | null): bigint;
 

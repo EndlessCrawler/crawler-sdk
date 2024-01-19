@@ -19,7 +19,6 @@ type Compass = EndlessCrawler.Compass
 type TestPair = {
 	slug: string
 	compass: Compass | null
-	yonder?: number
 	forwardOnly?: boolean
 }
 
@@ -78,6 +77,14 @@ const _slugs: TestPair[] = [
 	{ slug: 'N01,W01', compass: { north: 1n, west: 1n }, forwardOnly: true },
 	{ slug: 'S01,E01', compass: { south: 1n, east: 1n }, forwardOnly: true },
 	{ slug: 'S01,W01', compass: { south: 1n, west: 1n }, forwardOnly: true },
+	// yonder
+	{ slug: 'N1,E1,Y1', compass: { north: 1n, east: 1n, yonder: 1n } },
+	{ slug: 'S8,W9,Y7', compass: { south: 8n, west: 9n, yonder: 7n } },
+	// { slug: 'N111,E218,Y91256', compass: { north: 111n, east: 218n, yonder: 91256n }, forwardOnly: true },
+	// { slug: 'N9999,W1', compass: { north: 9999n, west: 1n } },
+	// { slug: 'S1,E238422', compass: { south: 1n, east: 238422n } },
+	// { slug: 'S73236032230,W7723692223', compass: { south: 73236032230n, west: 7723692223n } },
+	
 ]
 
 describe('slug.ec', () => {
@@ -88,10 +95,11 @@ describe('slug.ec', () => {
 	})
 
 	const _validateSlug = (pair: TestPair, separator: SlugSeparator) => {
-		const slug = pair.slug.replace(',', separator ?? '')
+		const slug = pair.slug.split(',').join(separator ?? '')
 		expect(client.validateSlug(slug), `Slug [${slug}] is not valid`).toBe(true)
 		// convert to Compass
 		const asCompass = client.slugToCompass(slug)
+		// console.log(`___________JSON:`, pair.compass, asCompass, JSON.stringify(pair.compass), JSON.stringify(asCompass))
 		expect(asCompass, `Slug [${slug}] compass [${JSON.stringify(asCompass)}] should not be null`).not.toBe(null)
 		expect(client.compassEquals(asCompass, pair.compass), `Slug [${slug}] compass [${JSON.stringify(asCompass)}] is not [${JSON.stringify(pair.compass)}]`).toBe(true)
 		// convert to coord
@@ -101,10 +109,12 @@ describe('slug.ec', () => {
 		expect(asCoord, `Slug [${slug}] coord [${asCoord}] is not [${expectedCoord}]`).toBe(expectedCoord)
 		// backward conversion
 		if (!pair.forwardOnly) {
-			const slugFromCompass = client.compassToSlug(pair.compass, pair.yonder, separator)
+			const slugFromCompass = client.compassToSlug(pair.compass, separator)
 			expect(slugFromCompass, `Compass [${JSON.stringify(pair.compass)}] slug is not [${slug}]`).toBe(slug.toUpperCase())
-			const slugFromCoord = client.coordToSlug(client.compassToCoord(pair.compass), pair.yonder, separator)
-			expect(slugFromCoord, `coord [${slugFromCoord}] slug is not [${slug}]`).toBe(slug.toUpperCase())
+			if (!pair.compass?.yonder) { // compass > coord > slug (no yonder in coord
+				const slugFromCoord = client.coordToSlug(client.compassToCoord(pair.compass), separator)
+				expect(slugFromCoord, `coord [${slugFromCoord}] slug is not [${slug}]`).toBe(slug.toUpperCase())
+			}
 		}
 	}
 
