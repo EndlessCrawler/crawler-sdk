@@ -12,23 +12,6 @@ export {
 	// Directions
 	flipDir,
 	getOppositeTerrain,
-	CompassDirMax,
-	CompassDirMaxNumber,
-	CompassMask,
-	CompassOne,
-	offsetCoord,
-	// Compass, slug, converters
-	validateCompass,
-	minifyCompass,
-	validateCoord,
-	validateSlug,
-	compassEquals,
-	coordToCompass,
-	compassToCoord,
-	compassToSlug,
-	coordToSlug,
-	slugToCompass,
-	slugToCoord,
 	// Bitmap
 	uint4,
 	uint8,

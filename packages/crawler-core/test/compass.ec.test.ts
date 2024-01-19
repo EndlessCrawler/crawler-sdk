@@ -11,13 +11,23 @@ import {
 BigInt.prototype.toJSON = function () { return (this <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(this) : this.toString()) }
 
 const CoordMax = EndlessCrawler.CoordMax
+const CoordMask = EndlessCrawler.CoordMask
 type Compass = EndlessCrawler.Compass
+
+const _max = 0xffffffffffffffffn // 16-bit
 
 describe('compass.ec', () => {
 	let client: ModuleInterface
 
 	beforeAll(() => {
 		client = createClient(ModuleId.EndlessCrawler) as ModuleInterface
+	})
+
+	it('CoordMask', () => {
+		expect(CoordMask.North).toBe(_max << 192n)
+		expect(CoordMask.East).toBe(_max << 128n)
+		expect(CoordMask.West).toBe(_max << 64n)
+		expect(CoordMask.South).toBe(_max)
 	})
 
 	it('validateCompass()', () => {

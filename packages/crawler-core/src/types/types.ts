@@ -27,42 +27,6 @@ export type BigIntIsh = number | bigint | BigIntString | HexString
 
 
 //--------------------------------
-// Crawler Types
-//
-
-//
-// Compass and coors
-
-// TODO: DELETE ME
-export type AbsentDir = 0 | null | undefined
-export interface CompassNE {
-	north: number
-	east: number
-	west?: AbsentDir
-	south?: AbsentDir
-}
-export interface CompassNW {
-	north: number
-	east?: AbsentDir
-	west: number
-	south?: AbsentDir
-}
-export interface CompassSE {
-	north?: AbsentDir
-	east: number
-	west?: AbsentDir
-	south: number
-}
-export interface CompassSW {
-	north?: AbsentDir
-	east?: AbsentDir
-	west: number
-	south: number
-}
-export type Compass = CompassNE | CompassNW | CompassSE | CompassSW
-
-
-//--------------------------------
 // View content types
 //
 
@@ -70,7 +34,7 @@ export type Compass = CompassNE | CompassNW | CompassSE | CompassSW
 export interface ChamberCoords {
 	coord: BigIntString
 	slug: string
-	compass: Compass
+	compass: CompassBase
 }
 
 /** @type all static data of a chamber  */
@@ -81,7 +45,7 @@ export interface ChamberData {
 	seed: HexString
 	bitmap?: HexString
 	name: string
-	compass: Compass
+	compass: CompassBase
 	coord: BigIntString
 	yonder: number
 	terrain: number

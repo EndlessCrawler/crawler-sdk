@@ -4,8 +4,10 @@ import {
 	bigIntToHexString,
 	bigIntToByteArray,
 	bigIntToNumberArray,
-	CompassDirMax,
+	EndlessCrawler
 } from '../src'
+
+const CoordMax = EndlessCrawler.CoordMax
 
 describe('* utils', () => {
 
@@ -25,7 +27,7 @@ describe('* utils', () => {
 		expect(resolveBigInt('0xff'), 'resolveBigInt(): bad input').toBe(255n)
 		expect(resolveBigInt('0x100'), 'resolveBigInt(): bad input').toBe(256n)
 		expect(resolveBigInt('0x0100'), 'resolveBigInt(): bad input').toBe(256n)
-		expect(resolveBigInt('0xffffffffffffffff'), 'resolveBigInt(): bad input').toBe(CompassDirMax)
+		expect(resolveBigInt('0xffffffffffffffff'), 'resolveBigInt(): bad input').toBe(CoordMax)
 	})
 
 	it('bigIntToHexString()', () => {
@@ -47,7 +49,7 @@ describe('* utils', () => {
 
 		expect(bigIntToHexString(255n), 'bigIntToHexString(): bad input').toBe('0xff')
 		expect(bigIntToHexString(256n), 'bigIntToHexString(): bad input').toBe('0x0100')
-		expect(bigIntToHexString(CompassDirMax), 'bigIntToHexString(): bad input').toBe('0xffffffffffffffff')
+		expect(bigIntToHexString(CoordMax), 'bigIntToHexString(): bad input').toBe('0xffffffffffffffff')
 	})
 
 	it('bigIntToByteArray()', () => {
@@ -70,7 +72,7 @@ describe('* utils', () => {
 
 		expect(bigIntToByteArray(255n), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([255]))
 		expect(bigIntToByteArray(256n), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([1, 0]))
-		expect(bigIntToByteArray(CompassDirMax), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([255, 255, 255, 255, 255, 255, 255, 255]))
+		expect(bigIntToByteArray(CoordMax), 'bigIntToByteArray(): bad input').toEqual(new Uint8Array([255, 255, 255, 255, 255, 255, 255, 255]))
 
 	})
 
