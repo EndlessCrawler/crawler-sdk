@@ -1,12 +1,8 @@
 import {
-	Dir,
-} from ".."
-import {
 	ModuleInterface,
 	CompassBase,
 	SlugSeparator,
 	defaultSlugSeparator,
-	AnyCompassDir,
 } from "./modules"
 
 

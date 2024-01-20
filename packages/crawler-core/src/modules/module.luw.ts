@@ -1,5 +1,4 @@
 import {
-	CrawlerChainNotSetError,
 	Dir,
 	MissingImplementationError,
 } from ".."

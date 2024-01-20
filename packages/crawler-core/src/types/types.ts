@@ -103,7 +103,7 @@ export interface AllViews {
 export interface DataSet {
 	moduleId: ModuleId
 	chainId: ChainId
-	data: AllViews
+	views: AllViews
 }
 
 

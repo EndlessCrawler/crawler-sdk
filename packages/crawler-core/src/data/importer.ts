@@ -14,22 +14,20 @@ import {
 
 //@ts-ignore
 let _global: any = null
-//@ts-ignore
 if (isBrowser()) _global = window
-//@ts-ignore
 if (isNode()) _global = global
 
-// initialize global scope namespace
-export interface CrawlerDataNamespace {
+/** @type initialize global scope namespace */
+interface CrawlerGlobalNamespace {
 	currentChainId: ChainId
-	data: Record<ChainId, AllViews>
+	views: Record<ChainId, AllViews>
 }
 declare global {
-	interface Window { CrawlerData: CrawlerDataNamespace }
+	interface Window { CrawlerData: CrawlerGlobalNamespace }
 }
 
 /** used internally to initialzie and clear the global scope */
-export const initializeDataSet = (force: boolean = false) => {
+export const initializeGlobalNamespace = (force: boolean = false) => {
 	if (_global && (!_global.CrawlerData || force)) {
 		_global.CrawlerData = {
 			currentChainId: 0,
@@ -43,9 +41,9 @@ export const initializeDataSet = (force: boolean = false) => {
  */
 export const importDataSet = (dataSet: DataSet[]) => {
 	if (_global) {
-		initializeDataSet()
+		initializeGlobalNamespace()
 		dataSet.forEach((set) => {
-			_global.CrawlerData.data[set.chainId] = set.data
+			_global.CrawlerData.data[set.chainId] = set.views
 			if (_global.CrawlerData.currentChainId == 0) {
 				_global.CrawlerData.currentChainId = set.chainId
 			}
@@ -61,8 +59,7 @@ export const setDataSet = (options: Options) => {
 		_global.CrawlerData.currentChainId = options.chainId
 		return
 	}
-	//@ts-ignore
-	throw new InvalidCrawlerChainError(options.chainId)
+	throw new InvalidCrawlerChainError(options.chainId as ChainId)
 }
 
 /** called by clients to get chain data
@@ -86,7 +83,6 @@ export const getDataSet = (options: Options = {}): AllViews => {
 			throw new InvalidCrawlerChainError(_global.CrawlerData.currentChainId)
 		}
 	}
-	//@ts-ignore
 	throw new CrawlerChainNotSetError()
 }
 
