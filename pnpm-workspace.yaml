@@ -2,4 +2,5 @@ packages:
   - 'packages/crawler-core'
   - 'packages/crawler-data'
   - 'packages/crawler-api'
+  - 'packages/crawler-react'
   - 'apps/sdk-explorer'
