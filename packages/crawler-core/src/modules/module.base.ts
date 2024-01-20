@@ -20,7 +20,7 @@ import {
  */
 export abstract class ModuleBase implements Partial<ModuleInterface> {
 
-	minifyCompass(compass: CompassBase | null): CompassBase | null {
+	_minifyCompass(compass: CompassBase | null): CompassBase | null {
 		if (!compass || !this.validateCompass(compass)) {
 			return null
 		}
@@ -31,9 +31,9 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 		}, {} as CompassBase)
 	}
 
-	compassEquals(a: CompassBase | null, b: CompassBase | null): boolean {
-		const aa = this.minifyCompass(a)
-		const bb = this.minifyCompass(b)
+	_compassEquals(a: CompassBase | null, b: CompassBase | null): boolean {
+		const aa = this._minifyCompass(a)
+		const bb = this._minifyCompass(b)
 		if (!aa || !bb) return false
 		return Object.keys(aa).reduce((acc, key) => {
 			if (!acc) return false

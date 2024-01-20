@@ -1,9 +1,7 @@
 import {
+	createClient,
+	EndlessCrawler,
 	ChamberCoords,
-	compassToSlug,
-	coordToCompass,
-	minifyCompass,
-	Compass,
 	ContractName,
 	Options,
 } from '@avante/crawler-core'
@@ -13,6 +11,9 @@ import {
 import {
 	readTotalSupply,
 } from '../calls'
+
+const client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
+type Compass = EndlessCrawler.Compass
 
 export default (): ViewDefinitionT<ChamberCoords> => ({
 	//
@@ -34,11 +35,11 @@ export default (): ViewDefinitionT<ChamberCoords> => ({
 	//
 	// transform fetched data to View
 	transform: async (coord: bigint): Promise<ChamberCoords> => {
-		const compass = coordToCompass(coord)
+		const compass = client.coordToCompass(coord)
 		return {
 			coord: coord.toString(),
-			slug: compassToSlug(compass) as string,
-			compass: minifyCompass(compass) as Compass,
+			slug: client.compassToSlug(compass) as string,
+			compass: client.minifyCompass(compass) as Compass,
 		}
 	}
 })

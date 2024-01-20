@@ -1,12 +1,11 @@
 import {
+	createClient,
+	EndlessCrawler,
 	ChamberData,
 	ContractName,
-	coordToCompass,
-	minifyCompass,
 	bigIntToHexString,
 	bigIntToNumberArray,
 	Options,
-	Compass,
 } from '@avante/crawler-core'
 import {
 	ViewDefinitionT,
@@ -14,6 +13,9 @@ import {
 import {
 	readTotalSupply,
 } from '../calls'
+
+const client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
+type Compass = EndlessCrawler.Compass
 
 export default (): ViewDefinitionT<ChamberData> => ({
 	//
@@ -39,7 +41,7 @@ export default (): ViewDefinitionT<ChamberData> => ({
 		const locks = data.locks.map((v: number) => v != 0)
 		const locksCount = locks.reduce((result: number, val: number) => { return result + (val ? 1 : 0) }, 0)
 		const chamberData: ChamberData = {
-			compass: minifyCompass(coordToCompass(data.coord)) as Compass,
+			compass: client.minifyCompass(client.coordToCompass(data.coord)) as Compass,
 			coord: data.coord,
 			seed: bigIntToHexString(data.seed),
 			bitmap: data.bitmap != '0' ? bigIntToHexString(data.bitmap) : undefined,

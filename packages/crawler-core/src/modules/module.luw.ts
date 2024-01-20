@@ -133,6 +133,14 @@ export namespace LootUnderworld {
 			return this.validateCompass(compass) ? compass : null
 		}
 
+		minifyCompass(compass: Compass | null): Compass | null {
+			return super._minifyCompass(compass) as Compass
+		}
+
+		compassEquals(a: CompassBase | null, b: CompassBase | null): boolean {
+			return super._compassEquals(a, b)
+		}
+
 		offsetCompass(compass: Compass | null, dir: Dir): Compass | null {
 			if (!compass) return null
 			const _add = (v: number | AbsentCompassDir) => (!v ? 1 : v < CoordMax ? v + 1 : v)
