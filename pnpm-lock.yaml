@@ -19,6 +19,9 @@ importers:
       '@avante/crawler-data':
         specifier: ^0.0.1
         version: link:../../packages/crawler-data
+      '@avante/crawler-react':
+        specifier: ^0.0.1
+        version: link:../../packages/crawler-react
       '@monaco-editor/react':
         specifier: ^4.6.0
         version: 4.6.0(monaco-editor@0.45.0)(react-dom@18.2.0)(react@18.2.0)

@@ -13,6 +13,7 @@ module.exports = {
 		'@avante/crawler-core',
 		'@avante/crawler-data',
 		'@avante/crawler-api',
+		'@avante/crawler-react',
 	],
 	webpack: (config) => {
 		// walletconnect
