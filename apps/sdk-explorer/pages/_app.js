@@ -6,14 +6,14 @@ import Head from '@/components/Head'
 import { FetchProvider } from '@/hooks/FetchContext'
 
 import {
-	importDataSet,
+	__importDataSets,
 } from '@avante/crawler-core'
 import {
 	mainnetDataSet,
 	goerliDataSet,
 } from '@avante/crawler-data'
 
-importDataSet([mainnetDataSet, goerliDataSet])
+__importDataSets([mainnetDataSet, goerliDataSet])
 
 function _app({ Component, pageProps }) {
 	return (

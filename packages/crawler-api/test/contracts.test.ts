@@ -1,7 +1,7 @@
 import 'jest-expect-message'
 import {
-	initializeDataSet,
-	importDataSet,
+	EndlessCrawler,
+	createClient,
 	// ---
 	ChainId,
 	ContractName,
@@ -18,12 +18,12 @@ import {
 } from '../src'
 
 describe('* chains', () => {
+	let client: EndlessCrawler.Module
 	let allContractNames: ContractName[]
 	let allChainIds: ChainId[]
 
 	beforeAll(() => {
-		initializeDataSet()
-		importDataSet(allDataSets)
+		client = createClient(allDataSets) as EndlessCrawler.Module
 
 		allContractNames = getAllContractNames()
 		allChainIds = getAllChainIds()

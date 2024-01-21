@@ -1,9 +1,9 @@
 import 'jest-expect-message'
 import {
+	EndlessCrawler,
+	createClient,
 	ChainId,
 	ContractName,
-	initializeDataSet,
-	importDataSet,
 } from '@avante/crawler-core'
 import {
 	mainnetDataSet,
@@ -23,12 +23,12 @@ const _address = [
 ]
 
 describe('* chains', () => {
+	let client: EndlessCrawler.Module
 	let _totalSupply = 0
 	let _owners: Record<string, string> = {}
 
 	beforeAll(() => {
-		initializeDataSet()
-		importDataSet([mainnetDataSet, goerliDataSet])
+		client = createClient([mainnetDataSet, goerliDataSet]) as EndlessCrawler.Module
 	})
 
 	it('readTotalSupply', async () => {

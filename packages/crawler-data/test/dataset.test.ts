@@ -1,42 +1,44 @@
 import 'jest-expect-message'
 import {
-	ChainId, ViewName,
-	initializeDataSet,
-	importDataSet,
-	getDataSet,
-	setDataSet,
-	getAllChainIds,
-	getViewNames,
-} from '@avante/crawler-core'
-import {
 	mainnetDataSet,
 	goerliDataSet,
 	allDataSets,
 } from '../src'
+import {
+	ChainId, ViewName,
+	createClient,
+	getAllChainIds,
+	getViewNames,
+	EndlessCrawler,
+} from '@avante/crawler-core'
+import {
+	__getData,
+	__initializeGlobalModule,
+} from '@avante/crawler-core/src/modules/importer'
 
-describe('* data_mainnet', () => {
+describe('datasets', () => {
+	it('importDataSets()', () => {
+		let client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
+		expect(() => client.resolveChainId()).toThrow('InvalidChainError')
+		expect(() => client.getDataSet()).toThrow('InvalidChainError')
 
-	it('importDataSet()', () => {
-		expect(() => getDataSet()).toThrow('CrawlerChainNotSetError')
-
-		initializeDataSet()
-		
-		expect(() => getDataSet()).toThrow('CrawlerChainNotSetError')
-
-		importDataSet([mainnetDataSet, goerliDataSet])
+		client.importDataSets([mainnetDataSet, goerliDataSet])
+		expect(client.resolveChainId()).toBe(ChainId.Mainnet)
 
 		// defaults to the first chain
-		const data1 = getDataSet()
+		const data1 = client.getDataSet()
 		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 	})
 
 	it('getDataSet()', () => {
+		let client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
+
 		const allChainIds = getAllChainIds()
 		const allViewNames = getViewNames()
 
 		for (let i = 0; i < allChainIds.length; ++i) {
 			const chainId = allChainIds[i]
-			const data = getDataSet({ chainId })
+			const data = client.getDataSet({ chainId })
 			expect(data).not.toBe(null)
 
 			for (let v = 0; v < allViewNames.length; ++v) {
@@ -47,35 +49,44 @@ describe('* data_mainnet', () => {
 		}
 	})
 
-	it('setDataSet()', () => {
-		const data1 = getDataSet({ chainId: ChainId.Mainnet })
+	it('setCurrentDataSet()', () => {
+		let client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
+
+		const data1 = client.getDataSet({ chainId: ChainId.Mainnet })
 		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 
 		// new current
-		setDataSet({ chainId: ChainId.Goerli })
-		const data2 = getDataSet()
+		client.setCurrentDataSet({ chainId: ChainId.Goerli })
+		expect(client.resolveChainId()).toBe(ChainId.Goerli)
+		const data2 = client.getDataSet()
 		expect(data2.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Goerli)
 
 		// new current
-		setDataSet({ chainId: ChainId.Mainnet })
-		const data3 = getDataSet()
+		client.setCurrentDataSet({ chainId: ChainId.Mainnet })
+		expect(client.resolveChainId()).toBe(ChainId.Mainnet)
+		const data3 = client.getDataSet()
 		expect(data3.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
 	})
 
 	it('allDataSets', () => {
 		let allChainIds: ChainId[] = getAllChainIds()
-
 		expect(allDataSets.length, 'allDataSets does not contain all chains').toBe(allChainIds.length)
 
-		initializeDataSet()
-		importDataSet(allDataSets)
+		// reset globals
+		let client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
+		__initializeGlobalModule(EndlessCrawler.Id, true)
+		expect(() => client.resolveChainId()).toThrow('InvalidChainError')
 
+		client.importDataSets(allDataSets)
 		for (let i = 0; i < allChainIds.length; ++i) {
 			const chainId: ChainId = allChainIds[i]
-			const data = getDataSet({ chainId })
+			const data = client.getDataSet({ chainId })
 			expect(data).not.toBe(null)
 			expect(data.tokenIdToCoord?.chain?.chainId).toBe(chainId)
 		}
 	})
+
+
+	// TODOO: test import mixed data sets - throws MixedModulesError()
 
 })

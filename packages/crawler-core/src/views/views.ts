@@ -3,7 +3,7 @@ import {
 	ViewName,
 	AllViews,
 } from '../types'
-import { getDataSet } from '../data/importer'
+import { __getDataSet } from '../modules/importer'
 
 
 //--------------------------------	
@@ -17,12 +17,12 @@ export const getViewNames = (): ViewName[] => {
 
 /** @returns all the views of the defautl or specific chain **/
 export const getAllViews = (options: Options = {}): AllViews => {
-	return getDataSet(options)
+	return __getDataSet(options)
 }
 
 /** @returns all one view of the defautl or specific chain **/
 export const getView = (viewName: ViewName, options: Options = {}): AllViews[keyof AllViews] => {
-	return getDataSet(options)?.[viewName]
+	return __getDataSet(options)?.[viewName]
 }
 
 /** @returns all one view of the defautl or specific chain **/

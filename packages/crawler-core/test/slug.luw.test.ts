@@ -1,10 +1,8 @@
 import 'jest-expect-message'
 import {
 	createClient,
-	ModuleId,
 	LootUnderworld,
 	ModuleInterface,
-	Dir,
 } from '../src'
 
 const CoordMax = LootUnderworld.CoordMax
@@ -14,7 +12,7 @@ describe('slug.luw', () => {
 	let client: ModuleInterface
 
 	beforeAll(() => {
-		client = createClient(ModuleId.LootUnderworld) as ModuleInterface
+		client = createClient(LootUnderworld.Id) as ModuleInterface
 	})
 
 	// TODO...

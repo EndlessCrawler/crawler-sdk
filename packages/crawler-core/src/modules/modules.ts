@@ -1,5 +1,9 @@
 import {
+	AllViews,
+	ChainId,
+	DataSet,
 	Dir,
+	Options,
 } from ".."
 
 /** @type existing modules */
@@ -43,21 +47,49 @@ export type SlugSeparator = typeof slugSeparators[number];
 
 /** ModuleInterface defines all the properties of a Module */
 export interface ModuleInterface {
-	
-	//
-	// properties
-	//
 
+	//-------------------------
+	// Module properties
+	//
 	/** @type {ModuleId} the module type */
 	moduleId: ModuleId;
 	/** @type {string} the module description */
 	moduleDescription: string;
 
-	//
-	// abstract methods
-	// (must be implemented by Modules)
-	//
 
+	//-------------------------
+	//  DataSets
+	//
+	/** import DataSets for use, must be all of the same Module */
+	importDataSets(datasets: DataSet[]): void;
+	/** set options.chainId as the current DataSet */
+	setCurrentDataSet(options: Options): void;
+	/** @returns options.chainId or the current dataset ChainId */
+	resolveChainId(options: Options): ChainId;
+	/** @returns all imported views from options.chainId */
+	getDataSet(options: Options): AllViews;
+
+
+	//-------------------------
+	// Compass
+	//
+	// generic methods (implemented by ModuleBase)
+	//
+	/** @returns the Compass without all the empty fields, or null if is invalid */
+	minifyCompass(compass: CompassBase | null): CompassBase | null;
+	/** @returns true if both Compass are equal */
+	compassEquals(a: CompassBase | null, b: CompassBase | null): boolean;
+	/** @returns true if Coord is valid */
+	validateCoord(coord: bigint): boolean;
+	/** @returns true if slug is valid */
+	validateSlug(slug: string | null): boolean;
+	/** @returns the Coord (bigint) converted to a readable Slug (string) */
+	coordToSlug(coord: bigint, separator?: SlugSeparator): string | null;
+	/** @returns the Slug (string) converted to a Coord (bigint) */
+	slugToCoord(slug: string | null): bigint;
+	//
+	// abstract methods (must be implemented by Modules)
+	//
 	/** @returns true if the Compass is valid */
 	validateCompass(compass: CompassBase | null): boolean;
 	/** @returns the Compass, if is valid */
@@ -74,24 +106,6 @@ export interface ModuleInterface {
 	compassToSlug(compass: CompassBase | null, separator?: SlugSeparator): string | null;
 	/** @returns the Slug (string) converted to a Compass */
 	slugToCompass(slug: string | null): CompassBase | null;
-
-	//
-	// generic methods
-	// (implemented by ModuleBase)
-	//
-
-	/** @returns the Compass without all the empty fields, or null if is invalid */
-	minifyCompass(compass: CompassBase | null): CompassBase | null;
-	/** @returns true if both Compass are equal */
-	compassEquals(a: CompassBase | null, b: CompassBase | null): boolean;
-	/** @returns true if Coord is valid */
-	validateCoord (coord: bigint): boolean;
-	/** @returns true if slug is valid */
-	validateSlug (slug: string | null): boolean;
-	/** @returns the Coord (bigint) converted to a readable Slug (string) */
-	coordToSlug(coord: bigint, separator?: SlugSeparator): string | null;
-	/** @returns the Slug (string) converted to a Coord (bigint) */
-	slugToCoord(slug: string | null): bigint;
 
 }
 

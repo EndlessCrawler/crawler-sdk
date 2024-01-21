@@ -11,4 +11,6 @@ export default {
 	testPathIgnorePatterns: ['./dist'],
 	setupFilesAfterEnv: ['jest-expect-message'],
 	testTimeout: 10000,
+	verbose: true,
+	silent: false,
 }

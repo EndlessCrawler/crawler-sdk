@@ -9,7 +9,7 @@ import { alchemyProvider } from '@wagmi/core/providers/alchemy'
 import { infuraProvider } from '@wagmi/core/providers/infura'
 
 import {
-	resolveChainId,
+	__resolveChainId,
 } from '@avante/crawler-core'
 import {
 	ReadContractOptions,
@@ -49,7 +49,7 @@ const _normalizeArgs = (args: any[]): any[] => {
 }
 
 export const readContractOrThrow = async (options: ReadContractOptions): Promise<any> => {
-	const chainId = resolveChainId(options)
+	const chainId = __resolveChainId(options)
 	const { contractName, functionName, args } = options
 
 	const address = getContractAddress(contractName, chainId)

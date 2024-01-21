@@ -14,7 +14,7 @@
 		"skipLibCheck": true,
 		"strict": true,
 		"strictNullChecks": true,
-		"listEmittedFiles": true,
+		// "listEmittedFiles": true,
 		"moduleResolution": "node",
 		"module": "esnext",
 		"target": "es2021",

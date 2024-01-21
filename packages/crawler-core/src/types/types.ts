@@ -67,10 +67,11 @@ export interface ChamberData {
 // View definitions
 //
 
-/** @type ViewT names */
+/** @type all possible ViewT names */
 export enum ViewName {
 	tokenIdToCoord = 'tokenIdToCoord',
 	chamberData = 'chamberData',
+	// tokenUri = 'tokenUri',
 }
 
 /** @type ViewT info */
@@ -99,7 +100,7 @@ export interface AllViews {
 	[ViewName.chamberData]: ViewT<ChamberDataViewData>
 }
 
-/** @type used by clients for importing a chain using importDataSet() */
+/** @type used by clients for importing a chain using __importDataSets() */
 export interface DataSet {
 	moduleId: ModuleId
 	chainId: ChainId
@@ -114,4 +115,5 @@ export interface DataSet {
 /** @type Base arguments containing just the chain id */
 export interface Options {
 	chainId?: ChainId
+	moduleId?: ModuleId
 }

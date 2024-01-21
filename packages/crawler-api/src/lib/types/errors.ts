@@ -2,9 +2,9 @@ import {
 	ContractName,
 } from '@avante/crawler-core'
 
-export class InvalidCrawlerContractError extends Error {
+export class InvalidContractError extends Error {
 	constructor(contractName: ContractName) {
-		super(`InvalidCrawlerContractError: Invlaid contract name [${contractName}]`)
-		this.name = 'InvalidCrawlerContractError'
+		super(`InvalidContractError: Invlaid contract name [${contractName}]`)
+		this.name = 'InvalidContractError'
 	}
 }

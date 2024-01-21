@@ -1,7 +1,6 @@
 import 'jest-expect-message'
 import {
 	createClient,
-	ModuleId,
 	EndlessCrawler,
 	ModuleInterface,
 	Dir,
@@ -20,7 +19,7 @@ describe('coord.ec', () => {
 	let client: ModuleInterface
 
 	beforeAll(() => {
-		client = createClient(ModuleId.EndlessCrawler) as ModuleInterface
+		client = createClient(EndlessCrawler.Id) as ModuleInterface
 	})
 
 	const _makeCoord = (north: NumOrBig, east: NumOrBig, west: NumOrBig, south: NumOrBig): bigint => {

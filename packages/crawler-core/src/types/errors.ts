@@ -1,3 +1,4 @@
+import { ModuleId } from '../modules'
 import {
 	ChainId,
 } from './chains'
@@ -9,17 +10,31 @@ export class InvalidModuleInterfaceError extends Error {
 	}
 }
 
-export class InvalidCrawlerChainError extends Error {
-	constructor(chainId: ChainId) {
-		super(`InvalidCrawlerChainError: Chain not imported. Did you forget to call importDataSet(${chainId}) ?`)
-		this.name = 'InvalidCrawlerChainError'
+export class MixedModulesError extends Error {
+	constructor() {
+		super(`MixedModulesError: All DataSets must be of the same ModuleId`)
+		this.name = 'MixedModulesError'
 	}
 }
 
-export class CrawlerChainNotSetError extends Error {
+export class MissingGlobalNamespaceError extends Error {
 	constructor() {
-		super(`CrawlerChainNotSetError: No chain imported. Did you forget to call importDataSet() ?`)
-		this.name = 'CrawlerChainNotSetError'
+		super(`MissingGlobalNamespaceError: Global namespace was not created`)
+		this.name = 'MissingGlobalNamespaceError'
+	}
+}
+
+export class InvalidModuleError extends Error {
+	constructor(moduleId: ModuleId | null | undefined) {
+		super(`InvalidModuleError: Module [${moduleId}] not imported. Did you forget to call client.importDataSets() ?`)
+		this.name = 'InvalidModuleError'
+	}
+}
+
+export class InvalidChainError extends Error {
+	constructor(moduleId: ModuleId | null | undefined, chainId: ChainId | null | undefined) {
+		super(`InvalidChainError: Chain [${chainId}] of Module [${moduleId}] not imported. Did you forget to call client.importDataSets() ?`)
+		this.name = 'InvalidChainError'
 	}
 }
 

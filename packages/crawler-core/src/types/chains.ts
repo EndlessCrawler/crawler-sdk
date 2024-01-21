@@ -11,6 +11,7 @@ export enum ChainId {
 	Goerli = 5,
 	// Sepolia = 11155111,
 }
+export type ChainIdOrNone = ChainId | 0
 
 /** @type chain id to network name lookup */
 export const ChainIdToNetworkName: Record<ChainId, NetworkName> = {

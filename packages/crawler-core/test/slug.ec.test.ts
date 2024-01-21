@@ -1,7 +1,6 @@
 import 'jest-expect-message'
 import {
 	createClient,
-	ModuleId,
 	EndlessCrawler,
 	ModuleInterface,
 	SlugSeparator,
@@ -91,7 +90,7 @@ describe('slug.ec', () => {
 	let client: ModuleInterface
 
 	beforeAll(() => {
-		client = createClient(ModuleId.EndlessCrawler) as ModuleInterface
+		client = createClient(EndlessCrawler.Id) as ModuleInterface
 	})
 
 	const _validateSlug = (pair: TestPair, separator: SlugSeparator) => {
