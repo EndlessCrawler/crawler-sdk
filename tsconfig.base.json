@@ -17,9 +17,9 @@
 		// "listEmittedFiles": true,
 		"moduleResolution": "node",
 		"module": "esnext",
-		"target": "es2021",
+		"target": "esnext",
 		"lib": [
-			"es2021",
+			"esnext",
 			"DOM"
 		],
 		"jsx": "preserve"
