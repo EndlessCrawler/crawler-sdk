@@ -66,7 +66,7 @@ import {
 type Compass = EndlessCrawler.Compass
 const client: ModuleInterface = createClient([mainnetDataSet]) as LootUnderworld.Module
 const s1w1 = { south: 1, west: 1 } as Compass
-const chamber = client.getChamberData(s1w1)
+const chamber = client.get(s1w1)
 ```
 
 

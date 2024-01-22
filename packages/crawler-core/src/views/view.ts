@@ -59,13 +59,13 @@ export interface DataSet {
 //
 
 /** @type a View's record key */
-export type ViewKey = BigIntString | string | number
+export type ViewKey = string | number | bigint
 /** @type a View's record value */
 export type ViewValue = any
 /** @type a View's record (key/value pair) */
 // export type ViewRecord = Partial<Record<ViewKey, ViewValue>>
 export type ViewRecords = {
-	[key in ViewKey]: ViewValue
+	[key in ViewKey as string]: ViewValue
 }
 
 export interface ViewAccess {

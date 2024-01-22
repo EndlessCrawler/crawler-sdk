@@ -9,12 +9,12 @@ import {
 } from '..'
 
 /** @type keys of ChamberData view */
-export type ChamberDataViewKey = BigIntString
+export type ChamberDataViewKey = BigIntString | bigint
 /** @type values of ChamberData view */
 export type ChamberDataViewValue = ChamberData
 /** @type ChamberData view record (key/value pair) */
 export type ChamberDataViewRecords = {
-	[key in ChamberDataViewKey]: ChamberDataViewValue
+	[key in ChamberDataViewKey as string]: ChamberDataViewValue
 }
 
 export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataViewKey, ChamberDataViewValue> {
@@ -26,34 +26,24 @@ export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataVie
 		this.module = module
 	}
 
-	getView(options: Options): ViewT<ChamberDataViewRecords> {
+	getView(options: Options = {}): ViewT<ChamberDataViewRecords> {
 		return this.module.getView(this.viewName, options)
 	}
 
-	getData(options: Options): ChamberDataViewRecords {
+	getData(options: Options = {}): ChamberDataViewRecords {
 		return this.getView(options).data
 	}
 
-	getCount(options: Options): number {
+	getCount(options: Options = {}): number {
 		return Object.keys(this.getView(options).data).length
 	}
 
-	get(key: ChamberDataViewKey, options: Options): ChamberDataViewValue | null {
-		return this.getView(options).data[key]
+	get(key: ChamberDataViewKey, options: Options = {}): ChamberDataViewValue | null {
+		return this.getView(options).data[String(key)]
 	}
 
-	push(key: ChamberDataViewKey, value: ChamberDataViewValue, options: Options): void {
-		this.getView(options).data[key] = value
-	}
-
-	/**
-	 * @param coord chamber coordinate (bigint)
-	 * @param options.chainId the network chain id (1 or 5)
-	 * @returns ChamberData of the chamber
-	 */
-	getChamberData(coord: BigIntString, options: Options = {}): ChamberData | null {
-		const data = this.getData(options)
-		return data[coord] ?? null
+	push(key: ChamberDataViewKey, value: ChamberDataViewValue, options: Options = {}): void {
+		this.getView(options).data[String(key)] = value
 	}
 
 	/**
@@ -61,11 +51,12 @@ export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataVie
 	 * @param options.chainId the network chain id (1 or 5)
 	 * @returns ChamberData of multiple chambers
 	 */
-	getChambersData(coords: BigIntString[], options: Options = {}): ChamberDataViewRecords {
+	getMultiple(coords: ChamberDataViewKey[], options: Options = {}): ChamberDataViewRecords {
 		const data = this.getData(options)
-		return Object.entries(data).reduce((acc, [key, value]) => {
-			if (coords.includes(key)) {
-				acc[key] = value
+		const _coord = coords.map(x => String(x))
+		return _coord.reduce((acc, key) => {
+			if (data[key]) {
+				acc[key] = data[key]
 			}
 			return acc
 		}, {} as ChamberDataViewRecords)

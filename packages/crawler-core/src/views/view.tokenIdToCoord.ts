@@ -9,12 +9,12 @@ import {
 } from '..'
 
 /** @type keys of TokenIdToCoord view */
-export type TokenIdToCoordViewKey = BigIntString
+export type TokenIdToCoordViewKey = BigIntString | bigint | number
 /** @type keys of TokenIdToCoord view */
 export type TokenIdToCoordViewValue = ChamberCoords
 /** @type TokenIdToCoord view record (key/value pair) */
 export type TokenIdToCoordsViewRecords = {
-	[key in TokenIdToCoordViewKey]: TokenIdToCoordViewValue
+	[key in TokenIdToCoordViewKey as string]: TokenIdToCoordViewValue
 }
 
 export class TokenIdToCoordViewAccess implements ViewAccessInterface<TokenIdToCoordViewKey, TokenIdToCoordViewValue> {
@@ -26,24 +26,24 @@ export class TokenIdToCoordViewAccess implements ViewAccessInterface<TokenIdToCo
 		this.module = module
 	}
 
-	getView(options: Options): ViewT<TokenIdToCoordsViewRecords> {
+	getView(options: Options = {}): ViewT<TokenIdToCoordsViewRecords> {
 		return this.module.getView(this.viewName, options)
 	}
 
-	getData(options: Options): TokenIdToCoordsViewRecords {
+	getData(options: Options = {}): TokenIdToCoordsViewRecords {
 		return this.getView(options).data
 	}
 
-	getCount(options: Options): number {
+	getCount(options: Options = {}): number {
 		return Object.keys(this.getView(options).data).length
 	}
 
-	get(key: TokenIdToCoordViewKey, options: Options): TokenIdToCoordViewValue | null {
-		return this.getView(options).data[key] ?? null
+	get(key: TokenIdToCoordViewKey, options: Options = {}): TokenIdToCoordViewValue | null {
+		return this.getView(options).data[String(key)] ?? null
 	}
 
-	push(key: TokenIdToCoordViewKey, value: TokenIdToCoordViewValue, options: Options): void {
-		this.getView(options).data[key] = value
+	push(key: TokenIdToCoordViewKey, value: TokenIdToCoordViewValue, options: Options = {}): void {
+		this.getView(options).data[String(key)] = value
 	}
 
 	/**
