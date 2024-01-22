@@ -5,10 +5,10 @@ import {
 	allDataSets,
 } from '../src'
 import {
-	ChainId, ViewName,
+	ChainId,
+	ViewName,
 	createClient,
 	getAllChainIds,
-	getViewNames,
 	EndlessCrawler,
 } from '@avante/crawler-core'
 import {
@@ -34,7 +34,7 @@ describe('datasets', () => {
 		let client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
 
 		const allChainIds = getAllChainIds()
-		const allViewNames = getViewNames()
+		const allViewNames = client.getViewNames()
 
 		for (let i = 0; i < allChainIds.length; ++i) {
 			const chainId = allChainIds[i]

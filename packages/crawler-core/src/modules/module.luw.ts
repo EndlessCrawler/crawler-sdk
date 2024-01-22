@@ -1,16 +1,18 @@
 import {
-	Dir,
-	MissingImplementationError,
-} from ".."
-import {
-	CompassBase,
 	ModuleInterface,
 	ModuleId,
+	ModuleBase,
+	ModuleViews,
+	CompassBase,
 	SlugSeparator,
-	defaultSlugSeparator,
 	AbsentCompassDir,
+	MissingImplementationError,
+	Dir,
+	ChamberDataViewAccess,
+} from ".."
+import {
+	_defaultSlugSeparator
 } from './modules'
-import { ModuleBase } from './module.base'
 
 export namespace LootUnderworld {
 
@@ -107,6 +109,20 @@ export namespace LootUnderworld {
 	// Module implementation
 	//
 	export class Module extends ModuleBase implements ModuleInterface {
+
+		constructor() {
+			super()
+			this.chamberData = new ChamberDataViewAccess(this)
+			this.moduleViews = {
+				[this.chamberData.viewName]: this.chamberData,
+			}
+		}
+
+		//------------------------------
+		// Views
+		//
+		moduleViews: ModuleViews
+		chamberData: ChamberDataViewAccess;
 
 		moduleId = Id;
 		moduleDescription = 'Loot Underworld from Starknet Dojo';
@@ -220,7 +236,7 @@ export namespace LootUnderworld {
 			return result
 		}
 
-		compassToSlug(compass: Compass | null, separator: SlugSeparator = defaultSlugSeparator): string | null {
+		compassToSlug(compass: Compass | null, separator: SlugSeparator = _defaultSlugSeparator): string | null {
 			let result = ''
 			if (compass && this.validateCompass(compass)) {
 				if (compass.tokenId) {

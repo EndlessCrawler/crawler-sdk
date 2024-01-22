@@ -9,11 +9,17 @@ export {
 export {
 	ModuleId,
 	ModuleInterface,
+	ModuleViews,
 	// types
+	CompassBase,
 	SlugSeparator,
 	AnyCompassDir,
 	AbsentCompassDir,
 } from './modules'
+
+export {
+	ModuleBase,
+} from './module.base'
 
 export {
 	EndlessCrawler,

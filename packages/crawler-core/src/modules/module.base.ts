@@ -1,12 +1,25 @@
-import { AllViews, ChainId, DataSet, Options } from ".."
-import { __getDataSet, __importDataSets, __resolveChainId, __setCurrentDataSet } from "./importer"
 import {
+	ChainId,
+	DataSet,
+	DataSetViews,
+	Options,
+	View,
+	ViewName,
+	ModuleId,
+	ModuleViews,
 	ModuleInterface,
 	CompassBase,
 	SlugSeparator,
-	defaultSlugSeparator,
-	ModuleId,
+} from ".."
+import {
+	_defaultSlugSeparator,
 } from "./modules"
+import {
+	__getDataSetViews,
+	__importDataSets,
+	__resolveChainId,
+	__setCurrentDataSet,
+} from "./importer"
 
 
 /**
@@ -15,7 +28,12 @@ import {
  */
 export abstract class ModuleBase implements Partial<ModuleInterface> {
 
-
+	_options(options: Options = {}): Options {
+		return {
+			...options,
+			moduleId: this.moduleId,
+		}
+	}
 
 	//-------------------------
 	//  DataSets
@@ -24,22 +42,39 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 		__importDataSets(datasets)
 	}
 	setCurrentDataSet(options: Options): void {
-		__setCurrentDataSet({
-			...options,
-			moduleId: this.moduleId,
-		})
+		__setCurrentDataSet(this._options(options))
 	}
 	resolveChainId(options: Options = {}): ChainId {
-		return __resolveChainId({
-			...options,
-			moduleId: this.moduleId,
-		})
+		return __resolveChainId(this._options(options))
 	}
-	getDataSet(options: Options = {}): AllViews {
-		return __getDataSet({
-			...options,
-			moduleId: this.moduleId,
-		})
+	getDataSet(options: Options = {}): DataSetViews {
+		return __getDataSetViews(this._options(options))
+	}
+
+
+	//-------------------------
+	//  Views
+	//
+	abstract moduleViews: ModuleViews;
+	getAllViews(options: Options = {}): DataSetViews {
+		return this.getDataSet(options)
+	}
+	includesView(viewName: ViewName): boolean {
+		return Object.keys(this.moduleViews).includes(viewName)
+	}
+	getViewNames(): ViewName[] {
+		return Object.keys(this.moduleViews) as ViewName[]
+	}
+	getView(viewName: ViewName, options: Options = {}): View {
+		return this.getDataSet(options)?.[viewName] ?? {}
+	}
+	getViewDataCount(viewName: ViewName, options: Options = {}): number {
+		if (!this.includesView(viewName)) return 0
+		return Object.keys(this.getView(viewName, options).data).length
+	}
+	validateView(viewName: ViewName, view: object, options: Options = {}): boolean {
+		if (!this.includesView(viewName)) return false
+		return typeof (view) == typeof (this.getView(viewName, options))
 	}
 
 
@@ -72,7 +107,7 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 	validateSlug(slug: string | null): boolean {
 		return this.slugToCompass(slug) != null
 	}
-	coordToSlug(coord: bigint, separator: SlugSeparator = defaultSlugSeparator): string | null {
+	coordToSlug(coord: bigint, separator: SlugSeparator = _defaultSlugSeparator): string | null {
 		return this.compassToSlug(this.coordToCompass(coord), separator)
 	}
 	slugToCoord(slug: string | null): bigint {

@@ -6,7 +6,7 @@ import {
 	SlugSeparator,
 } from '../src'
 import {
-	slugSeparators,
+	_slugSeparators,
 } from '../src/modules/modules'
 
 //@ts-ignore
@@ -140,7 +140,7 @@ describe('slug.ec', () => {
 				// Valid slugs
 				expect(client.validateCompass(compass)).toBe(true)
 				// validate using all separators
-				slugSeparators.forEach((s) => {
+				_slugSeparators.forEach((s) => {
 					_validateSlug(pair, s)
 					_validateSlug({ ...pair, slug: slug.toLowerCase(), forwardOnly: true }, s)
 				})

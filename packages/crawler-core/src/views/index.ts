@@ -1,10 +1,16 @@
 export {
-	getViewNames,
-	getAllViews,
-	getView,
-	getViewDataCount,
-	validateView,
-} from './views'
+	ViewName,
+	ViewChainInfo,
+	ViewAccessInterface,
+	View,
+	ViewT,
+	DataSet,
+	DataSetViews,
+	ViewKey,
+	ViewValue,
+	ViewRecords,
+	ViewAccess,
+} from './view'
 
 export {
 	getAllChainIds,
@@ -14,14 +20,15 @@ export {
 } from './chains'
 
 export {
-	getChamberCount,
-	getTokenCoords,
-	getTokensCoords,
-	getStaticChamberCount,
-	getDynamicChamberCount,
-	getDynamicChambersId,
-	getDynamicChambersCoord,
-	getChamberData,
-	getChambersData,
-} from './chambers'
+	ChamberDataViewAccess,
+	ChamberDataViewKey,
+	ChamberDataViewValue,
+	ChamberDataViewRecords,
+} from './view.chamberData'
 
+export {
+	TokenIdToCoordViewAccess,
+	TokenIdToCoordViewKey,
+	TokenIdToCoordViewValue,
+	TokenIdToCoordsViewRecords,
+} from './view.tokenIdToCoord'

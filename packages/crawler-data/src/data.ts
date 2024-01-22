@@ -4,8 +4,8 @@ import {
 	DataSet,
 	ViewName,
 	ViewT,
-	ChamberDataViewData,
-	TokenIdToCoordsViewData,
+	ChamberDataViewRecords,
+	TokenIdToCoordsViewRecords,
 } from '@avante/crawler-core'
 
 //-------------------------------
@@ -17,8 +17,8 @@ export const mainnetDataSet: DataSet = {
 	moduleId: ModuleId.EndlessCrawler,
 	chainId: ChainId.Mainnet,
 	views: {
-		[ViewName.tokenIdToCoord]: _mainnet_tokenIdToCoord as ViewT<TokenIdToCoordsViewData>,
-		[ViewName.chamberData]: _mainnet_chamberData as ViewT<ChamberDataViewData>,
+		[ViewName.tokenIdToCoord]: _mainnet_tokenIdToCoord as ViewT<TokenIdToCoordsViewRecords>,
+		[ViewName.chamberData]: _mainnet_chamberData as ViewT<ChamberDataViewRecords>,
 	},
 }
 
@@ -31,8 +31,8 @@ export const goerliDataSet: DataSet = {
 	moduleId: ModuleId.EndlessCrawler,
 	chainId: ChainId.Goerli,
 	views: {
-		[ViewName.tokenIdToCoord]: _goerli_tokenIdToCoord as ViewT<TokenIdToCoordsViewData>,
-		[ViewName.chamberData]: _goerli_chamberData as ViewT<ChamberDataViewData>,
+		[ViewName.tokenIdToCoord]: _goerli_tokenIdToCoord as ViewT<TokenIdToCoordsViewRecords>,
+		[ViewName.chamberData]: _goerli_chamberData as ViewT<ChamberDataViewRecords>,
 	},
 }
 

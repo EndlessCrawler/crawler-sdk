@@ -1,13 +1,13 @@
 import {
 	ModuleId,
 	ChainId,
-	Options,
-	AllViews,
+	ChainIdOrNone,
 	DataSet,
+	DataSetViews,
+	Options,
 	InvalidChainError,
 	MissingGlobalNamespaceError,
 	InvalidModuleError,
-	ChainIdOrNone,
 } from '..'
 import {
 	isBrowser,
@@ -22,10 +22,9 @@ if (isBrowser()) _global = window
 //@ts-ignore
 if (isNode()) _global = global
 
-/** @type initialize global scope module */
 interface CrawlerGlobalNamespace {
 	currentChainId: ChainIdOrNone
-	views: Record<ChainId, AllViews>
+	views: DataSetViews
 }
 declare global {
 	interface Window { CrawlerModules: Record<ModuleId, CrawlerGlobalNamespace> }
@@ -104,7 +103,7 @@ export const __resolveChainId = (options: Options = {}): ChainId => {
  * @param options.chainId The specified chainId, or chain set by __setCurrentDataSet()
  * @returns the full chain data, throws error if chain is invalid
  */
-export const __getDataSet = (options: Options = {}): AllViews => {
+export const __getDataSetViews = (options: Options = {}): DataSetViews => {
 	const moduleId = options.moduleId
 	if (!moduleId || !_global?.CrawlerModules?.[moduleId]) {
 		throw new InvalidModuleError(moduleId)

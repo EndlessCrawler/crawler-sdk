@@ -1,16 +1,22 @@
 import {
-	Dir,
-} from ".."
-import {
-	CompassBase,
 	ModuleInterface,
 	ModuleId,
+	ModuleBase,
+	CompassBase,
 	AbsentCompassDir,
 	SlugSeparator,
-	defaultSlugSeparator,
-	slugSeparators,
+	ChamberDataViewAccess,
+	TokenIdToCoordViewAccess,
+	Dir,
+	ModuleViews,
+	ViewName,
+	DataSetViews,
+	Options,
+} from ".."
+import {
+	_defaultSlugSeparator,
+	_slugSeparators,
 } from './modules'
-import { ModuleBase } from './module.base'
 
 export namespace EndlessCrawler {
 
@@ -107,7 +113,25 @@ export namespace EndlessCrawler {
 
 		constructor() {
 			super()
+			this.tokenIdToCoord = new TokenIdToCoordViewAccess(this)
+			this.chamberData = new ChamberDataViewAccess(this)
+			this.moduleViews = {
+				[this.tokenIdToCoord.viewName]: this.tokenIdToCoord,
+				[this.chamberData.viewName]: this.chamberData,
+			}
 		}
+
+		//------------------------------
+		// Views
+		//
+		moduleViews: ModuleViews
+		tokenIdToCoord: TokenIdToCoordViewAccess;
+		chamberData: ChamberDataViewAccess;
+
+
+		//------------------------------
+		// Module implementation
+		//
 
 		moduleId = Id;
 		moduleDescription = 'Endless Crawler from Ethereum';
@@ -198,7 +222,7 @@ export namespace EndlessCrawler {
 			return result
 		}
 
-		compassToSlug(compass: Compass | null, separator: SlugSeparator = defaultSlugSeparator): string | null {
+		compassToSlug(compass: Compass | null, separator: SlugSeparator = _defaultSlugSeparator): string | null {
 			let result = ''
 			if (compass && this.validateCompass(compass)) {
 				if (compass.north && compass.north > 0n) result += `N${compass.north}`
@@ -227,7 +251,7 @@ export namespace EndlessCrawler {
 			const south = /[Ss]\d+/g.exec(slug)
 			const yonder = /[Yy]\d+/g.exec(slug)
 			// validate separator (will be a number if no separator)
-			const _slugSeparatorTester: string = slugSeparators.join('') + '0123456789';
+			const _slugSeparatorTester: string = _slugSeparators.join('') + '0123456789';
 			const separatorIndex: number = (east?.index ?? west?.index ?? 0) - 1
 			if (separatorIndex < 0 || !_slugSeparatorTester.includes(slug.charAt(separatorIndex))) return null
 			// build compass

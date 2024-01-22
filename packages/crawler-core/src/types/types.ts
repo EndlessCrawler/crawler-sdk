@@ -1,11 +1,8 @@
 import {
+	ModuleId,
 	ChainId,
-	ContractName,
-} from './chains'
-import {
 	CompassBase,
-} from '../modules/modules'
-import { ModuleId } from '../modules/modules'
+} from '..'
 
 
 //--------------------------------
@@ -26,10 +23,6 @@ export type Address = string
 export type BigIntIsh = number | bigint | BigIntString | HexString
 
 
-//--------------------------------
-// View content types
-//
-
 /** @type all the coordinates of a chamber */
 export interface ChamberCoords {
 	coord: BigIntString
@@ -37,6 +30,19 @@ export interface ChamberCoords {
 	compass: CompassBase
 }
 
+/** @type arguments for locating some view or value */
+export interface Options {
+	chainId?: ChainId
+	moduleId?: ModuleId
+}
+
+
+
+//--------------------------------
+// ChamberData access
+//
+
+// TODO: MOVE TO ModuleBase
 /** @type all static data of a chamber  */
 export interface ChamberData {
 	// static data
@@ -60,60 +66,4 @@ export interface ChamberData {
 	locks: boolean[]
 	locksCount: number
 	isDynamic: boolean
-}
-
-
-//--------------------------------
-// View definitions
-//
-
-/** @type all possible ViewT names */
-export enum ViewName {
-	tokenIdToCoord = 'tokenIdToCoord',
-	chamberData = 'chamberData',
-	// tokenUri = 'tokenUri',
-}
-
-/** @type ViewT info */
-export interface ViewChainInfo {
-	chainId: ChainId
-	contractName: ContractName
-	contractAddress: Address
-	timestamp: number
-}
-
-/** @type base View structure */
-export interface ViewT<ViewDataType> {
-	chain: ViewChainInfo
-	data: ViewDataType
-}
-
-/** @type tokenIdToCoord View */
-export type TokenIdToCoordsViewData = Record<BigIntString, ChamberCoords>
-
-/** @type chamberData View */
-export type ChamberDataViewData = Record<BigIntString, ChamberData>
-
-/** @type All view types, by name */
-export interface AllViews {
-	[ViewName.tokenIdToCoord]: ViewT<TokenIdToCoordsViewData>
-	[ViewName.chamberData]: ViewT<ChamberDataViewData>
-}
-
-/** @type used by clients for importing a chain using __importDataSets() */
-export interface DataSet {
-	moduleId: ModuleId
-	chainId: ChainId
-	views: AllViews
-}
-
-
-//--------------------------------
-// ChamberData access
-//
-
-/** @type Base arguments containing just the chain id */
-export interface Options {
-	chainId?: ChainId
-	moduleId?: ModuleId
 }

@@ -7,7 +7,6 @@ import {
 	ContractName,
 	ViewName,
 	getAllChainIds,
-	getAllViews,
 } from '@avante/crawler-core'
 import {
 	allDataSets,
@@ -34,7 +33,7 @@ describe('* chains', () => {
 		for (let i = 0; i < allChainIds.length; ++i) {
 			const chainId = allChainIds[i]
 
-			const views = getAllViews({ chainId })
+			const views = client.getAllViews({ chainId })
 			const viewNames = Object.keys(views) as ViewName[]
 
 			for (let v = 0; v < viewNames.length; ++v) {

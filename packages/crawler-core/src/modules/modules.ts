@@ -1,9 +1,12 @@
 import {
-	AllViews,
 	ChainId,
 	DataSet,
+	DataSetViews,
 	Dir,
 	Options,
+	View,
+	ViewName,
+	ViewAccess,
 } from ".."
 
 /** @type existing modules */
@@ -36,14 +39,17 @@ export interface CompassBase {
 	under?: AnyCompassDir
 }
 
-export const slugSeparators = [null, '', ',', '.', ';', '-'] as const;
-export const defaultSlugSeparator = ',';
-export type SlugSeparator = typeof slugSeparators[number];
+export const _slugSeparators = [null, '', ',', '.', ';', '-'] as const;
+export const _defaultSlugSeparator = ',';
+export type SlugSeparator = typeof _slugSeparators[number];
 
 
 //-------------------------------
 // Module Interface
 //
+export type ModuleViews = {
+	[key in ViewName]?: ViewAccess
+}
 
 /** ModuleInterface defines all the properties of a Module */
 export interface ModuleInterface {
@@ -55,10 +61,12 @@ export interface ModuleInterface {
 	moduleId: ModuleId;
 	/** @type {string} the module description */
 	moduleDescription: string;
+	/** @type the ViewAccessInterface for all views included in this module */
+	moduleViews: ModuleViews;
 
 
 	//-------------------------
-	//  DataSets
+	//  DataSets importer
 	//
 	/** import DataSets for use, must be all of the same Module */
 	importDataSets(datasets: DataSet[]): void;
@@ -66,8 +74,24 @@ export interface ModuleInterface {
 	setCurrentDataSet(options: Options): void;
 	/** @returns options.chainId or the current dataset ChainId */
 	resolveChainId(options: Options): ChainId;
-	/** @returns all imported views from options.chainId */
-	getDataSet(options: Options): AllViews;
+
+
+	//-------------------------
+	//  Views
+	//
+	/** @returns all the views of the defautl or specific chain **/
+	getAllViews(options: Options): DataSetViews;
+	/** @returns true if this modulke includes the {ViewName} **/
+	includesView(viewName: ViewName): boolean;
+	/** @returns all the views names **/
+	getViewNames(): ViewName[];
+	/** @returns all one view of the defautl or specific chain **/
+	getView(viewName: ViewName, options: Options): View;
+	/** @returns all one view of the defautl or specific chain **/
+	getViewDataCount(viewName: ViewName, options: Options): number;
+	/** @returns validates view object **/
+	validateView(viewName: ViewName, view: object, options: Options): boolean;
+
 
 
 	//-------------------------

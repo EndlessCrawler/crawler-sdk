@@ -11,7 +11,7 @@
 	},
 	"scripts": {
 		"clean": "pnpm --color -r run clean",
-		"build": "pnpm --color --filter '@avante/*' run build",
+		"build": "pnpm --color --filter '@avante/*' --sequential run build --listEmittedFiles",
 		"build:core": "pnpm --color --filter '@avante/crawler-core' run build",
 		"build:data": "pnpm --color --filter '@avante/crawler-data' run build",
 		"build:api": "pnpm --color --filter '@avante/crawler-api' run build",
