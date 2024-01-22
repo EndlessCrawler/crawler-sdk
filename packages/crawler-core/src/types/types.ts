@@ -5,6 +5,9 @@ import {
 	CompassBase,
 	ModuleId,
 } from "../modules"
+import {
+	DataSetName,
+} from "../views"
 
 
 //--------------------------------
@@ -21,21 +24,15 @@ export type BigIntString = string
 /** @type ethereum address (hex string) */
 export type Address = string
 
-/** @type types that can contain a BigInt */
+/** @type types that can represent a BigInt */
 export type BigIntIsh = number | bigint | BigIntString | HexString
 
 
-/** @type all the coordinates of a chamber */
-export interface ChamberCoords {
-	coord: BigIntString
-	slug: string
-	compass: CompassBase
-}
-
 /** @type arguments for locating some view or value */
 export interface Options {
-	chainId?: ChainId
+	chainId?: ChainId			// deprecated
 	moduleId?: ModuleId
+	dataSetName?: DataSetName
 }
 
 
@@ -43,6 +40,13 @@ export interface Options {
 //--------------------------------
 // ChamberData access
 //
+
+/** @type all the coordinates of a chamber */
+export interface ChamberCoords {
+	coord: BigIntString
+	slug: string
+	compass: CompassBase
+}
 
 // TODO: MOVE TO ModuleBase
 /** @type all static data of a chamber  */

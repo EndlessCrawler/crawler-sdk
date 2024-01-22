@@ -39,7 +39,7 @@ describe('* chains', () => {
 			for (let v = 0; v < viewNames.length; ++v) {
 				const viewName = viewNames[v]
 				const view = views[viewName]
-				const viewChainId = view.chain.chainId
+				const viewChainId = view.metadata.chainId
 				const viewContractName = view.chain.contractName
 				const viewContractAddress = view.chain.contractAddress
 

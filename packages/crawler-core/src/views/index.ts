@@ -1,10 +1,11 @@
 export {
 	ViewName,
-	ViewChainInfo,
+	ViewMetadata,
 	ViewAccessInterface,
 	View,
 	ViewT,
 	DataSet,
+	DataSetName,
 	DataSetViews,
 	ViewKey,
 	ViewValue,

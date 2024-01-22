@@ -76,6 +76,8 @@ export interface ModuleInterface {
 	setCurrentDataSet(options?: Options): void;
 	/** @returns options.chainId or the current dataset ChainId */
 	resolveChainId(options?: Options): ChainId;
+	/** @returns a full imported DataSet */
+	getDataSet(options?: Options): DataSet;
 
 
 	//-------------------------

@@ -1,5 +1,5 @@
 {
-	"chain": {
+	"metadata": {
 		"chainId": 1,
 		"contractName": "CrawlerToken",
 		"contractAddress": "0x8E70b94C57b0CBC9807c0F58Bc251f4cD96AcDb0",

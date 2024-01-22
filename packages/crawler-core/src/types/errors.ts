@@ -1,4 +1,5 @@
 import { ModuleId } from '../modules'
+import { DataSetName } from '../views'
 import {
 	ChainId,
 } from './chains'
@@ -28,6 +29,13 @@ export class InvalidModuleError extends Error {
 	constructor(moduleId: ModuleId | null | undefined) {
 		super(`InvalidModuleError: Module [${moduleId}] not imported. Did you forget to call client.importDataSets() ?`)
 		this.name = 'InvalidModuleError'
+	}
+}
+
+export class InvalidDataSetError extends Error {
+	constructor(moduleId: ModuleId | null | undefined, dataSetName: DataSetName | null | undefined) {
+		super(`InvalidDataSetError: DataSet [${dataSetName}] of Module [${moduleId}] not imported. Did you forget to call client.importDataSets() ?`)
+		this.name = 'InvalidDataSetError'
 	}
 }
 

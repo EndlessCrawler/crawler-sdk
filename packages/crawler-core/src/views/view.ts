@@ -25,22 +25,26 @@ export enum ViewName {
 
 /** @type generic View structure */
 export interface View {
-	chain: ViewChainInfo
+	metadata: ViewMetadata
 	data: any
 }
 /** @type typed View structure */
 export interface ViewT<ViewDataType> extends View {
-	chain: ViewChainInfo
+	metadata: ViewMetadata
 	data: ViewDataType
 }
 
 /** @type ViewT info */
-export interface ViewChainInfo {
+export interface ViewMetadata {
 	chainId: ChainId
 	contractName: ContractName
 	contractAddress: Address
 	timestamp: number
 }
+
+
+/** @type DataSet names, unique per Module */
+export type DataSetName = string
 
 /** @type generic View structure */
 export type DataSetViews = {
@@ -50,6 +54,7 @@ export type DataSetViews = {
 /** @type (internal) used by clients for importing a chain using __importDataSets() */
 export interface DataSet {
 	moduleId: ModuleId
+	dataSetName: DataSetName
 	chainId: ChainId
 	views: DataSetViews
 }

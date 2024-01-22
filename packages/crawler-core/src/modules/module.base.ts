@@ -17,7 +17,7 @@ import {
 	_defaultSlugSeparator,
 } from "./modules"
 import {
-	__getDataSetViews,
+	__getDataSet,
 	__importDataSets,
 	__resolveChainId,
 	__setCurrentDataSet,
@@ -49,8 +49,8 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 	resolveChainId(options: Options = {}): ChainId {
 		return __resolveChainId(this._options(options))
 	}
-	getDataSet(options: Options = {}): DataSetViews {
-		return __getDataSetViews(this._options(options))
+	getDataSet(options: Options = {}): DataSet {
+		return __getDataSet(this._options(options))
 	}
 
 
@@ -59,7 +59,7 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 	//
 	abstract moduleViews: ModuleViews;
 	getAllViews(options: Options = {}): DataSetViews {
-		return this.getDataSet(options)
+		return this.getDataSet(options).views
 	}
 	includesView(viewName: ViewName): boolean {
 		return Object.keys(this.moduleViews).includes(viewName)
@@ -68,7 +68,7 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 		return Object.keys(this.moduleViews) as ViewName[]
 	}
 	getView(viewName: ViewName, options: Options = {}): View {
-		return this.getDataSet(options)?.[viewName] ?? {}
+		return this.getDataSet(options)?.views?.[viewName] ?? {}
 	}
 	getViewDataCount(viewName: ViewName, options: Options = {}): number {
 		if (!this.includesView(viewName)) return 0

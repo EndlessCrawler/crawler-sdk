@@ -7,6 +7,7 @@ import {
 	ChainId,
 	createClient,
 	EndlessCrawler,
+	NetworkName,
 } from '@avante/crawler-core'
 
 describe('* data_goerli', () => {
@@ -17,28 +18,28 @@ describe('* data_goerli', () => {
 	})
 
 	it('getDataSet()', () => {
-		const data1 = client.getDataSet()
-		expect(data1.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Goerli)
+		const data1 = client.getAllViews()
+		expect(data1.tokenIdToCoord?.metadata?.chainId).toBe(ChainId.Goerli)
 		expect(client.resolveChainId()).toBe(ChainId.Goerli)
 
-		const data2 = client.getDataSet({ chainId: ChainId.Goerli })
-		expect(data2.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Goerli)
+		const data2 = client.getAllViews({ dataSetName: NetworkName.Goerli })
+		expect(data2.tokenIdToCoord?.metadata?.chainId).toBe(ChainId.Goerli)
 
-		expect(() => client.getDataSet({ chainId: ChainId.Mainnet })).toThrow('InvalidChainError')
+		expect(() => client.getAllViews({ dataSetName: NetworkName.Mainnet })).toThrow('InvalidDataSetError')
 
 		client.importDataSets([mainnetDataSet])
 		// current is still other
 		expect(client.resolveChainId()).toBe(ChainId.Goerli)
 
-		const data3 = client.getDataSet({ chainId: ChainId.Mainnet })
-		expect(data3.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
+		const data3 = client.getAllViews({ dataSetName: NetworkName.Mainnet })
+		expect(data3.tokenIdToCoord?.metadata?.chainId).toBe(ChainId.Mainnet)
 		// current is still other
 		expect(client.resolveChainId()).toBe(ChainId.Goerli)
 
-		client.setCurrentDataSet({ chainId: ChainId.Mainnet })
+		client.setCurrentDataSet({ dataSetName: NetworkName.Mainnet })
 		expect(client.resolveChainId()).toBe(ChainId.Mainnet)
-		const data4 = client.getDataSet()
-		expect(data4.tokenIdToCoord?.chain?.chainId).toBe(ChainId.Mainnet)
+		const data4 = client.getAllViews()
+		expect(data4.tokenIdToCoord?.metadata?.chainId).toBe(ChainId.Mainnet)
 
 
 	})

@@ -1,9 +1,9 @@
 import {
-	ChainId,
-	ContractName,
-	Address,
+	ModuleId,
 	Options,
 	ViewName,
+	ContractName,
+	ChainId,
 } from '@avante/crawler-core'
 
 /** @type contract address and abi for on-chain calls */
@@ -14,7 +14,9 @@ export interface ContractArtifacts {
 
 /** @type passed to readViewRecordOrThrow() for on-chain read */
 export interface ReadViewOptions extends Options {
-	chainId?: ChainId  // from Options
+	chainId?: ChainId			// from Options (deprecated)
+	moduleId?: ModuleId		// from Options
+	dataSetName?: string	// from Options
 	viewName: ViewName,
 	key: any,
 }
@@ -26,7 +28,9 @@ export interface ReadViewResult {
 
 /** @type passed to readContract() for on-chain read */
 export interface ReadContractOptions extends Options {
-	chainId?: ChainId  // from Options
+	chainId?: ChainId			// from Options (deprecated)
+	moduleId?: ModuleId		// from Options
+	dataSetName?: string	// from Options
 	contractName: ContractName,
 	functionName: string,
 	args: any[],

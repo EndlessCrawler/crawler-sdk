@@ -9,6 +9,7 @@ import {
 	ChamberCoords,
 	ChamberData,
 	ChainId,
+	NetworkName,
 } from '@avante/crawler-core'
 import {
 	__getData,
@@ -73,18 +74,18 @@ describe('chamberData', () => {
 		expect(viewCount).toBe(dataCount)
 		expect(viewCount).toBe(count)
 
-		expect(view.chain.chainId).toBe(ChainId.Mainnet)
-		expect(view.chain.chainId).toBe(client.resolveChainId())
+		expect(view.metadata.chainId).toBe(ChainId.Mainnet)
+		expect(view.metadata.chainId).toBe(client.resolveChainId())
 
-		const view_goerli = client.chamberData.getView({ chainId: ChainId.Goerli })
-		expect(view_goerli.chain.chainId).toBe(ChainId.Goerli)
+		const view_goerli = client.chamberData.getView({ dataSetName: NetworkName.Goerli })
+		expect(view_goerli.metadata.chainId).toBe(ChainId.Goerli)
 
-		expect(() => client.chamberData.getView({ chainId: 999 as ChainId })).toThrow('InvalidChainError')
+		expect(() => client.chamberData.getView({ dataSetName: 'xxx' as NetworkName })).toThrow('InvalidDataSetError')
 	})
 
 	it('Options.chain', () => {
 		const count = client.chamberData.getCount()
-		const count_g = client.chamberData.getCount({ chainId: ChainId.Goerli })
+		const count_g = client.chamberData.getCount({ dataSetName: NetworkName.Goerli })
 		expect(count_g).toBeGreaterThan(0)
 		expect(count).toBeGreaterThan(count_g)
 
@@ -93,9 +94,9 @@ describe('chamberData', () => {
 		const ch = client.chamberData.get(coords.coord) as ChamberData
 		expect(coords.coord).toBe(ch.coord)
 
-		const coords_g = client.tokenIdToCoord.get(count_g, { chainId: ChainId.Goerli }) as ChamberCoords
+		const coords_g = client.tokenIdToCoord.get(count_g, { dataSetName: NetworkName.Goerli }) as ChamberCoords
 		expect(BigInt(coords_g.coord)).toBeGreaterThan(0n)
-		const ch_g = client.chamberData.get(coords_g.coord, { chainId: ChainId.Goerli }) as ChamberData
+		const ch_g = client.chamberData.get(coords_g.coord, { dataSetName: NetworkName.Goerli }) as ChamberData
 		expect(coords_g.coord).toBe(ch_g.coord)
 
 		expect(coords.coord).not.toBe(coords_g.coord)
