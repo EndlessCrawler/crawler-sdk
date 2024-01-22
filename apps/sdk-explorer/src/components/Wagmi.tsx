@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { WagmiConfig, createConfig } from 'wagmi'
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit'
 
@@ -7,7 +7,7 @@ const config = createConfig(
 		// Required API Keys
 		alchemyId: process.env.ALCHEMY_API_KEY,
 		// infuraId: process.env.INFURA_API_KEY,
-		walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID,
+		walletConnectProjectId: process.env.WALLETCONNECT_PROJECT_ID ?? '',
 		// Required
 		appName: 'Crawler SDK Explorer',
 		// Optional
@@ -22,7 +22,7 @@ const _customTheme = {
 	"--ck-border-radius": '2px',
 }
 
-const Wagmi = ({children}) => {
+const Wagmi = ({ children }: React.PropsWithChildren) => {
 	return (
 		<WagmiConfig config={config}>
 			<ConnectKitProvider mode='dark' customTheme={_customTheme}>

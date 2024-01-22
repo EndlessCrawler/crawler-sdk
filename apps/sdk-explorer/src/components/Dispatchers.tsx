@@ -8,6 +8,10 @@ function UrlDispatcher({
 	label,
 	url,
 	br = true,
+}: {
+	label: string,
+	url: string,
+	br?: boolean,
 }) {
 	const { dispatchUrl } = useFetchContext()
 	return (
@@ -26,6 +30,10 @@ function DataDispatcher({
 	label,
 	data = {},
 	br = true,
+}: {
+	label: string,
+	data: any,
+	br?: boolean,
 }) {
 	const { dispatchData } = useFetchContext()
 	return (
@@ -44,6 +52,10 @@ function ActionDispatcher({
 	label,
 	onAction = () => {},
 	br = true,
+}: {
+	label: string,
+	onAction(): void,
+	br?: boolean,
 }) {
 	const { dispatchData } = useFetchContext()
 	return (
@@ -58,6 +70,10 @@ function AsyncActionDispatcher({
 	label,
 	onAction = async () => { },
 	br = true,
+}: {
+	label: string,
+	onAction(): void,
+	br?: boolean,
 }) {
 	const { dispatchData } = useFetchContext()
 	const [fetching, setFetching] = useState(false)
@@ -77,7 +93,7 @@ function AsyncActionDispatcher({
 			_fetch()
 		}
 		return () => { _mounted = false }
-	}, [fetching])
+	}, [fetching, dispatchData, label, onAction])
 
 	return (
 		<span className='Anchor' onClick={() => setFetching(true)}>

@@ -1,9 +1,13 @@
 import React from 'react'
+import { IconSizeProp } from 'semantic-ui-react/dist/commonjs/elements/Icon/Icon'
 import { Icon } from 'semantic-ui-react'
 
 export function CopyIcon({
-	size = null,
-	content = null, // content to copy
+	content = '', // content to copy
+	size,
+}: {
+	content: string
+	size?: IconSizeProp
 }) {
 	function _copy() {
 		navigator?.clipboard?.writeText(content)
@@ -14,7 +18,9 @@ export function CopyIcon({
 }
 
 export function LoadingIcon({
-	size = null,
+	size,
+}: {
+	size?: IconSizeProp
 }) {
 	return (
 		<Icon
@@ -26,8 +32,11 @@ export function LoadingIcon({
 }
 
 export function LinkIcon({
-	size = null,
 	url = null,
+	size,
+}: {
+	size?: IconSizeProp
+	url: string | null
 }) {
 	const _icon = <Icon className='InfoIcon' name='hashtag' size={size} />
 	if (!url) return _icon

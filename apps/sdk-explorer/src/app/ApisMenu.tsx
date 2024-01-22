@@ -11,7 +11,7 @@ import { UrlDispatcher, AsyncActionDispatcher } from '@/components/Dispatchers'
 export default function ApisMenu() {
 	const { client } = useCrawler()
 
-	const tokenCoords = useMemo(() => client.tokenIdToCoord.get(1), [])
+	const tokenCoords = useMemo(() => client.tokenIdToCoord.get(1), [client])
 
 	const views = useMemo(() => {
 		let result = []
@@ -43,7 +43,7 @@ export default function ApisMenu() {
 			)
 		}
 		return result
-	}, [])
+	}, [client, tokenCoords])
 
 	return (
 		<div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { formatViewData } from '@avante/crawler-api'
 
-export const useFormatter = (content) => {
+export const useFormatter = (content: any) => {
 	const [formatted, setFormatted] = useState('')
 
 	useEffect(() => {

@@ -1,5 +1,5 @@
 {
-	"name": "sdk-explorer",
+  "name": "explorer2",
 	"version": "0.0.1",
 	"description": "Crawler SDK Explorer",
 	"author": "Studio Avante",
@@ -7,11 +7,11 @@
 	"homepage": "https://github.com/EndlessCrawler",
 	"private": false,
 	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint"
-	},
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
 	"dependencies": {
 		"@avante/crawler-api": "^0.0.1",
 		"@avante/crawler-core": "^0.0.1",
@@ -19,9 +19,11 @@
 		"@avante/crawler-react": "^0.0.1",
 		"@monaco-editor/react": "^4.6.0",
 		"connectkit": "^1.5.2",
-		"next": "^13.5.6",
-		"react": "^18.2.0",
+		"monaco-editor": ">= 0.25.0 < 1",
+		"next": "^14.1.0",
+		"react": "^18",
 		"react-cookie": "^4.1.1",
+		"react-dom": "^18",
 		"sass": "^1.69.7",
 		"semantic-ui-css": "^2.5.0",
 		"semantic-ui-react": "^3.0.0-beta.2",
@@ -29,9 +31,13 @@
 		"wagmi": "^1.4.1"
 	},
 	"devDependencies": {
-		"eslint": "8.18.0",
-		"eslint-config-next": "12.1.6"
-	},
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "^14.1.0"
+  },
 	"engines": {
 		"node": "18",
 		"pnpm": "8"

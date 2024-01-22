@@ -24,12 +24,12 @@ export default function DataMenu() {
 			)
 		}
 		return result
-	}, [])
+	}, [client])
 
 	// Chambers
-	const edgesIds = useMemo(() => client.chamberData.getDynamicChambersIds(), [])
-	const edgesCoord = useMemo(() => client.chamberData.getDynamicChambersCoords(), [])
-	const tokenCoords = useMemo(() => client.tokenIdToCoord.getTokensCoords([1]), [])
+	const edgesIds = useMemo(() => client.chamberData.getDynamicChambersIds(), [client])
+	const edgesCoord = useMemo(() => client.chamberData.getDynamicChambersCoords(), [client])
+	const tokenCoords = useMemo(() => client.tokenIdToCoord.getTokensCoords([1]), [client])
 
 	return (
 		<div>

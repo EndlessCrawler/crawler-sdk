@@ -6,7 +6,7 @@ import MonacoEditor from '@/components/MonacoEditor'
 
 export default function Results() {
 	const { name, url, args, params, results } = useFetchState()
-	const { data, error, isFetching } = useFetch(url, args, params)
+	const { data, error, isFetching } = useFetch(url ?? '', args, params)
 	const { dispatchResults } = useFetchContext()
 
 	useEffect(() => {
@@ -20,11 +20,11 @@ export default function Results() {
 		} else if (error) {
 			dispatchResults(error)
 		}
-	}, [data, error, isFetching])
+	}, [data, error, isFetching, dispatchResults])
 
 	useEffect(() => {
 		dispatchResults(results)
-	}, [results])
+	}, [results, dispatchResults])
 
 	const _jsonResults = typeof results == 'bigint' ? { hex: `0x${results.toString(16)}`, number: `${results.toString()}n` } : results
 	// const _jsonResults = results

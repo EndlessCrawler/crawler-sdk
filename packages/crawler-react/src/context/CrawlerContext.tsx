@@ -45,7 +45,7 @@ const CrawlerContext = createContext<CrawlerContextType>({
 // Provider
 //
 interface CrawlerProviderProps {
-	children: string | JSX.Element | JSX.Element[] | ReactNode
+	children: ReactNode | JSX.Element | JSX.Element[]
 	client: ModuleInterface
 }
 const CrawlerProvider = ({

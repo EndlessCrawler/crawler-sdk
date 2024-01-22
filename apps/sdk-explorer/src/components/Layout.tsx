@@ -3,10 +3,14 @@ import { Divider } from 'semantic-ui-react'
 import Header from '@/components/Header'
 import Results from '@/components/Results'
 
+interface LayoutProps {
+	title: string | null
+}
+
 export default function Layout({
 	title = null,
 	children,
-}) {
+}: React.PropsWithChildren<LayoutProps>) {
 	return (
 		<div>
 			<Header />

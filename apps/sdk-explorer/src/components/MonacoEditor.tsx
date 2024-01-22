@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { useFormatter } from '@/hooks/useFormatter'
 import Editor from '@monaco-editor/react'
-
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 //
 // Monaco Editor (too vanilla)
 // https://github.com/microsoft/monaco-editor
@@ -17,16 +17,26 @@ import Editor from '@monaco-editor/react'
 const MonacoEditor = ({
 	language = 'json',
 	content,
+	className,
 	onChange = (value) => { },
-	className = null,
 	disabled = false,
 	readOnly = true,
-	wordWrap = false,
-	lineNumbers = true,
+	wordWrap = 'off',
+	lineNumbers = 'on',
 	miniMap = true,
+}: {
+	language?: string,
+	content: any,
+	className?: string,
+	onChange?(value: string | undefined): void,
+	disabled?: boolean,
+	readOnly?: boolean,
+	wordWrap?: 'off' | 'on',
+	lineNumbers?: 'off' | 'on',
+	miniMap?: boolean,
 }) => {
-	const monacoEditorRef = useRef(null)
-	const editorRef = useRef(null)
+	const monacoEditorRef = useRef<typeof monaco.editor | null>(null)
+	const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
 
 	// monaco takes years to mount, so this may fire repeatedly without refs set
 	useEffect(() => {
@@ -35,26 +45,19 @@ const MonacoEditor = ({
 			const model = monacoEditorRef.current.getModels()
 			if (model?.length > 0) {
 				// finally, do editor's document initialization here
-				onInitializePane(monacoEditorRef, editorRef, model)
+				editorRef.current.setScrollTop(1)
+				editorRef.current.setPosition({
+					lineNumber: 2,
+					column: 0,
+				})
+				editorRef.current.focus()
+				monacoEditorRef.current.setModelMarkers(model[0], 'owner', [])
 			}
 		}
 	}, [monacoEditorRef.current, editorRef.current])
 
-	const onInitializePane = (
-		monacoEditorRef,
-		editorRef,
-		model
-	) => {
-		editorRef.current.setScrollTop(1)
-		editorRef.current.setPosition({
-			lineNumber: 2,
-			column: 0,
-		})
-		editorRef.current.focus()
-		monacoEditorRef.current.setModelMarkers(model[0], 'owner', null)
-	}
 
-	let options = {
+	let options: monaco.editor.IStandaloneEditorConstructionOptions = {
 		stopRenderingLineAfter: 1000,
 		wordWrap,
 		lineNumbers,

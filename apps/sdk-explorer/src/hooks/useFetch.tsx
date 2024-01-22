@@ -6,7 +6,7 @@ import {
 //-------------------------------
 // Generic json Fetch
 //
-export const useFetch = (url, params = {}, options = {}) => {
+export const useFetch = (url: string, params: any = {}, options: any = {}) => {
 	const [data, setData] = useState(null)
 	const [error, setError] = useState(null)
 	const [isFetching, setIsFetching] = useState(false)
@@ -36,7 +36,7 @@ export const useFetch = (url, params = {}, options = {}) => {
 		return () => {
 			_mounted = false
 		}
-	}, [url, params])
+	}, [url, params, options])
 
 	return { data, error, isFetching }
 }
@@ -46,8 +46,8 @@ export const useFetch = (url, params = {}, options = {}) => {
 // Fetch from api route
 // /api/route/params.../
 //
-export const useApi = (route, args = [], params = {}) => {
-	const [url, setUrl] = useState(null)
+export const useApi = (route: string, args: any[] = [], params: any = {}) => {
+	const [url, setUrl] = useState<string>('')
 
 	useEffect(() => {
 		if (!args.includes(null) && !args.includes(undefined)) {
@@ -57,7 +57,7 @@ export const useApi = (route, args = [], params = {}) => {
 			})
 			setUrl(newUrl)
 		} else {
-			setUrl(null)
+			setUrl('')
 		}
 	}, [route, args])
 

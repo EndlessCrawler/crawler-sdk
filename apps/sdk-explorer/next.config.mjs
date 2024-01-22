@@ -1,4 +1,5 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
 	env: {
 		SERVER_URL: process.env.SERVER_URL ?? 'http://localhost:3000',
 		// these keys are public, need to secure on the dashboard
@@ -20,4 +21,6 @@ module.exports = {
 		config.resolve.fallback = { fs: false, net: false, tls: false, lokijs: false, encoding: false, 'pino-pretty': false }
 		return config
 	},
-}
+};
+
+export default nextConfig;
