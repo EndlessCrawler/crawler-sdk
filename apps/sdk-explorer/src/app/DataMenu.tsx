@@ -17,8 +17,8 @@ export default function DataMenu() {
 					<Divider hidden />
 					{`>`} {viewName} [{count}]
 					<div>
-						<ActionDispatcher label='getView()' onAction={() => client.getView(viewName)} />
-						<ActionDispatcher label='getViewDataCount()' onAction={() => client.getViewDataCount(viewName)} />
+						&nbsp;&nbsp;<ActionDispatcher label='getView()' onAction={() => client.getView(viewName)} />
+						&nbsp;&nbsp;<ActionDispatcher label='getViewDataCount()' onAction={() => client.getViewDataCount(viewName)} />
 					</div>
 				</div>
 			)
@@ -33,8 +33,27 @@ export default function DataMenu() {
 
 	return (
 		<div>
+			<Divider />
 
-			Chambers
+			<h4>DataSets</h4>
+			<div>
+				<ActionDispatcher label='getDataSetNames()' onAction={() => client.getDataSetNames()} />
+				<ActionDispatcher label='getCurrentDataSetName()' onAction={() => client.getCurrentDataSetName()} />
+				<ActionDispatcher label='getDataSet(current)' onAction={() => client.getDataSet()} />
+			</div>
+
+			<Divider />
+
+			<h4>Views</h4>
+			<div>
+				<ActionDispatcher label='getViewNames()' onAction={() => client.getViewNames()} />
+				<ActionDispatcher label='getAllViews(current)' onAction={() => client.getAllViews()} />
+				{views}
+			</div>
+
+			<Divider />
+
+			<h4>Chambers</h4>
 			<div>
 				<ActionDispatcher label='chamberData.getCount()' onAction={() => client.chamberData.getCount()} />
 				<ActionDispatcher label='chamberData.getStaticChamberCount()' onAction={() => client.chamberData.getStaticChamberCount()} />
@@ -43,17 +62,8 @@ export default function DataMenu() {
 				<ActionDispatcher label='chamberData.getDynamicChambersCoords()' onAction={() => client.chamberData.getDynamicChambersCoords()} />
 				<ActionDispatcher label='tokenIdToCoord.get(1)' onAction={() => client.tokenIdToCoord.get(1)} />
 				<ActionDispatcher label='tokenIdToCoord.getTokensCoords(edges)' onAction={() => client.tokenIdToCoord.getTokensCoords(edgesIds)} />
-				<ActionDispatcher label={`chamberData.get(${tokenCoords?.coord})`} onAction={() => client.chamberData.get(tokenCoords?.coord)} />
+				<ActionDispatcher label={`chamberData.get(${tokenCoords?.coord})`} onAction={() => client.chamberData.get(tokenCoords?.coord ?? 0n)} />
 				<ActionDispatcher label='chamberData.getMultiple(edges)' onAction={() => client.chamberData.getMultiple(edgesCoord)} />
-			</div>
-
-			<Divider hidden />
-
-			Views
-			<div>
-				<ActionDispatcher label='getViewNames()' onAction={() => client.getViewNames()} />
-				<ActionDispatcher label='getAllViews(current)' onAction={() => client.getAllViews()} />
-				{views}
 			</div>
 
 		</div>

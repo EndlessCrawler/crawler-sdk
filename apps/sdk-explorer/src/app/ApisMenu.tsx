@@ -31,7 +31,7 @@ export default function ApisMenu() {
 				}
 			result.push(
 				<div key={viewName} >
-					<Divider hidden />
+					<Divider />
 					{`_`}{viewName} [{count}]
 					<div>
 						{/* @ts-ignore */}
@@ -47,6 +47,8 @@ export default function ApisMenu() {
 
 	return (
 		<div>
+			<Divider />
+
 			/api/read
 			<div>
 				<UrlDispatcher label='totalSupply' url='/api/read/1/CrawlerToken/totalSupply' />
@@ -54,7 +56,7 @@ export default function ApisMenu() {
 				<UrlDispatcher label='tokenURI/1' url='/api/read/1/CrawlerToken/tokenURI/1' />
 			</div>
 
-			<Divider hidden />
+			<Divider />
 
 			/api/view
 			<div>
