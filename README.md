@@ -10,7 +10,7 @@
 |---------------------------|------------|------------------|----------------------|---------|
 | @avante/crawler-core      | Typescript | off-chain        | types and api        | alpha   |
 | @avante/crawler-data      | Typescript | off-chain        | cached map data      | alpha   |
-| @avante/crawler-api       | Typescript | on-chain         | web3 api             | alpha   |
+| @avante/crawler-api       | Typescript | on-chain         | web3 api             | broken  |
 | @avante/crawler-react     | React      | on/off-chain     | components and hooks | alpha   |
 | @avante/crawler-contracts | Sol/Cairo  | on-chain         | contracts and abi    | planned |
 
@@ -74,7 +74,7 @@ const chamber = client.get(s1w1)
 
 This is a **monorepo**, a single repository containing multiple packages, managed with [pnpm](https://pnpm.io/workspaces).
 
-There is no reason to download this repository unless you want to contribute. As an SDK user, better [choose](#which-package-should-i-get) one of the included packages instead.
+There is no reason to download this repository unless you want to contribute. As an SDK user, better choose one of the [included packages](#sdk-structure) instead.
 
 
 #### Initialize this monorepo after download
