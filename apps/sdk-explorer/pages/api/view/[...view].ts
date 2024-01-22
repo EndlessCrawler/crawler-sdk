@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { ViewName } from '@avante/crawler-core'
-import { readViewRecordOrThrow } from '@avante/crawler-api'
+import { ErrorResult, ReadViewResult, readViewRecordOrThrow } from '@avante/crawler-api'
 
 // TODO: TEST OK
 // http://localhost:3000/api/view/1/tokenIdToCoord?tokenId=1
@@ -13,16 +13,9 @@ import { readViewRecordOrThrow } from '@avante/crawler-api'
 // http://localhost:3000/api/view/1/tokenIdToCoord/1000
 // http://localhost:3000/api/view/999/tokenIdToCoord/1
 
-type ResponseData = {
-};
-type ErrorResponseData = {
-	error?: string;
-	query?: any,
-};
-
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<ResponseData | ErrorResponseData>,
+	res: NextApiResponse<ReadViewResult | ErrorResult>,
 ) {
 	const { view } = req.query
 	const [chainId, viewName, key] = view as string[]
@@ -38,7 +31,7 @@ export default async function handler(
 	let data = null
 	try {
 		data = await readViewRecordOrThrow(readViewOptions)
-	} catch(error: any) {
+	} catch (error: any) {
 		return res.status(400).json({
 			error,
 			query: req.query,

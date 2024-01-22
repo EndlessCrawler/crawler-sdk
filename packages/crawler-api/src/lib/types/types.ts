@@ -21,6 +21,17 @@ export interface ReadViewOptions extends Options {
 	key: any,
 }
 
+/** @type generic error result from functions */
+export interface ErrorResult {
+	error: string
+	query?: any
+}
+
+/** @type generic data result from functions */
+export interface DataResult {
+	data: any
+}
+
 /** @type result from readViewRecordOrThrow() */
 export interface ReadViewResult {
 	[key: string]: any
@@ -34,16 +45,6 @@ export interface ReadContractOptions extends Options {
 	contractName: ContractName,
 	functionName: string,
 	args: any[],
-}
-
-/** @type generic error result from functions */
-export interface ErrorResult {
-	error: string
-}
-
-/** @type generic data result from functions */
-export interface DataResult {
-	data: any
 }
 
 /** @type check if a function result is ErrorResult */

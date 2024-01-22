@@ -2,18 +2,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { ContractName } from '@avante/crawler-core'
-import { readContractOrThrow } from '@avante/crawler-api'
-
-type ResponseData = {
-};
-type ErrorResponseData = {
-	error?: string;
-	query?: any,
-};
+import { ErrorResult, readContractOrThrow } from '@avante/crawler-api'
+import { ReadContractResult } from 'wagmi/actions';
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<ResponseData | ErrorResponseData>,
+	res: NextApiResponse<ReadContractResult | ErrorResult>,
 ) {
 	const { read } = req.query
 	const [chainId, contractName, functionName] = read as string[]
