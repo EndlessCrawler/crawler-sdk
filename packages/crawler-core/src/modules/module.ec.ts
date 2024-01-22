@@ -2,16 +2,13 @@ import {
 	ModuleInterface,
 	ModuleId,
 	ModuleBase,
+	ModuleViews,
 	CompassBase,
 	AbsentCompassDir,
 	SlugSeparator,
 	ChamberDataViewAccess,
 	TokenIdToCoordViewAccess,
 	Dir,
-	ModuleViews,
-	ViewName,
-	DataSetViews,
-	Options,
 } from ".."
 import {
 	_defaultSlugSeparator,

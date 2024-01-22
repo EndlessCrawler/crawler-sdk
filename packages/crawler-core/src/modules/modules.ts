@@ -71,26 +71,26 @@ export interface ModuleInterface {
 	/** import DataSets for use, must be all of the same Module */
 	importDataSets(datasets: DataSet[]): void;
 	/** set options.chainId as the current DataSet */
-	setCurrentDataSet(options: Options): void;
+	setCurrentDataSet(options?: Options): void;
 	/** @returns options.chainId or the current dataset ChainId */
-	resolveChainId(options: Options): ChainId;
+	resolveChainId(options?: Options): ChainId;
 
 
 	//-------------------------
 	//  Views
 	//
 	/** @returns all the views of the defautl or specific chain **/
-	getAllViews(options: Options): DataSetViews;
+	getAllViews(options?: Options): DataSetViews;
 	/** @returns true if this modulke includes the {ViewName} **/
 	includesView(viewName: ViewName): boolean;
 	/** @returns all the views names **/
 	getViewNames(): ViewName[];
 	/** @returns all one view of the defautl or specific chain **/
-	getView(viewName: ViewName, options: Options): View;
+	getView(viewName: ViewName, options?: Options): View;
 	/** @returns all one view of the defautl or specific chain **/
-	getViewDataCount(viewName: ViewName, options: Options): number;
+	getViewDataCount(viewName: ViewName, options?: Options): number;
 	/** @returns validates view object **/
-	validateView(viewName: ViewName, view: object, options: Options): boolean;
+	validateView(viewName: ViewName, view: object, options?: Options): boolean;
 
 
 

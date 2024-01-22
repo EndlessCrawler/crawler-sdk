@@ -8,22 +8,27 @@
 
 | Packages                  |            |                  |                      | Status  |
 |---------------------------|------------|------------------|----------------------|---------|
-| @avante/crawler-core      | Typescript | off-chain        | types and api        | alpha   |
-| @avante/crawler-data      | Typescript | off-chain        | cached map data      | alpha   |
-| @avante/crawler-api       | Typescript | on-chain         | web3 api             | broken  |
-| @avante/crawler-react     | React      | on/off-chain     | components and hooks | alpha   |
-| @avante/crawler-contracts | Sol/Cairo  | on-chain         | contracts and abi    | planned |
+| `@avante/crawler-core`      | Typescript | off-chain        | types and api        | alpha   |
+| `@avante/crawler-data`      | Typescript | off-chain        | cached map data      | alpha   |
+| `@avante/crawler-api`       | Typescript | on-chain         | web3 api             | broken  |
+| `@avante/crawler-react`     | React      | on/off-chain     | components and hooks | alpha   |
+| `@avante/crawler-contracts` | Sol/Cairo  | on-chain         | contracts and abi    | planned |
 
 | Apps                      |            |                  |                      | Status  |
 |---------------------------|------------|------------------|----------------------|---------|
-| /apps/sdk-explorer        | Next.js    | on-chain         | sdk examples         | alpha   |
+| `/apps/sdk-explorer`        | Next.js    | on-chain         | sdk examples         | alpha   |
 
 
 ## Usage
 
-**EARLY ALPHA**
+**WARNING**: Things are still changing and can break at any time.
 
-Things are still changing and can break at any update.
+
+### Install
+
+```
+npm install @avante/crawler-core @avante/crawler-data
+```
 
 
 ### Core tools
@@ -33,8 +38,8 @@ Initialize an empty client
 ```js
 import {
 	createClient,
-	EndlessCrawler,
-	LootUnderworld,
+	EndlessCrawler,  // typescript namespace
+	LootUnderworld,  // typescript namespace
 	Dir,
 } from '@/avante/core'
 
@@ -54,19 +59,14 @@ const s1w1u1 = client.offsetCompass(s1w1o1, Dir.Under)
 Initialize a client with cached data
 
 ```js
-import {
-	createClient,
-	EndlessCrawler,
-} from '@/avante/core'
-import {
-	mainnetDataSet,
-} from '@/avante/data'
+import { createClient, EndlessCrawler } from '@/avante/core'
+import { mainnetDataSet } from '@/avante/data'
 
 // compatible with Endless Crawler
 type Compass = EndlessCrawler.Compass
-const client: ModuleInterface = createClient([mainnetDataSet]) as LootUnderworld.Module
+const client: ModuleInterface = createClient([mainnetDataSet]) as EndlessCrawler.Module
 const s1w1 = { south: 1, west: 1 } as Compass
-const chamber = client.get(s1w1)
+const chamber = client.chamberData.get(s1w1)
 ```
 
 

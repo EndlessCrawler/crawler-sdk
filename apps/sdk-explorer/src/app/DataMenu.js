@@ -1,38 +1,24 @@
 import React, { useMemo } from 'react'
 import { Divider } from 'semantic-ui-react'
-import {
-	getAllViews,
-	getViewNames,
-	getView,
-	getViewDataCount,
-	getChamberCount,
-	getStaticChamberCount,
-	getDynamicChamberCount,
-	getDynamicChambersId,
-	getDynamicChambersCoord,
-	getTokenCoords,
-	getTokensCoords,
-	getChamberData,
-	getChambersData,
-} from '@avante/crawler-core'
 import { ActionDispatcher } from '@/components/Dispatchers'
+import { useCrawler } from '@avante/crawler-react'
 
 export default function DataMenu() {
+	const { client } = useCrawler()
 
 	const views = useMemo(() => {
 		let result = []
-		const vs = getAllViews()
-		for (const viewName of getViewNames()) {
+		for (const viewName of client.getViewNames()) {
 			//@ts-ignore
-			const view = getView(viewName)
+			const view = client.getView(viewName)
 			const count = Object.keys(view.data).length
 			result.push(
 				<div key={viewName} >
 					<Divider hidden />
 					{`>`} {viewName} [{count}]
 					<div>
-						<ActionDispatcher label='getView()' onAction={() => getView(viewName)} />
-						<ActionDispatcher label='getViewDataCount()' onAction={() => getViewDataCount(viewName)} />
+						<ActionDispatcher label='getView()' onAction={() => client.getView(viewName)} />
+						<ActionDispatcher label='getViewDataCount()' onAction={() => client.getViewDataCount(viewName)} />
 					</div>
 				</div>
 			)
@@ -41,32 +27,32 @@ export default function DataMenu() {
 	}, [])
 
 	// Chambers
-	const edgesIds = useMemo(() => getDynamicChambersId(), [])
-	const edgesCoord = useMemo(() => getDynamicChambersCoord(), [])
-	const tokenCoords = useMemo(() => getTokenCoords(1), [])
+	const edgesIds = useMemo(() => client.chamberData.getDynamicChambersIds(), [])
+	const edgesCoord = useMemo(() => client.chamberData.getDynamicChambersCoords(), [])
+	const tokenCoords = useMemo(() => client.tokenIdToCoord.getTokensCoords([1]), [])
 
 	return (
 		<div>
 
 			Chambers
 			<div>
-				<ActionDispatcher label='getChamberCount()' onAction={() => getChamberCount()} />
-				<ActionDispatcher label='getStaticChamberCount()' onAction={() => getStaticChamberCount()} />
-				<ActionDispatcher label='getDynamicChamberCount()' onAction={() => getDynamicChamberCount()} />
-				<ActionDispatcher label='getDynamicChambersId()' onAction={() => getDynamicChambersId()} />
-				<ActionDispatcher label='getDynamicChambersCoord()' onAction={() => getDynamicChambersCoord()} />
-				<ActionDispatcher label='getTokenCoords(1)' onAction={() => getTokenCoords(1)} />
-				<ActionDispatcher label='getTokensCoords(edges)' onAction={() => getTokensCoords(edgesIds)} />
-				<ActionDispatcher label={`getChamberData(${tokenCoords.coord})`} onAction={() => getChamberData(tokenCoords.coord)} />
-				<ActionDispatcher label='getChambersData(edges)' onAction={() => getChambersData(edgesCoord)} />
+				<ActionDispatcher label='chamberData.getCount()' onAction={() => client.chamberData.getCount()} />
+				<ActionDispatcher label='chamberData.getStaticChamberCount()' onAction={() => client.chamberData.getStaticChamberCount()} />
+				<ActionDispatcher label='chamberData.getDynamicChamberCount()' onAction={() => client.chamberData.getDynamicChamberCount()} />
+				<ActionDispatcher label='chamberData.getDynamicChambersIds()' onAction={() => client.chamberData.getDynamicChambersIds()} />
+				<ActionDispatcher label='chamberData.getDynamicChambersCoords()' onAction={() => client.chamberData.getDynamicChambersCoords()} />
+				<ActionDispatcher label='tokenIdToCoord.get(1)' onAction={() => client.tokenIdToCoord.get(1)} />
+				<ActionDispatcher label='tokenIdToCoord.getTokensCoords(edges)' onAction={() => client.tokenIdToCoord.getTokensCoords(edgesIds)} />
+				<ActionDispatcher label={`chamberData.get(${tokenCoords.coord})`} onAction={() => client.chamberData.get(tokenCoords.coords.coord)} />
+				<ActionDispatcher label='getMultiple(edges)' onAction={() => client.chamberData.getMultiple(edgesCoord)} />
 			</div>
 
 			<Divider hidden />
 
 			Views
 			<div>
-				<ActionDispatcher label='getViewNames()' onAction={() => getViewNames()} />
-				<ActionDispatcher label='getAllViews(current)' onAction={() => getAllViews()} />
+				<ActionDispatcher label='getViewNames()' onAction={() => client.getViewNames()} />
+				<ActionDispatcher label='getAllViews(current)' onAction={() => client.getAllViews()} />
 				{views}
 			</div>
 

@@ -1,12 +1,7 @@
 import React, { useMemo } from 'react'
 import { Divider } from 'semantic-ui-react'
-import {
-	getAllViews,
-	getViewNames,
-	getView,
-	ViewName,
-	getTokenCoords,
-} from '@avante/crawler-core'
+import { useCrawler } from '@avante/crawler-react'
+import { ViewName } from '@avante/crawler-core'
 import {
 	readViewRecordOrThrow,
 	readViewTotalCount,
@@ -14,15 +9,15 @@ import {
 import { UrlDispatcher, AsyncActionDispatcher } from '@/components/Dispatchers'
 
 export default function ApisMenu() {
+	const { client } = useCrawler()
 
-	const tokenCoords = useMemo(() => getTokenCoords(1), [])
+	const tokenCoords = useMemo(() => client.tokenIdToCoord.get(1), [])
 
 	const views = useMemo(() => {
 		let result = []
-		const vs = getAllViews()
-		for (const viewName of getViewNames()) {
+		for (const viewName of client.getViewNames()) {
 			//@ts-ignore
-			const view = getView(viewName)
+			const view = client.getView(viewName)
 			const count = Object.keys(view.data).length
 			const readViewOptions =
 				viewName == ViewName.tokenIdToCoord ? {
@@ -30,7 +25,7 @@ export default function ApisMenu() {
 					key: '1',
 				} : viewName == ViewName.chamberData ? {
 					viewName,
-					key: tokenCoords.coord.toString(),
+					key: tokenCoords?.coord.toString(),
 				} : {
 					viewName,
 				}

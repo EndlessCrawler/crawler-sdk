@@ -1,5 +1,8 @@
 import React, { ReactNode, createContext, useReducer } from 'react'
-import { ModuleInterface } from '@avante/crawler-core'
+import {
+	ModuleInterface,
+	EndlessCrawler,
+} from '@avante/crawler-core'
 
 //--------------------------------
 // Constants
