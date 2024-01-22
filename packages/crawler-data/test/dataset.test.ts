@@ -22,12 +22,20 @@ import {
 describe('datasets', () => {
 	it('importDataSets()', () => {
 		let client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
-		expect(() => client.resolveChainId()).toThrow('InvalidDataSetError')
 		expect(() => client.getDataSet()).toThrow('InvalidDataSetError')
 		expect(() => client.getAllViews()).toThrow('InvalidDataSetError')
+		expect(() => client.resolveChainId()).toThrow('InvalidDataSetError')
+		expect(client.getCurrentDataSetName()).toBe(null)
+
+		let datasets0 = client.getDataSetNames()
+		expect(datasets0.length).toBe(0)
 
 		client.importDataSets([mainnetDataSet, goerliDataSet])
+		expect(client.getCurrentDataSetName()).toBe(NetworkName.Mainnet)
 		expect(client.resolveChainId()).toBe(ChainId.Mainnet)
+		let datasets2 = client.getDataSetNames()
+		expect(datasets2.length).toBe(2)
+		expect(datasets2).toEqual(expect.arrayContaining([NetworkName.Mainnet, NetworkName.Goerli]))
 
 		// defaults to the first chain
 		const views = client.getAllViews()
@@ -68,6 +76,7 @@ describe('datasets', () => {
 
 		// new current
 		client.setCurrentDataSet({ dataSetName: NetworkName.Goerli })
+		expect(client.getCurrentDataSetName()).toBe(NetworkName.Goerli)
 		expect(client.resolveChainId()).toBe(ChainId.Goerli)
 		const data2 = client.getAllViews()
 		expect(data2.tokenIdToCoord?.metadata?.chainId).toBe(ChainId.Goerli)
@@ -76,6 +85,7 @@ describe('datasets', () => {
 
 		// new current
 		client.setCurrentDataSet({ dataSetName: NetworkName.Mainnet })
+		expect(client.getCurrentDataSetName()).toBe(NetworkName.Mainnet)
 		expect(client.resolveChainId()).toBe(ChainId.Mainnet)
 		const data3 = client.getAllViews()
 		expect(data3.tokenIdToCoord?.metadata?.chainId).toBe(ChainId.Mainnet)

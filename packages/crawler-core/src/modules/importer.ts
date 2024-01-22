@@ -84,22 +84,22 @@ export const __setCurrentDataSet = (options: Options) => {
 	_global.CrawlerModules[moduleId].currentdataSetName = dataSetName
 }
 
-/** @returns the currently selected chain id */
-export const __resolveChainId = (options: Options = {}): ChainId => {
-	const chainId = options.chainId
-	if (chainId) {
-		// no need to check module now, it can be for wagmi
-		return chainId as ChainId
-	}
+/** @returns the currently selected DataSetName */
+export const __getCurrentDataSetName = (options: Options): DataSetName => {
 	const moduleId = options.moduleId
 	if (!moduleId || !_global?.CrawlerModules?.[moduleId]) {
 		throw new InvalidModuleError(moduleId)
 	}
-	const dataSetName = _global.dataSetName ? _global.dataSetName : _global.CrawlerModules[moduleId].currentdataSetName
-	if (!dataSetName) {
-		throw new InvalidDataSetError(moduleId, dataSetName)
+	return _global.CrawlerModules[moduleId].currentdataSetName
+}
+
+/** @returns the names of all imported DataSets */
+export const __getDataSetNames = (options: Options): DataSetName[] => {
+	const moduleId = options.moduleId
+	if (!moduleId || !_global?.CrawlerModules?.[moduleId]) {
+		throw new InvalidModuleError(moduleId)
 	}
-	return _global.CrawlerModules[moduleId].datasets[dataSetName].chainId
+	return Object.keys(_global.CrawlerModules[moduleId].datasets)
 }
 
 /** called by clients to get chain data
@@ -117,6 +117,24 @@ export const __getDataSet = (options: Options = {}): DataSet => {
 		throw new InvalidDataSetError(moduleId, dataSetName)
 	}
 	return _global.CrawlerModules[moduleId].datasets[dataSetName]
+}
+
+/** @returns the currently selected chain id */
+export const __resolveChainId = (options: Options = {}): ChainId => {
+	const chainId = options.chainId
+	if (chainId) {
+		// no need to check module now, it can be for wagmi
+		return chainId as ChainId
+	}
+	const moduleId = options.moduleId
+	if (!moduleId || !_global?.CrawlerModules?.[moduleId]) {
+		throw new InvalidModuleError(moduleId)
+	}
+	const dataSetName = _global.dataSetName ? _global.dataSetName : _global.CrawlerModules[moduleId].currentdataSetName
+	if (!dataSetName) {
+		throw new InvalidDataSetError(moduleId, dataSetName)
+	}
+	return _global.CrawlerModules[moduleId].datasets[dataSetName].chainId
 }
 
 export const __getData = (): any => {

@@ -4,6 +4,7 @@ import {
 } from "../types"
 import {
 	DataSet,
+	DataSetName,
 	DataSetViews,
 	View,
 	ViewName,
@@ -19,6 +20,8 @@ import {
 import {
 	__getDataSet,
 	__importDataSets,
+	__getDataSetNames,
+	__getCurrentDataSetName,
 	__resolveChainId,
 	__setCurrentDataSet,
 } from "./importer"
@@ -46,11 +49,17 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 	setCurrentDataSet(options: Options): void {
 		__setCurrentDataSet(this._options(options))
 	}
-	resolveChainId(options: Options = {}): ChainId {
-		return __resolveChainId(this._options(options))
+	getCurrentDataSetName(options: Options = {}): DataSetName {
+		return __getCurrentDataSetName(this._options(options))
+	}
+	getDataSetNames(options: Options = {}): DataSetName[] {
+		return __getDataSetNames(this._options(options))
 	}
 	getDataSet(options: Options = {}): DataSet {
 		return __getDataSet(this._options(options))
+	}
+	resolveChainId(options: Options = {}): ChainId {
+		return __resolveChainId(this._options(options))
 	}
 
 

@@ -18,6 +18,10 @@ describe('* data_goerli', () => {
 	})
 
 	it('getDataSet()', () => {
+		let datasets1 = client.getDataSetNames()
+		expect(datasets1.length).toBe(1)
+		expect(datasets1).toEqual(expect.arrayContaining([NetworkName.Goerli]))
+
 		const data1 = client.getAllViews()
 		expect(data1.tokenIdToCoord?.metadata?.chainId).toBe(ChainId.Goerli)
 		expect(client.resolveChainId()).toBe(ChainId.Goerli)
@@ -28,6 +32,10 @@ describe('* data_goerli', () => {
 		expect(() => client.getAllViews({ dataSetName: NetworkName.Mainnet })).toThrow('InvalidDataSetError')
 
 		client.importDataSets([mainnetDataSet])
+		let datasets2 = client.getDataSetNames()
+		expect(datasets2.length).toBe(2)
+		expect(datasets2).toEqual(expect.arrayContaining([NetworkName.Mainnet, NetworkName.Goerli]))
+
 		// current is still other
 		expect(client.resolveChainId()).toBe(ChainId.Goerli)
 

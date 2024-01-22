@@ -5,6 +5,7 @@ import {
 } from "../types";
 import {
 	DataSet,
+	DataSetName,
 	DataSetViews,
 	View,
 	ViewAccess,
@@ -72,12 +73,16 @@ export interface ModuleInterface {
 	//
 	/** import DataSets for use, must be all of the same Module */
 	importDataSets(datasets: DataSet[]): void;
-	/** set options.chainId as the current DataSet */
+	/** set options.dataSetName as the current DataSet */
 	setCurrentDataSet(options?: Options): void;
-	/** @returns options.chainId or the current dataset ChainId */
-	resolveChainId(options?: Options): ChainId;
+	/** @returns all the imported DataSet names **/
+	getCurrentDataSetName(options: Options): DataSetName;
+	/** @returns all the imported DataSet names **/
+	getDataSetNames(options: Options): DataSetName[];
 	/** @returns a full imported DataSet */
 	getDataSet(options?: Options): DataSet;
+	/** @returns options.chainId or the current dataset ChainId */
+	resolveChainId(options?: Options): ChainId;
 
 
 	//-------------------------
