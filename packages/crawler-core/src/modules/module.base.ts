@@ -1,17 +1,19 @@
 import {
 	ChainId,
+	Options,
+} from "../types"
+import {
 	DataSet,
 	DataSetViews,
-	Options,
 	View,
 	ViewName,
+} from "../views"
+import {
 	ModuleId,
-	ModuleViews,
 	ModuleInterface,
+	ModuleViews,
 	CompassBase,
 	SlugSeparator,
-} from ".."
-import {
 	_defaultSlugSeparator,
 } from "./modules"
 import {

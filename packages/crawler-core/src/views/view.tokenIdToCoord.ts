@@ -1,12 +1,16 @@
 import {
 	BigIntString,
-	ViewAccessInterface,
 	ChamberCoords,
 	Options,
-	ModuleBase,
+} from "../types";
+import {
+	ViewAccessInterface,
 	ViewName,
 	ViewT,
-} from '..'
+} from "./view";
+import {
+	ModuleBase,
+} from "../modules";
 
 /** @type keys of TokenIdToCoord view */
 export type TokenIdToCoordViewKey = BigIntString | bigint | number

@@ -1,18 +1,22 @@
+import { Dir } from '../crawl'
 import {
-	ModuleInterface,
-	ModuleId,
-	ModuleBase,
-	ModuleViews,
-	CompassBase,
-	SlugSeparator,
-	AbsentCompassDir,
 	MissingImplementationError,
-	Dir,
-	ChamberDataViewAccess,
-} from ".."
+} from '../types'
 import {
+	ChamberDataViewAccess,
+} from '../views'
+import {
+	AbsentCompassDir,
+	CompassBase,
+	ModuleId,
+	ModuleInterface,
+	ModuleViews,
+	SlugSeparator,
 	_defaultSlugSeparator
 } from './modules'
+import {
+	ModuleBase,
+} from './module.base'
 
 export namespace LootUnderworld {
 

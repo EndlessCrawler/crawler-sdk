@@ -1,18 +1,22 @@
 import {
-	ModuleId,
 	ChainId,
 	ChainIdOrNone,
-	DataSet,
-	DataSetViews,
-	Options,
 	InvalidChainError,
-	MissingGlobalNamespaceError,
 	InvalidModuleError,
-} from '..'
+	MissingGlobalNamespaceError,
+	Options,
+} from '../types'
 import {
 	isBrowser,
 	isNode,
 } from '../utils'
+import {
+	DataSet,
+	DataSetViews,
+} from '../views'
+import {
+	ModuleId,
+} from './modules'
 
 
 //@ts-ignore

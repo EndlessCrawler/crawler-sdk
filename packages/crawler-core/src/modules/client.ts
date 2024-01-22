@@ -1,11 +1,8 @@
-import {
-	DataSet,
-	ModuleId,
-	EndlessCrawler,
-	LootUnderworld,
-	InvalidModuleInterfaceError,
-	MixedModulesError,
-} from '..'
+import { InvalidModuleInterfaceError, MixedModulesError } from '../types'
+import { DataSet } from '../views'
+import { ModuleId } from './modules'
+import { EndlessCrawler } from './module.ec'
+import { LootUnderworld } from './module.luw'
 import { __initializeGlobalModule } from './importer'
 
 export const createClient = (

@@ -1,8 +1,10 @@
 import {
-	ModuleId,
 	ChainId,
+} from "./chains"
+import {
 	CompassBase,
-} from '..'
+	ModuleId,
+} from "../modules"
 
 
 //--------------------------------

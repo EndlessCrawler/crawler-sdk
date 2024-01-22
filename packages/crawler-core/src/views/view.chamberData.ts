@@ -1,12 +1,16 @@
 import {
+	BigIntString,
+	ChamberData,
 	Options,
+} from "../types";
+import {
+	ViewAccessInterface,
 	ViewName,
 	ViewT,
-	ChamberData,
-	BigIntString,
-	ViewAccessInterface,
+} from "./view";
+import {
 	ModuleBase,
-} from '..'
+} from "../modules";
 
 /** @type keys of ChamberData view */
 export type ChamberDataViewKey = BigIntString | bigint

@@ -1,19 +1,21 @@
+import { Dir } from '../crawl'
 import {
-	ModuleInterface,
-	ModuleId,
-	ModuleBase,
-	ModuleViews,
-	CompassBase,
-	AbsentCompassDir,
-	SlugSeparator,
 	ChamberDataViewAccess,
 	TokenIdToCoordViewAccess,
-	Dir,
-} from ".."
+} from '../views'
 import {
+	AbsentCompassDir,
+	CompassBase,
+	ModuleId,
+	ModuleInterface,
+	ModuleViews,
+	SlugSeparator,
 	_defaultSlugSeparator,
 	_slugSeparators,
 } from './modules'
+import {
+	ModuleBase,
+} from './module.base'
 
 export namespace EndlessCrawler {
 

@@ -1,13 +1,15 @@
+import { Dir } from "../crawl";
 import {
 	ChainId,
+	Options,
+} from "../types";
+import {
 	DataSet,
 	DataSetViews,
-	Dir,
-	Options,
 	View,
-	ViewName,
 	ViewAccess,
-} from ".."
+	ViewName,
+} from "../views";
 
 /** @type existing modules */
 export enum ModuleId {

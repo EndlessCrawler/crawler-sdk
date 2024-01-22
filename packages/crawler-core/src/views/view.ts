@@ -1,12 +1,15 @@
 import {
 	Address,
-	BigIntString,
 	ChainId,
 	ContractName,
-	ModuleId,
 	Options,
-} from '..'
-import { ModuleBase } from '../modules/module.base'
+} from '../types'
+import {
+	ModuleId,
+} from '../modules'
+import {
+	ModuleBase,
+} from '../modules/module.base'
 
 
 //--------------------------------
