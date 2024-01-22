@@ -29,7 +29,7 @@ export default function DataMenu() {
 	// Chambers
 	const edgesIds = useMemo(() => client.chamberData.getDynamicChambersIds(), [client])
 	const edgesCoord = useMemo(() => client.chamberData.getDynamicChambersCoords(), [client])
-	const tokenCoords = useMemo(() => client.tokenIdToCoord.getTokensCoords([1]), [client])
+	const tokenCoords = useMemo(() => client.tokenIdToCoord.get(1), [client])
 
 	return (
 		<div>
@@ -43,8 +43,8 @@ export default function DataMenu() {
 				<ActionDispatcher label='chamberData.getDynamicChambersCoords()' onAction={() => client.chamberData.getDynamicChambersCoords()} />
 				<ActionDispatcher label='tokenIdToCoord.get(1)' onAction={() => client.tokenIdToCoord.get(1)} />
 				<ActionDispatcher label='tokenIdToCoord.getTokensCoords(edges)' onAction={() => client.tokenIdToCoord.getTokensCoords(edgesIds)} />
-				<ActionDispatcher label={`chamberData.get(${tokenCoords.coord})`} onAction={() => client.chamberData.get(tokenCoords.coords.coord)} />
-				<ActionDispatcher label='getMultiple(edges)' onAction={() => client.chamberData.getMultiple(edgesCoord)} />
+				<ActionDispatcher label={`chamberData.get(${tokenCoords?.coord})`} onAction={() => client.chamberData.get(tokenCoords?.coord)} />
+				<ActionDispatcher label='chamberData.getMultiple(edges)' onAction={() => client.chamberData.getMultiple(edgesCoord)} />
 			</div>
 
 			<Divider hidden />

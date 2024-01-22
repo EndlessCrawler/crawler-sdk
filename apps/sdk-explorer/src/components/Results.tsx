@@ -10,9 +10,6 @@ export default function Results() {
 	const { dispatchResults } = useFetchContext()
 
 	useEffect(() => {
-	}, [url, args, params])
-
-	useEffect(() => {
 		if (isFetching) {
 			dispatchResults('...')
 		} else if (data) {
@@ -20,11 +17,11 @@ export default function Results() {
 		} else if (error) {
 			dispatchResults(error)
 		}
-	}, [data, error, isFetching, dispatchResults])
+	}, [data, error, isFetching])
 
 	useEffect(() => {
 		dispatchResults(results)
-	}, [results, dispatchResults])
+	}, [results])
 
 	const _jsonResults = typeof results == 'bigint' ? { hex: `0x${results.toString(16)}`, number: `${results.toString()}n` } : results
 	// const _jsonResults = results

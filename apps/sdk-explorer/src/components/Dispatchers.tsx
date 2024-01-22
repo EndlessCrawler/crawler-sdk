@@ -93,7 +93,7 @@ function AsyncActionDispatcher({
 			_fetch()
 		}
 		return () => { _mounted = false }
-	}, [fetching, dispatchData, label, onAction])
+	}, [fetching, label, onAction])
 
 	return (
 		<span className='Anchor' onClick={() => setFetching(true)}>
