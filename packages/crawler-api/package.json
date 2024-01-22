@@ -17,8 +17,10 @@
 		"watch:test": "pnpm run test --watch",
 		"publish": "npm publish --access public"
 	},
+	"peerDependencies": {
+		"@avante/crawler-core": "^0.0.1"
+	},
 	"dependencies": {
-		"@avante/crawler-core": "^0.0.1",
 		"@wagmi/core": "^1.3.9",
 		"prettier": "^3.0.3",
 		"viem": "^1.10.3"
