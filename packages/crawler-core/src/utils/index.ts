@@ -1,6 +1,4 @@
 export {
-	isBrowser,
-	isNode,
 	isString,
 	isObject,
 	isNumber,
@@ -10,3 +8,21 @@ export {
 	bigIntToByteArray,
 	bigIntToNumberArray,
 } from './utils'
+
+export {
+	isBrowser,
+	isNode,
+} from './platform'
+
+export {
+	formatTimestamp,
+	formatTimestampCountdown,
+	formatTimestampDelta,
+} from './datetime'
+
+export {
+	makeRandomInt,
+	randomArrayElement,
+	makeRandomHash,
+} from './random'
+
