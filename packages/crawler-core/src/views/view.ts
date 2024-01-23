@@ -16,11 +16,27 @@ import {
 // Types
 //
 
+/** @type DataSet names, unique per Module */
+export type DataSetName = string
+
 /** @type all possible ViewT names */
 export enum ViewName {
 	tokenIdToCoord = 'tokenIdToCoord',
 	chamberData = 'chamberData',
 	// tokenUri = 'tokenUri',
+}
+
+/** @type (internal) used by clients for importing a chain using __importDataSets() */
+export interface DataSet {
+	moduleId: ModuleId
+	dataSetName: DataSetName
+	chainId: ChainId
+	views: DataSetViews
+}
+
+/** @type generic View structure */
+export type DataSetViews = {
+	[key in ViewName]: View
 }
 
 /** @type generic View structure */
@@ -29,7 +45,7 @@ export type View = ViewT<ViewRecords>
 /** @type typed View structure */
 export interface ViewT<R extends ViewRecords> {
 	metadata: ViewMetadata
-	data: R
+	records: R
 }
 
 /** @type ViewT<> metadata */
@@ -40,22 +56,6 @@ export interface ViewMetadata {
 	timestamp?: number
 }
 
-
-/** @type DataSet names, unique per Module */
-export type DataSetName = string
-
-/** @type generic View structure */
-export type DataSetViews = {
-	[key in ViewName]: View
-}
-
-/** @type (internal) used by clients for importing a chain using __importDataSets() */
-export interface DataSet {
-	moduleId: ModuleId
-	dataSetName: DataSetName
-	chainId: ChainId
-	views: DataSetViews
-}
 
 
 

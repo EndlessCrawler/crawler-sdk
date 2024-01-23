@@ -35,19 +35,19 @@ export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataVie
 	}
 
 	getData(options: Options = {}): ChamberDataViewRecords {
-		return this.getView(options).data
+		return this.getView(options).records
 	}
 
 	getCount(options: Options = {}): number {
-		return Object.keys(this.getView(options).data).length
+		return Object.keys(this.getView(options).records).length
 	}
 
 	get(key: ChamberDataViewKey, options: Options = {}): ChamberDataViewValue | null {
-		return this.getView(options).data[String(key)]
+		return this.getView(options).records[String(key)]
 	}
 
 	push(key: ChamberDataViewKey, value: ChamberDataViewValue, options: Options = {}): void {
-		this.getView(options).data[String(key)] = value
+		this.getView(options).records[String(key)] = value
 	}
 
 	/**

@@ -77,7 +77,7 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 					metadata: {
 						chainId,
 					} as ViewMetadata,
-					data: {} as ViewRecords,
+					records: {} as ViewRecords,
 				} as View
 				return acc
 			}, {} as DataSetViews),
@@ -106,9 +106,9 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 	getView(viewName: ViewName, options: Options = {}): View {
 		return this.getDataSet(options)?.views?.[viewName] ?? {}
 	}
-	getViewDataCount(viewName: ViewName, options: Options = {}): number {
+	getViewRecordCount(viewName: ViewName, options: Options = {}): number {
 		if (!this.includesView(viewName)) return 0
-		return Object.keys(this.getView(viewName, options).data).length
+		return Object.keys(this.getView(viewName, options).records).length
 	}
 	validateView(viewName: ViewName, view: object, options: Options = {}): boolean {
 		if (!this.includesView(viewName)) return false

@@ -18,7 +18,7 @@ export default function ApisMenu() {
 		for (const viewName of client.getViewNames()) {
 			//@ts-ignore
 			const view = client.getView(viewName)
-			const count = Object.keys(view.data).length
+			const count = Object.keys(view.records).length
 			const readViewOptions =
 				viewName == ViewName.tokenIdToCoord ? {
 					viewName,

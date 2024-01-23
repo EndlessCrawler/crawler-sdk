@@ -5,7 +5,7 @@
 		"contractAddress": "0x8E70b94C57b0CBC9807c0F58Bc251f4cD96AcDb0",
 		"timestamp": 0
 	},
-	"data": 	{
+	"records": 	{
 		"18446744073709551617": {
 			"compass": { "west": 1, "south": 1 },
 			"coord": "18446744073709551617",

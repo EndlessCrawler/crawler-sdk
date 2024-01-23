@@ -67,7 +67,7 @@ describe('chamberData', () => {
 		const count = client.chamberData.getCount()
 		const view = client.chamberData.getView()
 		const data = client.chamberData.getData()
-		const viewCount = Object.keys(view.data).length
+		const viewCount = Object.keys(view.records).length
 		const dataCount = Object.keys(data).length
 
 		expect(viewCount).toBeGreaterThan(0)

@@ -12,14 +12,14 @@ export default function DataMenu() {
 		for (const viewName of client.getViewNames()) {
 			//@ts-ignore
 			const view = client.getView(viewName)
-			const count = Object.keys(view.data).length
+			const count = Object.keys(view.records).length
 			result.push(
 				<div key={viewName} >
 					<Divider hidden />
 					{`>`} {viewName} [{count}]
 					<div>
 						&nbsp;&nbsp;<ActionDispatcher label='getView()' onAction={() => client.getView(viewName)} />
-						&nbsp;&nbsp;<ActionDispatcher label='getViewDataCount()' onAction={() => client.getViewDataCount(viewName)} />
+						&nbsp;&nbsp;<ActionDispatcher label='getViewRecordCount()' onAction={() => client.getViewRecordCount(viewName)} />
 					</div>
 				</div>
 			)

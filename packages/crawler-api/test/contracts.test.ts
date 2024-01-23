@@ -40,8 +40,8 @@ describe('* chains', () => {
 				const viewName = viewNames[v]
 				const view = views[viewName]
 				const viewChainId = view.metadata.chainId
-				const viewContractName = view.chain.contractName
-				const viewContractAddress = view.chain.contractAddress
+				const viewContractName = view.metadata.contractName as ContractName
+				const viewContractAddress = view.metadata.contractAddress
 
 				expect(viewChainId).toBe(chainId)
 

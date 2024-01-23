@@ -45,15 +45,18 @@ import {
 
 // Compatible with Endless Crawler
 type Compass = EndlessCrawler.Compass
-const client: ModuleInterface = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
+const client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
 const s1w1 = { south: 1, west: 1 } as Compass
 const s1w2 = client.offsetCompass(s1w1, Dir.West)
 
 // Compatible with Loot Underworld
 type Compass = LootUnderworld.Compass
-const client: ModuleInterface = createClient(LootUnderworld.Id) as LootUnderworld.Module
+const client = createClient(LootUnderworld.Id) as LootUnderworld.Module
 const s1w1o1 = { south: 1, west: 1, over: 1 } as Compass
 const s1w1u1 = client.offsetCompass(s1w1o1, Dir.Under)
+
+// Initialzie with a blank dataset (DataSetName.Blank, ChainId.Blank)
+const client = createClient(LootUnderworld.Id, true) as LootUnderworld.Module
 ```
 
 Initialize a client with cached data

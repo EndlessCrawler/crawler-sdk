@@ -99,7 +99,7 @@ export interface ModuleInterface {
 	/** @returns all one view of the defautl or specific chain **/
 	getView(viewName: ViewName, options?: Options): View;
 	/** @returns all one view of the defautl or specific chain **/
-	getViewDataCount(viewName: ViewName, options?: Options): number;
+	getViewRecordCount(viewName: ViewName, options?: Options): number;
 	/** @returns validates view object **/
 	validateView(viewName: ViewName, view: object, options?: Options): boolean;
 

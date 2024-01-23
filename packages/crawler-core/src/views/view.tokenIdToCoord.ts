@@ -35,19 +35,19 @@ export class TokenIdToCoordViewAccess implements ViewAccessInterface<TokenIdToCo
 	}
 
 	getData(options: Options = {}): TokenIdToCoordsViewRecords {
-		return this.getView(options).data
+		return this.getView(options).records
 	}
 
 	getCount(options: Options = {}): number {
-		return Object.keys(this.getView(options).data).length
+		return Object.keys(this.getView(options).records).length
 	}
 
 	get(key: TokenIdToCoordViewKey, options: Options = {}): TokenIdToCoordViewValue | null {
-		return this.getView(options).data[String(key)] ?? null
+		return this.getView(options).records[String(key)] ?? null
 	}
 
 	push(key: TokenIdToCoordViewKey, value: TokenIdToCoordViewValue, options: Options = {}): void {
-		this.getView(options).data[String(key)] = value
+		this.getView(options).records[String(key)] = value
 	}
 
 	/**
