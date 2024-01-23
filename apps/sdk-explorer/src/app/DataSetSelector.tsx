@@ -11,7 +11,7 @@ export default function DataSetSelector() {
 
 	return (
 		<div>
-			dataset: <select value={currentDataSetName as string} onChange={(e) => _selectDataSet(e.target.value)}>
+			dataset: <select value={(currentDataSetName ?? '') as string} onChange={(e) => _selectDataSet(e.target.value)}>
 				{dataSetNames.map((dataSetName: string, index: number) => {
 					return <option value={dataSetName} key={dataSetName}>{dataSetName}</option>
 				})}
