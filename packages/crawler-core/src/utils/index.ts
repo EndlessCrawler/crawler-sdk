@@ -3,11 +3,17 @@ export {
 	isObject,
 	isNumber,
 	isBigInt,
-	resolveBigInt,
-	bigIntToHexString,
+	minifyObject,
+} from './utils'
+
+export {
+	toBigInt,
+	bigIntToString,
+	bigIntToHex,
 	bigIntToByteArray,
 	bigIntToNumberArray,
-} from './utils'
+	binaryArrayToBigInt,
+} from './bigint'
 
 export {
 	isBrowser,

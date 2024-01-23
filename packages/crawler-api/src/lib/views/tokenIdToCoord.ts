@@ -13,7 +13,6 @@ import {
 } from '../calls'
 
 const client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
-type Compass = EndlessCrawler.Compass
 
 export default (): ViewDefinitionT<ChamberCoords> => ({
 	//
@@ -35,11 +34,6 @@ export default (): ViewDefinitionT<ChamberCoords> => ({
 	//
 	// transform fetched data to View
 	transform: async (coord: bigint): Promise<ChamberCoords> => {
-		const compass = client.coordToCompass(coord)
-		return {
-			coord: coord.toString(),
-			slug: client.compassToSlug(compass) as string,
-			compass: client.minifyCompass(compass) as Compass,
-		}
+		return client.tokenIdToCoord.transform({ coord })
 	}
 })

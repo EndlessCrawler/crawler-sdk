@@ -1,7 +1,7 @@
 import 'jest-expect-message'
 import {
-	resolveBigInt,
-	bigIntToHexString,
+	toBigInt,
+	bigIntToHex,
 	bigIntToByteArray,
 	bigIntToNumberArray,
 	EndlessCrawler
@@ -11,45 +11,45 @@ const CoordMax = EndlessCrawler.CoordMax
 
 describe('* utils', () => {
 
-	it('resolveBigInt()', () => {
-		expect(resolveBigInt(0), 'resolveBigInt(): bad input').toBe(0n)
-		expect(resolveBigInt(0n), 'resolveBigInt(): bad input').toBe(0n)
-		expect(resolveBigInt('0'), 'resolveBigInt(): bad input').toBe(0n)
-		expect(resolveBigInt('0x0'), 'resolveBigInt(): bad input').toBe(0n)
-		expect(resolveBigInt('0x00'), 'resolveBigInt(): bad input').toBe(0n)
+	it('toBigInt()', () => {
+		expect(toBigInt(0), 'toBigInt(): bad input').toBe(0n)
+		expect(toBigInt(0n), 'toBigInt(): bad input').toBe(0n)
+		expect(toBigInt('0'), 'toBigInt(): bad input').toBe(0n)
+		expect(toBigInt('0x0'), 'toBigInt(): bad input').toBe(0n)
+		expect(toBigInt('0x00'), 'toBigInt(): bad input').toBe(0n)
 
-		expect(resolveBigInt(1), 'resolveBigInt(): bad input').toBe(1n)
-		expect(resolveBigInt(1n), 'resolveBigInt(): bad input').toBe(1n)
-		expect(resolveBigInt('1'), 'resolveBigInt(): bad input').toBe(1n)
-		expect(resolveBigInt('0x1'), 'resolveBigInt(): bad input').toBe(1n)
-		expect(resolveBigInt('0x01'), 'resolveBigInt(): bad input').toBe(1n)
+		expect(toBigInt(1), 'toBigInt(): bad input').toBe(1n)
+		expect(toBigInt(1n), 'toBigInt(): bad input').toBe(1n)
+		expect(toBigInt('1'), 'toBigInt(): bad input').toBe(1n)
+		expect(toBigInt('0x1'), 'toBigInt(): bad input').toBe(1n)
+		expect(toBigInt('0x01'), 'toBigInt(): bad input').toBe(1n)
 
-		expect(resolveBigInt('0xff'), 'resolveBigInt(): bad input').toBe(255n)
-		expect(resolveBigInt('0x100'), 'resolveBigInt(): bad input').toBe(256n)
-		expect(resolveBigInt('0x0100'), 'resolveBigInt(): bad input').toBe(256n)
-		expect(resolveBigInt('0xffffffffffffffff'), 'resolveBigInt(): bad input').toBe(CoordMax)
+		expect(toBigInt('0xff'), 'toBigInt(): bad input').toBe(255n)
+		expect(toBigInt('0x100'), 'toBigInt(): bad input').toBe(256n)
+		expect(toBigInt('0x0100'), 'toBigInt(): bad input').toBe(256n)
+		expect(toBigInt('0xffffffffffffffff'), 'toBigInt(): bad input').toBe(CoordMax)
 	})
 
-	it('bigIntToHexString()', () => {
-		expect(bigIntToHexString(0), 'bigIntToHexString(): bad input').toBe('0x00')
-		expect(bigIntToHexString(0n), 'bigIntToHexString(): bad input').toBe('0x00')
-		expect(bigIntToHexString('0'), 'bigIntToHexString(): bad input').toBe('0x00')
-		expect(bigIntToHexString('0x0'), 'bigIntToHexString(): bad input').toBe('0x00')
-		expect(bigIntToHexString('0x00'), 'bigIntToHexString(): bad input').toBe('0x00')
-		expect(bigIntToHexString('0x000'), 'bigIntToHexString(): bad input').toBe('0x00')
-		expect(bigIntToHexString('0x0000'), 'bigIntToHexString(): bad input').toBe('0x00')
+	it('bigIntToHex()', () => {
+		expect(bigIntToHex(0), 'bigIntToHex(): bad input').toBe('0x00')
+		expect(bigIntToHex(0n), 'bigIntToHex(): bad input').toBe('0x00')
+		expect(bigIntToHex('0'), 'bigIntToHex(): bad input').toBe('0x00')
+		expect(bigIntToHex('0x0'), 'bigIntToHex(): bad input').toBe('0x00')
+		expect(bigIntToHex('0x00'), 'bigIntToHex(): bad input').toBe('0x00')
+		expect(bigIntToHex('0x000'), 'bigIntToHex(): bad input').toBe('0x00')
+		expect(bigIntToHex('0x0000'), 'bigIntToHex(): bad input').toBe('0x00')
 
-		expect(bigIntToHexString(1), 'bigIntToHexString(): bad input').toBe('0x01')
-		expect(bigIntToHexString(1n), 'bigIntToHexString(): bad input').toBe('0x01')
-		expect(bigIntToHexString('1'), 'bigIntToHexString(): bad input').toBe('0x01')
-		expect(bigIntToHexString('0x1'), 'bigIntToHexString(): bad input').toBe('0x01')
-		expect(bigIntToHexString('0x01'), 'bigIntToHexString(): bad input').toBe('0x01')
-		expect(bigIntToHexString('0x001'), 'bigIntToHexString(): bad input').toBe('0x01')
-		expect(bigIntToHexString('0x0001'), 'bigIntToHexString(): bad input').toBe('0x01')
+		expect(bigIntToHex(1), 'bigIntToHex(): bad input').toBe('0x01')
+		expect(bigIntToHex(1n), 'bigIntToHex(): bad input').toBe('0x01')
+		expect(bigIntToHex('1'), 'bigIntToHex(): bad input').toBe('0x01')
+		expect(bigIntToHex('0x1'), 'bigIntToHex(): bad input').toBe('0x01')
+		expect(bigIntToHex('0x01'), 'bigIntToHex(): bad input').toBe('0x01')
+		expect(bigIntToHex('0x001'), 'bigIntToHex(): bad input').toBe('0x01')
+		expect(bigIntToHex('0x0001'), 'bigIntToHex(): bad input').toBe('0x01')
 
-		expect(bigIntToHexString(255n), 'bigIntToHexString(): bad input').toBe('0xff')
-		expect(bigIntToHexString(256n), 'bigIntToHexString(): bad input').toBe('0x0100')
-		expect(bigIntToHexString(CoordMax), 'bigIntToHexString(): bad input').toBe('0xffffffffffffffff')
+		expect(bigIntToHex(255n), 'bigIntToHex(): bad input').toBe('0xff')
+		expect(bigIntToHex(256n), 'bigIntToHex(): bad input').toBe('0x0100')
+		expect(bigIntToHex(CoordMax), 'bigIntToHex(): bad input').toBe('0xffffffffffffffff')
 	})
 
 	it('bigIntToByteArray()', () => {

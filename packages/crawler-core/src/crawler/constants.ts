@@ -1,19 +1,67 @@
+
 //------------------------------
-// Constants
+// Tiles
 //
 
-export enum Tile {
-	Void = 0x00,
+export enum TileType {
+	//-------------------
+	// original
+	Void = 0x00,		// walls
 	Entry = 0x01,
 	Exit = 0x02,
 	LockedExit = 0x03,
 	Gem = 0x04,
-	HatchClosed = 0x05,
-	HatchDown = 0x06,
-	HatchUp = 0x07,
+	//-------------------
+	// proposed (not in use yet)
+	HatchClosed = 0xf0,
+	HatchDown = 0xf1,
+	HatchUp = 0xf2,
+	//-------------------
+	// reserved
 	Empty = 0xfe,
 	Path = 0xff,
 }
+
+
+//------------------------------
+// Directions
+//
+export enum Dir {
+	North = 0,
+	East = 1,
+	West = 2,
+	South = 3,
+	Over = 4,
+	Under = 5,
+}
+
+export const FlippedDir = {
+	[Dir.North]: Dir.South,
+	[Dir.East]: Dir.West,
+	[Dir.West]: Dir.East,
+	[Dir.South]: Dir.North,
+	[Dir.Over]: Dir.Under,
+	[Dir.Under]: Dir.Over,
+}
+
+export const DirNames = {
+	[Dir.North]: 'North',
+	[Dir.East]: 'East',
+	[Dir.West]: 'West',
+	[Dir.South]: 'South',
+	[Dir.Over]: 'Over',
+	[Dir.Under]: 'Under',
+}
+
+/** @returns the flipped Dir (North/South, East/West, Over/Under) */
+export const flipDir = (dir: Dir): Dir => {
+	return FlippedDir[dir]
+}
+
+
+//------------------------------
+// Terrains
+//
 
 export enum Terrain {
 	Empty = 0,
@@ -39,6 +87,15 @@ export const TerrainNames = {
 	[Terrain.Fire]: 'Fire',
 }
 
+/** @returns Opposite terrains cannot connect to each other (Earth/Air, Wate/Fire) */
+export const getOppositeTerrain = (terrain: Terrain): Terrain => {
+	return OppositeTerrain[terrain]
+}
+
+
+//-------------------
+// Gem / Hoard
+//
 export enum Gem {
 	Silver = 0,
 	Gold = 1,
@@ -66,30 +123,8 @@ export const GemNames = {
 	[Gem.Coin]: 'Coin',
 }
 
-export enum Dir {
-	North = 0,
-	East = 1,
-	West = 2,
-	South = 3,
-	Over = 4,
-	Under = 5,
+export interface Hoard {
+	gemType: Gem
+	coins: number
+	worth: number
 }
-
-export const FlippedDir = {
-	[Dir.North]: Dir.South,
-	[Dir.East]: Dir.West,
-	[Dir.West]: Dir.East,
-	[Dir.South]: Dir.North,
-	[Dir.Over]: Dir.Under,
-	[Dir.Under]: Dir.Over,
-}
-
-export const DirNames = {
-  [Dir.North]: 'North',
-  [Dir.East]: 'East',
-  [Dir.West]: 'West',
-  [Dir.South]: 'South',
-  [Dir.Over]: 'Over',
-  [Dir.Under]: 'Under',
-}
-

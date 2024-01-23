@@ -1,6 +1,5 @@
 import {
 	BigIntString,
-	ChamberCoords,
 	Options,
 } from "../types";
 import {
@@ -9,8 +8,23 @@ import {
 	ViewT,
 } from "./view";
 import {
-	ModuleBase,
+	CompassBase,
+	ModuleInterface,
 } from "../modules";
+
+
+/** @type all the coordinates of a chamber */
+export interface ChamberCoordsModel {
+	coord: bigint
+}
+
+/** @type all the coordinates of a chamber */
+export interface ChamberCoords {
+	coord: BigIntString
+	slug: string
+	compass: CompassBase
+}
+
 
 /** @type keys of TokenIdToCoord view */
 export type TokenIdToCoordViewKey = BigIntString | bigint | number
@@ -24,9 +38,9 @@ export type TokenIdToCoordsViewRecords = {
 export class TokenIdToCoordViewAccess implements ViewAccessInterface<TokenIdToCoordViewKey, TokenIdToCoordViewValue> {
 
 	viewName = ViewName.tokenIdToCoord;
-	module: ModuleBase;
+	module: ModuleInterface;
 
-	constructor(module: ModuleBase) {
+	constructor(module: ModuleInterface) {
 		this.module = module
 	}
 
@@ -50,17 +64,27 @@ export class TokenIdToCoordViewAccess implements ViewAccessInterface<TokenIdToCo
 		this.getView(options).records[String(key)] = value
 	}
 
+	transform(model: ChamberCoordsModel): ChamberCoords {
+		const coord = model.coord
+		const compass = this.module.coordToCompass(coord)
+		return {
+			coord: coord.toString(),
+			slug: this.module.compassToSlug(compass) as string,
+			compass: this.module.minifyCompass(compass) as CompassBase,
+		}
+	}
+
 	/**
 	 * @param tokenIds the token ids
 	 * @param options.chainId the network chain id (1 or 5)
 	 * @returns the coordinates of multiple chambers
 	 */
-	getTokensCoords(tokenIds: number[], options: Options = {}): TokenIdToCoordsViewRecords {
+	getTokensCoords(tokenIds: bigint[], options: Options = {}): TokenIdToCoordsViewRecords {
 		const data = this.getData(options)
 		return Object.entries(data).reduce(function (result, [key, value]) {
-			const tokenId = parseInt(key)
+			const tokenId = BigInt(key)
 			if (tokenIds.includes(tokenId)) {
-				result[tokenId] = value
+				result[String(tokenId)] = value
 			}
 			return result
 		}, {} as TokenIdToCoordsViewRecords)

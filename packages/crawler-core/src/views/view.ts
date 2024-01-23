@@ -8,10 +8,8 @@ import {
 } from './chains'
 import {
 	ModuleId,
+	ModuleInterface,
 } from '../modules'
-import {
-	ModuleBase,
-} from '../modules/module.base'
 
 
 //--------------------------------
@@ -81,8 +79,8 @@ export interface ViewAccess {
 
 export interface ViewAccessInterface<Key extends ViewKey, Value extends ViewValue> extends ViewAccess {
 
-	/** @type {ModuleBase} the module beig accessed */
-	module: ModuleBase;
+	/** @type {ModuleInterface} the module beig accessed */
+	module: ModuleInterface;
 	/** @type {ViewName} the name of this view */
 	viewName: ViewName;
 
@@ -114,5 +112,12 @@ export interface ViewAccessInterface<Key extends ViewKey, Value extends ViewValu
 	 * @param options the dataset
 	 */
 	push(key: Key, value: Value, options: Options): void;
+
+	/**
+	 * @description transforms a Model data to be stored on the View
+	 * @param model data fetched on-chain
+	 * @returns value to be stored on the View
+	 */
+	transform(model: any): Value;
 
 }

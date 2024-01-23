@@ -26,6 +26,9 @@ export {
 } from './chains'
 
 export {
+	// data
+	ChamberData,
+	// view
 	ChamberDataViewAccess,
 	ChamberDataViewKey,
 	ChamberDataViewValue,
@@ -33,6 +36,9 @@ export {
 } from './view.chamberData'
 
 export {
+	// data
+	ChamberCoords,
+	// view
 	TokenIdToCoordViewAccess,
 	TokenIdToCoordViewKey,
 	TokenIdToCoordViewValue,
