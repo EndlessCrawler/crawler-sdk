@@ -38,9 +38,7 @@
 			"coins": 460,
 			"worth": 510,
 			"doors": [11, 191, 144, 251],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"6277101735386680763835789423207666416120802188537744064512": {
 			"compass": { "north": 1, "west": 1 },
@@ -76,7 +74,6 @@
 			"worth": 150,
 			"doors": [5, 111, 176, 251],
 			"locks": [true, false, true, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"6277101735386680764176071790128604879565730051895802724352": {
@@ -114,7 +111,6 @@
 			"worth": 170,
 			"doors": [8, 111, 96, 248],
 			"locks": [true, false, false, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"340282366920938463463374607431768211457": {
@@ -153,7 +149,6 @@
 			"worth": 530,
 			"doors": [8, 143, 176, 245],
 			"locks": [false, true, false, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"6277101735386680764516354157049543343029104659327570935808": {
@@ -190,7 +185,6 @@
 			"worth": 340,
 			"doors": [9, 159, 96, 247],
 			"locks": [false, false, false, true],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"6277101735386680764856636523970481806492479266759339147264": {
@@ -226,9 +220,7 @@
 			"coins": 10,
 			"worth": 210,
 			"doors": [6, 79, 144, 247],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"1020847100762815390390123822295304634369": {
 			"compass": { "east": 3, "south": 1 },
@@ -264,7 +256,6 @@
 			"worth": 390,
 			"doors": [7, 79, 96, 248],
 			"locks": [false, false, true, true],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"6277101735386680765196918890891420269955853874191107358720": {
@@ -300,9 +291,7 @@
 			"coins": 10,
 			"worth": 160,
 			"doors": [0, 159, 64, 246],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"12554203470773361528692425947178148222594834711223373660160": {
 			"compass": { "north": 2, "east": 3 },
@@ -337,9 +326,7 @@
 			"coins": 170,
 			"worth": 220,
 			"doors": [6, 79, 128, 246],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"18831305206160042292528215370385814638697190155687408173056": {
 			"compass": { "north": 3, "east": 3 },
@@ -375,9 +362,7 @@
 			"coins": 10,
 			"worth": 210,
 			"doors": [8, 175, 112, 246],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"25108406941546723056364004793593481054799545600151442685952": {
 			"compass": { "north": 4, "east": 3 },
@@ -415,7 +400,6 @@
 			"worth": 220,
 			"doors": [7, 79, 80, 248],
 			"locks": [true, true, true, false],
-			"locksCount": 3,
 			"isDynamic": true
 		},
 		"18831305206160042292187933003464876175233815548255639961600": {
@@ -453,7 +437,6 @@
 			"worth": 320,
 			"doors": [8, 127, 96, 247],
 			"locks": [true, false, true, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"6277101735386680765537201257812358733419228481622875570176": {
@@ -491,7 +474,6 @@
 			"worth": 400,
 			"doors": [9, 159, 144, 249],
 			"locks": [true, true, false, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"12554203470773361528352143580257209759131460103791605448704": {
@@ -529,7 +511,6 @@
 			"worth": 640,
 			"doors": [7, 143, 80, 249],
 			"locks": [false, false, true, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"12554203470773361529032708314099086686058209318655141871616": {
@@ -569,7 +550,6 @@
 			"worth": 60,
 			"doors": [0, 175, 64, 0],
 			"locks": [false, true, false, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"18831305206160042292868497737306753102160564763119176384512": {
@@ -606,7 +586,6 @@
 			"worth": 710,
 			"doors": [5, 191, 160, 0],
 			"locks": [true, false, false, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"18831305206160042293208780104227691565623939370550944595968": {
@@ -643,7 +622,6 @@
 			"worth": 120,
 			"doors": [6, 79, 176, 245],
 			"locks": [true, false, false, true],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"18831305206160042293549062471148630029087313977982712807424": {
@@ -679,9 +657,7 @@
 			"coins": 120,
 			"worth": 270,
 			"doors": [9, 191, 64, 251],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"25108406941546723057384851894356296445189669422446747320320": {
 			"compass": { "north": 4, "east": 6 },
@@ -717,7 +693,6 @@
 			"worth": 120,
 			"doors": [10, 143, 128, 249],
 			"locks": [false, false, true, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"18831305206160042293889344838069568492550688585414481018880": {
@@ -753,9 +728,7 @@
 			"coins": 490,
 			"worth": 590,
 			"doors": [5, 175, 176, 249],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"12554203470773361530053555414861902076448333140950446505984": {
 			"compass": { "north": 2, "east": 7 },
@@ -790,9 +763,7 @@
 			"coins": 120,
 			"worth": 170,
 			"doors": [9, 127, 160, 245],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"12554203470773361530393837781782840539911707748382214717440": {
 			"compass": { "north": 2, "east": 8 },
@@ -829,7 +800,6 @@
 			"worth": 190,
 			"doors": [9, 175, 112, 250],
 			"locks": [false, false, false, true],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"18831305206160042294229627204990506956014063192846249230336": {
@@ -866,7 +836,6 @@
 			"worth": 230,
 			"doors": [8, 191, 160, 249],
 			"locks": [true, true, false, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"25108406941546723057725134261277234908653044029878515531776": {
@@ -904,7 +873,6 @@
 			"worth": 80,
 			"doors": [11, 79, 128, 245],
 			"locks": [false, true, false, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"12554203470773361529713273047940963612984958533518678294528": {
@@ -942,7 +910,6 @@
 			"worth": 420,
 			"doors": [11, 175, 96, 247],
 			"locks": [false, false, true, true],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"31385508676933403821560923684484901324755399474342550044672": {
@@ -979,7 +946,6 @@
 			"worth": 240,
 			"doors": [8, 127, 144, 251],
 			"locks": [true, true, false, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"6277101735386680766217765991654235660345977696486411993088": {
@@ -1018,7 +984,6 @@
 			"worth": 60,
 			"doors": [5, 79, 144, 244],
 			"locks": [false, true, true, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"31385508676933403821220641317563962861292024866910781833216": {
@@ -1056,7 +1021,6 @@
 			"worth": 190,
 			"doors": [9, 159, 160, 250],
 			"locks": [false, false, true, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"1701411834604692317316873037158841057281": {
@@ -1092,9 +1056,7 @@
 			"coins": 60,
 			"worth": 110,
 			"doors": [9, 175, 112, 244],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"1701411834604692317316873037158841057282": {
 			"compass": { "east": 5, "south": 2 },
@@ -1131,7 +1093,6 @@
 			"worth": 410,
 			"doors": [4, 175, 0, 251],
 			"locks": [false, true, false, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"1701411834604692317316873037158841057283": {
@@ -1168,9 +1129,7 @@
 			"coins": 80,
 			"worth": 130,
 			"doors": [11, 95, 160, 245],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"2041694201525630780780247644590609268739": {
 			"compass": { "east": 6, "south": 3 },
@@ -1206,7 +1165,6 @@
 			"worth": 460,
 			"doors": [7, 79, 80, 248],
 			"locks": [true, false, false, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"2381976568446569244243622252022377480195": {
@@ -1243,7 +1201,6 @@
 			"worth": 420,
 			"doors": [4, 175, 64, 245],
 			"locks": [true, false, false, true],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"2722258935367507707706996859454145691651": {
@@ -1281,7 +1238,6 @@
 			"worth": 510,
 			"doors": [11, 143, 160, 249],
 			"locks": [false, false, false, true],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"3062541302288446171170371466885913903107": {
@@ -1319,7 +1275,6 @@
 			"worth": 110,
 			"doors": [4, 111, 128, 251],
 			"locks": [false, false, false, true],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"3402823669209384634633746074317682114563": {
@@ -1355,9 +1310,7 @@
 			"coins": 10,
 			"worth": 110,
 			"doors": [0, 95, 96, 248],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"2722258935367507707706996859454145691650": {
 			"compass": { "east": 8, "south": 2 },
@@ -1393,7 +1346,6 @@
 			"worth": 580,
 			"doors": [8, 111, 112, 251],
 			"locks": [false, false, true, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"3062541302288446171170371466885913903106": {
@@ -1429,9 +1381,7 @@
 			"coins": 60,
 			"worth": 210,
 			"doors": [0, 143, 96, 244],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"3402823669209384634633746074317682114562": {
 			"compass": { "east": 10, "south": 2 },
@@ -1469,7 +1419,6 @@
 			"worth": 130,
 			"doors": [6, 143, 128, 0],
 			"locks": [false, true, false, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"3743106036130323098097120681749450326019": {
@@ -1505,7 +1454,6 @@
 			"worth": 700,
 			"doors": [8, 159, 80, 246],
 			"locks": [true, true, false, true],
-			"locksCount": 3,
 			"isDynamic": true
 		},
 		"3402823669209384634633746074317682114564": {
@@ -1542,7 +1490,6 @@
 			"worth": 240,
 			"doors": [8, 127, 80, 245],
 			"locks": [false, true, true, true],
-			"locksCount": 3,
 			"isDynamic": true
 		},
 		"2041694201525630780780247644590609268737": {
@@ -1580,7 +1527,6 @@
 			"worth": 400,
 			"doors": [4, 79, 160, 246],
 			"locks": [true, false, false, true],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"2381976568446569244243622252022377480193": {
@@ -1619,7 +1565,6 @@
 			"worth": 330,
 			"doors": [4, 175, 64, 247],
 			"locks": [false, false, false, true],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"2722258935367507707706996859454145691649": {
@@ -1658,7 +1603,6 @@
 			"worth": 120,
 			"doors": [11, 159, 160, 248],
 			"locks": [true, false, false, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"3062541302288446171170371466885913903105": {
@@ -1694,9 +1638,7 @@
 			"coins": 10,
 			"worth": 160,
 			"doors": [7, 143, 144, 0],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"3402823669209384634633746074317682114561": {
 			"compass": { "east": 10, "south": 1 },
@@ -1734,7 +1676,6 @@
 			"worth": 190,
 			"doors": [9, 127, 128, 246],
 			"locks": [true, true, false, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"6277101735386680766898330725496112587272726911349948416000": {
@@ -1771,7 +1712,6 @@
 			"worth": 370,
 			"doors": [11, 95, 96, 247],
 			"locks": [false, true, true, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"12554203470773361530734120148703779003375082355813982928896": {
@@ -1810,7 +1750,6 @@
 			"worth": 110,
 			"doors": [10, 159, 160, 251],
 			"locks": [true, true, false, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"18446744073709551618": {
@@ -1847,9 +1786,7 @@
 			"coins": 30,
 			"worth": 80,
 			"doors": [11, 95, 112, 249],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"340282366920938463463374607431768211458": {
 			"compass": { "east": 1, "south": 2 },
@@ -1886,7 +1823,6 @@
 			"worth": 360,
 			"doors": [5, 143, 80, 251],
 			"locks": [false, true, false, true],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"18446744073709551619": {
@@ -1925,7 +1861,6 @@
 			"worth": 450,
 			"doors": [9, 143, 112, 247],
 			"locks": [false, true, false, true],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"37662610412320084585056430740771629277394380311374816346112": {
@@ -1963,7 +1898,6 @@
 			"worth": 170,
 			"doors": [6, 143, 64, 249],
 			"locks": [true, true, true, false],
-			"locksCount": 3,
 			"isDynamic": true
 		},
 		"36893488147419103233": {
@@ -2002,7 +1936,6 @@
 			"worth": 380,
 			"doors": [5, 159, 80, 250],
 			"locks": [true, false, true, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"36893488147419103234": {
@@ -2039,7 +1972,6 @@
 			"worth": 120,
 			"doors": [10, 127, 96, 0],
 			"locks": [false, false, true, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"36893488147419103235": {
@@ -2078,7 +2010,6 @@
 			"worth": 180,
 			"doors": [0, 127, 96, 250],
 			"locks": [false, false, true, true],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"1361129467683753853853498429727072845825": {
@@ -2115,9 +2046,7 @@
 			"coins": 470,
 			"worth": 670,
 			"doors": [6, 127, 64, 249],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"1361129467683753853853498429727072845826": {
 			"compass": { "east": 4, "south": 2 },
@@ -2154,7 +2083,6 @@
 			"worth": 330,
 			"doors": [9, 0, 64, 249],
 			"locks": [false, false, true, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"1361129467683753853853498429727072845827": {
@@ -2190,9 +2118,7 @@
 			"coins": 70,
 			"worth": 220,
 			"doors": [9, 175, 160, 246],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"1361129467683753853853498429727072845828": {
 			"compass": { "east": 4, "south": 4 },
@@ -2230,7 +2156,6 @@
 			"worth": 370,
 			"doors": [6, 143, 96, 246],
 			"locks": [false, false, true, false],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"1020847100762815390390123822295304634371": {
@@ -2267,7 +2192,6 @@
 			"worth": 470,
 			"doors": [7, 175, 96, 244],
 			"locks": [true, false, true, true],
-			"locksCount": 3,
 			"isDynamic": true
 		},
 		"1361129467683753853853498429727072845829": {
@@ -2306,7 +2230,6 @@
 			"worth": 250,
 			"doors": [6, 127, 144, 247],
 			"locks": [false, false, true, true],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"1701411834604692317316873037158841057285": {
@@ -2344,9 +2267,7 @@
 			"coins": 110,
 			"worth": 260,
 			"doors": [9, 127, 112, 250],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"2041694201525630780780247644590609268741": {
 			"compass": { "east": 6, "south": 5 },
@@ -2383,7 +2304,6 @@
 			"worth": 160,
 			"doors": [7, 127, 112, 245],
 			"locks": [false, false, false, true],
-			"locksCount": 1,
 			"isDynamic": true
 		},
 		"1701411834604692317316873037158841057286": {
@@ -2422,7 +2342,6 @@
 			"worth": 240,
 			"doors": [10, 111, 112, 247],
 			"locks": [false, true, true, true],
-			"locksCount": 3,
 			"isDynamic": true
 		},
 		"1701411834604692317316873037158841057284": {
@@ -2458,9 +2377,7 @@
 			"coins": 570,
 			"worth": 770,
 			"doors": [5, 0, 128, 249],
-			"locks": [false, false, false, false],
-			"locksCount": 0,
-			"isDynamic": false
+			"locks": [false, false, false, false]
 		},
 		"2381976568446569244243622252022377480197": {
 			"compass": { "east": 7, "south": 5 },
@@ -2496,7 +2413,6 @@
 			"worth": 200,
 			"doors": [11, 159, 112, 244],
 			"locks": [true, true, false, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"2381976568446569244243622252022377480198": {
@@ -2532,7 +2448,6 @@
 			"worth": 220,
 			"doors": [4, 175, 64, 251],
 			"locks": [false, true, true, false],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"2381976568446569244243622252022377480199": {
@@ -2571,7 +2486,6 @@
 			"worth": 570,
 			"doors": [11, 95, 160, 247],
 			"locks": [false, false, true, true],
-			"locksCount": 2,
 			"isDynamic": true
 		},
 		"2722258935367507707706996859454145691655": {
@@ -2610,7 +2524,6 @@
 			"worth": 330,
 			"doors": [8, 191, 80, 250],
 			"locks": [true, true, false, true],
-			"locksCount": 3,
 			"isDynamic": true
 		},
 		"2041694201525630780780247644590609268740": {
@@ -2648,7 +2561,6 @@
 			"worth": 150,
 			"doors": [8, 191, 0, 247],
 			"locks": [false, true, false, false],
-			"locksCount": 1,
 			"isDynamic": true
 		}
 	}

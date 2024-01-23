@@ -65,15 +65,16 @@ export interface ChamberDataModel {
 	name?: string
 	coord: BigIntIsh
 	yonder: BigIntIsh
-	seed: BigIntIsh
-	bitmap: Bitmap.BitmapIsh
-	tilemap: Bitmap.TilemapIsh
-	terrain: Terrain
 	entryDir: Dir
-	gemPos: number
-	hoard: Hoard
+	seed: BigIntIsh
+	tilemap: Bitmap.TilemapIsh
 	doors: number[]
 	locks: number[]
+	// optionals
+	bitmap?: Bitmap.BitmapIsh
+	terrain?: Terrain
+	gemPos?: number
+	hoard?: Hoard
 }
 
 /** @type all static data of a chamber  */
@@ -86,19 +87,17 @@ export interface ChamberData extends ViewValue {
 	coord: BigIntIsh
 	yonder: BigIntIsh
 	seed: HexString
-	bitmap: Bitmap.Bitmap
-	terrain: number
 	entryDir: number
-	gemPos: number
-	gemType: number
-	coins: number
-	worth: number
-	// (static, can still change while isDynamic is true)
-	tilemap: Bitmap.Tilemap
-	doors: number[]
-	locks: boolean[]
-	locksCount: number
-	isDynamic: boolean
+	tilemap: Bitmap.Tilemap	// dynamic
+	bitmap?: Bitmap.Bitmap
+	doors: number[]					// dynamic
+	locks: boolean[]				// dynamic
+	terrain?: number
+	gemPos?: number
+	gemType?: number
+	coins?: number
+	worth?: number
+	isDynamic?: boolean			// dynamic
 }
 
 
@@ -111,7 +110,7 @@ export type ChamberDataViewRecords = {
 	[key in ChamberDataViewKey as string]: ChamberDataViewValue
 }
 
-export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataViewKey, ChamberDataViewValue> {
+export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataViewKey, ChamberDataViewValue, ChamberDataViewRecords> {
 
 	viewName = ViewName.chamberData;
 	module: ModuleInterface;
@@ -148,7 +147,7 @@ export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataVie
 			compass: this.module.minifyCompass(this.module.coordToCompass(toBigInt(model.coord))) as CompassBase,
 			coord: toBigInt(model.coord),
 			seed: bigIntToHex(model.seed),
-			bitmap: Bitmap.toBitmap(model.bitmap ?? 0),
+			bitmap: model.bitmap ? Bitmap.toBitmap(model.bitmap ?? 0) : undefined,
 			tilemap: Bitmap.toTilemap(model.tilemap ?? 0),
 			tokenId: toBigInt(model.tokenId),
 			yonder: toBigInt(model.yonder),
@@ -157,13 +156,12 @@ export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataVie
 			terrain: model.terrain,
 			entryDir: model.entryDir,
 			gemPos: model.gemPos,
-			gemType: model.hoard.gemType,
-			coins: model.hoard.coins,
-			worth: model.hoard.worth,
+			gemType: model.hoard?.gemType,
+			coins: model.hoard?.coins,
+			worth: model.hoard?.worth,
 			doors: model.doors,
 			locks,
-			locksCount,
-			isDynamic: (locksCount > 0),
+			isDynamic: (locksCount > 0) ? true : undefined,
 		}
 		return minifyObject(chamberData)
 	}

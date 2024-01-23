@@ -6,6 +6,7 @@ import {
 	ViewAccessInterface,
 	ViewName,
 	ViewT,
+	ViewValue,
 } from "./view";
 import {
 	CompassBase,
@@ -19,7 +20,7 @@ export interface ChamberCoordsModel {
 }
 
 /** @type all the coordinates of a chamber */
-export interface ChamberCoords {
+export interface ChamberCoords extends ViewValue {
 	coord: BigIntString
 	slug: string
 	compass: CompassBase
@@ -35,7 +36,7 @@ export type TokenIdToCoordsViewRecords = {
 	[key in TokenIdToCoordViewKey as string]: TokenIdToCoordViewValue
 }
 
-export class TokenIdToCoordViewAccess implements ViewAccessInterface<TokenIdToCoordViewKey, TokenIdToCoordViewValue> {
+export class TokenIdToCoordViewAccess implements ViewAccessInterface<TokenIdToCoordViewKey, TokenIdToCoordViewValue, TokenIdToCoordsViewRecords> {
 
 	viewName = ViewName.tokenIdToCoord;
 	module: ModuleInterface;
