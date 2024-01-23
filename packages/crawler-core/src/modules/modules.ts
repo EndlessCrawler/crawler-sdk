@@ -1,6 +1,7 @@
-import { Dir } from "../crawl";
 import {
-	ChainId,
+	Dir,
+} from '../crawler'
+import {
 	Options,
 } from "../types";
 import {
@@ -10,6 +11,7 @@ import {
 	View,
 	ViewAccess,
 	ViewName,
+	ChainId,
 } from "../views";
 
 /** @type existing modules */

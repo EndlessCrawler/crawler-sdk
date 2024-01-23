@@ -1,9 +1,11 @@
 import {
 	Address,
-	ChainId,
-	ContractName,
 	Options,
 } from '../types'
+import {
+	ChainId,
+	ContractName,
+} from './chains'
 import {
 	ModuleId,
 } from '../modules'

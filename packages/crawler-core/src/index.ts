@@ -1,5 +1,5 @@
 export * from './types'
 export * from './modules'
-export * from './crawl'
+export * from './crawler'
 export * from './views'
 export * from './utils'

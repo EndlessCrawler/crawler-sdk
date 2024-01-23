@@ -1,5 +1,4 @@
 import {
-	ChainId,
 	InvalidDataSetError,
 	InvalidModuleError,
 	MissingGlobalNamespaceError,
@@ -12,6 +11,7 @@ import {
 import {
 	DataSet,
 	DataSetName,
+	ChainId,
 } from '../views'
 import { EventName, __emitEvent } from './events'
 import {

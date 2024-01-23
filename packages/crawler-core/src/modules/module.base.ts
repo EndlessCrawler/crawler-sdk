@@ -1,6 +1,4 @@
 import {
-	ChainId,
-	NetworkName,
 	Options,
 } from "../types"
 import {
@@ -11,6 +9,8 @@ import {
 	ViewMetadata,
 	ViewName,
 	ViewRecords,
+	ChainId,
+	NetworkName,
 } from "../views"
 import {
 	ModuleId,

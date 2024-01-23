@@ -14,6 +14,11 @@ export {
 } from './view'
 
 export {
+	ChainId,
+	NetworkName,
+	ContractName,
+	ChainIdToNetworkName,
+	NetworkNameToChainId,
 	getAllChainIds,
 	getAllNetworkNames,
 	chainIdToNetworkName,

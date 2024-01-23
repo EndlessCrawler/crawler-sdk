@@ -1,12 +1,10 @@
 import {
-	ChainId,
-} from "./chains"
-import {
 	CompassBase,
 	ModuleId,
 } from "../modules"
 import {
 	DataSetName,
+	ChainId,
 } from "../views"
 
 

@@ -1,4 +1,6 @@
-import { Dir } from '../crawl'
+import {
+	Dir,
+} from '../crawler'
 import {
 	MissingImplementationError,
 } from '../types'

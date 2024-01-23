@@ -1,4 +1,6 @@
-import { Dir } from '../crawl'
+import {
+	Dir,
+} from '../crawler'
 import {
 	ChamberDataViewAccess,
 	TokenIdToCoordViewAccess,
