@@ -10,11 +10,11 @@ import { createClient, EndlessCrawler } from '@avante/crawler-core'
 import { mainnetDataSet, goerliDataSet } from '@avante/crawler-data'
 import { CrawlerProvider } from '@avante/crawler-react'
 
-const client = createClient([mainnetDataSet, goerliDataSet]) as EndlessCrawler.Module
+const client = createClient([mainnetDataSet, goerliDataSet])
 
 export default function _app({ Component, pageProps }: AppProps) {
 	return (
-		<CrawlerProvider client={client as EndlessCrawler.Module}>
+		<CrawlerProvider client={client}>
 			<Wagmi>
 				<FetchProvider>
 					<Head />
