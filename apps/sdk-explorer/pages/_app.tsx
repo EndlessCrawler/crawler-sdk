@@ -11,6 +11,7 @@ import { mainnetDataSet, goerliDataSet } from '@avante/crawler-data'
 import { CrawlerProvider } from '@avante/crawler-react'
 
 const client = createClient([mainnetDataSet, goerliDataSet])
+// const client = createClient(EndlessCrawler.Id, true) // creates a new blank Module
 
 export default function _app({ Component, pageProps }: AppProps) {
 	return (

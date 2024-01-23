@@ -83,6 +83,8 @@ export interface ModuleInterface {
 	getDataSet(options?: Options): DataSet;
 	/** @returns options.chainId or the current dataset ChainId */
 	resolveChainId(options?: Options): ChainId;
+	/** @returns a blank DataSet */
+	createBlankDataSet(select?: boolean): DataSet;
 
 
 	//-------------------------

@@ -1,5 +1,6 @@
 import {
 	ChainId,
+	NetworkName,
 	Options,
 } from "../types"
 import {
@@ -7,7 +8,9 @@ import {
 	DataSetName,
 	DataSetViews,
 	View,
+	ViewMetadata,
 	ViewName,
+	ViewRecords,
 } from "../views"
 import {
 	ModuleId,
@@ -60,6 +63,30 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
 	}
 	resolveChainId(options: Options = {}): ChainId {
 		return __resolveChainId(this._options(options))
+	}
+	createBlankDataSet(select: boolean = true): DataSet {
+		const moduleId = this.moduleId
+		const dataSetName = NetworkName.Blank
+		const chainId = ChainId.Blank
+		const result: DataSet = {
+			moduleId,
+			dataSetName,
+			chainId,
+			views: Object.keys(this.moduleViews).reduce((acc, moduleName) => {
+				acc[moduleName as ViewName] = {
+					metadata: {
+						chainId,
+					} as ViewMetadata,
+					data: {} as ViewRecords,
+				} as View
+				return acc
+			}, {} as DataSetViews),
+		}
+		this.importDataSets([result])
+		if (select) {
+			this.setCurrentDataSet({ moduleId, dataSetName })
+		}
+		return result
 	}
 
 

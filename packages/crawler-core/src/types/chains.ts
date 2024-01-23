@@ -1,5 +1,6 @@
 /** @type supported networks */
 export enum NetworkName {
+	Blank = 'blank',
 	Mainnet = 'mainnet',
 	Goerli = 'goerli',
 	// Sepolia = 'sepolia',
@@ -7,6 +8,7 @@ export enum NetworkName {
 
 /** @type supported chain ids */
 export enum ChainId {
+	Blank = 0,
 	Mainnet = 1,
 	Goerli = 5,
 	// Sepolia = 11155111,
@@ -15,6 +17,7 @@ export type ChainIdOrNone = ChainId | 0
 
 /** @type chain id to network name lookup */
 export const ChainIdToNetworkName: Record<ChainId, NetworkName> = {
+	[ChainId.Blank]: NetworkName.Blank,
 	[ChainId.Mainnet]: NetworkName.Mainnet,
 	[ChainId.Goerli]: NetworkName.Goerli,
 	// [ChainId.Sepolia]: NetworkName.Sepolia,
@@ -22,6 +25,7 @@ export const ChainIdToNetworkName: Record<ChainId, NetworkName> = {
 
 /** @type chain id to network name lookup */
 export const NetworkNameToChainId: Record<NetworkName, ChainId> = {
+	[NetworkName.Blank]: ChainId.Blank,
 	[NetworkName.Mainnet]: ChainId.Mainnet,
 	[NetworkName.Goerli]: ChainId.Goerli,
 	// [NetworkName.Sepolia]: ChainId.Sepolia,

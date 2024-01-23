@@ -12,7 +12,6 @@ import {
 import {
 	DataSet,
 	DataSetName,
-	DataSetViews,
 } from '../views'
 import { EventName, __emitEvent } from './events'
 import {

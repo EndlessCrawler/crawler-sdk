@@ -6,7 +6,8 @@ import { LootUnderworld } from './module.luw'
 import { __initializeGlobalModule } from './importer'
 
 export const createClient = (
-	datasetsOrModuleId: DataSet[] | ModuleId
+	datasetsOrModuleId: DataSet[] | ModuleId,
+	withBlankDataset: boolean = false,
 ): EndlessCrawler.Module | LootUnderworld.Module => {
 
 	let moduleId: ModuleId | null = null
@@ -41,16 +42,21 @@ export const createClient = (
 
 	//
 	// Instantiate Module
-	let result = null
+	let module = null
 	if (moduleId == ModuleId.EndlessCrawler) {
-		result = new EndlessCrawler.Module()
+		module = new EndlessCrawler.Module()
 	} else if (moduleId == ModuleId.LootUnderworld) {
-		result =  new LootUnderworld.Module()
+		module =  new LootUnderworld.Module()
 	} else {
 		throw new InvalidModuleInterfaceError()
 	}
 
-	result.importDataSets(datasets)
+	if (withBlankDataset) {
+		const dt = module.createBlankDataSet()
+		datasets.push(dt)
+	}
 
-	return result
+	module.importDataSets(datasets)
+
+	return module
 }

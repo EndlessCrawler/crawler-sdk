@@ -41,6 +41,7 @@ export default function DataMenu() {
 				<ActionDispatcher label='getDataSetNames()' onAction={() => client.getDataSetNames()} />
 				<ActionDispatcher label='getCurrentDataSetName()' onAction={() => client.getCurrentDataSetName()} />
 				<ActionDispatcher label={`getDataSet(~${currentDataSetName})`} onAction={() => client.getDataSet()} />
+				<ActionDispatcher label='createBlankDataSet()' onAction={() => client.createBlankDataSet()} />
 			</div>
 
 			<Divider />

@@ -24,22 +24,20 @@ export enum ViewName {
 }
 
 /** @type generic View structure */
-export interface View {
-	metadata: ViewMetadata
-	data: any
-}
+export type View = ViewT<ViewRecords>
+
 /** @type typed View structure */
-export interface ViewT<ViewDataType> extends View {
+export interface ViewT<R extends ViewRecords> {
 	metadata: ViewMetadata
-	data: ViewDataType
+	data: R
 }
 
-/** @type ViewT info */
+/** @type ViewT<> metadata */
 export interface ViewMetadata {
 	chainId: ChainId
-	contractName: ContractName
-	contractAddress: Address
-	timestamp: number
+	contractName?: ContractName
+	contractAddress?: Address
+	timestamp?: number
 }
 
 
