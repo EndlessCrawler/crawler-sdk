@@ -14,6 +14,7 @@ import {
 	DataSetName,
 	DataSetViews,
 } from '../views'
+import { EventName, __emitEvent } from './events'
 import {
 	ModuleId,
 } from './modules'
@@ -64,10 +65,12 @@ export const __importDataSets = (datasets: DataSet[]) => {
 	}
 	for (const dataset of datasets) {
 		const dataSetName = dataset.dataSetName
+		_global.CrawlerModules[moduleId].datasets[dataSetName] = dataset
+		__emitEvent(EventName.DataSetImported, { moduleId, dataSetName })
 		if (_global.CrawlerModules[moduleId].currentdataSetName == null) {
 			_global.CrawlerModules[moduleId].currentdataSetName = dataSetName
+			__emitEvent(EventName.DataSetChanged, { moduleId, dataSetName })
 		}
-		_global.CrawlerModules[moduleId].datasets[dataSetName] = dataset
 	}
 }
 
@@ -82,6 +85,7 @@ export const __setCurrentDataSet = (options: Options) => {
 		throw new InvalidDataSetError(moduleId, dataSetName)
 	}
 	_global.CrawlerModules[moduleId].currentdataSetName = dataSetName
+	__emitEvent(EventName.DataSetChanged, { moduleId, dataSetName })
 }
 
 /** @returns the currently selected DataSetName */

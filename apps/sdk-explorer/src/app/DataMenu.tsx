@@ -1,10 +1,11 @@
 import React, { useMemo } from 'react'
 import { Divider } from 'semantic-ui-react'
 import { ActionDispatcher } from '@/components/Dispatchers'
-import { useCrawler } from '@avante/crawler-react'
+import { useCrawler, useDataSets } from '@avante/crawler-react'
 
 export default function DataMenu() {
 	const { client } = useCrawler()
+	const { currentDataSetName } = useDataSets()
 
 	const views = useMemo(() => {
 		let result = []
@@ -39,7 +40,7 @@ export default function DataMenu() {
 			<div>
 				<ActionDispatcher label='getDataSetNames()' onAction={() => client.getDataSetNames()} />
 				<ActionDispatcher label='getCurrentDataSetName()' onAction={() => client.getCurrentDataSetName()} />
-				<ActionDispatcher label='getDataSet(current)' onAction={() => client.getDataSet()} />
+				<ActionDispatcher label={`getDataSet(~${currentDataSetName})`} onAction={() => client.getDataSet()} />
 			</div>
 
 			<Divider />
@@ -47,7 +48,7 @@ export default function DataMenu() {
 			<h4>Views</h4>
 			<div>
 				<ActionDispatcher label='getViewNames()' onAction={() => client.getViewNames()} />
-				<ActionDispatcher label='getAllViews(current)' onAction={() => client.getAllViews()} />
+				<ActionDispatcher label={`getAllViews(~${currentDataSetName})`} onAction={() => client.getAllViews()} />
 				{views}
 			</div>
 

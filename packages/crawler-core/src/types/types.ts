@@ -41,6 +41,7 @@ export interface Options {
 // ChamberData access
 //
 
+// TODO: MOVE TO ModuleBase
 /** @type all the coordinates of a chamber */
 export interface ChamberCoords {
 	coord: BigIntString

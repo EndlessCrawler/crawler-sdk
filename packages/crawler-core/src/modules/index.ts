@@ -28,3 +28,7 @@ export {
 export {
 	LootUnderworld,
 } from './module.luw'
+
+export {
+	EventName,
+} from './events'
