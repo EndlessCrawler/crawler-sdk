@@ -1,9 +1,8 @@
 import {
 	BigIntIsh,
 	HexString,
-	MissingImplementationError,
 } from "../types"
-import { bigIntToHex, bigIntToNumberArray, binaryArrayToBigInt, isBigInt, isString } from "../utils"
+import { Utils } from "../utils"
 import { TileType } from "./constants"
 
 export namespace Bitmap {
@@ -75,37 +74,37 @@ export namespace Bitmap {
 	// 	// BigIntIsh[] | number[] | boolean[]
 	// 	if(Array.isArray(bmp)) {
 	// 		if (bmp.length == 0) {
-	// 			bigIntToHex(0)
+	// 			Utils.bigIntToHex(0)
 	// 		}
 	// 		// BigIntIsh[]
-	// 		if (isString(bmp[0]) || isBigInt(bmp[0])) {
+	// 		if (Utils.isString(bmp[0]) || Utils.isBigInt(bmp[0])) {
 	// 			if(bmp.length == 0) {
 	// 				// single bigint
-	// 				return bigIntToHex(bmp[0] as BigIntIsh)
+	// 				return Utils.bigIntToHex(bmp[0] as BigIntIsh)
 	// 			}
 	// 			// multiple bigints
-	// 			return bmp.map(v => bigIntToHex(v as BigIntIsh))
+	// 			return bmp.map(v => Utils.bigIntToHex(v as BigIntIsh))
 	// 		}
 	// 		// number[] | boolean[]
 	// 		let bigints: bigint[] = Array(Math.ceil(bmp.length / 256)).fill(0n)
 	// 		for (let n = 0; n < bmp.length; n += 256) {
 	// 			let slice = bmp.slice(n, n + 256) as number[] | boolean[]
-	// 			bigints.push(binaryArrayToBigInt(slice))
+	// 			bigints.push(Utils.binaryArrayToBigInt(slice))
 	// 		}
 	// 		if (bigints.length == 1) {
 	// 			// single bigint
-	// 			return bigIntToHex(bigints[0])
+	// 			return Utils.bigIntToHex(bigints[0])
 	// 		}
 	// 		// multiple bigints
-	// 		return bigints.map(v => bigIntToHex(v))
+	// 		return bigints.map(v => Utils.bigIntToHex(v))
 	// 	}
 	// 	// BigIntIsh
-	// 	return bigIntToHex(bmp as BigIntIsh)
+	// 	return Utils.bigIntToHex(bmp as BigIntIsh)
 	// }
 
 	/** @returns converts anything to Bitmap */
 	export const toBitmap = (bmp: BitmapIsh): Bitmap => {
-		return bigIntToHex(bmp as BigIntIsh)
+		return Utils.bigIntToHex(bmp as BigIntIsh)
 	}
 
 	/** @returns converts anything to Tilemap */
@@ -114,7 +113,7 @@ export namespace Bitmap {
 			return tmp
 		}
 		// bytes packed inside BigIntIsh
-		return bigIntToNumberArray(tmp)
+		return Utils.bigIntToNumberArray(tmp)
 	}
 
 }

@@ -6,7 +6,7 @@ import * as prettier from 'prettier/standalone.mjs'
 import prettierPluginBabel from 'prettier/plugins/babel.mjs'
 //@ts-ignore
 import prettierPluginEstree from 'prettier/plugins/estree.mjs'
-import { isString, isObject } from '@avante/crawler-core'
+import { Utils } from '@avante/crawler-core'
 
 // javascript version
 //@ts-ignore
@@ -20,9 +20,9 @@ import { isString, isObject } from '@avante/crawler-core'
 }
 
 export const formatViewData = async (data: any = {}): Promise<string> => {
-	if (isString(data)) {
+	if (Utils.isString(data)) {
 		return data
-	} else if (!isObject(data)) {
+	} else if (!Utils.isObject(data)) {
 		return data.toString()
 	}
 	// return JSON.stringify(data, null, '\t')

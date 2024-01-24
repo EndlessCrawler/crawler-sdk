@@ -5,26 +5,21 @@ import {
 	Options,
 } from '../types'
 import {
-	isBrowser,
-	isNode,
-} from '../utils'
-import {
 	DataSet,
 	DataSetName,
 	ChainId,
 } from '../views'
 import { EventName, __emitEvent } from './events'
-import {
-	ModuleId,
-} from './modules'
+import { ModuleId } from './modules'
+import { Utils } from '../utils'
 
 
 //@ts-ignore
 let _global: any = null
 //@ts-ignore
-if (isBrowser()) _global = window
+if (Utils.isBrowser()) _global = window
 //@ts-ignore
-if (isNode()) _global = global
+if (Utils.isNode()) _global = global
 
 interface CrawlerGlobalNamespace {
 	currentdataSetName: DataSetName | null

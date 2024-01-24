@@ -1,7 +1,4 @@
-import {
-	isBrowser,
-	isNode,
-} from '../utils'
+import { Utils } from '../utils'
 
 /** @type custom event names */
 export enum EventName {
@@ -12,9 +9,9 @@ export enum EventName {
 //@ts-ignore
 let _document: any = null
 //@ts-ignore
-if (isBrowser()) _document = document
+if (Utils.isBrowser()) _document = document
 //@ts-ignore
-if (isNode()) _document = null
+if (Utils.isNode()) _document = null
 
 /**
  * Emits a custom event event of type {EventName}

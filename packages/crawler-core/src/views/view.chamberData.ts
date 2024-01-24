@@ -15,9 +15,7 @@ import {
 	ModuleInterface,
 } from "../modules";
 import {
-	toBigInt,
-	bigIntToHex,
-	minifyObject,
+	Utils,
 } from "../utils";
 import {
 	Dir,
@@ -144,13 +142,13 @@ export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataVie
 		const locks: boolean[] = model.locks.map((v: number) => v != 0)
 		const locksCount: number = locks.reduce<number>((acc: number, val: boolean) => { return acc + (val ? 1 : 0) }, 0)
 		const chamberData: ChamberData = {
-			compass: this.module.minifyCompass(this.module.coordToCompass(toBigInt(model.coord))) as CompassBase,
-			coord: toBigInt(model.coord),
-			seed: bigIntToHex(model.seed),
+			compass: this.module.minifyCompass(this.module.coordToCompass(Utils.toBigInt(model.coord))) as CompassBase,
+			coord: Utils.toBigInt(model.coord),
+			seed: Utils.bigIntToHex(model.seed),
 			bitmap: model.bitmap ? Bitmap.toBitmap(model.bitmap ?? 0) : undefined,
 			tilemap: Bitmap.toTilemap(model.tilemap ?? 0),
-			tokenId: toBigInt(model.tokenId),
-			yonder: toBigInt(model.yonder),
+			tokenId: Utils.toBigInt(model.tokenId),
+			yonder: Utils.toBigInt(model.yonder),
 			name: model.name ?? `Chamber #${model.tokenId}`,
 			chapter: model.chapter,
 			terrain: model.terrain,
@@ -163,7 +161,7 @@ export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataVie
 			locks,
 			isDynamic: (locksCount > 0) ? true : undefined,
 		}
-		return minifyObject(chamberData)
+		return Utils.minifyObject(chamberData)
 	}
 
 	/**
@@ -226,7 +224,7 @@ export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataVie
 		const data = this.getData(options)
 		return Object.values(data).reduce((acc, value) => {
 			if (value.isDynamic) {
-				acc.push(toBigInt(value.tokenId))
+				acc.push(Utils.toBigInt(value.tokenId))
 			}
 			return acc
 		}, [] as bigint[])
