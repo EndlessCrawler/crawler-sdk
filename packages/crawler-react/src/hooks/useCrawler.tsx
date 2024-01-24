@@ -2,16 +2,13 @@ import { useContext } from 'react'
 import { EndlessCrawler, LootUnderworld, ModuleId, ModuleInterface } from '@avante/crawler-core'
 import { CrawlerContext } from '../context/CrawlerContext'
 
-interface useCrawlerResult {
-	// client: ModuleInterface
-	client: EndlessCrawler.Module // TODO: fix this!! typed Provider?
+export const useCrawler = <T extends ModuleInterface>(): {
+	client: ModuleInterface & T
 	crawler: EndlessCrawler.Module | null
 	underworld: LootUnderworld.Module | null
 	moduleId: ModuleId
 	moduleDescription: string
-}
-
-export const useCrawler = (): useCrawlerResult => {
+} => {
 	const {
 		client,
 		state,
@@ -26,7 +23,7 @@ export const useCrawler = (): useCrawlerResult => {
 
 	return {
 		// client,
-		client: client as EndlessCrawler.Module,
+		client: client as ModuleInterface & T,
 		crawler: moduleId == EndlessCrawler.Id ? client as EndlessCrawler.Module : null,
 		underworld: moduleId == LootUnderworld.Id ? client as LootUnderworld.Module : null,
 		moduleId,
@@ -34,4 +31,12 @@ export const useCrawler = (): useCrawlerResult => {
 		// state,
 		// dispatch,
 	}
+}
+
+export const useEndlessCrawler = () => {
+	return useCrawler<EndlessCrawler.Module>()
+}
+
+export const useLootUnderworld = () => {
+	return useCrawler<LootUnderworld.Module>()
 }

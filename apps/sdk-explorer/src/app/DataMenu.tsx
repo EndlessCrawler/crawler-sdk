@@ -2,9 +2,10 @@ import React, { useMemo } from 'react'
 import { Divider } from 'semantic-ui-react'
 import { ActionDispatcher } from '@/components/Dispatchers'
 import { useCrawler, useDataSets } from '@avante/crawler-react'
+import { EndlessCrawler } from '@avante/crawler-core'
 
 export default function DataMenu() {
-	const { client } = useCrawler()
+	const { client } = useCrawler<EndlessCrawler.Module>()
 	const { currentDataSetName } = useDataSets()
 
 	const views = useMemo(() => {
