@@ -28,6 +28,8 @@
 		"watch:test:data": "pnpm --filter '@avante/crawler-data' run watch:test",
 		"watch:test:api": "pnpm --filter '@avante/crawler-api' run watch:test",
 		"watch:test:react": "pnpm --filter '@avante/crawler-react' run watch:test",
+		"link": "pnpm --color --filter '@avante/*' exec pnpm link --global",
+		"unlink": "pnpm --color --filter '@avante/*' exec pnpm unlink",
 		"update": "pnpm --color -r run update"
 	},
 	"devDependencies": {
