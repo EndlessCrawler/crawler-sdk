@@ -1,7 +1,6 @@
 import React, { ReactNode, createContext, useReducer } from 'react'
 import {
 	ModuleInterface,
-	EndlessCrawler,
 } from '@avante/crawler-core'
 
 //--------------------------------

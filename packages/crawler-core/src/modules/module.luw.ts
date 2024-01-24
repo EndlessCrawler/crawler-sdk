@@ -272,6 +272,21 @@ export namespace LootUnderworld {
 			if (!slug) return null
 			throw (new MissingImplementationError('LootUnderworld.Module.slugToCompass()'))
 		}
+
+		//----------------------------
+		// Loot Underworld specific
+		//
+		makeRealmEntryChamberIdFromCoord(realmId: number, coord: bigint): bigint {
+			let result = this.coordToCompass(coord)
+			if (result) {
+				result.domainId = Domain.Realms
+				result.tokenId = realmId
+				result.over = 0
+				result.under = 1
+			}
+			return this.compassToCoord(result)
+		}
+
 	}
 
 } // namespace LootUnderworld
