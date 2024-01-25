@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { DataSetName, EventName } from '@avante/crawler-core'
 import { useCrawler } from './useCrawler'
-import { useEvent } from './useEvent'
+import { useEvent } from './misc/useEvent'
 
 export const useDataSets = () => {
 	const { client } = useCrawler()

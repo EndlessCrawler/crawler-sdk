@@ -8,5 +8,6 @@ export {
 } from './useDataSets'
 
 // misc
-export { useEvent } from './useEvent'
-export { useEffectOnce } from './useEffectOnce'
+export * from './misc/useConsole'
+export * from './misc/useEffectOnce'
+export * from './misc/useEvent'
