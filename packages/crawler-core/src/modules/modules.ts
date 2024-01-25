@@ -76,7 +76,7 @@ export interface ModuleInterface {
 	/** @type all possible chamber directions */
 	chamberDirections: Dir[];
 
-	
+
 	//-------------------------
 	//  DataSets importer
 	//
@@ -85,9 +85,9 @@ export interface ModuleInterface {
 	/** set options.dataSetName as the current DataSet */
 	setCurrentDataSet(options?: Options): void;
 	/** @returns all the imported DataSet names **/
-	getCurrentDataSetName(options: Options): DataSetName;
+	getCurrentDataSetName(options?: Options): DataSetName;
 	/** @returns all the imported DataSet names **/
-	getDataSetNames(options: Options): DataSetName[];
+	getDataSetNames(options?: Options): DataSetName[];
 	/** @returns a full imported DataSet */
 	getDataSet(options?: Options): DataSet;
 	/** @returns options.chainId or the current dataset ChainId */

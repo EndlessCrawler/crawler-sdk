@@ -1,8 +1,8 @@
 import { useContext } from 'react'
 import { EndlessCrawler, LootUnderworld, ModuleId, ModuleInterface } from '@avante/crawler-core'
-import { CrawlerContext } from '../context/CrawlerContext'
+import { CrawlerContext, CrawlerContextType } from '../context/CrawlerContext'
 
-export const useCrawler = <T extends ModuleInterface>(): {
+export const useCrawler = <T extends ModuleInterface>(): CrawlerContextType & {
 	client: ModuleInterface & T
 	crawler: EndlessCrawler.Module | null
 	underworld: LootUnderworld.Module | null
@@ -13,6 +13,7 @@ export const useCrawler = <T extends ModuleInterface>(): {
 		client,
 		state,
 		dispatch,
+		dispatchChamberData,
 	} = useContext(CrawlerContext)
 	
 	if (!client) {
@@ -22,14 +23,14 @@ export const useCrawler = <T extends ModuleInterface>(): {
 	const { moduleId, moduleDescription } = client
 
 	return {
-		// client,
+		state,
+		dispatch,
+		dispatchChamberData,
 		client: client as ModuleInterface & T,
 		crawler: moduleId == EndlessCrawler.Id ? client as EndlessCrawler.Module : null,
 		underworld: moduleId == LootUnderworld.Id ? client as LootUnderworld.Module : null,
 		moduleId,
 		moduleDescription,
-		// state,
-		// dispatch,
 	}
 }
 

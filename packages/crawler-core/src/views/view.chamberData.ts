@@ -25,6 +25,10 @@ import {
 	Bitmap,
 	Gem,
 } from "../crawler";
+import {
+	EventName,
+	__emitEvent,
+} from "../modules/events";
 
 
 //
@@ -110,7 +114,7 @@ export type ChamberDataViewRecords = {
 	[key in ChamberDataViewKey as string]: ChamberDataViewValue
 }
 
-export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataViewKey, ChamberDataViewValue, ChamberDataViewRecords> {
+export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataViewKey, ChamberDataViewValue, ChamberDataModel, ChamberDataViewRecords> {
 
 	viewName = ViewName.chamberData;
 	module: ModuleInterface;
@@ -135,8 +139,9 @@ export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataVie
 		return this.getView(options).records[String(key)]
 	}
 
-	push(key: ChamberDataViewKey, value: ChamberDataViewValue, options: Options = {}): void {
-		this.getView(options).records[String(key)] = value
+	set(key: ChamberDataViewKey, model: ChamberDataModel, options: Options = {}): void {
+		this.getView(options).records[String(key)] = this.transform(model)
+		__emitEvent(EventName.ViewRecordChanged, { key })
 	}
 
 	// implement transform() as static to be used outside the View

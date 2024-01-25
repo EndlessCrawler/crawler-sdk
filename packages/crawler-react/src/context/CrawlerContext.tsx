@@ -1,5 +1,6 @@
 import React, { ReactNode, createContext, useReducer } from 'react'
 import {
+	ChamberDataModel,
 	ModuleInterface,
 } from '@avante/crawler-core'
 
@@ -10,24 +11,24 @@ export const initialState = {
 	chambers: [],
 }
 
-const CrawlerActions = {
-	SET_CHAMBER: 'SET_CHAMBER',
+enum CrawlerActions {
+	SET_SOMETHING = 'SET_SOMETHING',
 }
+
 
 //--------------------------------
 // Types
 //
-type CrawlerStateType = {
-	chambers: any[],
-}
+type CrawlerStateType = typeof initialState
 
 type ActionType =
-	| { type: 'SET_CHAMBER', payload: any }
+	| { type: 'SET_SOMETHING', payload: any}
 
 export type CrawlerContextType = {
 	client: ModuleInterface | null
 	state: CrawlerStateType
 	dispatch: React.Dispatch<any>
+	dispatchChamberData(coord: bigint, chamberData: ChamberDataModel): void,
 }
 
 
@@ -38,6 +39,7 @@ const CrawlerContext = createContext<CrawlerContextType>({
 	client: null,
 	state: initialState,
 	dispatch: () => null,
+	dispatchChamberData: () => null,
 })
 
 //--------------------------------
@@ -54,7 +56,7 @@ const CrawlerProvider = ({
 	const [state, dispatch] = useReducer((state: CrawlerStateType, action: ActionType) => {
 		let newState = { ...state }
 		switch (action.type) {
-			case CrawlerActions.SET_CHAMBER: {
+			case CrawlerActions.SET_SOMETHING: {
 				// newState.chambers = action.payload
 				break
 			}
@@ -65,8 +67,19 @@ const CrawlerProvider = ({
 		return newState
 	}, initialState)
 
+	const dispatchSomething = (payload: any) => {
+		dispatch({
+			type: CrawlerActions.SET_SOMETHING,
+			payload,
+		})
+	}
+
+	const dispatchChamberData = (coord: bigint, chamberData: ChamberDataModel) => {
+		client.chamberData.set(coord, chamberData)
+	}
+
 	return (
-		<CrawlerContext.Provider value={{ client, state, dispatch }}>
+		<CrawlerContext.Provider value={{ client, state, dispatch, dispatchChamberData }}>
 			{children}
 		</CrawlerContext.Provider>
 	)

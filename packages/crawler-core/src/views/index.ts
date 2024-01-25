@@ -28,6 +28,7 @@ export {
 export {
 	// data
 	ChamberData,
+	ChamberDataModel,
 	// view
 	ChamberDataViewAccess,
 	ChamberDataViewKey,

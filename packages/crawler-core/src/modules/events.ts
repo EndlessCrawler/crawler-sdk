@@ -4,6 +4,7 @@ import { Utils } from '../utils'
 export enum EventName {
 	DataSetImported = 'DataSetImported',
 	DataSetChanged = 'DataSetChanged',
+	ViewRecordChanged = 'ViewRecordChanged',
 }
 
 //@ts-ignore

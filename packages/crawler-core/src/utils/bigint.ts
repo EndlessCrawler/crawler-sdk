@@ -1,12 +1,18 @@
 import {
 	BigIntIsh,
 } from '../types'
+import {
+	isBigInt,
+} from './misc'
 
 /**
  * @param value number, number string, hex string or bigint
  * @returns a bigint
  */
 export const toBigInt = (value: BigIntIsh): bigint => BigInt(value)
+
+/** @returns true if a and b are BigInt and of equal value */
+export const bigIntEquals = (a: BigIntIsh, b: BigIntIsh): boolean => (isBigInt(a) && toBigInt(a) == toBigInt(b))
 
 /** @returns a bigint as numeric string (base-10) */
 export const bigIntToString = (value: BigIntIsh): string => {

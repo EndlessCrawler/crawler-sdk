@@ -68,6 +68,8 @@ export type ViewKey = string | number | bigint
 export type ViewValue = any & {
 	isDynamic?: boolean		// dynamic records can be updated
 }
+/** @type the input value that is transformed into ViewValue */
+export type ViewValueModel = any
 /** @type a View's record (key/value pair) */
 // export type ViewRecord = Partial<Record<ViewKey, ViewValue>>
 export type ViewRecords = {
@@ -76,7 +78,7 @@ export type ViewRecords = {
 
 export interface ViewAccess {}
 
-export interface ViewAccessInterface<K extends ViewKey, V extends ViewValue, R extends ViewRecords> extends ViewAccess {
+export interface ViewAccessInterface<K extends ViewKey, V extends ViewValue, M extends ViewValueModel, R extends ViewRecords> extends ViewAccess {
 
 	/** @type {ModuleInterface} the module beig accessed */
 	module: ModuleInterface;
@@ -99,24 +101,24 @@ export interface ViewAccessInterface<K extends ViewKey, V extends ViewValue, R e
 	 */
 	getCount(options: Options): number;
 	/**
-	 * @param key a view data key
+	 * @param key the record key
 	 * @param options the dataset
 	 * @returns a value from the view
 	 */
 	get(key: K, options: Options): V | null;
 	/**
-	 * @description pushes or update a value to the view
-	 * @param key a view data key
-	 * @param value the value to push
+	 * @description insert or update a value to the view
+	 * @param key the record key
+	 * @param value the record value
 	 * @param options the dataset
 	 */
-	push(key: K, value: V, options: Options): void;
+	set(key: K, model: M, options: Options): void;
 
 	/**
 	 * @description transforms a Model data to be stored on the View
 	 * @param model data fetched on-chain
 	 * @returns value to be stored on the View
 	 */
-	transform(model: any): V;
+	transform(model: M): V;
 
 }

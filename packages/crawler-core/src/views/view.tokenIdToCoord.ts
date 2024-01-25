@@ -12,6 +12,10 @@ import {
 	CompassBase,
 	ModuleInterface,
 } from "../modules";
+import {
+	EventName,
+	__emitEvent,
+} from "../modules/events";
 
 
 /** @type all the coordinates of a chamber */
@@ -36,7 +40,7 @@ export type TokenIdToCoordsViewRecords = {
 	[key in TokenIdToCoordViewKey as string]: TokenIdToCoordViewValue
 }
 
-export class TokenIdToCoordViewAccess implements ViewAccessInterface<TokenIdToCoordViewKey, TokenIdToCoordViewValue, TokenIdToCoordsViewRecords> {
+export class TokenIdToCoordViewAccess implements ViewAccessInterface<TokenIdToCoordViewKey, TokenIdToCoordViewValue, ChamberCoordsModel, TokenIdToCoordsViewRecords> {
 
 	viewName = ViewName.tokenIdToCoord;
 	module: ModuleInterface;
@@ -61,8 +65,9 @@ export class TokenIdToCoordViewAccess implements ViewAccessInterface<TokenIdToCo
 		return this.getView(options).records[String(key)] ?? null
 	}
 
-	push(key: TokenIdToCoordViewKey, value: TokenIdToCoordViewValue, options: Options = {}): void {
-		this.getView(options).records[String(key)] = value
+	set(key: TokenIdToCoordViewKey, model: ChamberCoordsModel, options: Options = {}): void {
+		this.getView(options).records[String(key)] = this.transform(model)
+		__emitEvent(EventName.ViewRecordChanged, { key })
 	}
 
 	transform(model: ChamberCoordsModel): ChamberCoords {
