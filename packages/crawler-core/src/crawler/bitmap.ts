@@ -107,6 +107,12 @@ export namespace Bitmap {
 		return Utils.bigIntToHex(bmp as BigIntIsh)
 	}
 
+
+
+	//------------------
+	// Tilemaps
+	//
+
 	/** @returns converts anything to Tilemap */
 	export const toTilemap = (tmp: TilemapIsh): Tilemap => {
 		if (Array.isArray(tmp)) {
@@ -114,6 +120,16 @@ export namespace Bitmap {
 		}
 		// bytes packed inside BigIntIsh
 		return Utils.bigIntToNumberArray(tmp)
+	}
+
+	export const findTilesInTilemap = (tmp: Tilemap, tilesToFind: TileType[]): number[] => {
+		let result = [] as number[]
+		tmp.forEach((tile, index) => {
+			if (tilesToFind.includes(tile)) {
+				result.push(index)
+			}
+		})
+		return result
 	}
 
 }

@@ -6,6 +6,12 @@ export {
 export {
 	useDataSets,
 } from './useDataSets'
+export {
+	useChamberData,
+} from './useChamberData'
+export {
+	useSideCoords,
+} from './useSideCoords'
 
 // misc
 export * from './misc/useConsole'

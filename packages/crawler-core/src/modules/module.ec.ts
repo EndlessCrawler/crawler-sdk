@@ -120,6 +120,7 @@ export namespace EndlessCrawler {
 				[this.tokenIdToCoord.viewName]: this.tokenIdToCoord,
 				[this.chamberData.viewName]: this.chamberData,
 			}
+			this.chamberDirections = [Dir.North, Dir.East, Dir.West, Dir.South]
 		}
 
 		//------------------------------
@@ -128,6 +129,7 @@ export namespace EndlessCrawler {
 		moduleViews: ModuleViews
 		tokenIdToCoord: TokenIdToCoordViewAccess;
 		chamberData: ChamberDataViewAccess;
+		chamberDirections: Dir[];
 
 
 		//------------------------------

@@ -122,6 +122,7 @@ export namespace LootUnderworld {
 			this.moduleViews = {
 				[this.chamberData.viewName]: this.chamberData,
 			}
+			this.chamberDirections = [Dir.North, Dir.East, Dir.West, Dir.South, Dir.Over, Dir.Under]
 		}
 
 		//------------------------------
@@ -129,6 +130,7 @@ export namespace LootUnderworld {
 		//
 		moduleViews: ModuleViews
 		chamberData: ChamberDataViewAccess;
+		chamberDirections: Dir[];
 
 		moduleId = Id;
 		moduleDescription = 'Loot Underworld from Starknet Dojo';

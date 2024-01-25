@@ -23,6 +23,7 @@ import {
 	Terrain,
 	TileType,
 	Bitmap,
+	Gem,
 } from "../crawler";
 
 
@@ -58,21 +59,22 @@ import {
 
 /** @type input model used to build ChamberData */
 export interface ChamberDataModel {
-	chapter: number
-	tokenId: BigIntIsh
+	chapter?: number
+	tokenId?: BigIntIsh	// if absent, try to get from coord
 	name?: string
 	coord: BigIntIsh
-	yonder: BigIntIsh
-	entryDir: Dir
+	yonder?: BigIntIsh
+	entryDir?: Dir			// if absent, try to get from tilemap + doors
 	seed: BigIntIsh
+	doors: number[]			// ordered as in Dir
+	locks: number[]			// ordered as in Dir
 	tilemap: Bitmap.TilemapIsh
-	doors: number[]
-	locks: number[]
 	// optionals
 	bitmap?: Bitmap.BitmapIsh
 	terrain?: Terrain
 	gemPos?: number
 	hoard?: Hoard
+	isDynamic?: boolean	// if absent, try to get from locked doors
 }
 
 /** @type all static data of a chamber  */
@@ -85,17 +87,17 @@ export interface ChamberData extends ViewValue {
 	coord: BigIntIsh
 	yonder: BigIntIsh
 	seed: HexString
-	entryDir: number
-	tilemap: Bitmap.Tilemap	// dynamic
-	bitmap?: Bitmap.Bitmap
+	entryDir: Dir
 	doors: number[]					// dynamic
 	locks: boolean[]				// dynamic
-	terrain?: number
+	tilemap: Bitmap.Tilemap	// dynamic
+	bitmap?: Bitmap.Bitmap
+	terrain?: Terrain
 	gemPos?: number
-	gemType?: number
+	gemType?: Gem
 	coins?: number
 	worth?: number
-	isDynamic?: boolean			// dynamic
+	isDynamic?: boolean			// when true, record can be updated
 }
 
 
@@ -139,27 +141,49 @@ export class ChamberDataViewAccess implements ViewAccessInterface<ChamberDataVie
 
 	// implement transform() as static to be used outside the View
 	transform(model: ChamberDataModel): ChamberData {
+		const coord = Utils.toBigInt(model.coord)
+		const compass = this.module.minifyCompass(this.module.coordToCompass(coord)) as CompassBase
+		const tilemap = Bitmap.toTilemap(model.tilemap ?? 0)
+		const doors = model.doors ?? []
+		// get entryDir from tilemap and doors, if absent
+		let entryDir = model.entryDir
+		if (entryDir == null) {
+			const entryPos = Bitmap.findTilesInTilemap(tilemap, [TileType.Entry])[0]
+			if (entryPos) {
+				const i = doors.indexOf(entryPos)
+				if (i >= 0) {
+					entryDir = i as Dir
+				}
+			}
+			if (entryDir == null) {
+				console.warn(`Door not found for Entry tile pos [${entryPos}], fallback entry to Dir.Over.`, doors, compass)
+				entryDir = Dir.Over
+			}
+		}
+		// Determine dinamic from locks
 		const locks: boolean[] = model.locks.map((v: number) => v != 0)
 		const locksCount: number = locks.reduce<number>((acc: number, val: boolean) => { return acc + (val ? 1 : 0) }, 0)
+		const isDynamic = (model.isDynamic || locksCount > 0) ? true : undefined
+		// contruct ChamberData
 		const chamberData: ChamberData = {
-			compass: this.module.minifyCompass(this.module.coordToCompass(Utils.toBigInt(model.coord))) as CompassBase,
-			coord: Utils.toBigInt(model.coord),
+			compass,
+			coord,
 			seed: Utils.bigIntToHex(model.seed),
 			bitmap: model.bitmap ? Bitmap.toBitmap(model.bitmap ?? 0) : undefined,
-			tilemap: Bitmap.toTilemap(model.tilemap ?? 0),
-			tokenId: Utils.toBigInt(model.tokenId),
-			yonder: Utils.toBigInt(model.yonder),
+			tilemap,
+			tokenId: Utils.toBigInt(model.tokenId ?? compass.tokenId ?? 0n),
+			yonder: Utils.toBigInt(model.yonder ?? 1n),
 			name: model.name ?? `Chamber #${model.tokenId}`,
-			chapter: model.chapter,
+			chapter: model.chapter ?? 0,
 			terrain: model.terrain,
-			entryDir: model.entryDir,
+			entryDir,
 			gemPos: model.gemPos,
 			gemType: model.hoard?.gemType,
 			coins: model.hoard?.coins,
 			worth: model.hoard?.worth,
-			doors: model.doors,
+			doors,
 			locks,
-			isDynamic: (locksCount > 0) ? true : undefined,
+			isDynamic,
 		}
 		return Utils.minifyObject(chamberData)
 	}

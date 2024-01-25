@@ -12,6 +12,7 @@ import {
 	ViewAccess,
 	ViewName,
 	ChainId,
+	ChamberDataViewAccess,
 } from "../views";
 
 /** @type existing modules */
@@ -66,10 +67,16 @@ export interface ModuleInterface {
 	moduleId: ModuleId;
 	/** @type {string} the module description */
 	moduleDescription: string;
+
 	/** @type the ViewAccessInterface for all views included in this module */
 	moduleViews: ModuleViews;
+	/** @type the main ChamberData view, common to all modules */
+	chamberData: ChamberDataViewAccess;
 
+	/** @type all possible chamber directions */
+	chamberDirections: Dir[];
 
+	
 	//-------------------------
 	//  DataSets importer
 	//
