@@ -9,9 +9,8 @@ import {
 import { useCrawler } from './useCrawler'
 import { useEvent } from './misc/useEvent'
 
-export const useChamberData = <T extends ModuleInterface>(coord: BigIntIsh): {
-	chamberData: ChamberData | null
-} => {
+
+export const useChamberData = <T extends ModuleInterface>(coord: BigIntIsh): ChamberData | null => {
 	const { client } = useCrawler<T>()
 	const [chamberData, setChamberData] = useState<ChamberData | null>(null)
 
@@ -34,7 +33,5 @@ export const useChamberData = <T extends ModuleInterface>(coord: BigIntIsh): {
 		setChamberData(client.chamberData.get(Utils.toBigInt(coord)))
 	}
 
-	return {
-		chamberData
-	}
+	return chamberData
 }
