@@ -1,0 +1,28 @@
+{
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": true,
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "typescript.validate.enable": true,
+  "js/ts.implicitProjectConfig.target": "ESNext",
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/.next": true,
+    "**/_bak": true,
+    "**/*.tsbuildinfo": true,
+    "**/.env*": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/*-lock.*": true,
+    "**/artifacts/**/*.json": true,
+    "**/contracts/**/*.json": true,
+    "packages/crawler-data/src/data": true
+  },
+  "colorize.colorized_colors": ["BROWSERS_COLORS", "HEXA", "RGB", "HSL"],
+  "colorize.languages": ["javascript", "typescript"]
+}

@@ -2,13 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Specs
+
+- **`specs/V2_PLAN.md`** — the modernization plan (phases, decisions, gates). Consult it before starting any migration work; it is the plan of record. It mirrors the sibling repo's plan at `../ec-dapp/specs/V2_PLAN.md` — ec-dapp's Phase 9 depends on this repo publishing `@avante/crawler-core|data|react` to npm.
+- **`specs/CODING_STYLE.md`** — formatting, TypeScript, library-design, and testing rules. **All code written in this repo must follow it**, including during the modernization.
+
 ## Overview
 
 Endless Crawler SDK — a pnpm monorepo of TypeScript packages for interacting with the on-chain generative dungeon game [Endless Crawler](https://endlesscrawler.io/) (and its sibling game Loot Underworld). The SDK models dungeon chamber coordinates, caches map data off-chain, and exposes a web3 API and React bindings.
 
 Status per package (from README): `crawler-core`/`crawler-data`/`crawler-react` are **alpha**, `crawler-api` is **broken**, contracts are **planned**. Things break; APIs are unstable.
 
-Requires **Node 18** and **pnpm 8** (see `engines`). Everything is ESM (`"type": "module"`).
+Requires **Node 18** and **pnpm 8** (see `engines`) — the V2 plan moves this to Node 24 + pnpm 10 in Phase 1. Everything is ESM (`"type": "module"`).
 
 ## Commands
 
@@ -72,6 +77,6 @@ Supported chains live in `views/chains.ts`: `ChainId` (Blank=0, Mainnet=1, Goerl
 
 ## Conventions
 
-- Files use **tabs** for indentation.
+- Coding style (formatting, TS, library design, testing): see **`specs/CODING_STYLE.md`**. Target formatting is **Biome, 2-space, single quotes, semicolons** (root `biome.jsonc` + `.vscode/settings.json`); legacy files still use **tabs** until the V2 Phase 1 repo-wide format sweep lands — format on touch.
 - Internal cross-module helpers are prefixed `__` (e.g. `__importDataSets`) and generally not part of the public API.
 - Each package builds with its own `tsconfig.build.json` (extends `tsconfig.base.json`); the root `tsconfig.json` is VSCode-only and maps `@avante/*` to `packages/*/src` for go-to-source.

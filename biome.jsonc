@@ -1,0 +1,53 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/.next/**",
+      // Cached map data — large generated JSON, not hand-edited.
+      "!packages/crawler-data/src/data/**",
+      "!**/*.html",
+      "!**/*.md",
+      "!**/*.svg",
+      "!**/*.scss"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "always"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        // Exempt the intentional `!= null` idiom (catches null + undefined); flag all other loose equality.
+        "noDoubleEquals": {
+          "level": "error",
+          "options": { "ignoreNull": true }
+        },
+        // Its autofix rewrites our directory content-excludes (`!**/dist/**`) to the bare
+        // form, which stops excluding directory *contents* — leave the /** globs intact.
+        "useBiomeIgnoreFolder": "off"
+      }
+      // Rule levels get tuned against real lint output in V2 Phase 1 (see specs/V2_PLAN.md);
+      // every downgrade added there must carry a comment saying why.
+    }
+  }
+}
