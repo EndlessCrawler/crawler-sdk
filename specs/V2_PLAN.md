@@ -118,9 +118,20 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 
 ---
 
-## Phase 4 — Dependency upgrades & pruning (core, data, react)
+## Phase 4 — Dependency upgrades & pruning (core, data, react) ✅ (2026-07-09)
 
 **Goal:** the three publishable packages on current dependencies with pruned manifests. (`crawler-api` is Phase 6 — its upgrade is a rewrite, not a bump.)
+
+> **Done (2026-07-09).** Result:
+> - **Catalog bumps:** `@types/node` `^20.11.4 → ^24.13.3` (tracks the Node 24 engine), `react`/`react-dom` `^18 → ^19.2.7`, `@types/react` `^18.2.30 → ^19.2.17`, `@types/react-dom` `^18.2.14 → ^19.2.3`, `rimraf` `^6.0.1 → ^6.1.3`. TypeScript held at `^5.9.3` (latest 5.x; TS 7 is out of scope per the decisions). `vitest`/`tsdown` unchanged; `viem` stays `^1.10.3` (commented) until Phase 6.
+> - **crawler-react peer:** `react` moved from `catalog:` to an inline **`^18 || ^19`** range — a two-major peer range can't be expressed by a single-version catalog entry, and the range is the publish-facing contract. `@types/react`/`@types/react-dom` come from the (now-19) catalog.
+> - **crawler-data / crawler-api peers:** already correct from Phase 2 (`@avante/crawler-core: workspace:^` as peer → publishes `^0.1.0`; `workspace:*` as dev) — verified, no change.
+> - **React-19 hook audit:** no code changes. The hooks are plain (`createContext` with a default, `useRef(false)` — already argumented); no `defaultProps`/`forwardRef`/`React.FC`/`ReactDOM.render`. Typecheck is clean under `@types/react` 19.
+> - **Prune:** nothing removed. `@types/node` is kept in all three — crawler-core's `importer.ts` references `global`, and data/react typecheck that source transitively via the `paths` map, so dropping it breaks `tsc`. `@types/react-dom` has no import but is retained per step 3 (conventional for the React lib; its remit includes Components). No runtime deps entered core/data.
+>
+> **Gates:** `pnpm typecheck` 0 errors (all 4, under @types/node 24 + @types/react 19); `pnpm build` (sequential) exit 0; `pnpm check:pack` publint "All good!" ×4 + attw esm-only green; tests at baseline (core 20/3-skip, data 10, react 1-skip, **api 4-pass/4-fail = Phase 6**); `pnpm lint` 0 errors; `pnpm format:check` 0.
+>
+> **`pnpm outdated` (three packages) — documented exceptions only:** `@types/node` 24→26 (pinned to the 24 line to match the Node 24 runtime) and `typescript` 5.9.3→7.0.2 (staying on TS 5.x this modernization). React/viem no longer appear. The explorer emits React-18-peer warnings (semantic-ui-react / fluentui / react-popper) against the React-19 catalog — expected; those packages are removed in Phase 7.
 
 **Steps**
 1. **crawler-core** — no runtime deps; bump devDeps (`@types/node` 24, rimraf 6, typescript via catalog). Verify the DOM-vs-Node global handling (`window.CrawlerModules` / `global.CrawlerModules`) still typechecks under the new TS/lib settings.
