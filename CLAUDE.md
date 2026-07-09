@@ -1,0 +1,77 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Overview
+
+Endless Crawler SDK — a pnpm monorepo of TypeScript packages for interacting with the on-chain generative dungeon game [Endless Crawler](https://endlesscrawler.io/) (and its sibling game Loot Underworld). The SDK models dungeon chamber coordinates, caches map data off-chain, and exposes a web3 API and React bindings.
+
+Status per package (from README): `crawler-core`/`crawler-data`/`crawler-react` are **alpha**, `crawler-api` is **broken**, contracts are **planned**. Things break; APIs are unstable.
+
+Requires **Node 18** and **pnpm 8** (see `engines`). Everything is ESM (`"type": "module"`).
+
+## Commands
+
+```sh
+pnpm install                 # bootstrap the monorepo
+pnpm run build               # build all @avante/* packages SEQUENTIALLY (required — see below)
+pnpm run test                # run all tests (packages + apps)
+pnpm run clean               # rimraf dist + tsbuildinfo everywhere
+
+# per-package shortcuts: replace <pkg> with core | data | api | react
+pnpm run build:<pkg>
+pnpm run test:<pkg>
+pnpm run watch:test:<pkg>
+
+# filter directly
+pnpm --filter "@avante/crawler-core" test
+pnpm --filter "@avante/crawler-core" test -- coord.luw   # run a single test file by name pattern
+```
+
+Build order matters: `pnpm run build` uses `--sequential` because packages depend on `@avante/crawler-core` at build time. Prefer it over `build:all` (`-r`, unordered) when a fresh build must succeed.
+
+Tests use Jest + ts-jest in ESM mode; the `test` script sets `NODE_OPTIONS=--experimental-vm-modules`. Run tests through the pnpm scripts, not bare `jest`, or ESM will not load.
+
+To develop `apps/sdk-explorer` (Next.js) against live package changes: run `pnpm run watch` in one terminal and `cd apps/sdk-explorer && npm run dev` in another.
+
+## Architecture
+
+### Packages (`packages/*`, workspace-linked as `@avante/*`)
+
+- **crawler-core** — no runtime deps; the heart of the SDK. Contains types, the module system, the view/dataset system, coordinate math (`crawler/`), and utils.
+- **crawler-data** — static cached map data as JSON (`data/mainnet`, `data/goerli`), exported as ready-to-use `DataSet` objects (`mainnetDataSet`, `goerliDataSet`, `allDataSets`).
+- **crawler-api** — on-chain web3 layer (wagmi + viem) plus contract ABIs in `contracts/` and `artifacts/`. Marked broken.
+- **crawler-react** — a `CrawlerProvider` context + hooks (`useCrawler`/`useEndlessCrawler`/`useLootUnderworld`, `useChamberData`, `useSideCoords`, `useDataSets`).
+
+### Module system (core)
+
+`createClient()` (`modules/client.ts`) is the entry point. It accepts either a `ModuleId` or an array of `DataSet`s and returns a module instance — `EndlessCrawler.Module` or `LootUnderworld.Module`. Each game is a **TypeScript namespace** (`module.ec.ts`, `module.luw.ts`) whose `Module` class extends `ModuleBase` and implements `ModuleInterface` (`modules/modules.ts`). The two `ModuleId`s are `'ec'` and `'luw'`. Mixing datasets from different modules in one client throws `MixedModulesError`.
+
+`ModuleBase` provides generic Compass/DataSet/View plumbing; each module supplies the abstract, game-specific coordinate methods.
+
+### Coordinates: Compass ↔ Coord ↔ Slug
+
+A chamber location has three representations, converted by module methods:
+- **Compass** — an object of named directions (`{ north, east, west, south, yonder, ... }`). Endless Crawler packs North/East/West/South into a `uint256`; Loot Underworld adds `over`/`under`/`domainId`.
+- **Coord** — the packed `uint256` as a JS `bigint` (directions in NEWS order, 64 bits each).
+- **Slug** — a human-readable string form.
+
+When touching coordinate logic, mind that these are **bigint** and game-specific; EndlessCrawler and LootUnderworld pack them differently.
+
+### DataSets, Views, and the global namespace
+
+A `DataSet` is `{ moduleId, dataSetName, chainId, views }`. A **View** (`views/view.ts`) is `{ metadata, records }`; the two view names are `chamberData` and `tokenIdToCoord`. Each view is wrapped by a `ViewAccess` class (e.g. `ChamberDataViewAccess`) that exposes `.get()`/`.set()` and converts between an input **Model** (e.g. `ChamberDataModel`) and stored records.
+
+**Important, non-obvious:** imported DataSets live in a **global singleton** — `window.CrawlerModules` (browser) or `global.CrawlerModules` (Node), keyed by `moduleId`, managed by `modules/importer.ts` (the `__`-prefixed functions). Modules don't hold their own dataset state; they read/write this global. There is a "current" dataset per module (`setCurrentDataSet` / `getCurrentDataSetName`). Consequences: importing data mutates process-global state, multiple clients of the same module share it, and tests can leak state between each other.
+
+Dataset/view operations emit events (`modules/events.ts`, `EventName`), which the React hooks subscribe to.
+
+### Chains
+
+Supported chains live in `views/chains.ts`: `ChainId` (Blank=0, Mainnet=1, Goerli=5) ↔ `NetworkName`. `ChamberData` mirrors the on-chain Solidity struct from `Crawl.sol` (documented inline in `views/view.chamberData.ts`).
+
+## Conventions
+
+- Files use **tabs** for indentation.
+- Internal cross-module helpers are prefixed `__` (e.g. `__importDataSets`) and generally not part of the public API.
+- Each package builds with its own `tsconfig.build.json` (extends `tsconfig.base.json`); the root `tsconfig.json` is VSCode-only and maps `@avante/*` to `packages/*/src` for go-to-source.
