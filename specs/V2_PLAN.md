@@ -94,9 +94,17 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 
 ---
 
-## Phase 3 — Jest → Vitest
+## Phase 3 — Jest → Vitest ✅ (2026-07-09)
 
 **Goal:** ESM-native testing with zero Node flags; Jest and its ecosystem removed.
+
+> **Done (2026-07-09).** Result:
+> - **Catalog:** dropped `jest` / `ts-jest` / `@types/jest` / `jest-expect-message`; added `vitest: ^4.1.10` (latest). Every package swapped its jest devDeps for `vitest: catalog:`; `test` → `vitest run`, `watch:test` → `vitest` (watch is the default mode). `pnpm install` removed 173 packages / added 29; lockfile regenerated (catalog change forced a non-frozen install).
+> - **Configs:** one `vitest.config.ts` per package (`test.include: ['test/**/*.test.ts']`, node env). The three downstream packages add `resolve.alias` entries mapping `@avante/*` to **source** (so tests run with no prior build) — the bare package name is an anchored regex (`/^@avante\/crawler-core$/`) listed after the `@avante/crawler-core/internal` string alias so it can't swallow the subpath (which points at `src/modules/importer.ts`). This replaces crawler-data's old jest `moduleNameMapper` shim; the two entry points resolving to distinct instances is harmless (CrawlerModules is a `globalThis` singleton).
+> - **Removed:** all four `jest.config.js`, the `.npmrc` (both hoist patterns — `*jest*` from the start, `@types*` added in Phase 0 for ts-jest — were its only contents), and the `NODE_OPTIONS=--experimental-vm-modules` prefixes.
+> - **Ported all 19 suites:** dropped `import 'jest-expect-message'` and added explicit `vitest` imports (`describe`/`it`/`expect`/`beforeAll`/`test` as used, per CODING_STYLE — no globals); `bitmap`/`client` gained imports they'd been relying on globals for. `jest-expect-message`'s `expect(actual, 'message')` works natively under Vitest (chai). No `jest.*` mocks/spies existed, so nothing else to port. The `BigInt.prototype.toJSON` polyfill in 5 core suites is untouched and still passes.
+>
+> **Gates:** crawler-core 20 passed / 3 skipped; crawler-data 10 passed; crawler-react 1 skipped; **crawler-api 4 passed / 4 failed = the pre-existing Phase 6 breakage** (`InvalidModuleError` dataset wiring + views-contract-address validation — unchanged by the port). `pnpm typecheck` 0 errors (test dirs aren't in `tsc`'s `include: ["src"]`, so dropping `@types/jest` didn't regress it); `pnpm lint` 0 errors; `pnpm format:check` 0 (the new configs were formatted on touch). Coord/bit-math pins intact.
 
 **Steps**
 1. Add `vitest` (catalog) with one small `vitest.config.ts` per package (`test.include: ['test/**/*.test.ts']`); root `test` script keeps fanning out via `pnpm -r`.

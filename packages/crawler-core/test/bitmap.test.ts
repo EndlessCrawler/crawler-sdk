@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { Bitmap, Utils } from '../src';
 
 //@ts-ignore

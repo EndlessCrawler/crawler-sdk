@@ -1,4 +1,4 @@
-import 'jest-expect-message';
+import { describe, expect, it } from 'vitest';
 import { Utils, EndlessCrawler } from '../src';
 
 const CoordMax = EndlessCrawler.CoordMax;

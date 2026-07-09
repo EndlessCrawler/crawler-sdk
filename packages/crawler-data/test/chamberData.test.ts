@@ -1,4 +1,4 @@
-import 'jest-expect-message';
+import { beforeAll, describe, expect, it, test } from 'vitest';
 import { mainnetDataSet, goerliDataSet } from '../src';
 import {
   createClient,

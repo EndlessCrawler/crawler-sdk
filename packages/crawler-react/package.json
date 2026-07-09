@@ -26,9 +26,9 @@
     "clean": "rimraf dist",
     "build": "tsdown",
     "typecheck": "tsc --noEmit",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test": "vitest run",
     "watch": "tsdown --watch",
-    "watch:test": "pnpm run test --watch"
+    "watch:test": "vitest"
   },
   "peerDependencies": {
     "@avante/crawler-core": "workspace:^",
@@ -36,16 +36,13 @@
   },
   "devDependencies": {
     "@avante/crawler-core": "workspace:*",
-    "@types/jest": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "jest": "catalog:",
-    "jest-expect-message": "catalog:",
     "rimraf": "catalog:",
-    "ts-jest": "catalog:",
     "tsdown": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "keywords": [
     "dungeon",

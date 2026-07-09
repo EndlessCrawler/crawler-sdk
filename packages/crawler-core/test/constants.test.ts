@@ -1,4 +1,4 @@
-import 'jest-expect-message';
+import { describe, expect, it } from 'vitest';
 import { Dir, flipDir, getOppositeTerrain, Terrain } from '../src';
 
 describe('* constants', () => {

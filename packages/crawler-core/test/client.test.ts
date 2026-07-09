@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { createClient, ModuleId, EndlessCrawler, LootUnderworld } from '../src';
 
 describe('createClient()', () => {

@@ -1,4 +1,4 @@
-import 'jest-expect-message';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { EndlessCrawler, createClient, ChainId, ContractName } from '@avante/crawler-core';
 import { mainnetDataSet, goerliDataSet } from '@avante/crawler-data';
 import { readTotalSupply, readOwnerOf, readBalanceOf, validateAddress } from '../src';

@@ -1,4 +1,4 @@
-import 'jest-expect-message';
+import { beforeAll, describe, expect, it } from 'vitest';
 import { createClient, EndlessCrawler, ModuleInterface, Dir } from '../src';
 
 //@ts-ignore
