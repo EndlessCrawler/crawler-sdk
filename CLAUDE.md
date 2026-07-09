@@ -13,7 +13,7 @@ Endless Crawler SDK — a pnpm monorepo of TypeScript packages for interacting w
 
 Status per package (from README): `crawler-core`/`crawler-data`/`crawler-react` are **alpha**, `crawler-api` is **broken**, contracts are **planned**. Things break; APIs are unstable.
 
-Requires **Node 18** and **pnpm 8** (see `engines`) — the V2 plan moves this to Node 24 + pnpm 10 in Phase 1. Everything is ESM (`"type": "module"`).
+Requires **Node 24.18.0** and **pnpm 10.30.1** — both asdf-managed via `.tool-versions` (+ root `engines`/`packageManager`). Everything is ESM (`"type": "module"`). Internal `@avante/*` deps use the `workspace:` protocol; all common external versions live in the **pnpm catalog** (`pnpm-workspace.yaml` `catalog:`) and manifests reference them as `catalog:`.
 
 ## Commands
 

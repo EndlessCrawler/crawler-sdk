@@ -1,5 +1,5 @@
 import {
-	Bitmap, binaryArrayToBigInt
+	Bitmap, Utils
 } from '../src'
 
 //@ts-ignore
@@ -36,7 +36,7 @@ describe('Bitmap', () => {
 	})
 
 	it('binaryArrayToBigInt(number[])', () => {
-		const big1 = binaryArrayToBigInt(mixedmap_int)
+		const big1 = Utils.binaryArrayToBigInt(mixedmap_int)
 		expect(big1.toString(16)).toBe(mixedmap.toString(16))
 	})
 
