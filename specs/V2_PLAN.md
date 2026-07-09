@@ -54,7 +54,7 @@ Added: `@biomejs/biome`, `vitest`, `publint` + `@arethetypeswrong/cli` (CI-style
 
 ---
 
-## Phase 1 — Tooling foundation: Node/pnpm pins, Biome, editor config, format sweep
+## Phase 1 — Tooling foundation: Node/pnpm pins, Biome, editor config, format sweep ✅ (2026-07-08)
 
 **Goal:** the repo's tooling matches ec-dapp — pinned modern Node/pnpm, one Biome config, `.vscode/` instead of the workspace file, and the whole repo formatted 2-space.
 
@@ -64,12 +64,12 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 1. **Node + pnpm pins:** ✅ (2026-07-08) `.tool-versions` → `nodejs 24.18.0` + `pnpm 10.30.1` (both asdf-installed); root `engines` → `"node": ">=24.18.0 <25.0.0"` (pnpm entry dropped); `packageManager: "pnpm@10.30.1"`. Stale `engines` removed from `apps/sdk-explorer/package.json` (also renamed `explorer2` → `sdk-explorer`, matching the README's filter examples).
 2. **Root `package.json` cleanup:** ✅ (2026-07-08) `"private": true`, `@biomejs/biome 2.5.3` devDependency, `lint` / `lint:fix` / `format` / `format:check` scripts added; build/test/watch proxy scripts kept.
 3. **Workspace hygiene:** ✅ (2026-07-08) `catalog:` section defined in `pnpm-workspace.yaml` — all multi-package externals (typescript, @types/*, the jest stack, rimraf, react/react-dom, viem) referenced via the catalog protocol from every manifest.
-4. `.vscode/settings.json` + `.vscode/extensions.json` (Biome as default formatter, 2-space, excludes) replace `crawler-sdk.code-workspace` — delete the workspace file. Root `biome.jsonc` per `specs/CODING_STYLE.md`. *(Landed 2026-07-08 alongside this plan.)*
-5. **Run the repo-wide Biome format sweep** (tabs → 2-space) — **⏸ commit checkpoint: the sweep is its own whitespace-only commit.**
-6. Run `biome lint` and tune rule levels in `biome.jsonc` against real output (mirror ec-dapp's approach: downgrade-with-comment for tracked debt, never silently disable).
-7. Update `CLAUDE.md` (tabs → Biome/2-space, new pins, spec references) and the README's setup instructions.
+4. `.vscode/settings.json` + `.vscode/extensions.json` (Biome as default formatter, 2-space, excludes) replace `crawler-sdk.code-workspace` — delete the workspace file. Root `biome.jsonc` per `specs/CODING_STYLE.md`. ✅ (2026-07-08)
+5. **Run the repo-wide Biome format sweep** ✅ (2026-07-08) — `biome format --write` reformatted 187 files. **Not purely whitespace** (Biome also normalizes quotes/semicolons/trailing-commas and reflows to 100 cols), so it's a *formatting-only* commit rather than whitespace-only — kept isolated from config/content changes so `git blame` archaeology stays easy. One formatting-induced breakage fixed on touch: the `BigInt.prototype.toJSON` polyfill in 5 `crawler-core` test files relied on a single `//@ts-ignore` above a one-line body suppressing *both* its errors (`toJSON` missing on `BigInt` + the `<=` type mismatch); Biome's multiline expansion split them, so each now carries a `//@ts-ignore` on both the assignment and the `return` (format-stable). **⏸ commit checkpoint: the sweep (+ this test fix) is its own formatting commit — the user commits.**
+6. **Tune lint rule levels** ✅ (2026-07-08) — `biome lint` surfaced 86 errors across 27 rules; all were legacy idioms (`==`, `any`, `@ts-ignore`), intentional API patterns (the empty `ViewAccess` marker interface), benign soon-deleted jest-config dups, or sdk-explorer/crawler-api code slated for rewrite — **no real bugs**. Downgraded each to `warn` in `biome.jsonc` with a phase-tagged justifying comment (never silently off); each re-tightens in the phase that rewrites that code. Also excluded generated JSON (`crawler-data/src/data`, `crawler-api/src/contracts`, `**/artifacts`). Result: **`pnpm lint` exits 0** (0 errors; 373 warnings + 17 infos = tracked debt).
+7. **Docs** ✅ (2026-07-08) — `CLAUDE.md` (pins, catalog/workspace protocol, Biome commands + the 0-errors/tracked-warnings note, sweep landed) and `README.md` (asdf-based setup, Biome) updated.
 
-**Watch out for:** pnpm 10's stricter defaults vs pnpm 8 — build scripts of transitive deps are no longer auto-run (`pnpm.onlyBuiltDependencies` opt-in if anything needs it); the lockfile format changes (expected, commit it).
+**Watch out for:** pnpm 10's stricter defaults vs pnpm 8 — build scripts of transitive deps are no longer auto-run (`pnpm.onlyBuiltDependencies` opt-in if anything needs it); the lockfile format changes (expected, commit it). *(Observed: pnpm 10 refuses to remove `node_modules` non-interactively — set `CI=true` for reinstalls that change hoisting.)*
 
 **Exit criteria:** clean install/build/test on Node 24 + pnpm 10; repo is Biome-formatted and `pnpm lint` passes (0 errors; warnings only as commented tracked debt); `.code-workspace` gone; sweep is a separate commit.
 

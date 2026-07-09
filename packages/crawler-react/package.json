@@ -1,46 +1,46 @@
 {
-	"name": "@avante/crawler-react",
-	"version": "0.1.0",
-	"description": "Endless Crawler React Context, Hooks and Components",
-	"author": "Studio Avante",
-	"license": "CC0-1.0",
-	"homepage": "https://github.com/EndlessCrawler",
-	"private": false,
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"type": "module",
-	"scripts": {
-		"clean": "rimraf dist tsconfig.build.tsbuildinfo",
-		"build": "tsc -p tsconfig.build.json",
-		"test": "NODE_OPTIONS=--experimental-vm-modules jest",
-		"watch": "pnpm run build -watch",
-		"watch:test": "pnpm run test --watch",
-		"publish": "npm publish --access public"
-	},
-	"peerDependencies": {
-		"@avante/crawler-core": "workspace:^",
-		"react": "catalog:"
-	},
-	"devDependencies": {
-		"@types/jest": "catalog:",
-		"@types/node": "catalog:",
-		"@types/react": "catalog:",
-		"@types/react-dom": "catalog:",
-		"jest": "catalog:",
-		"jest-expect-message": "catalog:",
-		"rimraf": "catalog:",
-		"ts-jest": "catalog:",
-		"typescript": "catalog:"
-	},
-	"keywords": [
-		"dungeon",
-		"crawler",
-		"generative",
-		"composable",
-		"on-chain",
-		"game",
-		"web3",
-		"erc-721",
-		"nft"
-	]
+  "name": "@avante/crawler-react",
+  "version": "0.1.0",
+  "description": "Endless Crawler React Context, Hooks and Components",
+  "author": "Studio Avante",
+  "license": "CC0-1.0",
+  "homepage": "https://github.com/EndlessCrawler",
+  "private": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf dist tsconfig.build.tsbuildinfo",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "watch": "pnpm run build -watch",
+    "watch:test": "pnpm run test --watch",
+    "publish": "npm publish --access public"
+  },
+  "peerDependencies": {
+    "@avante/crawler-core": "workspace:^",
+    "react": "catalog:"
+  },
+  "devDependencies": {
+    "@types/jest": "catalog:",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "jest": "catalog:",
+    "jest-expect-message": "catalog:",
+    "rimraf": "catalog:",
+    "ts-jest": "catalog:",
+    "typescript": "catalog:"
+  },
+  "keywords": [
+    "dungeon",
+    "crawler",
+    "generative",
+    "composable",
+    "on-chain",
+    "game",
+    "web3",
+    "erc-721",
+    "nft"
+  ]
 }

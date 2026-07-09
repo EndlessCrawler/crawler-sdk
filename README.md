@@ -82,12 +82,17 @@ There is no reason to download this repository unless you want to contribute. As
 
 #### Initialize this monorepo after download
 
-Install [pnpm](https://pnpm.io/installation) first.
+The toolchain is pinned with [asdf](https://asdf-vm.com/) via `.tool-versions` (**Node 24.18.0**, **pnpm 10.30.1**). With asdf installed:
 
 ```sh
+asdf install            # installs the pinned Node + pnpm
 pnpm install
-pnpm -r run build
+pnpm run build          # sequential build (packages depend on crawler-core)
 ```
+
+Without asdf, install Node ≥ 24.18.0 and pnpm 10 manually, then `pnpm install`.
+
+Formatting/linting is [Biome](https://biomejs.dev/) (`pnpm run lint`, `pnpm run format`); see `specs/CODING_STYLE.md`.
 
 
 #### To execute a script/task on all packages...

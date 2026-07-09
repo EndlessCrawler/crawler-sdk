@@ -1,34 +1,24 @@
-export {
-	createClient,
-} from './client'
+export { createClient } from './client';
 
 export {
-	__resolveChainId, // TODO: DELETE ME
-} from '../modules/importer'
+  __resolveChainId, // TODO: DELETE ME
+} from '../modules/importer';
 
 export {
-	ModuleId,
-	ModuleInterface,
-	ModuleViews,
-	// types
-	CompassBase,
-	SlugSeparator,
-	AnyCompassDir,
-	AbsentCompassDir,
-} from './modules'
+  ModuleId,
+  ModuleInterface,
+  ModuleViews,
+  // types
+  CompassBase,
+  SlugSeparator,
+  AnyCompassDir,
+  AbsentCompassDir,
+} from './modules';
 
-export {
-	ModuleBase,
-} from './module.base'
+export { ModuleBase } from './module.base';
 
-export {
-	EndlessCrawler,
-} from './module.ec'
+export { EndlessCrawler } from './module.ec';
 
-export {
-	LootUnderworld,
-} from './module.luw'
+export { LootUnderworld } from './module.luw';
 
-export {
-	EventName,
-} from './events'
+export { EventName } from './events';

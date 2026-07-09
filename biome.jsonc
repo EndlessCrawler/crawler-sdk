@@ -13,6 +13,9 @@
       "!**/.next/**",
       // Cached map data — large generated JSON, not hand-edited.
       "!packages/crawler-data/src/data/**",
+      // Generated contract ABIs / artifacts (crawler-api) — large JSON, not hand-edited.
+      "!**/src/contracts/**",
+      "!**/artifacts/**",
       "!**/*.html",
       "!**/*.md",
       "!**/*.svg",
@@ -36,18 +39,48 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      // Rule levels tuned against real lint output in V2 Phase 1 (see specs/V2_PLAN.md).
+      // Everything below is tracked migration debt, downgraded to `warn` with a reason — nothing
+      // is silently disabled. Each re-tightens in the phase that rewrites the offending code.
       "suspicious": {
-        // Exempt the intentional `!= null` idiom (catches null + undefined); flag all other loose equality.
+        // Legacy `==`/`!=` in pre-modernization code (62 sites). `!= null` stays exempt (catches
+        // null + undefined); the rest are cleaned during the TS-strict pass + api/explorer rewrites.
         "noDoubleEquals": {
-          "level": "error",
+          "level": "warn",
           "options": { "ignoreNull": true }
         },
+        // Pervasive `any` in legacy code; re-tightened in the strict-typing cleanup (Phase 2+).
+        "noExplicitAny": "warn",
+        // Benign duplicate `verbose: true` in the jest.config.js files (deleted in Phase 3 → Vitest).
+        "noDuplicateObjectKeys": "warn",
+        // The terse `cond && sideEffect()` forEach idiom (core misc.ts) + an api abis.ts map; not bugs.
+        "useIterableCallbackReturn": "warn",
+        // Intentional empty marker interface (`ViewAccess` base type in the view system).
+        "noEmptyInterface": "warn",
+        // Test scaffolding (`let _coord` reused across offset assertions).
+        "noImplicitAnyLet": "warn",
+        // Intentional `@ts-ignore` on the BigInt.prototype.toJSON test polyfill.
+        "noTsIgnore": "warn",
         // Its autofix rewrites our directory content-excludes (`!**/dist/**`) to the bare
         // form, which stops excluding directory *contents* — leave the /** globs intact.
         "useBiomeIgnoreFolder": "off"
+      },
+      "correctness": {
+        // React hook-dep churn in crawler-react/explorer hooks, both rewritten in later phases.
+        "useExhaustiveDependencies": "off",
+        // Lexical decls in switch cases — all in the sdk-explorer, rebuilt in Phase 7.
+        "noSwitchDeclarations": "warn"
+      },
+      "security": {
+        // `target="_blank"` external links in the sdk-explorer, rebuilt in Phase 7.
+        "noBlankTarget": "warn"
+      },
+      "a11y": {
+        // Semantic-UI-era interaction handlers in the sdk-explorer; the a11y pass lands with
+        // its Phase 7 Tailwind rebuild. Tracked, non-blocking until then.
+        "useKeyWithClickEvents": "warn",
+        "noStaticElementInteractions": "warn"
       }
-      // Rule levels get tuned against real lint output in V2 Phase 1 (see specs/V2_PLAN.md);
-      // every downgrade added there must carry a comment saying why.
     }
   }
 }

@@ -1,30 +1,26 @@
-export * from './types'
-export * from './calls'
-export * from './utils'
+export * from './types';
+export * from './calls';
+export * from './utils';
 
-export { Contracts } from './abis'
-
-export {
-	getAllContractNames,
-	getContractAddress,
-	getContractAbi,
-} from './contract'
+export { Contracts } from './abis';
 
 export {
-	fetchJson,
-	fetchText,
-	addParamsToUrl,
-} from './utils/fetch'
+  getAllContractNames,
+  getContractAddress,
+  getContractAbi,
+} from './contract';
 
 export {
-	readViewRecordOrThrow,
-	readViewTotalCount,
-} from './view'
+  fetchJson,
+  fetchText,
+  addParamsToUrl,
+} from './utils/fetch';
 
 export {
-	readContractOrThrow,
-} from './wagmi'
+  readViewRecordOrThrow,
+  readViewTotalCount,
+} from './view';
 
-export {
-	formatViewData,
-} from './utils/formatter'
+export { readContractOrThrow } from './wagmi';
+
+export { formatViewData } from './utils/formatter';

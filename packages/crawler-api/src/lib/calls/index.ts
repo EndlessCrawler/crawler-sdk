@@ -1,5 +1,5 @@
 export {
-	readBalanceOf,
-	readOwnerOf,
-	readTotalSupply,
-} from './erc721'
+  readBalanceOf,
+  readOwnerOf,
+  readTotalSupply,
+} from './erc721';

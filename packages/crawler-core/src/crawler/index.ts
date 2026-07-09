@@ -1,2 +1,2 @@
-export * from './constants'
-export * from './bitmap'
+export * from './constants';
+export * from './bitmap';

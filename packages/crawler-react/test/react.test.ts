@@ -1,9 +1,7 @@
-import 'jest-expect-message'
+import 'jest-expect-message';
 
 describe('react', () => {
-
-	it.skip('TODO', () => {
-		// TODO...
-	})
-
-})
+  it.skip('TODO', () => {
+    // TODO...
+  });
+});

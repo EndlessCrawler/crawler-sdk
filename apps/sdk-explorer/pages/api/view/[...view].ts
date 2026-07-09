@@ -1,8 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { ViewName } from '@avante/crawler-core'
-import { ErrorResult, ReadViewResult, readViewRecordOrThrow } from '@avante/crawler-api'
+import { ViewName } from '@avante/crawler-core';
+import { ErrorResult, ReadViewResult, readViewRecordOrThrow } from '@avante/crawler-api';
 
 // TODO: TEST OK
 // http://localhost:3000/api/view/1/tokenIdToCoord?tokenId=1
@@ -14,29 +14,29 @@ import { ErrorResult, ReadViewResult, readViewRecordOrThrow } from '@avante/craw
 // http://localhost:3000/api/view/999/tokenIdToCoord/1
 
 export default async function handler(
-	req: NextApiRequest,
-	res: NextApiResponse<ReadViewResult | ErrorResult>,
+  req: NextApiRequest,
+  res: NextApiResponse<ReadViewResult | ErrorResult>,
 ) {
-	const { view } = req.query
-	const [chainId, viewName, key] = view as string[]
-	const args = (view as string[]).slice(3)
+  const { view } = req.query;
+  const [chainId, viewName, key] = view as string[];
+  const args = (view as string[]).slice(3);
 
-	const readViewOptions = {
-		chainId: parseInt(chainId),
-		viewName: viewName as ViewName,
-		key,
-		args,
-	}
+  const readViewOptions = {
+    chainId: parseInt(chainId),
+    viewName: viewName as ViewName,
+    key,
+    args,
+  };
 
-	let data = null
-	try {
-		data = await readViewRecordOrThrow(readViewOptions)
-	} catch (error: any) {
-		return res.status(400).json({
-			error,
-			query: req.query,
-		})
-	}
+  let data = null;
+  try {
+    data = await readViewRecordOrThrow(readViewOptions);
+  } catch (error: any) {
+    return res.status(400).json({
+      error,
+      query: req.query,
+    });
+  }
 
-	return res.status(200).json(data);
+  return res.status(200).json(data);
 }

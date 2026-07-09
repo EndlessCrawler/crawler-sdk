@@ -1,12 +1,5 @@
-import {
-	Options,
-	ContractName,
-	Address,
-} from '@avante/crawler-core'
-import {
-	readContractOrThrow,
-} from '../wagmi'
-
+import { Options, ContractName, Address } from '@avante/crawler-core';
+import { readContractOrThrow } from '../wagmi';
 
 //---------------------
 // ERC721
@@ -14,29 +7,36 @@ import {
 //
 
 /** @returns execute 'balanceOf(owner)' on ERC721 contract **/
-export const readBalanceOf = async (owner: Address, contractName: ContractName, options: Options = {}): Promise<number> => {
-	const readContractOptions = {
-		...options,
-		contractName,
-		functionName: 'balanceOf',
-		args: [owner],
-	}
-	const result = await readContractOrThrow(readContractOptions)
-	return Number(result)
-}
+export const readBalanceOf = async (
+  owner: Address,
+  contractName: ContractName,
+  options: Options = {},
+): Promise<number> => {
+  const readContractOptions = {
+    ...options,
+    contractName,
+    functionName: 'balanceOf',
+    args: [owner],
+  };
+  const result = await readContractOrThrow(readContractOptions);
+  return Number(result);
+};
 
 /** @returns execute 'ownerOf(tokenId)' on ERC721 contract **/
-export const readOwnerOf = async (tokenId: number | BigInt, contractName: ContractName, options: Options = {}): Promise<Address> => {
-	const readContractOptions = {
-		...options,
-		contractName,
-		functionName: 'ownerOf',
-		args: [tokenId],
-	}
-	const result = await readContractOrThrow(readContractOptions)
-	return result as Address
-}
-
+export const readOwnerOf = async (
+  tokenId: number | BigInt,
+  contractName: ContractName,
+  options: Options = {},
+): Promise<Address> => {
+  const readContractOptions = {
+    ...options,
+    contractName,
+    functionName: 'ownerOf',
+    args: [tokenId],
+  };
+  const result = await readContractOrThrow(readContractOptions);
+  return result as Address;
+};
 
 //---------------------
 // ERC721Enumerable
@@ -44,13 +44,16 @@ export const readOwnerOf = async (tokenId: number | BigInt, contractName: Contra
 //
 
 /** @returns execute 'totalSupply()' on ERC721Enumerable contract **/
-export const readTotalSupply = async (contractName: ContractName, options: Options = {}): Promise<number> => {
-	const readContractOptions = {
-		...options,
-		contractName,
-		functionName: 'totalSupply',
-		args: [],
-	}
-	const result = await readContractOrThrow(readContractOptions)
-	return Number(result)
-}
+export const readTotalSupply = async (
+  contractName: ContractName,
+  options: Options = {},
+): Promise<number> => {
+  const readContractOptions = {
+    ...options,
+    contractName,
+    functionName: 'totalSupply',
+    args: [],
+  };
+  const result = await readContractOrThrow(readContractOptions);
+  return Number(result);
+};

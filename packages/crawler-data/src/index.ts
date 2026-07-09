@@ -1,5 +1,5 @@
 export {
-	mainnetDataSet,
-	goerliDataSet,
-	allDataSets,
-} from './data'
+  mainnetDataSet,
+  goerliDataSet,
+  allDataSets,
+} from './data';
