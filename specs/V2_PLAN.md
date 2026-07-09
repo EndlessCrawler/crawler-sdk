@@ -12,10 +12,10 @@ A phased plan to bring the Endless Crawler SDK monorepo up to a modern stack, ad
 - All formatting/style rules live in **`specs/CODING_STYLE.md`** and apply to every phase.
 - **Jest → Vitest**: ESM-native, kills the `--experimental-vm-modules` hack, `ts-jest`, `jest-expect-message` (Vitest's chai `expect(actual, message)` covers the custom messages), and the `.npmrc` hoist patterns.
 - **TypeScript stays on the 5.x line** for this modernization (bump to the latest 5.x; decided 2026-07-08) — TS 7 (the native compiler, `7.0.2` at planning time) is revisited after the modernization lands.
-- **Published-library packaging done right** (decided 2026-07-08): `exports` maps + `files: ["dist"]` + `sideEffects: false`; `module`/`moduleResolution` **NodeNext** for the packages with explicit `.js` extensions on relative imports (mechanical sweep) so built output is valid ESM for both Node and bundler consumers; plain tsc stays the builder; validated with **publint** + **arethetypeswrong**.
+- **Published-library packaging done right** (decided 2026-07-09, revised): each package is **bundled with `tsdown`** (rolldown + oxc; tsup's successor) into a single `dist/index.js` + `dist/index.d.ts` — source stays idiomatic (extensionless imports, `moduleResolution: bundler`), no `.js`-extension sweep or JSON import attributes. Manifests get `exports` maps + `files: ["dist"]` + `sideEffects: false` + `publishConfig.access`; `tsc --noEmit` is the type-check gate; validated with **publint** + **arethetypeswrong** (`esm-only` profile). *(Superseded the earlier NodeNext + `.js`-extensions plan — the user preferred keeping source free of explicit extensions; tsdown produces equally-correct output with zero source churn.)*
 - **`crawler-api` goes viem-only** (viem 2): the `@wagmi/core` 1 provider/`configureChains` API it uses is gone, and a viem-only core avoids coupling the SDK to a wagmi major (ec-dapp is on wagmi 2; wagmi 3 is current). Wagmi integration stays in the consumer (or `crawler-react` later).
 - **`crawler-react` peers on `react: ^18 || ^19`** — ec-dapp (the primary consumer) is React 19.
-- **Prune deps aggressively; prefer native platform resources** — e.g. `prettier` is a *runtime* dep of `crawler-api` only to pretty-print JSON (`formatter.ts`); replace with `JSON.stringify(data, null, 2)` and drop it.
+- **Prune deps aggressively; prefer native platform resources** — e.g. `prettier` is a *runtime* dep of `crawler-api` only to pretty-print JSON (`formatter.ts`). ~~Replace with `JSON.stringify(data, null, 2)` and drop it.~~ **Superseded (2026-07-09):** `formatViewData` is the SDK's canonical dataset serializer and must stay *compact + human-readable* — a plain 2-space stringify regresses it. Its fate is owned by `specs/SDK_PLAN.md` (decision #11); do **not** swap it for `JSON.stringify(…, 2)` in V2 (see Phase 6, step 3).
 - **Native `bigint` everywhere** — already the case in `crawler-core`; keep it that way.
 - The **goerli dataset stays** in `crawler-data` (historical cached map data; the chain being dead doesn't invalidate the cache). `ChainId` keeps its current values.
 - **CLAUDE.md is updated at the end of every phase** to reflect the new stack, commands, and architecture.
@@ -28,14 +28,14 @@ A phased plan to bring the Endless Crawler SDK monorepo up to a modern stack, ad
 |---|---|
 | `jest`, `ts-jest`, `jest-expect-message`, `@types/jest` | `vitest` (ESM-native; `expect(actual, message)`) |
 | `.npmrc` `public-hoist-pattern[]=*jest*` | nothing (obsolete with Vitest) |
-| `prettier` (runtime dep of `crawler-api`) | `JSON.stringify(data, null, 2)` |
+| `prettier` (runtime dep of `crawler-api`) | ~~`JSON.stringify(data, null, 2)`~~ → **TBD by SDK_PLAN #11** (must stay compact + human-readable; not a plain 2-space stringify) |
 | `@wagmi/core` 1 (in `crawler-api`) | `viem` 2 only |
 | `catalog:` refs without a catalog | `workspace:*` (internal) + a real pnpm catalog (shared externals) |
 | `crawler-sdk.code-workspace` | `.vscode/settings.json` + `extensions.json` |
 | explorer: `semantic-ui-react`, `semantic-ui-css`, `sass`, `react-cookie`, `eslint` + `eslint-config-next` | Tailwind CSS / native platform / Biome (Phase 7, mirroring ec-dapp) |
 
-Kept: `rimraf` (bump to 6), tsc as the package build tool (unless Phase 2 picks `tsdown`), `@monaco-editor/react` (explorer).
-Added: `@biomejs/biome`, `vitest`, `publint` + `@arethetypeswrong/cli` (CI-style pack checks).
+Kept: `rimraf` (bumped to 6), `@monaco-editor/react` (explorer).
+Added: `@biomejs/biome`, `tsdown` (package bundler — replaced the per-package `tsc` emit build), `vitest`, `publint` + `@arethetypeswrong/cli` (CI-style pack checks).
 
 ---
 
@@ -75,19 +75,22 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 
 ---
 
-## Phase 2 — TypeScript & packaging modernization
+## Phase 2 — TypeScript & packaging modernization ✅ (2026-07-09)
 
 **Goal:** latest TypeScript, a modern shared tsconfig, and **correct published-ESM packaging** for all four packages — the prerequisite for publishing (Phase 5).
 
-**Steps**
-1. **TypeScript → latest 5.x** across the workspace via the catalog (decided 2026-07-08: stay on 5.x; TS 7 revisited post-modernization).
-2. **Modernize `tsconfig.base.json`:** `target: ES2022`, `lib: ["ES2022", "DOM"]`, `module`/`moduleResolution: NodeNext` for the packages, `isolatedModules: true`, `verbatimModuleSyntax: true`; keep `strict`, `declaration`, `composite`/references. The explorer app keeps `moduleResolution: bundler` in its own tsconfig.
-3. **`.js` extension sweep:** NodeNext requires explicit extensions on relative imports in the packages — mechanical codemod, verified by the build. *(Decided 2026-07-08: NodeNext + extensions over `tsdown` bundling — no new tooling, tsc stays the builder.)*
-4. **Package manifests:** add to each package an `exports` map (`"." → { "types": "./dist/index.d.ts", "import": "./dist/index.js" }`), `files: ["dist"]`, `sideEffects: false`; drop the misleading `main`-only setup; rename the `publish` script (shadows the npm lifecycle) to `release` or rely on `publishConfig: { "access": "public" }` + plain `pnpm publish`. Rename the explorer package `explorer2` → `sdk-explorer`.
-5. **Validate packaging** with `publint` and `@arethetypeswrong/cli` against `pnpm pack` output of each package; wire both as a root `check:pack` script.
-6. `rimraf` → 6 (or replace `clean` scripts with `node -e 'fs.rmSync(...)'` — native-first, low value; keep rimraf if simpler).
+> **Done (2026-07-09).** Approach changed mid-phase from NodeNext+`.js` to **tsdown bundling** at the user's request (see the packaging decision above). Result:
+> - **TypeScript → `^5.9.3`** (latest 5.x) via the catalog; **rimraf → `^6.0.1`**; **tsdown `^0.22.4`** added to the catalog + each package's devDeps.
+> - **`tsconfig.base.json` modernized:** `target: ES2022`, `lib: ["ES2022","DOM"]`, `module: ESNext`, `moduleResolution: bundler`, `strict`, `isolatedModules`, **`noEmit` (tsc is type-check-only; tsdown emits)**. Added a `paths` map (`@avante/* → packages/*/src`, plus an explicit `@avante/crawler-core/internal` entry) so per-package `tsc --noEmit` resolves siblings from source without a prior build. The old per-package `tsconfig.build.json` files were replaced by `tsconfig.json` (`extends` base, `include: ["src"]`); the composite/project-references setup was dropped (no longer needed). Root `tsconfig.json` simplified (VSCode-only, no references). The explorer keeps its own standalone tsconfig (`moduleResolution: bundler`) — untouched.
+> - **tsdown per package:** `tsdown.config.ts` (entry `src/index.ts` / `.tsx`, `format: 'esm'`, `dts: true`, `fixedExtension: false` so output is `index.js`/`index.d.ts` under `type: module`, `clean: true`). Build order stays `--sequential` (downstream dts needs core's dist).
+> - **Manifests:** each package got `type: module` + `main` + `types` + an `exports` map + `files: ["dist"]` + `sideEffects: false` + `publishConfig.access: public`; the old `"publish"` script (shadowed the npm lifecycle) was removed; scripts are now `build: tsdown` / `typecheck: tsc --noEmit` / `clean: rimraf dist`. **crawler-core adds an `"./internal"` subpath export** (second tsdown entry from `src/modules/importer.ts`) exposing the `__`-prefixed dataset-importer plumbing that crawler-data + its tests need, keeping the public root clean. Explorer renamed `explorer2 → sdk-explorer` (Phase 1).
+> - **Source fixups (minimal, idiomatic — no `.js` churn):** the two core barrels (`modules/index.ts`, `views/index.ts`) now split value vs `export type` re-exports (required by `isolatedModules` **and** rolldown); one real `any` in `crawler-react/useSideCoords.tsx` typed as `Dir` (that file was never type-checked before — the old build tsconfig only globbed `**/*.ts`, excluding `.tsx`).
+> - **Packaging validated:** root `check:pack` = `publint --strict && attw --pack . --profile esm-only` over `./packages/*` (scoped to exclude the private root). **All four: publint "All good!" + attw green** (the CJS→ESM / node10 notes are `(ignored per resolution)` — the correct profile for ESM-only packages).
+> - **Test resolution:** crawler-data's jest gets a `moduleNameMapper` shim for `@avante/crawler-core/internal` → core source (this legacy jest ignores `exports` subpaths; the CrawlerModules singleton lives on `globalThis` so the extra instance is harmless). Removed in Phase 3 with Vitest.
+>
+> **Gates:** `pnpm build` (tsdown, all 4) exit 0; `pnpm typecheck` 0 errors; `pnpm check:pack` exit 0; `pnpm lint` 0; `pnpm format:check` 0; tests at baseline (crawler-core 20, crawler-data 10, crawler-react skip; **crawler-api 4 failed = the pre-existing Phase 6 breakage**).
 
-**Exit criteria:** whole workspace builds on latest TS; every package passes publint + attw; `pnpm run test` still green; `tsconfig.base.json` is the single source of compiler truth.
+**Exit criteria:** whole workspace builds on latest TS 5.x; every package passes publint + attw; `pnpm run test` still green (minus crawler-api's known breakage); `tsconfig.base.json` is the single source of compiler truth. ✅
 
 ---
 
@@ -98,7 +101,7 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 **Steps**
 1. Add `vitest` (catalog) with one small `vitest.config.ts` per package (`test.include: ['test/**/*.test.ts']`); root `test` script keeps fanning out via `pnpm -r`.
 2. Port the suites: the Jest API is ~drop-in under Vitest's `globals: true` (or import `describe/it/expect` explicitly — preferred, per CODING_STYLE). Replace `jest-expect-message` usage with Vitest's native `expect(actual, message)` second argument.
-3. Remove `jest`, `ts-jest`, `jest-expect-message`, `@types/jest`, all `jest.config.js` files, the `NODE_OPTIONS=--experimental-vm-modules` prefixes, and the `.npmrc` jest hoist pattern.
+3. Remove `jest`, `ts-jest`, `jest-expect-message`, `@types/jest`, all `jest.config.js` files (incl. crawler-data's `moduleNameMapper` shim for `@avante/crawler-core/internal` — Vitest resolves the subpath export natively via a workspace alias), the `NODE_OPTIONS=--experimental-vm-modules` prefixes, and **both** `.npmrc` hoist patterns (`*jest*` + `@types*`, the latter added in Phase 0 for ts-jest's type resolution under pnpm).
 4. Keep the `watch:test` scripts (`vitest` watch mode is the default; `vitest run` for CI-style).
 
 **Watch out for:** `crawler-react`'s test currently runs under the node environment with no React rendering — if component tests are ever added, that's when `jsdom`/`@testing-library` enter; don't add them preemptively.
@@ -143,7 +146,7 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 **Steps**
 1. Replace the `@wagmi/core` `configureChains`/provider setup (`wagmi.ts`) with viem 2 `createPublicClient` + `http(rpcUrl)` transports; chains from `viem/chains`. RPC URLs are caller-supplied (provider-agnostic), not baked in.
 2. viem 1 → 2 API sweep over `lib/calls/*`, `lib/views/*`, `lib/contract.ts` (readContract signatures, `Abi` typing — `as const` ABIs for inference).
-3. Remove `prettier` from runtime deps: `formatter.ts` → `JSON.stringify(data, null, 2)` (native-first).
+3. Remove `prettier` from runtime deps. **⚠️ Do NOT replace `formatViewData` with `JSON.stringify(data, null, 2)`** — that regresses the *compact + human-readable* dataset serialization the SDK requires (2-space stringify explodes every door/lock/bitmap array to one element per line, bloating and de-diffing the JSON). This serializer is now owned by the SDK refactor (`specs/SDK_PLAN.md`, decision #11): its final form (keep prettier vs. a small hand-rolled compact writer) is decided there, and it moves out of `crawler-api` into the dataset layer. For V2, the safe move is to **leave `formatViewData` as-is** (or drop it only if `crawler-api` no longer writes datasets) rather than swap in a lossy replacement.
 4. Bring the package through the Phase 2–4 treatment it skipped (exports map already landed in Phase 2; Vitest in Phase 3; verify both still hold after the rewrite).
 5. Publish once green; flip README status `broken` → `alpha`.
 

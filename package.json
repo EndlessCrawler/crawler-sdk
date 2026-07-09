@@ -12,7 +12,7 @@
   },
   "scripts": {
     "clean": "pnpm --color -r run clean",
-    "build": "pnpm --color --filter '@avante/*' --sequential run build --listEmittedFiles",
+    "build": "pnpm --color --filter '@avante/*' --sequential run build",
     "build:core": "pnpm --color --filter '@avante/crawler-core' run build",
     "build:data": "pnpm --color --filter '@avante/crawler-data' run build",
     "build:api": "pnpm --color --filter '@avante/crawler-api' run build",
@@ -32,13 +32,17 @@
     "link": "pnpm --color --filter '@avante/*' exec pnpm link --global",
     "unlink": "pnpm --color --filter '@avante/*' exec pnpm unlink",
     "update": "pnpm --color -r run update",
+    "typecheck": "pnpm --color --filter '@avante/*' run typecheck",
     "lint": "biome lint .",
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
-    "format:check": "biome format ."
+    "format:check": "biome format .",
+    "check:pack": "pnpm --color --filter './packages/*' exec sh -c 'publint --strict && attw --pack . --profile esm-only'"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.3"
+    "@arethetypeswrong/cli": "^0.18.4",
+    "@biomejs/biome": "2.5.3",
+    "publint": "^0.3.21"
   },
   "engines": {
     "node": ">=24.18.0 <25.0.0"

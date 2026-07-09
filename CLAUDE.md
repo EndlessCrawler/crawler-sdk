@@ -19,9 +19,11 @@ Requires **Node 24.18.0** and **pnpm 10.30.1** — both asdf-managed via `.tool-
 
 ```sh
 pnpm install                 # bootstrap the monorepo
-pnpm run build               # build all @avante/* packages SEQUENTIALLY (required — see below)
+pnpm run build               # tsdown-build all @avante/* packages SEQUENTIALLY (required — see below)
+pnpm run typecheck           # tsc --noEmit across all packages (type-check gate; tsdown does the emit)
 pnpm run test                # run all tests (packages + apps)
-pnpm run clean               # rimraf dist + tsbuildinfo everywhere
+pnpm run clean               # rimraf dist everywhere
+pnpm run check:pack          # publint + arethetypeswrong (esm-only) over each package's packed output
 
 pnpm run lint                # Biome lint (whole workspace); lint:fix applies safe fixes
 pnpm run format              # Biome format --write; format:check for CI-style no-write
@@ -36,7 +38,9 @@ pnpm --filter "@avante/crawler-core" test
 pnpm --filter "@avante/crawler-core" test -- coord.luw   # run a single test file by name pattern
 ```
 
-Build order matters: `pnpm run build` uses `--sequential` because packages depend on `@avante/crawler-core` at build time. Prefer it over `build:all` (`-r`, unordered) when a fresh build must succeed.
+**Build system (V2 Phase 2):** each package is bundled by **tsdown** (rolldown + oxc) via its `tsdown.config.ts` into a single `dist/index.js` + `dist/index.d.ts` (ESM; `type: module` so plain `.js`, not `.mjs`). `tsc` is **type-check only** (`typecheck` script, `noEmit`) — it never emits. `tsconfig.base.json` is the single source of compiler truth (`moduleResolution: bundler`, `isolatedModules`, `strict`, `target ES2022`); each package's `tsconfig.json` just `extends` it with `include: ["src"]`. Package manifests carry `exports` maps + `files: ["dist"]` + `sideEffects: false` + `publishConfig.access`; **crawler-core also exports `./internal`** (a second tsdown entry from `src/modules/importer.ts`) for the `__`-prefixed dataset-importer plumbing that crawler-data uses, kept off the public root. Packaging is gated by `pnpm check:pack` (publint + arethetypeswrong, esm-only profile).
+
+Build order matters: `pnpm run build` uses `--sequential` because packages depend on `@avante/crawler-core` at build time (downstream `.d.ts` bundling reads core's built types). Prefer it over `build:all` (`-r`, unordered) when a fresh build must succeed.
 
 Tests use Jest + ts-jest in ESM mode; the `test` script sets `NODE_OPTIONS=--experimental-vm-modules` (`.npmrc` hoists `*jest*` + `@types*` so ts-jest resolves types under pnpm's isolated layout). Run tests through the pnpm scripts, not bare `jest`, or ESM will not load. (V2 Phase 3 replaces this whole stack with Vitest.)
 
@@ -84,4 +88,5 @@ Supported chains live in `views/chains.ts`: `ChainId` (Blank=0, Mainnet=1, Goerl
 
 - Coding style (formatting, TS, library design, testing): see **`specs/CODING_STYLE.md`**. Formatting is **Biome, 2-space, single quotes, semicolons** (root `biome.jsonc` + `.vscode/settings.json`) — the whole repo was swept in V2 Phase 1; format on touch.
 - Internal cross-module helpers are prefixed `__` (e.g. `__importDataSets`) and generally not part of the public API.
-- Each package builds with its own `tsconfig.build.json` (extends `tsconfig.base.json`); the root `tsconfig.json` is VSCode-only and maps `@avante/*` to `packages/*/src` for go-to-source.
+- Each package has a `tsconfig.json` (`extends tsconfig.base.json`, `include: ["src"]`) used by `tsc --noEmit`; **tsdown** (`tsdown.config.ts`) does the actual build. The root `tsconfig.json` is VSCode-only. `tsconfig.base.json` maps `@avante/*` → `packages/*/src` so type-checking and go-to-source resolve to source.
+- Internal `@avante/*` deps use the workspace protocol (`workspace:^` for the published peer range, `workspace:*` for dev/app deps); shared external versions come from the `catalog:` (`pnpm-workspace.yaml`).

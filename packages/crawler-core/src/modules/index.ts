@@ -4,11 +4,10 @@ export {
   __resolveChainId, // TODO: DELETE ME
 } from '../modules/importer';
 
-export {
-  ModuleId,
+export { ModuleId } from './modules';
+export type {
   ModuleInterface,
   ModuleViews,
-  // types
   CompassBase,
   SlugSeparator,
   AnyCompassDir,

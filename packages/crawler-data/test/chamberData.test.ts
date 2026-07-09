@@ -8,7 +8,7 @@ import {
   ChainId,
   NetworkName,
 } from '@avante/crawler-core';
-import { __getData, __initializeGlobalModule } from '@avante/crawler-core/src/modules/importer';
+import { __getData, __initializeGlobalModule } from '@avante/crawler-core/internal';
 
 describe('chamberData', () => {
   let client: EndlessCrawler.Module;

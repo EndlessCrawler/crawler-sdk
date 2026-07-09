@@ -1,5 +1,5 @@
-export {
-  ViewName,
+export { ViewName } from './view';
+export type {
   ViewMetadata,
   ViewAccessInterface,
   View,
@@ -25,22 +25,18 @@ export {
   networkNameToChainId,
 } from './chains';
 
-export {
-  // data
+export { ChamberDataViewAccess } from './view.chamberData';
+export type {
   ChamberData,
   ChamberDataModel,
-  // view
-  ChamberDataViewAccess,
   ChamberDataViewKey,
   ChamberDataViewValue,
   ChamberDataViewRecords,
 } from './view.chamberData';
 
-export {
-  // data
+export { TokenIdToCoordViewAccess } from './view.tokenIdToCoord';
+export type {
   ChamberCoords,
-  // view
-  TokenIdToCoordViewAccess,
   TokenIdToCoordViewKey,
   TokenIdToCoordViewValue,
   TokenIdToCoordsViewRecords,

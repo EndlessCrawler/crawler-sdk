@@ -1,27 +1,28 @@
 {
+  // Shared compiler options for all packages. tsdown (rolldown) produces the built ESM + .d.ts;
+  // tsc is used only for type-checking (`noEmit`), so no emit/declaration/composite settings here.
   "compilerOptions": {
-    // "assumeChangesOnlyAffectDirectDependencies": true,
-    "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true,
+    // Resolve @avante/* to sibling package sources so per-package `tsc --noEmit` works without a
+    // prior build. tsdown emits the real dist types; publint/attw validate those separately.
+    "baseUrl": ".",
+    "paths": {
+      "@avante/crawler-core/internal": ["packages/crawler-core/src/modules/importer.ts"],
+      "@avante/*": ["packages/*/src"]
+    },
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "preserve",
+    "strict": true,
     "allowJs": true,
-    "declaration": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "incremental": true,
-    "composite": true,
-    "noImplicitThis": true,
     "skipLibCheck": true,
-    "strict": true,
-    "strictNullChecks": true,
-    // "listEmittedFiles": true,
-    "moduleResolution": "node",
-    "module": "esnext",
-    "target": "esnext",
-    "lib": ["esnext", "DOM"],
-    "jsx": "preserve"
+    "isolatedModules": true,
+    "noEmit": true
   },
-  "compileOnSave": true,
-  "files": [],
-  "exclude": ["**/node_modules", "**/test", "**/dist", "**/build", "**/.next", "**/jest.config.js"]
+  "exclude": ["**/node_modules", "**/dist", "**/build", "**/.next"]
 }
