@@ -1,4 +1,4 @@
-import { readContractOrThrow } from './wagmi';
+import { readContractOrThrow } from './client';
 import { ViewName, Options } from '@avante/crawler-core';
 import { ReadContractOptions, ReadViewOptions, ReadViewResult, ViewDefinition } from './types';
 
@@ -28,7 +28,6 @@ export const readViewRecordOrThrow = async (options: ReadViewOptions): Promise<R
   };
 
   // will throw on contract error
-  console.log(`readContractOptions:`, readContractOptions);
   const result = await readContractOrThrow(readContractOptions);
 
   return {

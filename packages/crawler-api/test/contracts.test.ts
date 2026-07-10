@@ -3,44 +3,39 @@ import {
   EndlessCrawler,
   createClient,
   // ---
-  ChainId,
   ContractName,
   ViewName,
-  getAllChainIds,
 } from '@avante/crawler-core';
 import { allDataSets } from '@avante/crawler-data';
 import { getAllContractNames, getContractAddress } from '../src';
 
-describe('* chains', () => {
+describe('* contracts', () => {
   let client: EndlessCrawler.Module;
-  let allContractNames: ContractName[];
-  let allChainIds: ChainId[];
 
   beforeAll(() => {
     client = createClient(allDataSets) as EndlessCrawler.Module;
+  });
 
-    allContractNames = getAllContractNames();
-    allChainIds = getAllChainIds();
+  it('exposes contract names', () => {
+    expect(getAllContractNames()).toContain(ContractName.CrawlerToken);
   });
 
   it('validate views contract addresses', () => {
-    for (let i = 0; i < allChainIds.length; ++i) {
-      const chainId = allChainIds[i];
+    // Each imported DataSet carries its own chainId; every view's metadata must
+    // resolve to the same contract address that getContractAddress() reports.
+    const dataSetNames = client.getDataSetNames();
+    expect(dataSetNames.length).toBeGreaterThan(0);
 
-      const views = client.getAllViews({ chainId });
+    for (const dataSetName of dataSetNames) {
+      const views = client.getAllViews({ dataSetName });
       const viewNames = Object.keys(views) as ViewName[];
+      expect(viewNames.length).toBeGreaterThan(0);
 
-      for (let v = 0; v < viewNames.length; ++v) {
-        const viewName = viewNames[v];
-        const view = views[viewName];
-        const viewChainId = view.metadata.chainId;
-        const viewContractName = view.metadata.contractName as ContractName;
-        const viewContractAddress = view.metadata.contractAddress;
-
-        expect(viewChainId).toBe(chainId);
-
-        const contractAdddress = getContractAddress(viewContractName, viewChainId);
-        expect(contractAdddress).toBe(viewContractAddress);
+      for (const viewName of viewNames) {
+        const { metadata } = views[viewName];
+        const contractName = metadata.contractName as ContractName;
+        const contractAddress = getContractAddress(contractName, metadata.chainId);
+        expect(contractAddress, `${dataSetName}/${viewName}`).toBe(metadata.contractAddress);
       }
     }
   });

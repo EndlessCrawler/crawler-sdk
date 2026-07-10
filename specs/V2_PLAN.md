@@ -4,7 +4,7 @@ A phased plan to bring the Endless Crawler SDK monorepo up to a modern stack, ad
 
 **Baseline today (2026-07-08):** pnpm monorepo of 4 TS packages (`@avante/crawler-core|data|api|react`) + 1 Next.js 14 app (`apps/sdk-explorer`). Node 18 / pnpm 8 engines; TypeScript 5.3; Jest 29 + ts-jest in ESM mode (`NODE_OPTIONS=--experimental-vm-modules` + an `.npmrc` jest hoist pattern); tsc builds with bare `main`/`types` fields (no `exports` maps); tabs, no formatter/linter; a `.code-workspace` file instead of `.vscode/`. `crawler-api` is **broken** on viem 1 + `@wagmi/core` 1 (its `configureChains`/provider API no longer exists). `crawler-react` peers on React `^18`. The explorer runs Next 14 Pages Router + semantic-ui-react + sass + wagmi 1. **Install is currently broken:** package.jsons reference the `catalog:` protocol but no catalog is defined in `pnpm-workspace.yaml`, and the lockfile predates those refs (no `catalog` or `workspace:` entries).
 
-**Strategic driver:** `ec-dapp` V2 Phase 9 waits on `@avante/crawler-core`/`-data`/`-react` being **published to npm** (with the same libs and data as `@rsodre/crawler-data`). Getting those three packages modern, correct, and published is the critical path; `crawler-api` and the explorer come after.
+**Strategic driver:** `ec-dapp` V2 Phase 9 waits on `@avante/crawler-core`/`-data`/`-react` being **published to npm** (with the same libs and data as `@rsodre/crawler-data`). **V2's job is to make those three packages modern and correct — not to publish them.** Publishing waits for the SDK refactor (`specs/SDK_PLAN.md`) to freeze the API and happens in its Phase F; V2 Phase 5 is deferred accordingly. So the V2 critical path is *readiness*: modern stack now, publish later.
 
 **Decisions:**
 - **Mirror the ec-dapp toolchain** so the two sibling repos feel identical: Node **24.18.0** (latest 24.x LTS, installed via **asdf**) pinned via `.tool-versions` + `engines`; **pnpm 10.30.1** (10.x confirmed; asdf-managed) pinned via `packageManager` + `.tool-versions`; **Biome** (root `biome.jsonc`, 2-space, single quotes, semicolons) as formatter + linter; `.vscode/settings.json` + `extensions.json` replace the `.code-workspace`.
@@ -143,9 +143,11 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 
 ---
 
-## Phase 5 — Publishing readiness: `core`, `data`, `react` to npm
+## Phase 5 — Publishing readiness: `core`, `data`, `react` to npm ⏸ DEFERRED — superseded by SDK_PLAN Phase F (2026-07-09)
 
-**Goal:** `@avante/crawler-core`, `-data`, `-react` published — unblocking ec-dapp V2 Phase 9. `crawler-api` is explicitly **not** a prerequisite (ec-dapp talks to the chain via wagmi directly).
+> **Deferred out of V2 (2026-07-09).** V2 is *stack modernization to prepare for the SDK refactor* — it does **not** publish. `specs/SDK_PLAN.md` is explicit: the V2 packages are not published; the **first publish happens only after the refactor**, and SDK_PLAN owns it in its **Phase F — Data, API reference & first publish**. Every substantive step below either (a) is already satisfied by Phase 2 (`publishConfig.access: "public"` on all packages) or (b) validates/ships the **current** View/DataSet API, which the refactor replaces (schema replaces `moduleId`, `luw` is deleted, `crawler-data`'s eager exports become lazy descriptors — see SDK_PLAN decision #10). Verifying parity or publishing that surface now would only be redone. **Nothing to do here during V2.** The steps below stay as a reference checklist for Phase F to absorb. The npm `@avante` credential check is a one-time pre-publish task deferred with the publish itself.
+
+**Goal (deferred to SDK_PLAN Phase F):** `@avante/crawler-core`, `-data`, `-react` published — unblocking ec-dapp V2 Phase 9. `crawler-api` is explicitly **not** a prerequisite (ec-dapp talks to the chain via wagmi directly).
 
 **Steps**
 1. Versioning flow (decided 2026-07-08): **manual `0.x` lockstep** — all packages share one version, bumped together, published with `pnpm publish`. Changesets only if release cadence grows.
@@ -158,9 +160,20 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 
 ---
 
-## Phase 6 — `crawler-api` repair (viem 2, viem-only)
+## Phase 6 — `crawler-api` repair (viem 2, viem-only) ✅ (2026-07-09)
 
 **Goal:** un-break `crawler-api`: viem 1 + `@wagmi/core` 1 → **viem 2 only**; the package builds, tests pass, and its read API works against mainnet.
+
+> **Done (2026-07-09).** Result:
+> - **viem 2 client (`lib/wagmi.ts` → `lib/client.ts`):** the `@wagmi/core` `configureChains`/provider stack is gone. Reads go through a viem 2 `createPublicClient` + `http(rpcUrl)`, with chains from `viem/chains` (`mainnet`, `goerli`). **RPC urls are caller-supplied** (provider-agnostic, not baked in): register with `setRpcUrl(chainId, url)` / `setRpcUrls(map)`, or pass `rpcUrl` per call; clients are cached per `${chainId}:${url}`; with no url, viem uses the chain's default public RPC. **Chain resolution now defaults to `ChainId.Mainnet`** when no `chainId` is given — this drops the dependency on core's `__resolveChainId`/dataset singleton for RPC (the old `InvalidModuleError` when calling reads with no options is gone).
+> - **Catalog:** `viem` `^1.10.3 → ^2.55.0`. **Removed from `crawler-api` deps:** `@wagmi/core` and `prettier` (viem 1 + wagmi 1 stay in the store only as the explorer's transitive deps — Phase 7).
+> - **`formatViewData` + `prettier` dropped** (not lossy-replaced, per decision / SDK_PLAN #11): `crawler-api` is a read layer that no longer writes datasets, so the serializer left with `prettier`. Its final home/form is owned by the SDK refactor (`specs/SDK_PLAN.md`). The explorer's `useFormatter` still imports it — reconciled in Phase 7 (the explorer doesn't build yet regardless).
+> - **Types:** new `ReadOptions` (adds caller `rpcUrl`) is the base for `ReadContractOptions`/`ReadViewOptions`; `erc721.ts` calls take `ReadOptions`. Removed a stray `console.log` in `view.ts` and the dead `@wagmi/core` erc721ABI comment in `abis.ts`.
+> - **Tests repaired (the 4 pre-existing failures):** `contracts.test.ts` now iterates the **imported DataSets** (`getDataSetNames()` → `getAllViews({ dataSetName })`) and checks each view's `metadata.contractAddress` against `getContractAddress()` — the old version iterated `getAllChainIds()` (incl. `Blank=0`, which has no dataset) and wrongly assumed `getAllViews({ chainId })` filters by chain. `erc721.test.ts` is **mainnet-only** now (goerli is dead): `beforeAll` calls `setRpcUrl(ChainId.Mainnet, …)` (default `ethereum-rpc.publicnode.com`, override via `MAINNET_RPC_URL`), 30s per-test timeout. Live reads verified: `totalSupply` 326, `ownerOf(1)` `0x8297…C798`.
+>
+> **Gates:** `pnpm typecheck` 0 errors (all 4); `pnpm build` (sequential) exit 0; `pnpm check:pack` publint "All good!" + attw esm-only green; `pnpm test` — **crawler-api 9 passed** (was 4-pass/4-fail), core 20/3-skip, data 10, react 1-skip; `pnpm lint` 0 errors (359 warnings, down from 373 — tracked debt); `pnpm format:check` 0.
+>
+> **Not published (per Phase 5 deferral):** step 5's publish is superseded by SDK_PLAN Phase F — V2 does not publish. README status was flipped `broken → alpha` to match the sibling packages.
 
 **Steps**
 1. Replace the `@wagmi/core` `configureChains`/provider setup (`wagmi.ts`) with viem 2 `createPublicClient` + `http(rpcUrl)` transports; chains from `viem/chains`. RPC URLs are caller-supplied (provider-agnostic), not baked in.
@@ -191,7 +204,7 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 
 ## Milestones
 
-- **M1 — Foundation:** Phases 0–1. Clean baseline; Node 24 + pnpm 10; Biome-formatted; editor config landed.
-- **M2 — Modern packages:** Phases 2–4. Latest TS 5.x, correct ESM packaging (publint/attw clean), Vitest, current deps, React 19 peer.
-- **M3 — Published:** Phase 5. `core`/`data`/`react` on npm — ec-dapp Phase 9 unblocked.
-- **M4 — Full surface:** Phases 6–7. `crawler-api` repaired on viem 2; explorer fully modernized on the ec-dapp stack.
+- **M1 — Foundation:** Phases 0–1. Clean baseline; Node 24 + pnpm 10; Biome-formatted; editor config landed. ✅
+- **M2 — Modern packages:** Phases 2–4. Latest TS 5.x, correct ESM packaging (publint/attw clean), Vitest, current deps, React 19 peer. ✅
+- **M3 — Full surface:** Phases 6–7. `crawler-api` repaired on viem 2; explorer fully modernized on the ec-dapp stack. **This is where V2 ends** — the stack is modern and correct, ready for the SDK refactor.
+- **~~Published~~ → deferred to SDK_PLAN Phase F.** V2 does not publish. Phase 5 is superseded: the first npm publish of `core`/`data`/`react` (and the ec-dapp Phase 9 unblock) happens only after the SDK refactor freezes the API. See Phase 5's deferral note.

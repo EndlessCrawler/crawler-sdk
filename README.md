@@ -10,7 +10,7 @@
 |---------------------------|------------|------------------|----------------------|---------|
 | `@avante/crawler-core`      | Typescript | off-chain        | types and api        | alpha   |
 | `@avante/crawler-data`      | Typescript | off-chain        | cached map data      | alpha   |
-| `@avante/crawler-api`       | Typescript | on-chain         | web3 api             | broken  |
+| `@avante/crawler-api`       | Typescript | on-chain         | web3 api             | alpha   |
 | `@avante/crawler-react`     | React      | on/off-chain     | components and hooks | alpha   |
 | `@avante/crawler-contracts` | Sol/Cairo  | on-chain         | contracts and abi    | planned |
 

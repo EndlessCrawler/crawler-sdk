@@ -21,6 +21,4 @@ export {
   readViewTotalCount,
 } from './view';
 
-export { readContractOrThrow } from './wagmi';
-
-export { formatViewData } from './utils/formatter';
+export { readContractOrThrow, getPublicClient, setRpcUrl, setRpcUrls } from './client';

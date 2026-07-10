@@ -11,7 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Endless Crawler SDK — a pnpm monorepo of TypeScript packages for interacting with the on-chain generative dungeon game [Endless Crawler](https://endlesscrawler.io/) (and its sibling game Loot Underworld). The SDK models dungeon chamber coordinates, caches map data off-chain, and exposes a web3 API and React bindings.
 
-Status per package (from README): `crawler-core`/`crawler-data`/`crawler-react` are **alpha**, `crawler-api` is **broken**, contracts are **planned**. Things break; APIs are unstable.
+Status per package (from README): `crawler-core`/`crawler-data`/`crawler-react`/`crawler-api` are **alpha**, contracts are **planned**. Things break; APIs are unstable.
 
 Requires **Node 24.18.0** and **pnpm 10.30.1** — both asdf-managed via `.tool-versions` (+ root `engines`/`packageManager`). Everything is ESM (`"type": "module"`). Internal `@avante/*` deps use the `workspace:` protocol; all common external versions live in the **pnpm catalog** (`pnpm-workspace.yaml` `catalog:`) and manifests reference them as `catalog:`.
 
@@ -54,7 +54,7 @@ To develop `apps/sdk-explorer` (Next.js) against live package changes: run `pnpm
 
 - **crawler-core** — no runtime deps; the heart of the SDK. Contains types, the module system, the view/dataset system, coordinate math (`crawler/`), and utils.
 - **crawler-data** — static cached map data as JSON (`data/mainnet`, `data/goerli`), exported as ready-to-use `DataSet` objects (`mainnetDataSet`, `goerliDataSet`, `allDataSets`).
-- **crawler-api** — on-chain web3 layer (wagmi + viem) plus contract ABIs in `contracts/` and `artifacts/`. Marked broken.
+- **crawler-api** — on-chain web3 layer, **viem 2 only** (no `@wagmi/core`), plus contract ABIs in `contracts/` and `artifacts/`. Read calls go through `readContractOrThrow` (`lib/client.ts`), which builds cached viem `PublicClient`s from **caller-supplied RPC urls** — register them with `setRpcUrl`/`setRpcUrls` or pass `rpcUrl` per call; with none supplied, viem falls back to the chain's default public RPC. Chain resolution defaults to Mainnet when no `chainId` is given (the package no longer depends on core's dataset singleton for RPC). Repaired in V2 Phase 6.
 - **crawler-react** — a `CrawlerProvider` context + hooks (`useCrawler`/`useEndlessCrawler`/`useLootUnderworld`, `useChamberData`, `useSideCoords`, `useDataSets`).
 
 ### Module system (core)

@@ -6,11 +6,16 @@ export interface ContractArtifacts {
   networks: any;
 }
 
-/** @type passed to readViewRecordOrThrow() for on-chain read */
-export interface ReadViewOptions extends Options {
+/** @type on-chain read options; `rpcUrl` is the caller-supplied endpoint (provider-agnostic) */
+export interface ReadOptions extends Options {
   chainId?: ChainId; // from Options (deprecated)
   moduleId?: ModuleId; // from Options
   dataSetName?: string; // from Options
+  rpcUrl?: string; // caller-supplied RPC endpoint for this chain
+}
+
+/** @type passed to readViewRecordOrThrow() for on-chain read */
+export interface ReadViewOptions extends ReadOptions {
   viewName: ViewName;
   key: any;
 }
@@ -32,10 +37,7 @@ export interface ReadViewResult {
 }
 
 /** @type passed to readContract() for on-chain read */
-export interface ReadContractOptions extends Options {
-  chainId?: ChainId; // from Options (deprecated)
-  moduleId?: ModuleId; // from Options
-  dataSetName?: string; // from Options
+export interface ReadContractOptions extends ReadOptions {
   contractName: ContractName;
   functionName: string;
   args: any[];

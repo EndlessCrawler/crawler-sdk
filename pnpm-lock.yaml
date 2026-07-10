@@ -31,8 +31,8 @@ catalogs:
       specifier: ^5.9.3
       version: 5.9.3
     viem:
-      specifier: ^1.10.3
-      version: 1.21.4
+      specifier: ^2.55.0
+      version: 2.55.0
     vitest:
       specifier: ^4.1.10
       version: 4.1.10
@@ -70,7 +70,7 @@ importers:
         version: 4.7.0(monaco-editor@0.55.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       connectkit:
         specifier: ~1.6.0
-        version: 1.6.0(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react-is@18.3.1)(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3))(wagmi@1.4.13(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3)))
+        version: 1.6.0(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react-is@18.3.1)(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3))(wagmi@1.4.13(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3)))
       monaco-editor:
         specifier: '>= 0.25.0 < 1'
         version: 0.55.1
@@ -97,10 +97,10 @@ importers:
         version: 3.0.0-beta.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       viem:
         specifier: 'catalog:'
-        version: 1.21.4(typescript@5.9.3)
+        version: 2.55.0(typescript@5.9.3)
       wagmi:
         specifier: ^1.4.1
-        version: 1.4.13(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3))
+        version: 1.4.13(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3))
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -123,15 +123,9 @@ importers:
 
   packages/crawler-api:
     dependencies:
-      '@wagmi/core':
-        specifier: ^1.3.9
-        version: 1.4.13(@types/react@19.2.17)(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3))
-      prettier:
-        specifier: ^3.0.3
-        version: 3.9.4
       viem:
         specifier: 'catalog:'
-        version: 1.21.4(typescript@5.9.3)
+        version: 2.55.0(typescript@5.9.3)
     devDependencies:
       '@avante/crawler-core':
         specifier: workspace:*
@@ -3119,11 +3113,6 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
-  prettier@3.9.4:
-    resolution: {integrity: sha512-yWG/o/4oJfo036EKAfK6ACAoDOfHeRHx4tuxkfBZiauURiaSmYwlpOr5LQqKtIkRD2z1PLteme2WoxEnj4tHTg==}
-    engines: {node: '>=14'}
-    hasBin: true
-
   process-warning@1.0.0:
     resolution: {integrity: sha512-du4wfLyj4yCZq1VupnVSZmRsPJsNuxoDQFdCFHLaYiEbFBD7QE0a+I4D7hOxrVnh78QE/YipFAj9lXHiXocV+Q==}
 
@@ -5196,7 +5185,7 @@ snapshots:
       convert-source-map: 2.0.0
       tinyrainbow: 3.1.0
 
-  '@wagmi/connectors@3.1.11(@types/react@19.2.17)(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3))':
+  '@wagmi/connectors@3.1.11(@types/react@19.2.17)(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3))':
     dependencies:
       '@coinbase/wallet-sdk': 3.9.3
       '@safe-global/safe-apps-provider': 0.18.6(typescript@5.9.3)
@@ -5207,7 +5196,7 @@ snapshots:
       '@walletconnect/utils': 2.11.0
       abitype: 0.8.7(typescript@5.9.3)
       eventemitter3: 4.0.7
-      viem: 1.21.4(typescript@5.9.3)
+      viem: 2.55.0(typescript@5.9.3)
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -5239,12 +5228,12 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@wagmi/core@1.4.13(@types/react@19.2.17)(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3))':
+  '@wagmi/core@1.4.13(@types/react@19.2.17)(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3))':
     dependencies:
-      '@wagmi/connectors': 3.1.11(@types/react@19.2.17)(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3))
+      '@wagmi/connectors': 3.1.11(@types/react@19.2.17)(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3))
       abitype: 0.8.7(typescript@5.9.3)
       eventemitter3: 4.0.7
-      viem: 1.21.4(typescript@5.9.3)
+      viem: 2.55.0(typescript@5.9.3)
       zustand: 4.5.7(@types/react@19.2.17)(react@19.2.7)
     optionalDependencies:
       typescript: 5.9.3
@@ -6056,7 +6045,7 @@ snapshots:
 
   concat-map@0.0.1: {}
 
-  connectkit@1.6.0(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react-is@18.3.1)(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3))(wagmi@1.4.13(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3))):
+  connectkit@1.6.0(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react-is@18.3.1)(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3))(wagmi@1.4.13(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3))):
     dependencies:
       buffer: 6.0.3
       detect-browser: 5.3.0
@@ -6069,8 +6058,8 @@ snapshots:
       react-use-measure: 2.1.7(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       resize-observer-polyfill: 1.5.1
       styled-components: 5.3.11(@babel/core@7.29.7)(react-dom@19.2.7(react@19.2.7))(react-is@18.3.1)(react@19.2.7)
-      viem: 1.21.4(typescript@5.9.3)
-      wagmi: 1.4.13(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3))
+      viem: 2.55.0(typescript@5.9.3)
+      wagmi: 1.4.13(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3))
     transitivePeerDependencies:
       - '@babel/core'
       - bufferutil
@@ -6347,8 +6336,8 @@ snapshots:
       '@typescript-eslint/parser': 8.63.0(eslint@8.57.1)(typescript@5.9.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.10
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@8.57.1)
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@8.57.1)
       eslint-plugin-react: 7.37.5(eslint@8.57.1)
       eslint-plugin-react-hooks: 5.0.0-canary-7118f5dd7-20230705(eslint@8.57.1)
@@ -6367,7 +6356,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@8.57.1):
+  eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       '@nolyfill/is-core-module': 1.0.39
       debug: 4.4.3(supports-color@5.5.0)
@@ -6378,22 +6367,22 @@ snapshots:
       tinyglobby: 0.2.17
       unrs-resolver: 1.12.2
     optionalDependencies:
-      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.14.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1):
+  eslint-module-utils@2.14.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
       '@typescript-eslint/parser': 8.63.0(eslint@8.57.1)(typescript@5.9.3)
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.10
-      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0)(eslint@8.57.1)
+      eslint-import-resolver-typescript: 3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1)
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1):
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: 3.1.9
@@ -6404,7 +6393,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 8.57.1
       eslint-import-resolver-node: 0.3.10
-      eslint-module-utils: 2.14.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@8.57.1)
+      eslint-module-utils: 2.14.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.63.0(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1))(eslint@8.57.1))(eslint@8.57.1)
       hasown: 2.0.4
       is-core-module: 2.16.2
       is-glob: 4.0.3
@@ -7488,8 +7477,6 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier@3.9.4: {}
-
   process-warning@1.0.0: {}
 
   prop-types@15.8.1:
@@ -8281,16 +8268,16 @@ snapshots:
     transitivePeerDependencies:
       - msw
 
-  wagmi@1.4.13(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3)):
+  wagmi@1.4.13(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3)):
     dependencies:
       '@tanstack/query-sync-storage-persister': 4.44.0
       '@tanstack/react-query': 4.44.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@tanstack/react-query-persist-client': 4.44.0(@tanstack/react-query@4.44.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7))
-      '@wagmi/core': 1.4.13(@types/react@19.2.17)(react@19.2.7)(typescript@5.9.3)(viem@1.21.4(typescript@5.9.3))
+      '@wagmi/core': 1.4.13(@types/react@19.2.17)(react@19.2.7)(typescript@5.9.3)(viem@2.55.0(typescript@5.9.3))
       abitype: 0.8.7(typescript@5.9.3)
       react: 19.2.7
       use-sync-external-store: 1.6.0(react@19.2.7)
-      viem: 1.21.4(typescript@5.9.3)
+      viem: 2.55.0(typescript@5.9.3)
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:

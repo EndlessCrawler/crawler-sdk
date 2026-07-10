@@ -1,5 +1,6 @@
-import { Options, ContractName, Address } from '@avante/crawler-core';
-import { readContractOrThrow } from '../wagmi';
+import { ContractName, Address } from '@avante/crawler-core';
+import { ReadOptions } from '../types';
+import { readContractOrThrow } from '../client';
 
 //---------------------
 // ERC721
@@ -10,7 +11,7 @@ import { readContractOrThrow } from '../wagmi';
 export const readBalanceOf = async (
   owner: Address,
   contractName: ContractName,
-  options: Options = {},
+  options: ReadOptions = {},
 ): Promise<number> => {
   const readContractOptions = {
     ...options,
@@ -26,7 +27,7 @@ export const readBalanceOf = async (
 export const readOwnerOf = async (
   tokenId: number | BigInt,
   contractName: ContractName,
-  options: Options = {},
+  options: ReadOptions = {},
 ): Promise<Address> => {
   const readContractOptions = {
     ...options,
@@ -46,7 +47,7 @@ export const readOwnerOf = async (
 /** @returns execute 'totalSupply()' on ERC721Enumerable contract **/
 export const readTotalSupply = async (
   contractName: ContractName,
-  options: Options = {},
+  options: ReadOptions = {},
 ): Promise<number> => {
   const readContractOptions = {
     ...options,

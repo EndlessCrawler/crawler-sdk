@@ -15,7 +15,6 @@ import CrawlerToken from '../artifacts/CrawlerToken.json';
 // import ICrawlerContract from './crawler/ICrawlerContract.json'
 // import ICrawlerMapper from './crawler/ICrawlerMapper.json'
 // import Ownable from './crawler/Ownable.json'
-// import { erc721ABI } from '@wagmi/core'
 
 //------------------------------------------
 //
