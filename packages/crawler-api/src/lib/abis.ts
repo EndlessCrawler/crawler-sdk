@@ -1,5 +1,5 @@
-import { ContractName } from '@avante/crawler-core';
-import { ContractArtifacts } from './types';
+import type { ContractName } from '@avante/crawler-core';
+import type { ContractArtifacts } from './types';
 
 // Chambers
 import CrawlerToken from '../artifacts/CrawlerToken.json';

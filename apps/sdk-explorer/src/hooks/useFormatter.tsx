@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { formatViewData } from '@avante/crawler-api';
+'use client';
 
-export const useFormatter = (content: any) => {
+import { formatViewData } from '@avante/crawler-api';
+import { useEffect, useState } from 'react';
+
+// Formats arbitrary data (incl. bigint) to a JSON string for the Monaco view,
+// via crawler-api's prettier-based formatViewData (async, hence the effect).
+export const useFormatter = (content: unknown) => {
   const [formatted, setFormatted] = useState('');
 
   useEffect(() => {

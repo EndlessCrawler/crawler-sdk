@@ -2,9 +2,9 @@ import { beforeAll, describe, expect, it, test } from 'vitest';
 import { mainnetDataSet, goerliDataSet } from '../src';
 import {
   createClient,
-  EndlessCrawler,
-  ChamberCoords,
-  ChamberData,
+  type EndlessCrawler,
+  type ChamberCoords,
+  type ChamberData,
   ChainId,
   NetworkName,
 } from '@avante/crawler-core';

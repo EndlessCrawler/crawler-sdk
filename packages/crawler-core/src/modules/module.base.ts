@@ -1,21 +1,21 @@
-import { Options } from '../types';
+import type { Options } from '../types';
 import {
-  DataSet,
-  DataSetName,
-  DataSetViews,
-  View,
-  ViewMetadata,
-  ViewName,
-  ViewRecords,
+  type DataSet,
+  type DataSetName,
+  type DataSetViews,
+  type View,
+  type ViewMetadata,
+  type ViewName,
+  type ViewRecords,
   ChainId,
   NetworkName,
 } from '../views';
 import {
-  ModuleId,
-  ModuleInterface,
-  ModuleViews,
-  CompassBase,
-  SlugSeparator,
+  type ModuleId,
+  type ModuleInterface,
+  type ModuleViews,
+  type CompassBase,
+  type SlugSeparator,
   _defaultSlugSeparator,
 } from './modules';
 import {
@@ -107,7 +107,7 @@ export abstract class ModuleBase implements Partial<ModuleInterface> {
   }
   validateView(viewName: ViewName, view: object, options: Options = {}): boolean {
     if (!this.includesView(viewName)) return false;
-    return typeof view == typeof this.getView(viewName, options);
+    return typeof view === typeof this.getView(viewName, options);
   }
 
   //-------------------------

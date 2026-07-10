@@ -1,6 +1,6 @@
-import { Address, Options } from '../types';
-import { ChainId, ContractName } from './chains';
-import { ModuleId, ModuleInterface } from '../modules';
+import type { Address, Options } from '../types';
+import type { ChainId, ContractName } from './chains';
+import type { ModuleId, ModuleInterface } from '../modules';
 
 //--------------------------------
 // Types

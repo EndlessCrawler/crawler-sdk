@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { createClient, EndlessCrawler, ModuleInterface, SlugSeparator } from '../src';
+import { createClient, EndlessCrawler, type ModuleInterface, type SlugSeparator } from '../src';
 import { _slugSeparators } from '../src/modules/modules';
 
 //@ts-ignore

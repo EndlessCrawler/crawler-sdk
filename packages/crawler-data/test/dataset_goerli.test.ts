@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import { mainnetDataSet, goerliDataSet } from '../src';
-import { ChainId, createClient, EndlessCrawler, NetworkName } from '@avante/crawler-core';
+import { ChainId, createClient, type EndlessCrawler, NetworkName } from '@avante/crawler-core';
 
 describe('* data_goerli', () => {
   let client: EndlessCrawler.Module;

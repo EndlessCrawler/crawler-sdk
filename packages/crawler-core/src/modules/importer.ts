@@ -2,11 +2,11 @@ import {
   InvalidDataSetError,
   InvalidModuleError,
   MissingGlobalNamespaceError,
-  Options,
+  type Options,
 } from '../types';
-import { DataSet, DataSetName, ChainId } from '../views';
+import type { DataSet, DataSetName, ChainId } from '../views';
 import { EventName, __emitEvent } from './events';
-import { ModuleId } from './modules';
+import type { ModuleId } from './modules';
 import { Utils } from '../utils';
 
 //@ts-ignore
@@ -46,7 +46,7 @@ export const __initializeGlobalModule = (moduleId: ModuleId, force: boolean = fa
  * @param datasets array of DataSet to import. The first chain will be set as the current, if none set yet
  */
 export const __importDataSets = (datasets: DataSet[]) => {
-  if (datasets.length == 0) {
+  if (datasets.length === 0) {
     return;
   }
   const moduleId = datasets[0].moduleId;

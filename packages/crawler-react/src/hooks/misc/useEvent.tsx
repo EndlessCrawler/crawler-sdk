@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { EventName } from '@avante/crawler-core';
+import type { EventName } from '@avante/crawler-core';
 
 export const useEvent = (
   eventName: EventName,

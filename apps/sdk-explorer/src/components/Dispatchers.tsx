@@ -1,98 +1,105 @@
-import React, { useEffect, useState } from 'react';
-import { useFetchContext } from '@/hooks/FetchContext';
+'use client';
+
+import { useMutation } from '@tanstack/react-query';
+import { useSelection } from '@/hooks/SelectionContext';
 
 //---------------------------------------------------------
-// Dispatch a URL to the FetchContext
+// Select a URL for the Results panel to fetch
 //
 function UrlDispatcher({ label, url, br = true }: { label: string; url: string; br?: boolean }) {
-  const { dispatchUrl } = useFetchContext();
+  const { setSelection } = useSelection();
   return (
-    <span className="Anchor" onClick={() => dispatchUrl(url)}>
-      {label}
+    <>
+      <button type="button" className="anchor" onClick={() => setSelection({ kind: 'url', url })}>
+        {label}
+      </button>
       {br && <br />}
-    </span>
+    </>
   );
 }
 
 //---------------------------------------------------------
-// Dispatch any arbitrary DATA to the FetchContext
+// Select any arbitrary DATA for the Results panel to display
 //
 function DataDispatcher({
   label,
-  data = {},
+  data,
   br = true,
 }: {
   label: string;
-  data: any;
+  data: unknown;
   br?: boolean;
 }) {
-  const { dispatchData } = useFetchContext();
+  const { setSelection } = useSelection();
   return (
-    <span className="Anchor" onClick={() => dispatchData(data, label)}>
-      {label}
+    <>
+      <button
+        type="button"
+        className="anchor"
+        onClick={() => setSelection({ kind: 'data', name: label, data })}
+      >
+        {label}
+      </button>
       {br && <br />}
-    </span>
+    </>
   );
 }
 
 //---------------------------------------------------------
-// Dispatch any arbitrary DATA to the FetchContext
+// Select the (synchronous) result of an action
 //
 function ActionDispatcher({
   label,
-  onAction = () => {},
+  onAction,
   br = true,
 }: {
   label: string;
-  onAction(): void;
+  onAction(): unknown;
   br?: boolean;
 }) {
-  const { dispatchData } = useFetchContext();
+  const { setSelection } = useSelection();
   return (
-    <span className="Anchor" onClick={() => dispatchData(onAction(), label)}>
-      {label}
+    <>
+      <button
+        type="button"
+        className="anchor"
+        onClick={() => setSelection({ kind: 'data', name: label, data: onAction() })}
+      >
+        {label}
+      </button>
       {br && <br />}
-    </span>
+    </>
   );
 }
 
+//---------------------------------------------------------
+// Select the (async) result of an action
+//
 function AsyncActionDispatcher({
   label,
-  onAction = async () => {},
+  onAction,
   br = true,
 }: {
   label: string;
-  onAction(): void;
+  onAction(): Promise<unknown>;
   br?: boolean;
 }) {
-  const { dispatchData } = useFetchContext();
-  const [fetching, setFetching] = useState(false);
-
-  useEffect(() => {
-    let _mounted = true;
-    const _fetch = async () => {
-      const _data = await onAction();
-      if (_mounted) {
-        dispatchData(_data, label);
-        setFetching(false);
-      }
-    };
-
-    if (fetching) {
-      dispatchData('...', label);
-      _fetch();
-    }
-    return () => {
-      _mounted = false;
-    };
-  }, [fetching, label, onAction]);
+  const { setSelection } = useSelection();
+  const { mutate, isPending } = useMutation({
+    mutationFn: onAction,
+    onMutate: () => setSelection({ kind: 'data', name: label, data: '...' }),
+    onSuccess: (data) => setSelection({ kind: 'data', name: label, data }),
+    onError: (error) => setSelection({ kind: 'data', name: label, data: { error: `${error}` } }),
+  });
 
   return (
-    <span className="Anchor" onClick={() => setFetching(true)}>
-      {label}
+    <>
+      <button type="button" className="anchor" onClick={() => !isPending && mutate()}>
+        {label}
+      </button>
       {br && <br />}
-    </span>
+    </>
   );
 }
 
-export { UrlDispatcher, DataDispatcher, ActionDispatcher, AsyncActionDispatcher };
+export { ActionDispatcher, AsyncActionDispatcher, DataDispatcher, UrlDispatcher };

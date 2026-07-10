@@ -1,24 +1,14 @@
-export * from './types';
-export * from './calls';
-export * from './utils';
-
 export { Contracts } from './abis';
-
+export * from './calls';
+export { getPublicClient, readContractOrThrow, setRpcUrl, setRpcUrls } from './client';
 export {
   getAllContractNames,
-  getContractAddress,
   getContractAbi,
+  getContractAddress,
 } from './contract';
-
-export {
-  fetchJson,
-  fetchText,
-  addParamsToUrl,
-} from './utils/fetch';
-
+export * from './types';
+export * from './utils';
 export {
   readViewRecordOrThrow,
   readViewTotalCount,
 } from './view';
-
-export { readContractOrThrow, getPublicClient, setRpcUrl, setRpcUrls } from './client';

@@ -1,8 +1,8 @@
-import { BigIntIsh, BigIntString, HexString, Options } from '../types';
-import { ViewAccessInterface, ViewName, ViewT, ViewValue } from './view';
-import { CompassBase, ModuleInterface } from '../modules';
+import type { BigIntIsh, BigIntString, HexString, Options } from '../types';
+import { type ViewAccessInterface, ViewName, type ViewT, type ViewValue } from './view';
+import type { CompassBase, ModuleInterface } from '../modules';
 import { Utils } from '../utils';
-import { Dir, Hoard, Terrain, TileType, Bitmap, Gem } from '../crawler';
+import { Dir, type Hoard, type Terrain, TileType, Bitmap, type Gem } from '../crawler';
 import { EventName, __emitEvent } from '../modules/events';
 
 //
@@ -149,7 +149,7 @@ export class ChamberDataViewAccess
       }
     }
     // Determine dinamic from locks
-    const locks: boolean[] = model.locks.map((v: number) => v != 0);
+    const locks: boolean[] = model.locks.map((v: number) => v !== 0);
     const locksCount: number = locks.reduce<number>((acc: number, val: boolean) => {
       return acc + (val ? 1 : 0);
     }, 0);

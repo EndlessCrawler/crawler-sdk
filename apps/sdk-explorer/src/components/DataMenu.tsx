@@ -1,27 +1,26 @@
-import React, { useMemo } from 'react';
-import { Divider } from 'semantic-ui-react';
-import { ActionDispatcher } from '@/components/Dispatchers';
+'use client';
+
+import type { EndlessCrawler } from '@avante/crawler-core';
 import { useCrawler, useDataSets } from '@avante/crawler-react';
-import { EndlessCrawler } from '@avante/crawler-core';
+import { useMemo } from 'react';
+import { ActionDispatcher } from '@/components/Dispatchers';
 
 export default function DataMenu() {
   const { client } = useCrawler<EndlessCrawler.Module>();
   const { currentDataSetName } = useDataSets();
 
   const views = useMemo(() => {
-    let result = [];
+    const result = [];
     for (const viewName of client.getViewNames()) {
-      //@ts-ignore
       const view = client.getView(viewName);
       const count = Object.keys(view.records).length;
       result.push(
         <div key={viewName}>
-          <Divider hidden />
-          {`>`} {viewName} [{count}]
-          <div>
-            &nbsp;&nbsp;
+          <hr />
+          {'> '}
+          {viewName} [{count}]
+          <div className="pl-3">
             <ActionDispatcher label="getView()" onAction={() => client.getView(viewName)} />
-            &nbsp;&nbsp;
             <ActionDispatcher
               label="getViewRecordCount()"
               onAction={() => client.getViewRecordCount(viewName)}
@@ -38,11 +37,14 @@ export default function DataMenu() {
   const dynamicIds = useMemo(() => client.chamberData.getDynamicChambersIds(), [client]);
   const dynamicCoord = useMemo(() => client.chamberData.getDynamicChambersCoords(), [client]);
   const tokenCoords_1 = useMemo(() => client.tokenIdToCoord.get(1), [client]);
-  const tokenCoords_n = useMemo(() => client.tokenIdToCoord.get(chamberCount), [client]);
+  const tokenCoords_n = useMemo(
+    () => client.tokenIdToCoord.get(chamberCount),
+    [client, chamberCount],
+  );
 
   return (
     <div>
-      <Divider />
+      <hr />
 
       <h4>DataSets</h4>
       <div>
@@ -61,7 +63,7 @@ export default function DataMenu() {
         />
       </div>
 
-      <Divider />
+      <hr />
 
       <h4>Views</h4>
       <div>
@@ -73,7 +75,7 @@ export default function DataMenu() {
         {views}
       </div>
 
-      <Divider />
+      <hr />
 
       <h4>Tokens</h4>
       <div>
@@ -91,7 +93,7 @@ export default function DataMenu() {
         />
       </div>
 
-      <Divider />
+      <hr />
 
       <h4>Chambers</h4>
       <div>
@@ -100,7 +102,7 @@ export default function DataMenu() {
           onAction={() => client.chamberData.getCount()}
         />
         <ActionDispatcher
-          label={`chamberData.get(1)`}
+          label="chamberData.get(1)"
           onAction={() => client.chamberData.get(tokenCoords_1?.coord ?? 0n)}
         />
         <ActionDispatcher

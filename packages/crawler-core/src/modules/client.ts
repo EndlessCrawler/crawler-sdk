@@ -1,5 +1,5 @@
 import { InvalidModuleInterfaceError, MixedModulesError } from '../types';
-import { DataSet } from '../views';
+import type { DataSet } from '../views';
 import { ModuleId } from './modules';
 import { EndlessCrawler } from './module.ec';
 import { LootUnderworld } from './module.luw';
@@ -19,7 +19,7 @@ export const createClient = (
         // use first DataSet moduleId
         moduleId = dataset.moduleId;
       } else {
-        if (dataset.moduleId != moduleId) {
+        if (dataset.moduleId !== moduleId) {
           throw new MixedModulesError();
         }
       }
@@ -42,9 +42,9 @@ export const createClient = (
   //
   // Instantiate Module
   let module = null;
-  if (moduleId == ModuleId.EndlessCrawler) {
+  if (moduleId === ModuleId.EndlessCrawler) {
     module = new EndlessCrawler.Module();
-  } else if (moduleId == ModuleId.LootUnderworld) {
+  } else if (moduleId === ModuleId.LootUnderworld) {
     module = new LootUnderworld.Module();
   } else {
     throw new InvalidModuleInterfaceError();

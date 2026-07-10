@@ -1,6 +1,6 @@
-import { BigIntString, Options } from '../types';
-import { ViewAccessInterface, ViewName, ViewT, ViewValue } from './view';
-import { CompassBase, ModuleInterface } from '../modules';
+import type { BigIntString, Options } from '../types';
+import { type ViewAccessInterface, ViewName, type ViewT, type ViewValue } from './view';
+import type { CompassBase, ModuleInterface } from '../modules';
 import { EventName, __emitEvent } from '../modules/events';
 
 /** @type all the coordinates of a chamber */

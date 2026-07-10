@@ -2,7 +2,7 @@ import { describe, expect, it, test } from 'vitest';
 import { mainnetDataSet, goerliDataSet, allDataSets } from '../src';
 import {
   ChainId,
-  ViewName,
+  type ViewName,
   createClient,
   getAllChainIds,
   getAllNetworkNames,

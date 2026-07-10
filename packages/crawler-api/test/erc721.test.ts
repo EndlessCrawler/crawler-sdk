@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { EndlessCrawler, ChainId, ContractName, createClient } from '@avante/crawler-core';
+import { type EndlessCrawler, ChainId, ContractName, createClient } from '@avante/crawler-core';
 import { mainnetDataSet } from '@avante/crawler-data';
 import { readBalanceOf, readOwnerOf, readTotalSupply, setRpcUrl, validateAddress } from '../src';
 

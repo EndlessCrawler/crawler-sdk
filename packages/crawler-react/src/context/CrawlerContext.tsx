@@ -1,5 +1,6 @@
-import React, { ReactNode, createContext, useReducer } from 'react';
-import { ChamberDataModel, ModuleInterface } from '@avante/crawler-core';
+import type React from 'react';
+import { type ReactNode, createContext, useReducer } from 'react';
+import type { ChamberDataModel, ModuleInterface } from '@avante/crawler-core';
 
 //--------------------------------
 // Constants

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DataSetName, EventName } from '@avante/crawler-core';
+import { type DataSetName, EventName } from '@avante/crawler-core';
 import { useCrawler } from './useCrawler';
 import { useEvent } from './misc/useEvent';
 

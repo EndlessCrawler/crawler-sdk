@@ -2,12 +2,12 @@ import { Dir } from '../crawler';
 import { MissingImplementationError } from '../types';
 import { ChamberDataViewAccess } from '../views';
 import {
-  AbsentCompassDir,
-  CompassBase,
+  type AbsentCompassDir,
+  type CompassBase,
   ModuleId,
-  ModuleInterface,
-  ModuleViews,
-  SlugSeparator,
+  type ModuleInterface,
+  type ModuleViews,
+  type SlugSeparator,
   _defaultSlugSeparator,
 } from './modules';
 import { ModuleBase } from './module.base';
@@ -162,22 +162,22 @@ export namespace LootUnderworld {
       const _add = (v: number | AbsentCompassDir) => (!v ? 1 : v < CoordMax ? v + 1 : v);
       const _sub = (v: number | AbsentCompassDir) => (!v ? 0 : v - 1);
       let result = { ...compass };
-      if (dir == Dir.North) {
+      if (dir === Dir.North) {
         result.south = _sub(result.south);
         if (!result.south) result.north = _add(result.north);
-      } else if (dir == Dir.South) {
+      } else if (dir === Dir.South) {
         result.north = _sub(result.north);
         if (!result.north) result.south = _add(result.south);
-      } else if (dir == Dir.East) {
+      } else if (dir === Dir.East) {
         result.west = _sub(result.west);
         if (!result.west) result.east = _add(result.east);
-      } else if (dir == Dir.West) {
+      } else if (dir === Dir.West) {
         result.east = _sub(result.east);
         if (!result.east) result.west = _add(result.west);
-      } else if (dir == Dir.Over) {
+      } else if (dir === Dir.Over) {
         result.under = _sub(result.under);
         if (!result.under) result.over = _add(result.over);
-      } else if (dir == Dir.Under) {
+      } else if (dir === Dir.Under) {
         result.over = _sub(result.over);
         if (!result.over) result.under = _add(result.under);
       }
@@ -185,36 +185,36 @@ export namespace LootUnderworld {
     }
 
     offsetCoord(coord: bigint, dir: Dir): bigint {
-      if (dir == Dir.North) {
+      if (dir === Dir.North) {
         if ((coord & CoordMask.South) > CoordOne.South) return coord - CoordOne.South; // --South
-        if ((coord & CoordMask.North) != CoordMask.North)
+        if ((coord & CoordMask.North) !== CoordMask.North)
           return (coord & CoordMask.InvSouth) + CoordOne.North; // ++North
-      } else if (dir == Dir.East) {
+      } else if (dir === Dir.East) {
         if ((coord & CoordMask.West) > CoordOne.West) return coord - CoordOne.West; // --West
-        if ((coord & CoordMask.East) != CoordMask.East)
+        if ((coord & CoordMask.East) !== CoordMask.East)
           return (coord & CoordMask.InvWest) + CoordOne.East; // ++East
-      } else if (dir == Dir.West) {
+      } else if (dir === Dir.West) {
         if ((coord & CoordMask.East) > CoordOne.East) return coord - CoordOne.East; // --East
-        if ((coord & CoordMask.West) != CoordMask.West)
+        if ((coord & CoordMask.West) !== CoordMask.West)
           return (coord & CoordMask.InvEast) + CoordOne.West; // ++West
-      } else if (dir == Dir.South) {
+      } else if (dir === Dir.South) {
         if ((coord & CoordMask.North) > CoordOne.North) return coord - CoordOne.North; // --North
-        if ((coord & CoordMask.South) != CoordMask.South)
+        if ((coord & CoordMask.South) !== CoordMask.South)
           return (coord & CoordMask.InvNorth) + CoordOne.South; // ++South
-      } else if (dir == Dir.Over) {
+      } else if (dir === Dir.Over) {
         if ((coord & CoordMask.Under) > CoordOne.Under) return coord - CoordOne.Under; // --Under
-        if ((coord & CoordMask.Over) != CoordMask.Over)
+        if ((coord & CoordMask.Over) !== CoordMask.Over)
           return (coord & CoordMask.InvUnder) + CoordOne.Over; // ++Over
-      } else if (dir == Dir.Under) {
+      } else if (dir === Dir.Under) {
         if ((coord & CoordMask.Over) > CoordOne.Over) return coord - CoordOne.Over; // --Over
-        if ((coord & CoordMask.Under) != CoordMask.Under)
+        if ((coord & CoordMask.Under) !== CoordMask.Under)
           return (coord & CoordMask.InvOver) + CoordOne.Under; // ++Under
       }
       return coord;
     }
 
     coordToCompass(coord: bigint): Compass | null {
-      if (coord == 0n) return null;
+      if (coord === 0n) return null;
       const result = {
         domainId: Number((coord >> CoordOffset.DomainId) & CoordMax),
         tokenId: Number((coord >> CoordOffset.TokenId) & CoordMax),

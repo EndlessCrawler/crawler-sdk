@@ -1,5 +1,5 @@
-import { ContractName, Address } from '@avante/crawler-core';
-import { ReadOptions } from '../types';
+import type { ContractName, Address } from '@avante/crawler-core';
+import type { ReadOptions } from '../types';
 import { readContractOrThrow } from '../client';
 
 //---------------------

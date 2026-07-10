@@ -13,8 +13,7 @@
     "**/dist": true,
     "**/.next": true,
     "**/_bak": true,
-    "**/*.tsbuildinfo": true,
-    "**/.env*": true
+    "**/*.tsbuildinfo": true
   },
   "search.exclude": {
     "**/node_modules": true,

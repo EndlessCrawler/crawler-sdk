@@ -1,11 +1,11 @@
 import {
   createClient,
   EndlessCrawler,
-  ChamberData,
+  type ChamberData,
   ContractName,
-  Options,
+  type Options,
 } from '@avante/crawler-core';
-import { ViewDefinitionT } from '../types';
+import type { ViewDefinitionT } from '../types';
 import { readTotalSupply } from '../calls';
 
 const client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module;

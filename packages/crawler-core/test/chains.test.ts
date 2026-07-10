@@ -1,7 +1,7 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import {
-  ChainId,
-  NetworkName,
+  type ChainId,
+  type NetworkName,
   getAllChainIds,
   getAllNetworkNames,
   ChainIdToNetworkName,

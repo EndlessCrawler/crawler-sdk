@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { createClient, EndlessCrawler, ModuleInterface, Dir } from '../src';
+import { createClient, EndlessCrawler, type ModuleInterface, Dir } from '../src';
 
 //@ts-ignore
 BigInt.prototype.toJSON = function () {

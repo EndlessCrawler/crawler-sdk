@@ -1,50 +1,36 @@
-import React, { useMemo } from 'react';
-import { Divider } from 'semantic-ui-react';
-import { useCrawler } from '@avante/crawler-react';
-import { ViewName } from '@avante/crawler-core';
+'use client';
+
 import { readViewRecordOrThrow, readViewTotalCount } from '@avante/crawler-api';
-import { UrlDispatcher, AsyncActionDispatcher } from '@/components/Dispatchers';
+import { type EndlessCrawler, ViewName } from '@avante/crawler-core';
+import { useCrawler } from '@avante/crawler-react';
+import { useMemo } from 'react';
+import { AsyncActionDispatcher, UrlDispatcher } from '@/components/Dispatchers';
 
 export default function ApisMenu() {
-  const { client } = useCrawler();
+  const { client } = useCrawler<EndlessCrawler.Module>();
 
   const tokenCoords = useMemo(() => client.tokenIdToCoord.get(1), [client]);
 
   const views = useMemo(() => {
-    let result = [];
+    const result = [];
     for (const viewName of client.getViewNames()) {
-      //@ts-ignore
       const view = client.getView(viewName);
       const count = Object.keys(view.records).length;
-      const readViewOptions =
-        viewName == ViewName.tokenIdToCoord
-          ? {
-              viewName,
-              key: '1',
-            }
-          : viewName == ViewName.chamberData
-            ? {
-                viewName,
-                key: tokenCoords?.coord.toString(),
-              }
-            : {
-                viewName,
-              };
+      const key =
+        viewName === ViewName.tokenIdToCoord ? '1' : (tokenCoords?.coord?.toString() ?? '');
       result.push(
         <div key={viewName}>
-          <Divider />
-          {`_`}
+          <hr />
+          {'_'}
           {viewName} [{count}]
-          <div>
-            {/* @ts-ignore */}
+          <div className="pl-3">
             <AsyncActionDispatcher
               label="readViewTotalCount()"
-              onAction={() => readViewTotalCount(viewName)}
+              onAction={() => readViewTotalCount(viewName, {})}
             />
-            {/* @ts-ignore */}
             <AsyncActionDispatcher
-              label={`readViewRecordOrThrow(${readViewOptions.key})`}
-              onAction={() => readViewRecordOrThrow(readViewOptions)}
+              label={`readViewRecordOrThrow(${key})`}
+              onAction={() => readViewRecordOrThrow({ viewName, key })}
             />
           </div>
         </div>,
@@ -55,15 +41,15 @@ export default function ApisMenu() {
 
   return (
     <div>
-      <Divider />
-      /api/read
+      <hr />
+      <div>/api/read</div>
       <div>
         <UrlDispatcher label="totalSupply" url="/api/read/1/CrawlerToken/totalSupply" />
         <UrlDispatcher label="ownerOf/1" url="/api/read/1/CrawlerToken/ownerOf/1" />
         <UrlDispatcher label="tokenURI/1" url="/api/read/1/CrawlerToken/tokenURI/1" />
       </div>
-      <Divider />
-      /api/view
+      <hr />
+      <div>/api/view</div>
       <div>
         <UrlDispatcher label="tokenIdToCoord/1" url="/api/view/1/tokenIdToCoord/1/1" />
         <UrlDispatcher

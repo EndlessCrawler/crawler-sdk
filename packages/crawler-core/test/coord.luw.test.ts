@@ -1,5 +1,5 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { createClient, LootUnderworld, ModuleInterface } from '../src';
+import { createClient, LootUnderworld, type ModuleInterface } from '../src';
 
 //@ts-ignore
 BigInt.prototype.toJSON = function () {

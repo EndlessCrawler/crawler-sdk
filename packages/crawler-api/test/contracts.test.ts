@@ -1,10 +1,10 @@
 import { beforeAll, describe, expect, it } from 'vitest';
 import {
-  EndlessCrawler,
+  type EndlessCrawler,
   createClient,
   // ---
   ContractName,
-  ViewName,
+  type ViewName,
 } from '@avante/crawler-core';
 import { allDataSets } from '@avante/crawler-data';
 import { getAllContractNames, getContractAddress } from '../src';

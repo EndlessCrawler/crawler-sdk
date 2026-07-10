@@ -1,4 +1,4 @@
-import { ModuleId, Options, ViewName, ContractName, ChainId } from '@avante/crawler-core';
+import type { ModuleId, Options, ViewName, ContractName, ChainId } from '@avante/crawler-core';
 
 /** @type contract address and abi for on-chain calls */
 export interface ContractArtifacts {
@@ -45,12 +45,12 @@ export interface ReadContractOptions extends ReadOptions {
 
 /** @type check if a function result is ErrorResult */
 export function isErrorResult(instance: any): instance is ErrorResult {
-  return instance && instance.error && typeof instance.error == 'string';
+  return instance && instance.error && typeof instance.error === 'string';
 }
 
 /** @type check if a function result is DataResult */
 export function isDataResult(instance: any): instance is DataResult {
-  return instance && instance.data && typeof instance.data == 'string';
+  return instance && instance.data && typeof instance.data === 'string';
 }
 
 /** @type view definition to read on-chain data */

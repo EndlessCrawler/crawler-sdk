@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
-import { BigIntIsh, ChamberData, EventName, ModuleInterface, Utils } from '@avante/crawler-core';
+import {
+  type BigIntIsh,
+  type ChamberData,
+  EventName,
+  type ModuleInterface,
+  Utils,
+} from '@avante/crawler-core';
 import { useCrawler } from './useCrawler';
 import { useEvent } from './misc/useEvent';
 

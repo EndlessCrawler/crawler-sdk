@@ -1,4 +1,9 @@
-import { Address, ChainId, ContractName, InvalidChainError } from '@avante/crawler-core';
+import {
+  type Address,
+  type ChainId,
+  type ContractName,
+  InvalidChainError,
+} from '@avante/crawler-core';
 import { InvalidContractError } from './types';
 
 import { Contracts } from './abis';

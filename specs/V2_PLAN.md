@@ -186,13 +186,22 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 
 ---
 
-## Phase 7 — `apps/sdk-explorer` full modernization
+## Phase 7 — `apps/sdk-explorer` full modernization ✅ (2026-07-09)
 
 **Goal:** **full modernization** (decided 2026-07-08) mirroring the ec-dapp stack: Next 16 App Router, React 19, wagmi 2 + ConnectKit 1.9 (ConnectKit caps wagmi at 2.x), Tailwind v4 replacing semantic-ui-react + sass, Biome replacing ESLint, native cookie handling replacing `react-cookie`. Follow ec-dapp's `CODING_STYLE.md` styling rules.
 
+> **Done (2026-07-09).** Result:
+> - **Stack swap:** `next ^14 → 16.2.10`, `wagmi ^1 → ^2.19.5`, `connectkit ~1.6 → ^1.9.2`, added `@tanstack/react-query ^5.101.2`; **dropped** `semantic-ui-react`/`semantic-ui-css`/`sass`, `eslint`/`eslint-config-next`, and `react-cookie` (it was **never imported** — the plan's "native cookie handling" was moot, so it was simply removed). devDeps gained `tailwindcss`/`@tailwindcss/postcss`/`postcss ^4.3.2/^8.5.16`; manifest is now `type: module`, scripts `dev/build` use `--webpack`, `next lint` dropped for root Biome, `typecheck: tsc --noEmit` added. React/viem/TS come from the `catalog:`.
+> - **Pages Router → App Router:** `pages/` deleted; `src/app/` holds `layout.tsx` (server: html/body, `metadata`/`viewport`, imports `styles/main.css`), `providers.tsx` (`'use client'`: `WagmiProvider > QueryClientProvider > ConnectKitProvider > CrawlerProvider > FetchProvider`, wagmi config via `getDefaultConfig`, lazy `useState(() => new QueryClient())`), and `page.tsx`/`data/page.tsx`/`apis/page.tsx`. The three `pages/api/*` handlers became App-Router `route.ts` (`api/hello`, `api/read/[...read]`, `api/view/[...view]`; async `params`); the Pages-only `[...error]` catch-all was dropped (App Router 404s natively).
+> - **Tailwind v4, no config file:** `postcss.config.mjs` (`@tailwindcss/postcss`) + `styles/main.css` (`@import 'tailwindcss'`, `@theme` brand tokens `--color-ec-*` + `--font-mono`, self-hosted Noto Sans Mono `@font-face` from `public/googlefonts`, `:root` layout vars, `@layer base`/`components` porting the old drawer/header/results/`.anchor` classes). The scss (`styles.scss`, `googlefonts.scss`) is gone. `next.config.mjs` pins `outputFileTracingRoot`, keeps `transpilePackages`, aliases `@react-native-async-storage/async-storage` to `false` (silences the ConnectKit/wagmi/MetaMask-SDK warning) + wagmi node-fallbacks.
+> - **Reconciled the stale SDK surface:** every core/react method the explorer calls **still exists** (verified) — the breakage was narrow. `formatViewData` (dropped from crawler-api with prettier in Phase 6) → replaced by a local bigint-safe `src/lib/formatData.ts` (2-space for the Monaco *display*, which is correct here — not the compact on-disk format SDK_PLAN #11 guards). `ReadContractResult` from `wagmi/actions` (wagmi 1, gone) → route returns `unknown` via a bigint-safe `jsonResponse`. RPC is caller-supplied since Phase 6 → `src/lib/serverRpc.ts` registers `setRpcUrls({ [Mainnet]: MAINNET_RPC_URL ?? publicnode })`, imported by the read/view routes. Semantic-UI primitives (`Divider`/`Grid`/`Icon`) → plain markup + Tailwind + inline-SVG icons; clickable `<span onClick>` → real `<button>`; the `useRouter` (`next/router`) header → `usePathname` (`next/navigation`). Dead `ConnectButton.tsx` duplicate of `Header` removed.
+> - **Biome:** re-tightened the four Phase-7-tagged rules (`correctness/noSwitchDeclarations`, `security/noBlankTarget`, `a11y/useKeyWithClickEvents`, `a11y/noStaticElementInteractions`) back to recommended (error) — the rebuild cleared every offender (braced switch cases, `rel="noreferrer"`, `<button>` handlers); zero diagnostics repo-wide. Excluded the Tailwind entry `apps/sdk-explorer/styles/main.css` from Biome (its directives break the CSS parser) and removed the now-dead `!**/*.scss` ignore.
+>
+> **Gates:** `pnpm build:all` (`-r`, packages + `next build`) exit 0 — 6 routes (`/`, `/data`, `/apis`, 3 `api/*`); explorer `tsc --noEmit` 0 errors; `pnpm lint` 0 errors (272 warnings = pre-existing core/api tracked debt); `pnpm format:check` 0; `pnpm test` unchanged (core 20/3-skip, data 10, react 1-skip, api 9); `pnpm check:pack` publint "All good!" ×4 + attw esm-only green. **Runtime smoke (prod `next start`):** all pages 200; `/api/hello` OK; live mainnet `/api/read/1/CrawlerToken/totalSupply` → `326` (matches Phase 6) via the default public RPC; `/api/view/1/tokenIdToCoord/1/1` returns the coord record. **ConnectKit/React-19 peer warnings** (connectkit wants React 17/18) are expected and match ec-dapp's known-good setup.
+
 **Baseline note (2026-07-08):** the explorer does not build today — beyond the legacy stack, its own code is stale against the current core API (e.g. `client.tokenIdToCoord.get(1)` in `pages/data.tsx`); the port includes reconciling every page with the modernized SDK surface. Detail the step-by-step (route ports, primitive replacements) at phase start, borrowing ec-dapp's Phase 4–5 playbook.
 
-**Exit criteria:** the explorer builds and runs against the workspace packages on the modern stack; `pnpm run build:all` green end-to-end.
+**Exit criteria:** the explorer builds and runs against the workspace packages on the modern stack; `pnpm run build:all` green end-to-end. ✅
 
 ---
 
@@ -206,5 +215,5 @@ The format sweep must be its own commit (whitespace-only; `git blame -w` sees th
 
 - **M1 — Foundation:** Phases 0–1. Clean baseline; Node 24 + pnpm 10; Biome-formatted; editor config landed. ✅
 - **M2 — Modern packages:** Phases 2–4. Latest TS 5.x, correct ESM packaging (publint/attw clean), Vitest, current deps, React 19 peer. ✅
-- **M3 — Full surface:** Phases 6–7. `crawler-api` repaired on viem 2; explorer fully modernized on the ec-dapp stack. **This is where V2 ends** — the stack is modern and correct, ready for the SDK refactor.
+- **M3 — Full surface:** Phases 6–7. `crawler-api` repaired on viem 2; explorer fully modernized on the ec-dapp stack. **This is where V2 ends** — the stack is modern and correct, ready for the SDK refactor. ✅
 - **~~Published~~ → deferred to SDK_PLAN Phase F.** V2 does not publish. Phase 5 is superseded: the first npm publish of `core`/`data`/`react` (and the ec-dapp Phase 9 unblock) happens only after the SDK refactor freezes the API. See Phase 5's deferral note.

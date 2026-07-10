@@ -1,11 +1,11 @@
 import {
   ModuleId,
   ChainId,
-  DataSet,
+  type DataSet,
   ViewName,
-  ViewT,
-  ChamberDataViewRecords,
-  TokenIdToCoordsViewRecords,
+  type ViewT,
+  type ChamberDataViewRecords,
+  type TokenIdToCoordsViewRecords,
   NetworkName,
 } from '@avante/crawler-core';
 

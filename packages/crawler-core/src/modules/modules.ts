@@ -1,6 +1,6 @@
-import { Dir } from '../crawler';
-import { Options } from '../types';
-import {
+import type { Dir } from '../crawler';
+import type { Options } from '../types';
+import type {
   DataSet,
   DataSetName,
   DataSetViews,

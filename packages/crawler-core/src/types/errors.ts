@@ -1,5 +1,5 @@
-import { ModuleId } from '../modules';
-import { DataSetName, ChainId } from '../views';
+import type { ModuleId } from '../modules';
+import type { DataSetName, ChainId } from '../views';
 
 export class InvalidModuleInterfaceError extends Error {
   constructor() {

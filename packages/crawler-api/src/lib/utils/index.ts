@@ -1,14 +1,9 @@
+export { formatViewData } from './formatter';
 export {
-  fetchJson,
-  fetchText,
-  addParamsToUrl,
-} from './fetch';
-
-export {
-  zeroAddress,
+  formatAddress,
+  isSameAddress,
   isZeroAddress,
   validateAddress,
-  isSameAddress,
-  formatAddress,
   validateArgs,
+  zeroAddress,
 } from './utils';

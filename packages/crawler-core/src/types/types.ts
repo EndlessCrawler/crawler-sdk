@@ -1,5 +1,5 @@
-import { CompassBase, ModuleId } from '../modules';
-import { DataSetName, ChainId } from '../views';
+import { CompassBase, type ModuleId } from '../modules';
+import type { DataSetName, ChainId } from '../views';
 
 //--------------------------------
 // Misc

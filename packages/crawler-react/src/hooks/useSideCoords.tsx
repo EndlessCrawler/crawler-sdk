@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { BigIntIsh, Dir, ModuleInterface, Utils } from '@avante/crawler-core';
+import { type BigIntIsh, type Dir, type ModuleInterface, Utils } from '@avante/crawler-core';
 import { useCrawler } from './useCrawler';
 
 export const useSideCoords = <T extends ModuleInterface>(coord: BigIntIsh): bigint[] | null => {

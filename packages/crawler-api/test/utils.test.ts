@@ -39,7 +39,7 @@ describe('* utils', () => {
 
     for (let i = 0; i < _address.length; ++i) {
       const addr = _address[i];
-      const isZero = i == 0;
+      const isZero = i === 0;
       expect(validateAddress(addr, true)).toBe(true);
       expect(validateAddress(addr, false)).toBe(!isZero);
       expect(validateAddress(_lowerCase(addr))).toBe(!isZero);
@@ -51,7 +51,7 @@ describe('* utils', () => {
   it('isSameAddress()', () => {
     for (let i = 0; i < _address.length; ++i) {
       const addr = _address[i];
-      const isZero = i == 0;
+      const isZero = i === 0;
       expect(isSameAddress(addr, _lowerCase(addr), true)).toBe(true);
       expect(isSameAddress(addr, _upperCase(addr), false)).toBe(!isZero);
     }

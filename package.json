@@ -19,6 +19,7 @@
     "build:react": "pnpm --color --filter '@avante/crawler-react' run build",
     "build:all": "pnpm --color -r run build",
     "watch": "pnpm --filter '@avante/*' --parallel run watch",
+    "dev": "pnpm --color --filter './apps/*' --parallel run dev",
     "test": "pnpm --color -r run test",
     "test:core": "pnpm --color --filter '@avante/crawler-core' run test",
     "test:data": "pnpm --color --filter '@avante/crawler-data' run test",
@@ -41,7 +42,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.4",
-    "@biomejs/biome": "2.5.3",
+    "@biomejs/biome": "catalog:",
     "publint": "^0.3.21"
   },
   "engines": {

@@ -1,6 +1,6 @@
-import { BigIntIsh, HexString } from '../types';
+import type { BigIntIsh, HexString } from '../types';
 import { Utils } from '../utils';
-import { TileType } from './constants';
+import type { TileType } from './constants';
 
 export namespace Bitmap {
   /** @type anything that can be covert to Bitmap */
@@ -56,9 +56,9 @@ export namespace Bitmap {
   export const flipDoorPosition = <T extends Xy | Tile>(pos: T, size: Size = bitmapSize): T => {
     let result: Xy = isTile(pos) ? tileToXy(pos as Tile) : (pos as Xy);
     if (result.x === 0) result = { x: size.width - 1, y: result.y };
-    else if (result.x == size.width - 1) result = { x: 0, y: result.y };
+    else if (result.x === size.width - 1) result = { x: 0, y: result.y };
     else if (result.y === 0) result = { x: result.x, y: size.height - 1 };
-    else if (result.y == size.height - 1) result = { x: result.x, y: 0 };
+    else if (result.y === size.height - 1) result = { x: result.x, y: 0 };
     //@ts-ignore
     return isTile(pos) ? (xyToTile(result) as Tile) : (result as Xy);
   };

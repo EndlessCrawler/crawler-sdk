@@ -1,6 +1,6 @@
 import { readContractOrThrow } from './client';
-import { ViewName, Options } from '@avante/crawler-core';
-import { ReadContractOptions, ReadViewOptions, ReadViewResult, ViewDefinition } from './types';
+import { ViewName, type Options } from '@avante/crawler-core';
+import type { ReadContractOptions, ReadViewOptions, ReadViewResult, ViewDefinition } from './types';
 
 import tokenIdToCoord from './views/tokenIdToCoord';
 import chamberData from './views/chamberData';

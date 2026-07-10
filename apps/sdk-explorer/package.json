@@ -5,12 +5,17 @@
   "author": "Studio Avante",
   "license": "CC0-1.0",
   "homepage": "https://github.com/EndlessCrawler",
-  "private": false,
+  "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --webpack",
+    "build": "next build --webpack",
     "start": "next start",
-    "lint": "next lint"
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "format:check": "biome format ."
   },
   "dependencies": {
     "@avante/crawler-api": "workspace:*",
@@ -18,25 +23,24 @@
     "@avante/crawler-data": "workspace:*",
     "@avante/crawler-react": "workspace:*",
     "@monaco-editor/react": "^4.6.0",
-    "connectkit": "~1.6.0",
+    "@tanstack/react-query": "^5.101.2",
+    "connectkit": "^1.9.2",
     "monaco-editor": ">= 0.25.0 < 1",
-    "next": "^14.1.0",
+    "next": "16.2.10",
     "react": "catalog:",
-    "react-cookie": "^4.1.1",
     "react-dom": "catalog:",
-    "sass": "^1.69.7",
-    "semantic-ui-css": "^2.5.0",
-    "semantic-ui-react": "^3.0.0-beta.2",
     "viem": "catalog:",
-    "wagmi": "^1.4.1"
+    "wagmi": "^2.19.5"
   },
   "devDependencies": {
-    "typescript": "catalog:",
+    "@biomejs/biome": "catalog:",
+    "@tailwindcss/postcss": "^4.3.2",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "eslint": "^8",
-    "eslint-config-next": "^14.1.0"
+    "postcss": "^8.5.16",
+    "tailwindcss": "^4.3.2",
+    "typescript": "catalog:"
   },
   "keywords": [
     "dungeon",

@@ -7,7 +7,7 @@ import {
 } from 'viem';
 import { type Chain, goerli, mainnet } from 'viem/chains';
 import { ChainId, InvalidChainError } from '@avante/crawler-core';
-import { ReadContractOptions } from './types';
+import type { ReadContractOptions } from './types';
 import { getContractAbi, getContractAddress } from './contract';
 
 //---------------------

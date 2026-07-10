@@ -1,68 +1,39 @@
-import React, { useMemo } from 'react';
+'use client';
+
+import { ConnectKitButton } from 'connectkit';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { Grid, Divider } from 'semantic-ui-react';
-import { ConnectKitProvider, ConnectKitButton, getDefaultConfig } from 'connectkit';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/cn';
 
-const Row = Grid.Row;
-const Col = Grid.Column;
-
-const pages = {
-  data: {
-    onChain: false,
-  },
-  apis: {
-    onChain: true,
-  },
-};
+const pages = ['data', 'apis'];
 
 export default function Header() {
-  const router = useRouter();
-
-  const currentSlug = useMemo(() => {
-    return router.pathname?.slice(1) ?? null;
-  }, [router.pathname]);
-
-  const menu = useMemo(() => {
-    let result = [];
-    for (const slug of Object.keys(pages)) {
-      // const page = pages[slug]
-      result.push(
-        <span key={slug}>
-          <Link className="Anchor" href={`/${slug}`}>
-            {currentSlug == slug ? <b>{slug}</b> : slug}
-          </Link>
-          {` · `}
-        </span>,
-      );
-    }
-    return result;
-  }, [currentSlug]);
+  const pathname = usePathname();
+  const currentSlug = pathname?.slice(1) ?? '';
 
   return (
-    <div>
-      <div className="Header Padded">
-        <div className="HeaderMenu">
-          <Grid>
-            <Col width={2}>
-              <Link href="/">
-                <img src="/door.png" className="Logo PixelArt" alt="" />
-              </Link>
-            </Col>
-            <Col width={14}>
-              <h2>CRAWLER SDK EXPLORER</h2>
-            </Col>
-          </Grid>
+    <div className="header">
+      <div className="flex items-center gap-3">
+        <Link href="/">
+          <img src="/door.png" className="logo" alt="Endless Crawler" />
+        </Link>
+        <h2 className="text-ec-bold">CRAWLER SDK EXPLORER</h2>
+      </div>
 
-          <div>
-            {`· `}
-            {menu}
-          </div>
-        </div>
+      <div className="mt-1">
+        {'· '}
+        {pages.map((slug) => (
+          <span key={slug}>
+            <Link className="anchor" href={`/${slug}`}>
+              {currentSlug === slug ? <b>{slug}</b> : slug}
+            </Link>
+            {' · '}
+          </span>
+        ))}
+      </div>
 
-        <div className="ConnectCorner">
-          <ConnectKitButton />
-        </div>
+      <div className={cn('connect-corner')}>
+        <ConnectKitButton />
       </div>
     </div>
   );

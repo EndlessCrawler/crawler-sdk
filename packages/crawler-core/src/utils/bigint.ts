@@ -1,4 +1,4 @@
-import { BigIntIsh } from '../types';
+import type { BigIntIsh } from '../types';
 import { isBigInt } from './misc';
 
 /**
@@ -9,7 +9,7 @@ export const toBigInt = (value: BigIntIsh): bigint => BigInt(value);
 
 /** @returns true if a and b are BigInt and of equal value */
 export const bigIntEquals = (a: BigIntIsh, b: BigIntIsh): boolean =>
-  isBigInt(a) && toBigInt(a) == toBigInt(b);
+  isBigInt(a) && toBigInt(a) === toBigInt(b);
 
 /** @returns a bigint as numeric string (base-10) */
 export const bigIntToString = (value: BigIntIsh): string => {
@@ -22,7 +22,7 @@ export const bigIntToString = (value: BigIntIsh): string => {
  */
 export const bigIntToHex = (value: BigIntIsh): string => {
   const hex = toBigInt(value).toString(16).toLowerCase();
-  return `0x${hex.length % 2 == 1 ? '0' : ''}${hex}`;
+  return `0x${hex.length % 2 === 1 ? '0' : ''}${hex}`;
 };
 
 /**

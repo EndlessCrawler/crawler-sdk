@@ -6,6 +6,7 @@ dist/
 .next/
 .vercel/
 .env*
+!.env.example
 *.tsbuildinfo
 
 # debug

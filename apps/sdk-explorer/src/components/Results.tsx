@@ -1,52 +1,63 @@
-import React, { useEffect } from 'react';
-import { LinkIcon, LoadingIcon, CopyIcon } from '@/components/Icons';
-import { useFetchContext, useFetchState } from '@/hooks/FetchContext';
-import { useFetch } from '@/hooks/useFetch';
+'use client';
+
+import { useQuery } from '@tanstack/react-query';
+import { CopyIcon, LinkIcon, LoadingIcon } from '@/components/Icons';
 import MonacoEditor from '@/components/MonacoEditor';
+import { useSelection } from '@/hooks/SelectionContext';
 
 export default function Results() {
-  const { name, url, args, params, results } = useFetchState();
-  const { data, error, isFetching } = useFetch(url ?? '', args, params);
-  const { dispatchResults } = useFetchContext();
+  const { selection } = useSelection();
+  const url = selection?.kind === 'url' ? selection.url : null;
+  const name = selection?.kind === 'data' ? selection.name : null;
 
-  useEffect(() => {
-    if (isFetching) {
-      dispatchResults('...');
-    } else if (data) {
-      dispatchResults(data);
-    } else if (error) {
-      dispatchResults(error);
-    }
-  }, [data, error, isFetching]);
+  const { data, error, isFetching } = useQuery({
+    queryKey: ['fetch', url],
+    queryFn: async () => {
+      const response = await fetch(url as string);
+      if (!response.ok) {
+        throw new Error(`[${response.status}] (${response.statusText}): ${await response.text()}`);
+      }
+      return response.json();
+    },
+    enabled: url !== null,
+  });
 
-  useEffect(() => {
-    dispatchResults(results);
-  }, [results]);
+  const results =
+    selection === null
+      ? {}
+      : selection.kind === 'data'
+        ? selection.data
+        : isFetching
+          ? '...'
+          : error
+            ? `${error}`
+            : data;
 
-  const _jsonResults =
-    typeof results == 'bigint'
+  // bigint renders as { hex, number } in the editor (as in the original explorer)
+  const jsonResults =
+    typeof results === 'bigint'
       ? { hex: `0x${results.toString(16)}`, number: `${results.toString()}n` }
       : results;
-  // const _jsonResults = results
+
+  const summary = isFetching
+    ? 'Fetching...'
+    : Array.isArray(results)
+      ? `Array size: ${results.length}`
+      : typeof results === 'object' && results !== null
+        ? `Dict size: ${Object.keys(results).length}`
+        : typeof results;
 
   return (
-    <div>
-      <div className="Url">
+    <div className="fill-parent p-2">
+      <div className="url-line">
         <LinkIcon url={url} /> {url ?? name}
       </div>
 
-      <div className="Url">
-        {isFetching ? <LoadingIcon /> : <CopyIcon content={JSON.stringify(results)} />}{' '}
-        {isFetching
-          ? 'Fetching...'
-          : Array.isArray(results)
-            ? `Array size: ${results.length}`
-            : typeof results == 'object'
-              ? `Dict size: ${Object.keys(results).length}`
-              : typeof results}
+      <div className="url-line">
+        {isFetching ? <LoadingIcon /> : <CopyIcon content={JSON.stringify(results)} />} {summary}
       </div>
 
-      <MonacoEditor content={_jsonResults} />
+      <MonacoEditor content={jsonResults} />
     </div>
   );
 }
