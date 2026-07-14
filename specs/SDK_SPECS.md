@@ -236,7 +236,7 @@ Keyed by coord. Two parts: a **normalized, game-facing core** — structurally i
 
 **Not stored** (derivable or replaced):
 
-- `bitmap` — derivable from `tilemap`; core provides the derive function (`Bitmap.toBitmap`). A 256-bit bitmap also cannot represent larger-than-16×16 chambers.
+- `bitmap` — gone entirely: not stored, and no bitmap type or operations exist in the SDK (a 256-bit bitmap cannot represent larger-than-16×16 chambers). The **tilemap is the only map representation**; anything historically called "bitmap" is tilemap vocabulary (and "grid size" is **tilemap size**, fed from the schema's size policy).
 - `slug` — never stored; computed via the `CoordinateSchema`.
 - `entryDir` — replaced by `Door.isEntry`.
 - `locks: boolean[]` — folded into `Door.isLocked`.
@@ -251,6 +251,7 @@ A connection between chambers, in `ChamberData.doors`:
 type Door = {
   tile: number;         // the door's tile in the chamber
   destCoord: BigIntish; // the destination coordinate it leads to
+  destTile: number;     // the tile the player enters from on arrival in the destination chamber
   direction?: Dir;      // optional, aesthetic — for map-building only
   isLocked?: boolean;   // undefined = unlocked
   isEntry?: boolean;    // marks the chamber's entry door
@@ -258,7 +259,7 @@ type Door = {
 ```
 
 - A chamber has many doors; **games navigate by `destCoord`** — they never need offset math. Navigation helper: `getDoorsTo(dir)` returns `Door[]` (a schema may have several doors per direction).
-- The **converter computes `destCoord` at build time** using the schema's `CoordinateSchema` — this is what makes the self-sufficiency invariant hold.
+- The **converter computes `destCoord` at build time** using the schema's `CoordinateSchema` — this is what makes the self-sufficiency invariant hold. **`destTile`** — the arrival tile in the destination chamber — is likewise computed at build time, via the tilemap library's `flipDoorPosition()`.
 - Cross-world doors will widen the destination to a world-qualified form (`{ world, coord }`); a same-world neighbor is the degenerate case. The stored identification of the destination world is not yet specified (see `SDK_PLAN.md`, Data model notes).
 
 ### Token SVGs — original only
@@ -340,7 +341,7 @@ A chamber always originates from an **on-chain ERC-721 token contract**; a World
    };
    ```
 
-   - **The `ec` converter parses the SVG back into the tilemap** — the SVG is the payload's canonical map encoding: `#Paths` rects are walkable tiles, `#Tiles` `<use>` elements are typed tiles (`id` = `TileType`: 1 entry, 2 door, 3 locked door, 4 gem; the `#Up`/`#Down`/`#Left`/`#Right` glyph gives a door's edge; `#Locked` marks locked doors). `coord` is packed from the compass traits (`North`/`East`/`West`/`South`); terrain, gem, coins, worth, yonder, chapter, and name come from the metadata attributes (already readable strings). Doors' `destCoord` is computed via the schema's `CoordinateSchema` (NEWS offsets).
+   - **The `ec` converter parses the SVG back into the tilemap** — the SVG is the payload's canonical map encoding: `#Paths` rects are walkable tiles, `#Tiles` `<use>` elements are typed tiles (`id` = `TileType`: 1 entry, 2 door, 3 locked door, 4 gem; the `#Up`/`#Down`/`#Left`/`#Right` glyph gives a door's edge; `#Locked` marks locked doors). `coord` is packed from the compass traits (`North`/`East`/`West`/`South`); terrain, gem, coins, worth, yonder, chapter, and name come from the metadata attributes (already readable strings). Doors' `destCoord` is computed via the schema's `CoordinateSchema` (NEWS offsets), and their `destTile` via the tilemap library's `flipDoorPosition()`.
    - **On-chain supplements.** Fields that exist only on-chain (`ec`: `seed`) enter through the payload's optional `onchain` block, fetched via `crawler-api` **by the payload's assembler** — the builder at build time, the on-chain chamber source in the live path — never by the converter (purity keeps converters bundleable with the world exports for `world.import`).
    - `crawler-api` is the single place that fetches; `crawler-data` is the single place that converts — the api enters `crawler-data` as a build-script devDependency only. At runtime, a converter reaches the `Crawler` bundled with each per-world subpath export (see §The `Crawler` client).
 
