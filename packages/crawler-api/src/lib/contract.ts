@@ -1,10 +1,5 @@
-import {
-  type Address,
-  type ChainId,
-  type ContractName,
-  InvalidChainError,
-} from '@avante/crawler-core';
-import { InvalidContractError } from './types';
+import type { ContractName } from '@avante/crawler-core';
+import { InvalidChainError, InvalidContractError } from './types';
 
 import { Contracts } from './abis';
 
@@ -14,13 +9,13 @@ export const getAllContractNames = (): ContractName[] => {
 };
 
 /** @returns a contract's address for the specified chain */
-export const getContractAddress = (contractName: ContractName, chainId: ChainId): Address => {
+export const getContractAddress = (contractName: ContractName, chainId: number): string => {
   if (!Contracts[contractName]) {
     throw new InvalidContractError(contractName);
   }
   const result = Contracts[contractName].networks[chainId] ?? null;
   if (!result) {
-    throw new InvalidChainError(null, chainId);
+    throw new InvalidChainError(chainId);
   }
   return result;
 };

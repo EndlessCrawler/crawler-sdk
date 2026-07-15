@@ -1,7 +1,6 @@
-import { createClient } from '@avante/crawler-core';
-import { goerliDataSet, mainnetDataSet } from '@avante/crawler-data';
+import { createCrawler } from '@avante/crawler-core';
+import { allWorlds } from '@avante/crawler-data';
 
-// Single shared EndlessCrawler client. createClient imports the datasets into
-// the process-global CrawlerModules singleton, so this must run once — module
-// scope in a client component (providers) gives us exactly that.
-export const crawlerClient = createClient([mainnetDataSet, goerliDataSet]);
+// Single shared Crawler container — explicit worlds, no global store. Module
+// scope in a client component (providers) creates it exactly once per bundle.
+export const crawler = createCrawler(allWorlds);

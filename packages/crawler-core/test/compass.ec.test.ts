@@ -1,25 +1,21 @@
-import { beforeAll, describe, expect, it } from 'vitest';
-import { createClient, EndlessCrawler, type ModuleInterface, Dir } from '../src';
+import { describe, expect, it } from 'vitest';
+import {
+  compassToCoord,
+  CoordMask,
+  CoordMax,
+  coordToCompass,
+  Dir,
+  minifyNewsCompass,
+  type NewsCompass,
+  newsCompassEquals,
+  offsetCoord,
+  offsetNewsCompass,
+  validateNewsCompass,
+} from '../src';
 
-//@ts-ignore
-BigInt.prototype.toJSON = function () {
-  //@ts-ignore
-  return this <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(this) : this.toString();
-};
+const _max = 0xffffffffffffffffn; // 64-bit
 
-const CoordMax = EndlessCrawler.CoordMax;
-const CoordMask = EndlessCrawler.CoordMask;
-type Compass = EndlessCrawler.Compass;
-
-const _max = 0xffffffffffffffffn; // 16-bit
-
-describe('compass.ec', () => {
-  let client: ModuleInterface;
-
-  beforeAll(() => {
-    client = createClient(EndlessCrawler.Id) as ModuleInterface;
-  });
-
+describe('compass.ec (NEWS)', () => {
   it('CoordMask', () => {
     expect(CoordMask.North).toBe(_max << 192n);
     expect(CoordMask.East).toBe(_max << 128n);
@@ -27,142 +23,139 @@ describe('compass.ec', () => {
     expect(CoordMask.South).toBe(_max);
   });
 
-  it('validateCompass()', () => {
+  it('validateNewsCompass()', () => {
     // -- positives
-    expect(client.validateCompass({ north: 11, east: 22 })).toBe(true);
-    expect(client.validateCompass({ north: 11, west: 33 })).toBe(true);
-    expect(client.validateCompass({ south: 44, east: 22 })).toBe(true);
-    expect(client.validateCompass({ south: 44, west: 33 })).toBe(true);
+    expect(validateNewsCompass({ north: 11, east: 22 })).toBe(true);
+    expect(validateNewsCompass({ north: 11, west: 33 })).toBe(true);
+    expect(validateNewsCompass({ south: 44, east: 22 })).toBe(true);
+    expect(validateNewsCompass({ south: 44, west: 33 })).toBe(true);
     // zeroes are ignored
-    expect(client.validateCompass({ north: 11, east: 22, south: 0, west: 0 })).toBe(true);
-    expect(client.validateCompass({ north: 11, east: 22, south: 0 })).toBe(true);
-    expect(client.validateCompass({ north: 11, east: 22, west: 0 })).toBe(true);
-    expect(client.validateCompass({ north: 11, west: 33, south: 0, east: 0 })).toBe(true);
-    expect(client.validateCompass({ north: 11, west: 33, south: 0 })).toBe(true);
-    expect(client.validateCompass({ north: 11, west: 33, east: 0 })).toBe(true);
-    expect(client.validateCompass({ south: 44, east: 22, north: 0, west: 0 })).toBe(true);
-    expect(client.validateCompass({ south: 44, east: 22, north: 0 })).toBe(true);
-    expect(client.validateCompass({ south: 44, east: 22, west: 0 })).toBe(true);
-    expect(client.validateCompass({ south: 44, west: 33, north: 0, east: 0 })).toBe(true);
-    expect(client.validateCompass({ south: 44, west: 33, north: 0 })).toBe(true);
-    expect(client.validateCompass({ south: 44, west: 33, east: 0 })).toBe(true);
-    expect(client.validateCompass({ south: 44, west: 33, east: null })).toBe(true);
-    expect(client.validateCompass({ south: 44, west: 33, east: undefined })).toBe(true);
+    expect(validateNewsCompass({ north: 11, east: 22, south: 0, west: 0 })).toBe(true);
+    expect(validateNewsCompass({ north: 11, east: 22, south: 0 })).toBe(true);
+    expect(validateNewsCompass({ north: 11, east: 22, west: 0 })).toBe(true);
+    expect(validateNewsCompass({ north: 11, west: 33, south: 0, east: 0 })).toBe(true);
+    expect(validateNewsCompass({ north: 11, west: 33, south: 0 })).toBe(true);
+    expect(validateNewsCompass({ north: 11, west: 33, east: 0 })).toBe(true);
+    expect(validateNewsCompass({ south: 44, east: 22, north: 0, west: 0 })).toBe(true);
+    expect(validateNewsCompass({ south: 44, east: 22, north: 0 })).toBe(true);
+    expect(validateNewsCompass({ south: 44, east: 22, west: 0 })).toBe(true);
+    expect(validateNewsCompass({ south: 44, west: 33, north: 0, east: 0 })).toBe(true);
+    expect(validateNewsCompass({ south: 44, west: 33, north: 0 })).toBe(true);
+    expect(validateNewsCompass({ south: 44, west: 33, east: 0 })).toBe(true);
+    expect(validateNewsCompass({ south: 44, west: 33, east: null })).toBe(true);
+    expect(validateNewsCompass({ south: 44, west: 33, east: undefined })).toBe(true);
     // check not overflowing
-    expect(client.validateCompass({ north: CoordMax, east: CoordMax })).toBe(true);
-    expect(client.validateCompass({ north: CoordMax, west: CoordMax })).toBe(true);
-    expect(client.validateCompass({ south: CoordMax, east: CoordMax })).toBe(true);
-    expect(client.validateCompass({ south: CoordMax, west: CoordMax })).toBe(true);
+    expect(validateNewsCompass({ north: CoordMax, east: CoordMax })).toBe(true);
+    expect(validateNewsCompass({ north: CoordMax, west: CoordMax })).toBe(true);
+    expect(validateNewsCompass({ south: CoordMax, east: CoordMax })).toBe(true);
+    expect(validateNewsCompass({ south: CoordMax, west: CoordMax })).toBe(true);
     // -- negatives
     // incomplete
-    expect(client.validateCompass({} as any)).toBe(false);
-    expect(client.validateCompass({ north: 11 } as any)).toBe(false);
-    expect(client.validateCompass({ east: 22 } as any)).toBe(false);
-    expect(client.validateCompass({ west: 33 } as any)).toBe(false);
-    expect(client.validateCompass({ south: 44 } as any)).toBe(false);
-    expect(client.validateCompass({ north: 0, east: 22 })).toBe(false);
-    expect(client.validateCompass({ north: 11, east: 0 })).toBe(false);
-    expect(client.validateCompass({ north: 0, west: 33 })).toBe(false);
-    expect(client.validateCompass({ north: 11, west: 0 })).toBe(false);
-    expect(client.validateCompass({ south: 0, east: 22 })).toBe(false);
-    expect(client.validateCompass({ south: 44, east: 0 })).toBe(false);
-    expect(client.validateCompass({ south: 0, west: 33 })).toBe(false);
-    expect(client.validateCompass({ south: 44, west: 0 })).toBe(false);
-    expect(client.validateCompass({ north: 0, south: 0, east: 22 })).toBe(false);
-    expect(client.validateCompass({ north: 0, south: 0, west: 33 })).toBe(false);
-    expect(client.validateCompass({ east: 0, west: 0, north: 11 })).toBe(false);
-    expect(client.validateCompass({ east: 0, west: 0, south: 44 })).toBe(false);
+    expect(validateNewsCompass({})).toBe(false);
+    expect(validateNewsCompass({ north: 11 })).toBe(false);
+    expect(validateNewsCompass({ east: 22 })).toBe(false);
+    expect(validateNewsCompass({ west: 33 })).toBe(false);
+    expect(validateNewsCompass({ south: 44 })).toBe(false);
+    expect(validateNewsCompass({ north: 0, east: 22 })).toBe(false);
+    expect(validateNewsCompass({ north: 11, east: 0 })).toBe(false);
+    expect(validateNewsCompass({ north: 0, west: 33 })).toBe(false);
+    expect(validateNewsCompass({ north: 11, west: 0 })).toBe(false);
+    expect(validateNewsCompass({ south: 0, east: 22 })).toBe(false);
+    expect(validateNewsCompass({ south: 44, east: 0 })).toBe(false);
+    expect(validateNewsCompass({ south: 0, west: 33 })).toBe(false);
+    expect(validateNewsCompass({ south: 44, west: 0 })).toBe(false);
+    expect(validateNewsCompass({ north: 0, south: 0, east: 22 })).toBe(false);
+    expect(validateNewsCompass({ north: 0, south: 0, west: 33 })).toBe(false);
+    expect(validateNewsCompass({ east: 0, west: 0, north: 11 })).toBe(false);
+    expect(validateNewsCompass({ east: 0, west: 0, south: 44 })).toBe(false);
     // invalids
-    expect(client.validateCompass({ north: 11, south: 44 } as any)).toBe(false);
-    expect(client.validateCompass({ east: 22, west: 33 } as any)).toBe(false);
-    expect(client.validateCompass({ north: 11, south: 44, east: 22 } as any)).toBe(false);
-    expect(client.validateCompass({ north: 11, south: 44, west: 33 } as any)).toBe(false);
-    expect(client.validateCompass({ east: 22, west: 33, north: 11 } as any)).toBe(false);
-    expect(client.validateCompass({ east: 22, west: 33, south: 44 } as any)).toBe(false);
+    expect(validateNewsCompass({ north: 11, south: 44 })).toBe(false);
+    expect(validateNewsCompass({ east: 22, west: 33 })).toBe(false);
+    expect(validateNewsCompass({ north: 11, south: 44, east: 22 })).toBe(false);
+    expect(validateNewsCompass({ north: 11, south: 44, west: 33 })).toBe(false);
+    expect(validateNewsCompass({ east: 22, west: 33, north: 11 })).toBe(false);
+    expect(validateNewsCompass({ east: 22, west: 33, south: 44 })).toBe(false);
   });
 
-  it('minifyCompass()', () => {
-    expect(
-      Object.keys(client.minifyCompass({ north: 11, east: 22, south: 0, west: 0 }) as Compass),
-    ).toEqual(expect.not.arrayContaining(['south', 'west']));
-    expect(Object.keys(client.minifyCompass({ north: 11, east: 22, south: 0 }) as Compass)).toEqual(
+  it('minifyNewsCompass()', () => {
+    const _keys = (compass: object | null): string[] => Object.keys(compass ?? {});
+    expect(_keys(minifyNewsCompass({ north: 11, east: 22, south: 0, west: 0 }))).toEqual(
       expect.not.arrayContaining(['south', 'west']),
     );
-    expect(Object.keys(client.minifyCompass({ north: 11, east: 22, west: 0 }) as Compass)).toEqual(
+    expect(_keys(minifyNewsCompass({ north: 11, east: 22, south: 0 }))).toEqual(
       expect.not.arrayContaining(['south', 'west']),
     );
-    expect(
-      Object.keys(client.minifyCompass({ north: 11, west: 33, south: 0, east: 0 }) as Compass),
-    ).toEqual(expect.not.arrayContaining(['south', 'east']));
-    expect(Object.keys(client.minifyCompass({ north: 11, west: 33, south: 0 }) as Compass)).toEqual(
+    expect(_keys(minifyNewsCompass({ north: 11, east: 22, west: 0 }))).toEqual(
+      expect.not.arrayContaining(['south', 'west']),
+    );
+    expect(_keys(minifyNewsCompass({ north: 11, west: 33, south: 0, east: 0 }))).toEqual(
       expect.not.arrayContaining(['south', 'east']),
     );
-    expect(Object.keys(client.minifyCompass({ north: 11, west: 33, east: 0 }) as Compass)).toEqual(
+    expect(_keys(minifyNewsCompass({ north: 11, west: 33, south: 0 }))).toEqual(
       expect.not.arrayContaining(['south', 'east']),
     );
-    expect(
-      Object.keys(client.minifyCompass({ south: 44, east: 22, north: 0, west: 0 }) as Compass),
-    ).toEqual(expect.not.arrayContaining(['north', 'west']));
-    expect(Object.keys(client.minifyCompass({ south: 44, east: 22, north: 0 }) as Compass)).toEqual(
+    expect(_keys(minifyNewsCompass({ north: 11, west: 33, east: 0 }))).toEqual(
+      expect.not.arrayContaining(['south', 'east']),
+    );
+    expect(_keys(minifyNewsCompass({ south: 44, east: 22, north: 0, west: 0 }))).toEqual(
       expect.not.arrayContaining(['north', 'west']),
     );
-    expect(Object.keys(client.minifyCompass({ south: 44, east: 22, west: 0 }) as Compass)).toEqual(
+    expect(_keys(minifyNewsCompass({ south: 44, east: 22, north: 0 }))).toEqual(
       expect.not.arrayContaining(['north', 'west']),
     );
-    expect(
-      Object.keys(client.minifyCompass({ south: 44, west: 33, north: 0, east: 0 }) as Compass),
-    ).toEqual(expect.not.arrayContaining(['north', 'east']));
-    expect(Object.keys(client.minifyCompass({ south: 44, west: 33, north: 0 }) as Compass)).toEqual(
+    expect(_keys(minifyNewsCompass({ south: 44, east: 22, west: 0 }))).toEqual(
+      expect.not.arrayContaining(['north', 'west']),
+    );
+    expect(_keys(minifyNewsCompass({ south: 44, west: 33, north: 0, east: 0 }))).toEqual(
       expect.not.arrayContaining(['north', 'east']),
     );
-    expect(Object.keys(client.minifyCompass({ south: 44, west: 33, east: 0 }) as Compass)).toEqual(
+    expect(_keys(minifyNewsCompass({ south: 44, west: 33, north: 0 }))).toEqual(
+      expect.not.arrayContaining(['north', 'east']),
+    );
+    expect(_keys(minifyNewsCompass({ south: 44, west: 33, east: 0 }))).toEqual(
+      expect.not.arrayContaining(['north', 'east']),
+    );
+    expect(_keys(minifyNewsCompass({ south: 44, west: 33, north: null, east: null }))).toEqual(
       expect.not.arrayContaining(['north', 'east']),
     );
     expect(
-      Object.keys(
-        client.minifyCompass({ south: 44, west: 33, north: null, east: null }) as Compass,
-      ),
+      _keys(minifyNewsCompass({ south: 44, west: 33, north: undefined, east: undefined })),
     ).toEqual(expect.not.arrayContaining(['north', 'east']));
-    expect(
-      Object.keys(
-        client.minifyCompass({ south: 44, west: 33, north: undefined, east: undefined }) as Compass,
-      ),
-    ).toEqual(expect.not.arrayContaining(['north', 'east']));
-    expect(
-      Object.keys(client.minifyCompass({ south: 44, west: 33, east: null }) as Compass),
-    ).toEqual(expect.not.arrayContaining(['north', 'east']));
-    expect(
-      Object.keys(client.minifyCompass({ south: 44, west: 33, east: undefined }) as Compass),
-    ).toEqual(expect.not.arrayContaining(['north', 'east']));
+    expect(_keys(minifyNewsCompass({ south: 44, west: 33, east: null }))).toEqual(
+      expect.not.arrayContaining(['north', 'east']),
+    );
+    expect(_keys(minifyNewsCompass({ south: 44, west: 33, east: undefined }))).toEqual(
+      expect.not.arrayContaining(['north', 'east']),
+    );
     // yonder too
-    expect(
-      Object.keys(client.minifyCompass({ north: 11, east: 22, yonder: 0 }) as Compass),
-    ).toEqual(expect.not.arrayContaining(['yonder']));
-    expect(
-      Object.keys(client.minifyCompass({ north: 11, east: 22, yonder: 33 }) as Compass),
-    ).toEqual(expect.arrayContaining(['yonder']));
+    expect(_keys(minifyNewsCompass({ north: 11, east: 22, yonder: 0 }))).toEqual(
+      expect.not.arrayContaining(['yonder']),
+    );
+    expect(_keys(minifyNewsCompass({ north: 11, east: 22, yonder: 33 }))).toEqual(
+      expect.arrayContaining(['yonder']),
+    );
   });
 
-  it('compassEquals()', () => {
+  it('newsCompassEquals()', () => {
     // positives
-    expect(client.compassEquals({ north: 11, east: 22 }, { north: 11, east: 22 })).toBe(true);
-    expect(client.compassEquals({ north: 11, east: 22 }, { east: 22, north: 11 })).toBe(true);
+    expect(newsCompassEquals({ north: 11, east: 22 }, { north: 11, east: 22 })).toBe(true);
+    expect(newsCompassEquals({ north: 11, east: 22 }, { east: 22, north: 11 })).toBe(true);
     expect(
-      client.compassEquals({ north: 11, east: 22 }, { north: 11, east: 22, south: 0, west: 0 }),
+      newsCompassEquals({ north: 11, east: 22 }, { north: 11, east: 22, south: 0, west: 0 }),
     ).toBe(true);
     expect(
-      client.compassEquals({ north: 11, east: 22 }, { south: 0, west: 0, north: 11, east: 22 }),
+      newsCompassEquals({ north: 11, east: 22 }, { south: 0, west: 0, north: 11, east: 22 }),
     ).toBe(true);
     // negatives
-    expect(client.compassEquals({ north: 11, east: 22 }, { north: 11, west: 22 })).toBe(false);
-    expect(client.compassEquals({ north: 11, east: 22 }, { north: 11, east: 99 })).toBe(false);
+    expect(newsCompassEquals({ north: 11, east: 22 }, { north: 11, west: 22 })).toBe(false);
+    expect(newsCompassEquals({ north: 11, east: 22 }, { north: 11, east: 99 })).toBe(false);
     // invalids
-    expect(client.compassEquals({ north: 11, south: 44 }, { south: 44, north: 11 })).toBe(false);
+    expect(newsCompassEquals({ north: 11, south: 44 }, { south: 44, north: 11 })).toBe(false);
   });
 
-  it('offsetCoord(), offsetCompass(), compassToCoord(), coordToCompass()', () => {
+  it('offsetCoord(), offsetNewsCompass(), compassToCoord(), coordToCompass()', () => {
     const _validateCompass = (
-      compass: Compass,
+      compass: NewsCompass,
       north: bigint,
       east: bigint,
       west: bigint,
@@ -180,10 +173,10 @@ describe('compass.ec', () => {
       west: bigint,
       south: bigint,
     ) => {
-      _validateCompass(client.coordToCompass(coord) as Compass, north, east, west, south);
+      _validateCompass(coordToCompass(coord) as NewsCompass, north, east, west, south);
     };
     const _makeCoord = (north: bigint, east: bigint, west: bigint, south: bigint) => {
-      return client.compassToCoord({ north, east, west, south });
+      return compassToCoord({ north, east, west, south });
     };
     const _testOffset = (
       coord: bigint,
@@ -194,17 +187,17 @@ describe('compass.ec', () => {
       south: bigint,
     ): bigint => {
       // validate offsetCoord()
-      const offCoord = client.offsetCoord(coord, dir);
+      const offCoord = offsetCoord(coord, dir);
       _validateCoord(offCoord, north, east, west, south);
-      // validate offsetCompass()
-      const compass = client.coordToCompass(coord) as Compass;
-      const offCompass = client.offsetCompass(compass, dir) as Compass;
+      // validate offsetNewsCompass()
+      const compass = coordToCompass(coord) as NewsCompass;
+      const offCompass = offsetNewsCompass(compass, dir) as NewsCompass;
       _validateCompass(offCompass, north, east, west, south);
       return offCoord;
     };
 
     // Offset North
-    let _coord;
+    let _coord: bigint;
     {
       _coord = _makeCoord(0n, 1n, 0n, 2n);
       _validateCoord(_coord, 0n, 1n, 0n, 2n);
@@ -253,10 +246,10 @@ describe('compass.ec', () => {
       _coord = _testOffset(_coord, Dir.West, 1n, 0n, CoordMax, 0n);
     }
     // offset should keep yonder
-    const yonderCompass = client.offsetCompass(
+    const yonderCompass = offsetNewsCompass(
       { south: 1n, east: 2n, yonder: 3n },
       Dir.East,
-    ) as Compass;
+    ) as NewsCompass;
     expect(yonderCompass.yonder).toBe(3n);
   });
 });

@@ -1,24 +1,9 @@
-import { beforeAll, describe, expect, it } from 'vitest';
-import { createClient, EndlessCrawler, type ModuleInterface, Dir } from '../src';
-
-//@ts-ignore
-BigInt.prototype.toJSON = function () {
-  //@ts-ignore
-  return this <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(this) : this.toString();
-};
-
-const CoordMax = EndlessCrawler.CoordMax;
-type Compass = EndlessCrawler.Compass;
+import { describe, expect, it } from 'vitest';
+import { CoordMax, Dir, offsetCoord, validateCoord } from '../src';
 
 type NumOrBig = number | bigint;
 
-describe('coord.ec', () => {
-  let client: ModuleInterface;
-
-  beforeAll(() => {
-    client = createClient(EndlessCrawler.Id) as ModuleInterface;
-  });
-
+describe('coord.ec (NEWS)', () => {
   const _makeCoord = (north: NumOrBig, east: NumOrBig, west: NumOrBig, south: NumOrBig): bigint => {
     let result = 0n;
     if (north > 0) {
@@ -27,7 +12,7 @@ describe('coord.ec', () => {
     } else if (south > 0) {
       result += BigInt(south);
     } else {
-      fail('makeCoord(): need North or South');
+      throw new Error('makeCoord(): need North or South');
     }
     // West or East need to be positive, but not both
     if (east > 0) {
@@ -36,7 +21,7 @@ describe('coord.ec', () => {
     } else if (west > 0) {
       result += BigInt(west) << 64n;
     } else {
-      fail('makeCoord(): need West or East');
+      throw new Error('makeCoord(): need West or East');
     }
     return result;
   };
@@ -49,13 +34,11 @@ describe('coord.ec', () => {
     west: NumOrBig,
     south: NumOrBig,
   ): bigint => {
-    const result = client.offsetCoord(coord, dir);
-    expect(client.validateCoord(result)).toBe(true);
+    const result = offsetCoord(coord, dir);
+    expect(validateCoord(result)).toBe(true);
     expect(result).toBe(_makeCoord(north, east, west, south));
     return result;
   };
-
-  // TODO: validate, convert to Compass, slug
 
   it('offsetCoord()', () => {
     let coord = 0n;

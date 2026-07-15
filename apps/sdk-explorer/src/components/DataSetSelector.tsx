@@ -1,22 +1,20 @@
 'use client';
 
-import { useCrawler, useDataSets } from '@avante/crawler-react';
+import { useWorldNames } from '@avante/crawler-react';
+import { useSelectedWorld } from '@/hooks/WorldContext';
 
+// The world the menus browse — UI state, not SDK state (no "current world").
 export default function DataSetSelector() {
-  const { client } = useCrawler();
-  const { currentDataSetName, dataSetNames } = useDataSets();
-
-  const selectDataSet = (dataSetName: string) => {
-    client.setCurrentDataSet({ dataSetName });
-  };
+  const worldNames = useWorldNames();
+  const { worldName, setWorldName } = useSelectedWorld();
 
   return (
     <div>
-      dataset:{' '}
-      <select value={currentDataSetName ?? ''} onChange={(e) => selectDataSet(e.target.value)}>
-        {dataSetNames.map((dataSetName) => (
-          <option value={dataSetName} key={dataSetName}>
-            {dataSetName}
+      world:{' '}
+      <select value={worldName} onChange={(e) => setWorldName(e.target.value)}>
+        {worldNames.map((name) => (
+          <option value={name} key={name}>
+            {name}
           </option>
         ))}
       </select>

@@ -1,80 +1,31 @@
-import type React from 'react';
-import { type ReactNode, createContext, useReducer } from 'react';
-import type { ChamberDataModel, ModuleInterface } from '@avante/crawler-core';
+'use client';
 
-//--------------------------------
-// Constants
-//
-export const initialState = {
-  chambers: [],
-};
+/**
+ * The React bindings hold an explicit `Crawler` — no reducers, no global store,
+ * no DOM event bridge. Reactivity comes from the `Crawler`'s coarse, typed
+ * "world updated" subscription (see `specs/SDK_SPECS.md` §The `Crawler` client).
+ *
+ * Keep-lights-on shape from the SDK refactor P2 — simplified further at P8
+ * (live path: localStorage chamber source + persistence land there).
+ */
+import type { Crawler } from '@avante/crawler-core';
+import { createContext, type ReactNode } from 'react';
 
-enum CrawlerActions {
-  SET_SOMETHING = 'SET_SOMETHING',
+export interface CrawlerContextType {
+  crawler: Crawler | null;
 }
 
-//--------------------------------
-// Types
-//
-type CrawlerStateType = typeof initialState;
+const CrawlerContext = createContext<CrawlerContextType>({ crawler: null });
 
-type ActionType = { type: 'SET_SOMETHING'; payload: any };
-
-export type CrawlerContextType = {
-  client: ModuleInterface | null;
-  state: CrawlerStateType;
-  dispatch: React.Dispatch<any>;
-  dispatchChamberData(coord: bigint, chamberData: ChamberDataModel): void;
-};
-
-//--------------------------------
-// Context
-//
-const CrawlerContext = createContext<CrawlerContextType>({
-  client: null,
-  state: initialState,
-  dispatch: () => null,
-  dispatchChamberData: () => null,
-});
-
-//--------------------------------
-// Provider
-//
 interface CrawlerProviderProps {
-  children: ReactNode | JSX.Element | JSX.Element[];
-  client: ModuleInterface;
+  children: ReactNode;
+  /** the app's `Crawler` container (create once with `createCrawler(worlds)`) */
+  crawler: Crawler;
 }
-const CrawlerProvider = ({ children, client }: CrawlerProviderProps) => {
-  const [state, dispatch] = useReducer((state: CrawlerStateType, action: ActionType) => {
-    let newState = { ...state };
-    switch (action.type) {
-      case CrawlerActions.SET_SOMETHING: {
-        // newState.chambers = action.payload
-        break;
-      }
-      default:
-        console.warn(`CrawlerProvider: Unknown action [${action.type}]`);
-        return state;
-    }
-    return newState;
-  }, initialState);
 
-  const dispatchSomething = (payload: any) => {
-    dispatch({
-      type: CrawlerActions.SET_SOMETHING,
-      payload,
-    });
-  };
-
-  const dispatchChamberData = (coord: bigint, chamberData: ChamberDataModel) => {
-    client.chamberData.set(coord, chamberData);
-  };
-
-  return (
-    <CrawlerContext.Provider value={{ client, state, dispatch, dispatchChamberData }}>
-      {children}
-    </CrawlerContext.Provider>
-  );
+/** Provides the app's {@link Crawler} to the hooks. */
+const CrawlerProvider = ({ children, crawler }: CrawlerProviderProps) => {
+  return <CrawlerContext.Provider value={{ crawler }}>{children}</CrawlerContext.Provider>;
 };
 
-export { CrawlerProvider, CrawlerContext, CrawlerActions };
+export { CrawlerContext, CrawlerProvider };

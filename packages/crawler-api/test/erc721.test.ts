@@ -1,11 +1,10 @@
 import { beforeAll, describe, expect, it } from 'vitest';
-import { type EndlessCrawler, ChainId, ContractName, createClient } from '@avante/crawler-core';
-import { mainnetDataSet } from '@avante/crawler-data';
 import { readBalanceOf, readOwnerOf, readTotalSupply, setRpcUrl, validateAddress } from '../src';
 
 // Live mainnet reads (goerli is deprecated). RPC is caller-supplied and provider-
 // agnostic — override with MAINNET_RPC_URL; the public default just keeps CI honest.
 const MAINNET_RPC_URL = process.env.MAINNET_RPC_URL ?? 'https://ethereum-rpc.publicnode.com';
+const MAINNET = 1;
 const TIMEOUT = 30_000;
 
 const _address = [
@@ -18,20 +17,18 @@ describe('* erc721 (mainnet)', () => {
   const _owners: Record<string, string> = {};
 
   beforeAll(() => {
-    // core client wires up the module so datasets resolve; RPC is set explicitly.
-    createClient([mainnetDataSet]) as EndlessCrawler.Module;
-    setRpcUrl(ChainId.Mainnet, MAINNET_RPC_URL);
+    setRpcUrl(MAINNET, MAINNET_RPC_URL);
   });
 
   it(
     'readTotalSupply',
     async () => {
       // no options → defaults to mainnet
-      const totalSupply1 = await readTotalSupply(ContractName.CrawlerToken);
+      const totalSupply1 = await readTotalSupply('CrawlerToken');
       expect(totalSupply1).toBeGreaterThan(0);
 
-      const totalSupply2 = await readTotalSupply(ContractName.CrawlerToken, {
-        chainId: ChainId.Mainnet,
+      const totalSupply2 = await readTotalSupply('CrawlerToken', {
+        chainId: MAINNET,
       });
       expect(totalSupply2).toBe(totalSupply1);
     },
@@ -41,12 +38,12 @@ describe('* erc721 (mainnet)', () => {
   it(
     'readOwnerOf',
     async () => {
-      const ownerOf1 = await readOwnerOf(1, ContractName.CrawlerToken);
+      const ownerOf1 = await readOwnerOf(1, 'CrawlerToken');
       expect(validateAddress(ownerOf1)).toBe(true);
       _owners[1] = ownerOf1;
 
       for (let i = 5; i <= 8; ++i) {
-        const ownerOf = await readOwnerOf(i, ContractName.CrawlerToken);
+        const ownerOf = await readOwnerOf(i, 'CrawlerToken');
         expect(validateAddress(ownerOf)).toBe(true);
         _owners[i] = ownerOf;
       }
@@ -57,19 +54,19 @@ describe('* erc721 (mainnet)', () => {
   it(
     'readBalanceOf',
     async () => {
-      const ownerOf1 = await readOwnerOf(1, ContractName.CrawlerToken);
+      const ownerOf1 = await readOwnerOf(1, 'CrawlerToken');
       expect(validateAddress(ownerOf1)).toBe(true);
       _owners[1] = ownerOf1;
 
       const tokenIds = Object.keys(_owners);
       for (let i = 0; i < tokenIds.length; ++i) {
         const owner = _owners[tokenIds[i]];
-        const balance = await readBalanceOf(owner, ContractName.CrawlerToken);
+        const balance = await readBalanceOf(owner, 'CrawlerToken');
         expect(balance).toBeGreaterThan(0);
       }
 
       for (let i = 0; i < _address.length; ++i) {
-        const balance = await readBalanceOf(_address[i], ContractName.CrawlerToken);
+        const balance = await readBalanceOf(_address[i], 'CrawlerToken');
         expect(balance).toBe(0);
       }
     },

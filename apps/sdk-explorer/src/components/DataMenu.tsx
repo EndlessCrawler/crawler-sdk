@@ -1,133 +1,117 @@
 'use client';
 
-import type { EndlessCrawler } from '@avante/crawler-core';
-import { useCrawler, useDataSets } from '@avante/crawler-react';
+import type { ec, ViewName } from '@avante/crawler-core';
+import { useCrawler, useWorld } from '@avante/crawler-react';
 import { useMemo } from 'react';
 import { ActionDispatcher } from '@/components/Dispatchers';
+import { useSelectedWorld } from '@/hooks/WorldContext';
+
+const VIEW_NAMES: ViewName[] = ['worldInfo', 'tokenCoord', 'chamberData', 'tokenSvg'];
 
 export default function DataMenu() {
-  const { client } = useCrawler<EndlessCrawler.Module>();
-  const { currentDataSetName } = useDataSets();
-
-  const views = useMemo(() => {
-    const result = [];
-    for (const viewName of client.getViewNames()) {
-      const view = client.getView(viewName);
-      const count = Object.keys(view.records).length;
-      result.push(
-        <div key={viewName}>
-          <hr />
-          {'> '}
-          {viewName} [{count}]
-          <div className="pl-3">
-            <ActionDispatcher label="getView()" onAction={() => client.getView(viewName)} />
-            <ActionDispatcher
-              label="getViewRecordCount()"
-              onAction={() => client.getViewRecordCount(viewName)}
-            />
-          </div>
-        </div>,
-      );
-    }
-    return result;
-  }, [client]);
+  const crawler = useCrawler();
+  const { worldName } = useSelectedWorld();
+  const world = useWorld<typeof ec>(worldName);
 
   // Chambers
-  const chamberCount = client.chamberData.getCount();
-  const dynamicIds = useMemo(() => client.chamberData.getDynamicChambersIds(), [client]);
-  const dynamicCoord = useMemo(() => client.chamberData.getDynamicChambersCoords(), [client]);
-  const tokenCoords_1 = useMemo(() => client.tokenIdToCoord.get(1), [client]);
-  const tokenCoords_n = useMemo(
-    () => client.tokenIdToCoord.get(chamberCount),
-    [client, chamberCount],
-  );
+  const chamberCount = world.getChamberCount();
+  const tokenIds = useMemo(() => world.getTokenIds(), [world]);
+  const firstTokenId = tokenIds[0] ?? 1n;
+  const lastTokenId = tokenIds[tokenIds.length - 1] ?? 1n;
+  const genesisCoord = world.getTokenCoord(firstTokenId);
+
+  const views = VIEW_NAMES.map((viewName) => (
+    <div key={viewName}>
+      <hr />
+      {'> '}
+      {viewName} [{world.hasView(viewName) ? 'present' : 'absent'}]
+      <div className="pl-3">
+        <ActionDispatcher label="hasView()" onAction={() => world.hasView(viewName)} />
+      </div>
+    </div>
+  ));
 
   return (
     <div>
       <hr />
 
-      <h4>DataSets</h4>
+      <h4>Crawler</h4>
       <div>
-        <ActionDispatcher label="getDataSetNames()" onAction={() => client.getDataSetNames()} />
-        <ActionDispatcher
-          label="getCurrentDataSetName()"
-          onAction={() => client.getCurrentDataSetName()}
-        />
-        <ActionDispatcher
-          label={`getDataSet(~${currentDataSetName})`}
-          onAction={() => client.getDataSet()}
-        />
-        <ActionDispatcher
-          label="createBlankDataSet()"
-          onAction={() => client.createBlankDataSet()}
-        />
+        <ActionDispatcher label="worlds()" onAction={() => crawler.worlds()} />
+        <ActionDispatcher label={`world('${worldName}').info`} onAction={() => world.info} />
+        <ActionDispatcher label="schema" onAction={() => world.schema} />
       </div>
 
       <hr />
 
       <h4>Views</h4>
-      <div>
-        <ActionDispatcher label="getViewNames()" onAction={() => client.getViewNames()} />
-        <ActionDispatcher
-          label={`getAllViews(~${currentDataSetName})`}
-          onAction={() => client.getAllViews()}
-        />
-        {views}
-      </div>
+      <div>{views}</div>
 
       <hr />
 
       <h4>Tokens</h4>
       <div>
         <ActionDispatcher
-          label="tokenIdToCoord.get(1)"
-          onAction={() => client.tokenIdToCoord.get(1)}
+          label={`getTokenCoord(${firstTokenId})`}
+          onAction={() => world.getTokenCoord(firstTokenId)}
         />
         <ActionDispatcher
-          label={`tokenIdToCoord.get(${chamberCount})`}
-          onAction={() => client.tokenIdToCoord.get(chamberCount)}
+          label={`getTokenCoord(${lastTokenId})`}
+          onAction={() => world.getTokenCoord(lastTokenId)}
         />
-        <ActionDispatcher
-          label="tokenIdToCoord.getTokensCoords(dynamic)"
-          onAction={() => client.tokenIdToCoord.getTokensCoords(dynamicIds)}
-        />
+        <ActionDispatcher label="getTokenCount()" onAction={() => world.getTokenCount()} />
       </div>
 
       <hr />
 
       <h4>Chambers</h4>
       <div>
+        <ActionDispatcher label="getChamberCount()" onAction={() => chamberCount} />
         <ActionDispatcher
-          label="chamberData.getCount()"
-          onAction={() => client.chamberData.getCount()}
+          label={`getChamber(genesis)`}
+          onAction={() => world.getChamber(genesisCoord ?? 0n)?.data}
         />
         <ActionDispatcher
-          label="chamberData.get(1)"
-          onAction={() => client.chamberData.get(tokenCoords_1?.coord ?? 0n)}
+          label={`getChamberByTokenId(${lastTokenId})`}
+          onAction={() => world.getChamberByTokenId(lastTokenId)?.data}
         />
         <ActionDispatcher
-          label={`chamberData.get(${chamberCount})`}
-          onAction={() => client.chamberData.get(tokenCoords_n?.coord ?? 0n)}
+          label="getChamberBySlug('S1,W1')"
+          onAction={() => world.getChamberBySlug('S1,W1')?.data}
         />
         <ActionDispatcher
-          label="chamberData.getMultiple(dynamic)"
-          onAction={() => client.chamberData.getMultiple(dynamicCoord)}
+          label="genesis.slug()"
+          onAction={() => world.getChamber(genesisCoord ?? 0n)?.slug()}
         />
         <ActionDispatcher
-          label="chamberData.getStaticChamberCount()"
-          onAction={() => client.chamberData.getStaticChamberCount()}
+          label="getStaticChamberCount()"
+          onAction={() => world.getStaticChamberCount()}
         />
         <ActionDispatcher
-          label="chamberData.getDynamicChamberCount()"
-          onAction={() => client.chamberData.getDynamicChamberCount()}
+          label="getDynamicChamberCount()"
+          onAction={() => world.getDynamicChamberCount()}
         />
         <ActionDispatcher
-          label="chamberData.getDynamicChambersIds()"
-          onAction={() => client.chamberData.getDynamicChambersIds()}
+          label="getDynamicChamberTokenIds()"
+          onAction={() => world.getDynamicChamberTokenIds()}
         />
         <ActionDispatcher
-          label="chamberData.getDynamicChambersCoords()"
-          onAction={() => client.chamberData.getDynamicChambersCoords()}
+          label="getDynamicChamberCoords()"
+          onAction={() => world.getDynamicChamberCoords()}
+        />
+      </div>
+
+      <hr />
+
+      <h4>Coords (NEWS — schema-bound)</h4>
+      <div>
+        <ActionDispatcher
+          label="coords.coordToSlug(genesis)"
+          onAction={() => world.coords.coordToSlug(genesisCoord ?? 0n)}
+        />
+        <ActionDispatcher
+          label="coords.coordToCompass(genesis)"
+          onAction={() => world.coords.coordToCompass(genesisCoord ?? 0n)}
         />
       </div>
     </div>

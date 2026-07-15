@@ -1,3 +1,8 @@
+// The canonical dataset serializer (see specs/SDK_SPECS.md §Canonical serialization).
+// Every views-data create/update goes through it, so files are byte-stable across
+// regenerations. Output is compact and human-readable — JSON.stringify(…, 2) is
+// banned for datasets (it explodes door/lock arrays one element per line).
+//
 // https://prettier.io/docs/en/api
 // https://prettier.io/docs/en/browser.html
 //@ts-ignore
@@ -6,26 +11,23 @@ import * as prettier from 'prettier/standalone.mjs';
 import prettierPluginBabel from 'prettier/plugins/babel.mjs';
 //@ts-ignore
 import prettierPluginEstree from 'prettier/plugins/estree.mjs';
-import { Utils } from '@avante/crawler-core';
 
-// javascript version
-//@ts-ignore
-// BigInt.prototype.toJSON = function () { return this.toString() }
-// BigInt.prototype.toJSON = function () { return (this <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(this) : this.toString()) }
-
-// typescript version
-(BigInt.prototype as any).toJSON = function () {
-  // return this.toString()
-  return this <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(this) : this.toString();
-};
+// bigint handling is local to the formatter — no BigInt.prototype.toJSON
+// monkeypatch (the package declares sideEffects: false)
+const _bigIntReplacer = (_key: string, value: unknown): unknown =>
+  typeof value === 'bigint'
+    ? value <= BigInt(Number.MAX_SAFE_INTEGER)
+      ? Number(value)
+      : value.toString()
+    : value;
 
 export const formatViewData = async (data: any = {}): Promise<string> => {
-  if (Utils.isString(data)) {
+  if (typeof data === 'string') {
     return data;
-  } else if (!Utils.isObject(data)) {
-    return data.toString();
   }
-  // return JSON.stringify(data, null, '\t')
+  if (typeof data !== 'object' || data == null) {
+    return String(data);
+  }
 
   const options = {
     useTabs: true,
@@ -35,5 +37,5 @@ export const formatViewData = async (data: any = {}): Promise<string> => {
     plugins: [prettierPluginBabel, prettierPluginEstree],
   };
 
-  return await prettier.format(JSON.stringify(data), options);
+  return await prettier.format(JSON.stringify(data, _bigIntReplacer), options);
 };

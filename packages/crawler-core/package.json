@@ -13,10 +13,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./internal": {
-      "types": "./dist/modules/importer.d.ts",
-      "import": "./dist/modules/importer.js"
     }
   },
   "files": [

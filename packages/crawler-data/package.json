@@ -28,12 +28,14 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "watch": "tsdown --watch",
-    "watch:test": "vitest"
+    "watch:test": "vitest",
+    "migrate:worlds": "node scripts/migrateWorlds.ts"
   },
   "peerDependencies": {
     "@avante/crawler-core": "workspace:^"
   },
   "devDependencies": {
+    "@avante/crawler-api": "workspace:*",
     "@avante/crawler-core": "workspace:*",
     "@types/node": "catalog:",
     "rimraf": "catalog:",

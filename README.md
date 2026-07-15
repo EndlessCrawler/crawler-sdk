@@ -33,43 +33,30 @@ npm install @avante/crawler-core @avante/crawler-data
 
 ### Core tools
 
-Initialize an empty client
+Create a `Crawler` from static worlds and read chambers
 
-```js
-import {
-	createClient,
-	EndlessCrawler,  // typescript namespace
-	LootUnderworld,  // typescript namespace
-	Dir,
-} from '@/avante/core'
+```ts
+import { createCrawler, Dir } from '@avante/crawler-core';
+import { mainnetWorld } from '@avante/crawler-data';
 
-// Compatible with Endless Crawler
-type Compass = EndlessCrawler.Compass
-const client = createClient(EndlessCrawler.Id) as EndlessCrawler.Module
-const s1w1 = { south: 1, west: 1 } as Compass
-const s1w2 = client.offsetCompass(s1w1, Dir.West)
+const crawler = createCrawler([mainnetWorld]); // sync, explicit — no globals
+const world = crawler.world('mainnet');
 
-// Compatible with Loot Underworld
-type Compass = LootUnderworld.Compass
-const client = createClient(LootUnderworld.Id) as LootUnderworld.Module
-const s1w1o1 = { south: 1, west: 1, over: 1 } as Compass
-const s1w1u1 = client.offsetCompass(s1w1o1, Dir.Under)
+const chamber = world.getChamberBySlug('S1,W1'); // or by coord / token id
+chamber?.terrain;                  // 'earth'
+chamber?.slug();                   // 'S1,W1' — computed, never stored
 
-// Initialzie with a blank dataset (DataSetName.Blank, ChainId.Blank)
-const client = createClient(LootUnderworld.Id, true) as LootUnderworld.Module
+// navigation is door-based
+const [north] = chamber?.getDoorsTo(Dir.North) ?? [];
+const next = north && world.getChamber(north.destCoord);
 ```
 
-Initialize a client with cached data
+Coordinate math (NEWS) is schema-bound, reached through the world
 
-```js
-import { createClient, EndlessCrawler } from '@/avante/core'
-import { mainnetDataSet } from '@/avante/data'
-
-// compatible with Endless Crawler
-type Compass = EndlessCrawler.Compass
-const client: ModuleInterface = createClient([mainnetDataSet]) as EndlessCrawler.Module
-const s1w1 = { south: 1, west: 1 } as Compass
-const chamber = client.chamberData.get(s1w1)
+```ts
+const coord = world.coords.slugToCoord('S1,W1'); // packed uint256 as bigint
+world.coords.offsetCoord(coord, Dir.North);
+world.coords.coordToCompass(coord);              // { south: 1n, west: 1n }
 ```
 
 
@@ -151,7 +138,7 @@ npm run watch:test:react
 > [pnpm exec](https://pnpm.io/cli/exec)
 
 ```sh
-pnpm -r exec jest
+pnpm -r exec vitest run
 ```
 
 #### To work on apps/sdk-explorer, watching all packages

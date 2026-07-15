@@ -1,11 +1,10 @@
 import { isAddress, zeroAddress } from 'viem';
-import type { Address } from '@avante/crawler-core';
 
-export function isZeroAddress(address: Address): boolean {
+export function isZeroAddress(address: string): boolean {
   return address === zeroAddress || (address?.length > 2 && zeroAddress.startsWith(address));
 }
 
-export function validateAddress(address: Address, zeroIsValid: boolean = false): boolean {
+export function validateAddress(address: string, zeroIsValid: boolean = false): boolean {
   if (isZeroAddress(address)) {
     return zeroIsValid;
   }
@@ -13,8 +12,8 @@ export function validateAddress(address: Address, zeroIsValid: boolean = false):
 }
 
 export function isSameAddress(
-  address1: Address,
-  address2: Address,
+  address1: string,
+  address2: string,
   zeroIsValid: boolean = false,
 ): boolean {
   return (
@@ -22,7 +21,7 @@ export function isSameAddress(
   );
 }
 
-export function formatAddress(address: Address, short: false = false): string {
+export function formatAddress(address: string, short: false = false): string {
   if (!validateAddress(address)) return '0x?';
   let result = address.toUpperCase();
   result = '0x' + (result[1] === 'X' ? result.substring(2) : result);

@@ -1,5 +1,1 @@
-export {
-  CrawlerProvider,
-  CrawlerContext,
-  CrawlerActions,
-} from './CrawlerContext';
+export { CrawlerContext, type CrawlerContextType, CrawlerProvider } from './CrawlerContext';

@@ -172,6 +172,9 @@ importers:
 
   packages/crawler-data:
     devDependencies:
+      '@avante/crawler-api':
+        specifier: workspace:*
+        version: link:../crawler-api
       '@avante/crawler-core':
         specifier: workspace:*
         version: link:../crawler-core

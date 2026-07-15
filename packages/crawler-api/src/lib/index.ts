@@ -8,7 +8,3 @@ export {
 } from './contract';
 export * from './types';
 export * from './utils';
-export {
-  readViewRecordOrThrow,
-  readViewTotalCount,
-} from './view';

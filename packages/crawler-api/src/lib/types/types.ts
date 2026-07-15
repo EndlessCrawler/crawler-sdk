@@ -1,4 +1,4 @@
-import type { ModuleId, Options, ViewName, ContractName, ChainId } from '@avante/crawler-core';
+import type { ContractName } from '@avante/crawler-core';
 
 /** @type contract address and abi for on-chain calls */
 export interface ContractArtifacts {
@@ -6,18 +6,14 @@ export interface ContractArtifacts {
   networks: any;
 }
 
-/** @type on-chain read options; `rpcUrl` is the caller-supplied endpoint (provider-agnostic) */
-export interface ReadOptions extends Options {
-  chainId?: ChainId; // from Options (deprecated)
-  moduleId?: ModuleId; // from Options
-  dataSetName?: string; // from Options
+/**
+ * On-chain read options; `rpcUrl` is the caller-supplied endpoint (provider-agnostic).
+ * Interim shape — the P3 refactor replaces this with per-world typed contract
+ * instances (see `specs/SDK_SPECS.md` §`crawler-api`).
+ */
+export interface ReadOptions {
+  chainId?: number;
   rpcUrl?: string; // caller-supplied RPC endpoint for this chain
-}
-
-/** @type passed to readViewRecordOrThrow() for on-chain read */
-export interface ReadViewOptions extends ReadOptions {
-  viewName: ViewName;
-  key: any;
 }
 
 /** @type generic error result from functions */
@@ -31,18 +27,6 @@ export interface DataResult {
   data: any;
 }
 
-/** @type result from readViewRecordOrThrow() */
-export interface ReadViewResult {
-  [key: string]: any;
-}
-
-/** @type passed to readContract() for on-chain read */
-export interface ReadContractOptions extends ReadOptions {
-  contractName: ContractName;
-  functionName: string;
-  args: any[];
-}
-
 /** @type check if a function result is ErrorResult */
 export function isErrorResult(instance: any): instance is ErrorResult {
   return instance && instance.error && typeof instance.error === 'string';
@@ -53,19 +37,9 @@ export function isDataResult(instance: any): instance is DataResult {
   return instance && instance.data && typeof instance.data === 'string';
 }
 
-/** @type view definition to read on-chain data */
-export interface ViewDefinition {
+/** @type passed to readContract() for on-chain read */
+export interface ReadContractOptions extends ReadOptions {
   contractName: ContractName;
   functionName: string;
-  // extend...
-  keyToArgs: any;
-  readTotalCount: any;
-  transform: any;
-}
-
-/** @type view definition to read on-chain data */
-export interface ViewDefinitionT<T> extends ViewDefinition {
-  readTotalCount: (options: Options) => Promise<number>;
-  keyToArgs: (key: any) => any[];
-  transform: (data: any) => Promise<T>;
+  args: any[];
 }

@@ -6,10 +6,7 @@ const coreSrc = (p: string) => fileURLToPath(new URL(`../crawler-core/src/${p}`,
 
 export default defineConfig({
   resolve: {
-    alias: [
-      { find: '@avante/crawler-core/internal', replacement: coreSrc('modules/importer.ts') },
-      { find: /^@avante\/crawler-core$/, replacement: coreSrc('index.ts') },
-    ],
+    alias: [{ find: /^@avante\/crawler-core$/, replacement: coreSrc('index.ts') }],
   },
   test: {
     include: ['test/**/*.test.ts'],

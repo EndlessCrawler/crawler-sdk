@@ -6,8 +6,8 @@ import {
   http,
 } from 'viem';
 import { type Chain, goerli, mainnet } from 'viem/chains';
-import { ChainId, InvalidChainError } from '@avante/crawler-core';
 import type { ReadContractOptions } from './types';
+import { InvalidChainError } from './types';
 import { getContractAbi, getContractAddress } from './contract';
 
 //---------------------
@@ -17,36 +17,39 @@ import { getContractAbi, getContractAddress } from './contract';
 // once with setRpcUrl()/setRpcUrls(), or pass `rpcUrl` per call. When none is
 // supplied, viem falls back to the chain's own default public RPC.
 //
+// Interim shape — the P3 refactor replaces this read path with per-world typed
+// viem contract instances (see specs/SDK_SPECS.md §crawler-api).
+//
 
 /** chainId → viem chain */
-const _chains: Partial<Record<ChainId, Chain>> = {
-  [ChainId.Mainnet]: mainnet,
-  [ChainId.Goerli]: goerli,
+const _chains: Partial<Record<number, Chain>> = {
+  1: mainnet,
+  5: goerli,
 };
 
 /** caller-registered RPC urls, keyed by chainId */
-const _rpcUrls: Partial<Record<ChainId, string>> = {};
+const _rpcUrls: Partial<Record<number, string>> = {};
 
 /** cached public clients, keyed by `${chainId}:${rpcUrl}` */
 const _clients = new Map<string, PublicClient>();
 
 /** register the RPC url used to read a chain */
-export const setRpcUrl = (chainId: ChainId, rpcUrl: string): void => {
+export const setRpcUrl = (chainId: number, rpcUrl: string): void => {
   _rpcUrls[chainId] = rpcUrl;
 };
 
 /** register RPC urls for several chains at once */
-export const setRpcUrls = (rpcUrls: Partial<Record<ChainId, string>>): void => {
+export const setRpcUrls = (rpcUrls: Partial<Record<number, string>>): void => {
   for (const [chainId, rpcUrl] of Object.entries(rpcUrls)) {
-    if (rpcUrl) setRpcUrl(Number(chainId) as ChainId, rpcUrl);
+    if (rpcUrl) setRpcUrl(Number(chainId), rpcUrl);
   }
 };
 
 /** @returns a (cached) viem PublicClient for the chain, using the caller-supplied RPC url */
-export const getPublicClient = (chainId: ChainId, rpcUrl?: string): PublicClient => {
+export const getPublicClient = (chainId: number, rpcUrl?: string): PublicClient => {
   const chain = _chains[chainId];
   if (!chain) {
-    throw new InvalidChainError(null, chainId);
+    throw new InvalidChainError(chainId);
   }
   const url = rpcUrl ?? _rpcUrls[chainId];
   const key = `${chainId}:${url ?? ''}`;
@@ -62,9 +65,10 @@ export const getPublicClient = (chainId: ChainId, rpcUrl?: string): PublicClient
 // Read Contract
 //
 
-const _resolveChainId = (options: ReadContractOptions): ChainId =>
-  (options.chainId as ChainId) ?? ChainId.Mainnet;
+const _resolveChainId = (options: ReadContractOptions): number => options.chainId ?? 1;
 
+// query-string boolean coercion for the explorer's read routes — dies with the
+// untyped read path at P3 (typed contract reads take explicit args)
 const _normalizeArgs = (args: unknown[]): unknown[] =>
   args.map((value) => (value === 'true' ? true : value === 'false' ? false : value));
 

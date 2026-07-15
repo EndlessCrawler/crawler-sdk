@@ -1,6 +1,6 @@
 # crawler-sdk — SDK Refactor Plan
 
-**Status:** _Draft / idea-capture._ Not started. This refactor runs **after** the V2 modernization (`specs/V2_PLAN.md`) lands its stack work, but **before anything is published to npm** — the V2 packages are *not* published; the first publish happens only once this refactor is done. V2 makes the stack modern and correct; this plan makes the *API* the one we actually want, and that shipped API is what goes to npm.
+**Status:** _Implementation underway — **P1–P2 landed**_ (core rewritten to the settled spec, worlds migrated, consumers keep-lights-on; execution detail in `specs/SDK_REFACTOR.md`). This refactor runs **after** the V2 modernization (`specs/V2_PLAN.md`) landed its stack work, but **before anything is published to npm** — the first publish happens only once this refactor is done (P9). V2 made the stack modern and correct; this plan makes the *API* the one we actually want, and that shipped API is what goes to npm.
 
 **No back-compatibility constraint.** Because nothing is published yet, there are no external consumers to preserve. Break APIs freely between steps. The only in-repo consumers (`crawler-react`, `apps/sdk-explorer`) and the sibling `ec-dapp` all link the workspace and move in lockstep with us.
 
@@ -66,7 +66,7 @@ Still in flux:
 
 **Settled → SPECS §`BigIntish`:** the type (strict `` `0x${string}` `` hex), the dedicated `src/bigintish/` module in core, pure/total functions with defined error behavior, addresses as `BigIntish`, the exhaustive test matrix. (Subpath export: decided at the surface freeze, #7.)
 
-Current-code grounding for the P1 work: today it's spelled `BigIntIsh` and scattered — the type at `types/types.ts:19`, with `HexString = string` deliberately loosened ("not good for view types when converting from json"; answered by load-time validation, not weaker types); conversions in `utils/bigint.ts` (`toBigInt` is a bare `BigInt(value)` — throws on garbage, silently accepts `''` as `0n`; `bigIntEquals` guards only `a` and uses loose `==`); `isBigInt` in `utils/misc.ts`. The new module consolidates and fixes these.
+**Landed at P1** — `crawler-core/src/bigintish/`: strict `` `0x${string}` `` `HexString`, guards, conversions with defined error behavior (`''`/garbage throw `InvalidBigIntishError`, never silently `0n`), the exhaustive test matrix.
 
 ---
 
@@ -108,9 +108,9 @@ The shared vocabulary — every concept, its current best name, and status (**se
 | Concept | Name (status) | Notes |
 |---|---|---|
 | **Entry point** — owns the registered worlds and cross-world traversal | **`Crawler`** _(settled → SPECS §The `Crawler` client)_ | What a consumer creates first. Rejected: **`client`** (collides with web3 RPC clients), **`world`** (taken — the dataset's name). |
-| **One map's data** | **`World`** _(settled → SPECS §Worlds & Views)_ | mainnet / goerli / sepolia. The implementation still says `DataSet`. |
+| **One map's data** | **`World`** _(settled → SPECS §Worlds & Views)_ | mainnet / goerli / sepolia. |
 | **The specification a dataset conforms to** | **`Schema`** _(settled → SPECS §Schemas)_ | Named presets: `ec`, `cnc`. Replaces the `moduleId` axis. |
-| **One named, typed keyed map inside a World** | **`View`** _(settled → SPECS §Worlds & Views)_ | `WorldInfo` / `TokenCoord` / `ChamberData`; implementation still says `tokenIdToCoord`. |
+| **One named, typed keyed map inside a World** | **`View`** _(settled → SPECS §Worlds & Views)_ | `WorldInfo` / `TokenCoord` / `ChamberData`. |
 | **Per-schema pure translator** — token payload → `ChamberData<Schema>` | **`Converter`** _(settled → SPECS §Data pipeline)_ | "adapter" rejected — implies interface-wrapping. World-bound import (`world.import`) settled → SPECS §The `Crawler` client. |
 | **The converter's input** — cached tokenURI data + on-chain supplement | **Token payload** (`EcTokenPayload`, …) _(settled → SPECS §Data pipeline)_ | Types live beside their converter in `crawler-data`; core keeps only the generic `Converter` interface. |
 | **Per-world on-chain snapshot** | **`cache/*` packages** _(settled → SPECS §Data pipeline)_ | `cache/endless-crawler`, `cache/cryptsandcaverns`. Pure `tokenURI` archive — layout & fetch discipline settled (#21). |
@@ -141,9 +141,9 @@ The package inventory (each package, what it provides, published name, dependenc
 
 ---
 
-## Diagnosis — what's wrong with the current design
+## Diagnosis — what was wrong with the pre-refactor design (all resolved by P1–P2)
 
-Grounded in the current `crawler-core` source. These are the things the refactor must fix, roughly in priority order.
+Kept as the record grounding the remaining phases. Every item below was fixed by the P1–P2 core rewrite: the global store, `Options` bag, view `any`s, module/namespace ceremony, circular coupling, two-headed constructor, union compass, and DOM event bus are all gone from the codebase.
 
 ### 1. Process-global mutable singleton (`modules/importer.ts`)
 Imported datasets don't live on a client — they live in `window/global.CrawlerModules`, keyed by `moduleId`, with a mutable "current dataset" per module. Consequences, all real today:
@@ -243,12 +243,12 @@ Not listed: everything `luw`-only (its unimplemented `slugToCompass`, `Domain` e
 
 ## Data model notes
 
-- **Views:** target model settled → SPECS §Worlds & Views (#13 closed — absent-view semantics and no-per-view-subpaths included). Grounding: today only `chamberData` and `tokenIdToCoord` exist (`views/view.ts`, `ViewName`).
+- **Views:** settled → SPECS §Worlds & Views (#13 closed — absent-view semantics and no-per-view-subpaths included); landed at P2 (`worldInfo`/`tokenCoord`/`chamberData` shipped; `tokenSvg` first appears with the P6 builder).
 - **`Chamber` type:** settled → SPECS §`ChamberData<Schema>` (#19, closed). Kept from today: the *input model* (`ChamberDataModel`) vs *stored/read type* split — sound today, worth keeping — and the Solidity-struct doc comment (`views/view.chamberData.ts`).
 - **World shape:** target settled → SPECS §Worlds & Views. Grounding: today's `DataSet` is `{ moduleId, dataSetName, chainId, views }`. Bridging old JSON to the new shape is settled (#6 closed): a **one-off migration script** at P2; the P6 builder re-emits the same shape from cache.
 - **Chains:** target settled → SPECS §Chains. Grounding: `views/chains.ts` (`ChainId` Blank/Mainnet/Goerli, + sepolia incoming); goerli data stays (V2 decision: dead chain, valid cache).
 - **Canonical serializer:** #11, closed → SPECS §Canonical serialization.
-- **⚠️ Today's eager root barrel.** `crawler-data`'s **root barrel** eagerly exports every world — `mainnetDataSet`, `goerliDataSet`, `allDataSets` (`crawler-data/src/index.ts` → `data.ts`) — so importing anything pulls all the JSON. The fix (#10, closed): per-world subpath exports. Packaging note: per-world entries in `crawler-data`'s `exports` map (tsdown multi-entry or direct JSON entries).
+- **⚠️ Interim eager root barrel.** `crawler-data`'s root barrel still eagerly exports every world — `mainnetWorld`, `goerliWorld`, `allWorlds` (`src/index.ts`, the P2 keep-lights-on surface) — so importing anything pulls all the JSON. The fix (#10, closed) lands at P6: per-world subpath exports (per-world entries in the `exports` map — tsdown multi-entry or direct JSON entries).
 - **Cross-world doors (future).** A chamber in world A will eventually connect to a chamber in world B. The **`Door` element is where the connection lives**: `destCoord` today; a cross-world door widens the destination to a **world-qualified** form (`{ world, coord }`). A same-world neighbor is the degenerate case. **OPEN:** how the destination world is identified in stored data. The `Crawler` container owns cross-world traversal (settled → SPECS §The `Crawler` client).
 
 ---
@@ -257,8 +257,8 @@ Not listed: everything `luw`-only (its unimplemented `slugToCompass`, `Domain` e
 
 Build order: consumption-first — types, then the core that reads them, then the pipeline that produces data, then the apps; **C&C last**, exercising the whole chain a second time. The old refactor spine (de-globalize, functional extraction, `luw` deletion) rides inside P1–P2. TSDoc is definition-of-done in every phase. Per-phase execution detail (current-code dispositions, step order) lives in **`specs/SDK_REFACTOR.md`** — implementation is underway there, starting with P1–P2.
 
-- **P1 — Types & schemas.** The `bigintish` module (strict `` `0x${string}` `` hex type, fully tested); the `DataSchema` descriptor + derived types (→ SPECS §Schemas); `ChamberData<Schema>` = normalized core + attributes (string value domains); `World`/`View` types including the world-info view; chains rework (`{ network, chainId }`, `BigIntish` ids). Replace `any` in the view layer; delete `luw` types (`CompassBase` union etc.). _Gates: none — all P1 inputs are decided._
-- **P2 — Core / client.** De-globalize (delete `modules/importer.ts`'s global + the `Options` bag); functional read surface (`loadWorld`, `getChamber`, coordinate math); the `Crawler` container + world handle + chamber-source interface; world registration (#10); the coarse-subscription events replacement; delete `luw` modules and the namespace/`ModuleInterface` ceremony; **one-off migration script** moving the committed mainnet/goerli JSON to the new World shape (#6). _Gates: none — #1/#4/#6/#9/#13 all closed; the exact method inventory is drafted at the surface freeze (#7, P9)._
+- **P1 — Types & schemas. ✅ LANDED.** `bigintish/`, the `DataSchema` descriptors + derived types, `ChamberData<Schema>` + `Door`, `World`/`View` types, chains rework, no `any` anywhere in core, `luw` deleted.
+- **P2 — Core / client. ✅ LANDED.** Global store + `Options` bag + module/namespace ceremony + DOM events deleted (`./internal` subpath gone); functional read surface (`loadWorld`, pure per-view reads, pure merge); the NEWS library (`coords/news`, ec fixtures pass unchanged) + name→library registry; `createCrawler` + `Crawler` + `WorldHandle` + `Chamber` + coarse subscription + `Converter`/chamber-source interfaces; the one-off migration script (`crawler-data/scripts/migrateWorlds.ts`) rewrote mainnet+goerli to the World shape (277/70 tokens, door `destCoord`/`destTile` derived, validated by `loadWorld` + invariant tests). Consumers ride keep-lights-on passes: api's view machinery deleted early (P3 deletes it anyway) with `formatViewData` brought to spec (replacer, no monkeypatch); react holds a `Crawler` (`useCrawler`/`useWorld`/`useChamber`/`useWorldNames`); explorer re-pointed (its `/api/view` route + converted-read menus parked until P3/P7).
 - **P3 — api contract layer (complete refactor).** The typed contract layer (see the crawler-api section): per-world typed viem contract instances (const-asserted ABIs, live contracts only — dead trees deleted); the parsed-result helpers the cache needs (`tokenURI` (new), `totalSupply`, `ownerOf`); generic non-chamber contract helpers (cards, ERC-20); `BigIntish` addresses at every api boundary; RPC-fallback warning (chain always from the world binding); delete the view-definition machinery (`formatViewData` stays put — #11). (Watcher/events and ownership come later — P8/P10.) _Gates: none — #20 closed (→ SPECS §`crawler-api`)._
 - **P4 — EC cache.** `cache/endless-crawler`: fetch every token's `tokenURI` on-chain via P3, store the `json`+`svg` pair per token (mainnet only — goerli unfetchable/frozen), incremental fetch + dynamic-chamber refetch. Define the EC **world schema + views** for real — the first `DataSchema` instance exercised. _Gates: none — #21/#22 closed (→ SPECS §Data pipeline)._
 - **P5 — EC converter.** `EcTokenPayload` → `ChamberData<ec>`: parse the SVG back into the tilemap (doors/locks/entry/gem); migrate today's `transform()` derivations (compass/entry/`isDynamic`); string terrains/gems; `seed` via the payload's on-chain supplement. _Gates: none — #15/#19/#21 closed (residuals at #7)._

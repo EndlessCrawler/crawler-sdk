@@ -12,7 +12,7 @@
       "!**/dist/**",
       "!**/.next/**",
       // Cached map data — large generated JSON, not hand-edited.
-      "!packages/crawler-data/src/data/**",
+      "!packages/crawler-data/src/worlds/**",
       // Generated contract ABIs / artifacts (crawler-api) — large JSON, not hand-edited.
       "!**/src/contracts/**",
       "!**/artifacts/**",
@@ -58,17 +58,12 @@
           "level": "error",
           "options": { "ignoreNull": true }
         },
-        // Pervasive `any` in legacy code; re-tightened in the strict-typing cleanup (Phase 2+).
+        // Residual `any` in crawler-api's interim read path; re-tightened by the P3 api refactor.
+        // (crawler-core is `any`-free since the SDK-refactor P1/P2 rewrite.)
         "noExplicitAny": "warn",
-        // Benign duplicate `verbose: true` in the jest.config.js files (deleted in Phase 3 → Vitest).
-        "noDuplicateObjectKeys": "warn",
-        // The terse `cond && sideEffect()` forEach idiom (core misc.ts) + an api abis.ts map; not bugs.
+        // An api abis.ts reduce-without-return idiom; dies with the artifact registry at P3.
         "useIterableCallbackReturn": "warn",
-        // Intentional empty marker interface (`ViewAccess` base type in the view system).
-        "noEmptyInterface": "warn",
-        // Test scaffolding (`let _coord` reused across offset assertions).
-        "noImplicitAnyLet": "warn",
-        // Intentional `@ts-ignore` on the BigInt.prototype.toJSON test polyfill.
+        // `@ts-ignore` on crawler-api's untyped prettier/standalone .mjs imports; revisited at P3.
         "noTsIgnore": "warn",
         // Its autofix rewrites our directory content-excludes (`!**/dist/**`) to the bare
         // form, which stops excluding directory *contents* — leave the /** globs intact.

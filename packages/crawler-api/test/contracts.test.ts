@@ -1,42 +1,21 @@
-import { beforeAll, describe, expect, it } from 'vitest';
-import {
-  type EndlessCrawler,
-  createClient,
-  // ---
-  ContractName,
-  type ViewName,
-} from '@avante/crawler-core';
-import { allDataSets } from '@avante/crawler-data';
+import { describe, expect, it } from 'vitest';
+import { loadWorld, toBigInt } from '@avante/crawler-core';
+import { goerliWorld, mainnetWorld } from '@avante/crawler-data';
 import { getAllContractNames, getContractAddress } from '../src';
 
 describe('* contracts', () => {
-  let client: EndlessCrawler.Module;
-
-  beforeAll(() => {
-    client = createClient(allDataSets) as EndlessCrawler.Module;
-  });
-
   it('exposes contract names', () => {
-    expect(getAllContractNames()).toContain(ContractName.CrawlerToken);
+    expect(getAllContractNames()).toContain('CrawlerToken');
   });
 
-  it('validate views contract addresses', () => {
-    // Each imported DataSet carries its own chainId; every view's metadata must
-    // resolve to the same contract address that getContractAddress() reports.
-    const dataSetNames = client.getDataSetNames();
-    expect(dataSetNames.length).toBeGreaterThan(0);
-
-    for (const dataSetName of dataSetNames) {
-      const views = client.getAllViews({ dataSetName });
-      const viewNames = Object.keys(views) as ViewName[];
-      expect(viewNames.length).toBeGreaterThan(0);
-
-      for (const viewName of viewNames) {
-        const { metadata } = views[viewName];
-        const contractName = metadata.contractName as ContractName;
-        const contractAddress = getContractAddress(contractName, metadata.chainId);
-        expect(contractAddress, `${dataSetName}/${viewName}`).toBe(metadata.contractAddress);
-      }
+  it('world contract bindings resolve to the registry addresses', () => {
+    // Each world's binding must resolve to the same contract address that
+    // getContractAddress() reports for its chain (compared as bigints —
+    // immune to case/checksum differences).
+    for (const json of [mainnetWorld, goerliWorld]) {
+      const world = loadWorld(json);
+      const registryAddress = getContractAddress(world.contractName, Number(world.chainId));
+      expect(toBigInt(registryAddress), world.name).toBe(world.contractAddress);
     }
   });
 });

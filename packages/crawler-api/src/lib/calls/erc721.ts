@@ -1,4 +1,4 @@
-import type { ContractName, Address } from '@avante/crawler-core';
+import type { ContractName } from '@avante/crawler-core';
 import type { ReadOptions } from '../types';
 import { readContractOrThrow } from '../client';
 
@@ -9,7 +9,7 @@ import { readContractOrThrow } from '../client';
 
 /** @returns execute 'balanceOf(owner)' on ERC721 contract **/
 export const readBalanceOf = async (
-  owner: Address,
+  owner: string,
   contractName: ContractName,
   options: ReadOptions = {},
 ): Promise<number> => {
@@ -25,10 +25,10 @@ export const readBalanceOf = async (
 
 /** @returns execute 'ownerOf(tokenId)' on ERC721 contract **/
 export const readOwnerOf = async (
-  tokenId: number | BigInt,
+  tokenId: number | bigint,
   contractName: ContractName,
   options: ReadOptions = {},
-): Promise<Address> => {
+): Promise<string> => {
   const readContractOptions = {
     ...options,
     contractName,
@@ -36,7 +36,7 @@ export const readOwnerOf = async (
     args: [tokenId],
   };
   const result = await readContractOrThrow(readContractOptions);
-  return result as Address;
+  return result as string;
 };
 
 //---------------------

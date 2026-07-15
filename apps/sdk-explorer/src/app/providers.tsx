@@ -6,8 +6,9 @@ import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
 import { useState } from 'react';
 import { createConfig, WagmiProvider } from 'wagmi';
 import { SelectionProvider } from '@/hooks/SelectionContext';
+import { WorldProvider } from '@/hooks/WorldContext';
 import { selectedChain, selectedTransport } from '@/lib/chains';
-import { crawlerClient } from '@/lib/crawlerClient';
+import { crawler } from '@/lib/crawlerClient';
 
 //
 // ConnectKit + wagmi 2 — https://docs.family.co/connectkit
@@ -47,8 +48,10 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <ConnectKitProvider mode="dark" customTheme={connectKitTheme}>
-          <CrawlerProvider client={crawlerClient}>
-            <SelectionProvider>{children}</SelectionProvider>
+          <CrawlerProvider crawler={crawler}>
+            <WorldProvider>
+              <SelectionProvider>{children}</SelectionProvider>
+            </WorldProvider>
           </CrawlerProvider>
         </ConnectKitProvider>
       </QueryClientProvider>
