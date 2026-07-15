@@ -1,0 +1,712 @@
+{
+  "contractName": "CrawlerPlayer",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        }
+      ],
+      "name": "CreatedProfile",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "enum Crawl.Gem",
+          "name": "gem",
+          "type": "uint8"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint16",
+          "name": "coins",
+          "type": "uint16"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "worth",
+          "type": "uint16"
+        }
+      ],
+      "name": "Give",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "enum Crawl.Gem",
+          "name": "gem",
+          "type": "uint8"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint16",
+          "name": "coins",
+          "type": "uint16"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint16",
+          "name": "worth",
+          "type": "uint16"
+        }
+      ],
+      "name": "Take",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        }
+      ],
+      "name": "UpdatedProfile",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "_query",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerQuery",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "queryContract_",
+          "type": "address"
+        }
+      ],
+      "name": "setQueryContract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        }
+      ],
+      "name": "playerHasProfile",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        }
+      ],
+      "name": "getPlayerProfile",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "pfpContract",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "pfpId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint8",
+              "name": "classId",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8",
+              "name": "style",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "value1",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint16",
+              "name": "value2",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint16",
+              "name": "value3",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint16",
+              "name": "value4",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint16",
+              "name": "value5",
+              "type": "uint16"
+            },
+            {
+              "internalType": "bool",
+              "name": "hidden",
+              "type": "bool"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            }
+          ],
+          "internalType": "struct CrawlerPlayer.Profile",
+          "name": "result",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        }
+      ],
+      "name": "getPlayerStash",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint128",
+              "name": "coins",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint128",
+              "name": "worth",
+              "type": "uint128"
+            },
+            {
+              "internalType": "uint32[8]",
+              "name": "gems",
+              "type": "uint32[8]"
+            }
+          ],
+          "internalType": "struct CrawlerPlayer.Stash",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "pfpContract",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pfpId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "classId",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "style",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint16",
+          "name": "value1",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint16",
+          "name": "value2",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint16",
+          "name": "value3",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint16",
+          "name": "value4",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint16",
+          "name": "value5",
+          "type": "uint16"
+        }
+      ],
+      "name": "createProfile",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "pfpContract",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "pfpId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint8",
+          "name": "classId",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "style",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint16",
+          "name": "value1",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint16",
+          "name": "value2",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint16",
+          "name": "value3",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint16",
+          "name": "value4",
+          "type": "uint16"
+        },
+        {
+          "internalType": "uint16",
+          "name": "value5",
+          "type": "uint16"
+        }
+      ],
+      "name": "updateProfile",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bool",
+          "name": "hidden",
+          "type": "bool"
+        }
+      ],
+      "name": "hideProfile",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "components": [
+            {
+              "internalType": "enum Crawl.Gem",
+              "name": "gemType",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint16",
+              "name": "coins",
+              "type": "uint16"
+            },
+            {
+              "internalType": "uint16",
+              "name": "worth",
+              "type": "uint16"
+            }
+          ],
+          "internalType": "struct Crawl.Hoard",
+          "name": "hoard",
+          "type": "tuple"
+        }
+      ],
+      "name": "transferChamberHoard",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "networks": {
+    "1": {
+      "events": {},
+      "links": {},
+      "address": "0x906A73B7bE0513ACfdCeEc13a874651e9b467D84",
+      "transactionHash": "0xb085936553664d9a5281868d7171f5528e22cdb68307a5cdc153eb3a4c705e8e"
+    },
+    "5": {
+      "events": {
+        "0x85aed5c70d62330017534c644b19b770dfd22833cfb22e46518b855d6fb88cf4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "player",
+              "type": "address"
+            }
+          ],
+          "name": "CreatedProfile",
+          "type": "event"
+        },
+        "0xf7255739ad35e71077ecca2deab400633d3b94535d299947ace4b501731fa4c0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "enum Crawl.Gem",
+              "name": "gem",
+              "type": "uint8"
+            },
+            {
+              "indexed": true,
+              "internalType": "uint16",
+              "name": "coins",
+              "type": "uint16"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint16",
+              "name": "worth",
+              "type": "uint16"
+            }
+          ],
+          "name": "Give",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x69789ebc6e83aad329ad66a834476b5fb21ce7540eaa1452ca99783039946180": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "enum Crawl.Gem",
+              "name": "gem",
+              "type": "uint8"
+            },
+            {
+              "indexed": true,
+              "internalType": "uint16",
+              "name": "coins",
+              "type": "uint16"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint16",
+              "name": "worth",
+              "type": "uint16"
+            }
+          ],
+          "name": "Take",
+          "type": "event"
+        },
+        "0x43f9bfba4e1199234a4382a76cd253105c9e58e90f80f298e4718b5c11c42459": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "player",
+              "type": "address"
+            }
+          ],
+          "name": "UpdatedProfile",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xB0cCEFeC9A72841B9DC69a01A429e796298902ad",
+      "transactionHash": "0x895aeea6728d2ab4067df217fe14a6d3cd3d92cb3fe6c879c605f5124c3101f9"
+    },
+    "5777": {
+      "events": {
+        "0x85aed5c70d62330017534c644b19b770dfd22833cfb22e46518b855d6fb88cf4": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "player",
+              "type": "address"
+            }
+          ],
+          "name": "CreatedProfile",
+          "type": "event"
+        },
+        "0xf7255739ad35e71077ecca2deab400633d3b94535d299947ace4b501731fa4c0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "to",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "enum Crawl.Gem",
+              "name": "gem",
+              "type": "uint8"
+            },
+            {
+              "indexed": true,
+              "internalType": "uint16",
+              "name": "coins",
+              "type": "uint16"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint16",
+              "name": "worth",
+              "type": "uint16"
+            }
+          ],
+          "name": "Give",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        },
+        "0x69789ebc6e83aad329ad66a834476b5fb21ce7540eaa1452ca99783039946180": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "from",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "enum Crawl.Gem",
+              "name": "gem",
+              "type": "uint8"
+            },
+            {
+              "indexed": true,
+              "internalType": "uint16",
+              "name": "coins",
+              "type": "uint16"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint16",
+              "name": "worth",
+              "type": "uint16"
+            }
+          ],
+          "name": "Take",
+          "type": "event"
+        },
+        "0x43f9bfba4e1199234a4382a76cd253105c9e58e90f80f298e4718b5c11c42459": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "player",
+              "type": "address"
+            }
+          ],
+          "name": "UpdatedProfile",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x1Dbb732bb1Fe29c72a734B7D2943Ad021D44A137",
+      "transactionHash": "0xb40b4f2660cc0fe5f91e99bc076c02555fae17414a9f7c75936a5d431a4a8f2c"
+    }
+  }
+}

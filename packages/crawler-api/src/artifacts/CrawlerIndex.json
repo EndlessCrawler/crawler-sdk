@@ -1,0 +1,780 @@
+{
+  "contractName": "CrawlerIndex",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "generator_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "mapper_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "renderer_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "chapterNumber",
+          "type": "uint256"
+        }
+      ],
+      "name": "ChangedChapter",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "_chamberGenerator",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerChamberGenerator",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "_tokenContract",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerToken",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "tokenContract_",
+          "type": "address"
+        }
+      ],
+      "name": "setTokenContract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        },
+        {
+          "internalType": "address",
+          "name": "generator_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "mapper_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "renderer_",
+          "type": "address"
+        }
+      ],
+      "name": "setupChapter",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        }
+      ],
+      "name": "setCurrentChapter",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCurrentChapterNumber",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "getCurrentChapter",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "chapterNumber",
+              "type": "uint8"
+            },
+            {
+              "internalType": "contract ICrawlerGenerator",
+              "name": "generator",
+              "type": "address"
+            },
+            {
+              "internalType": "contract ICrawlerMapper",
+              "name": "mapper",
+              "type": "address"
+            },
+            {
+              "internalType": "contract ICrawlerRenderer",
+              "name": "renderer",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct ICrawlerIndex.Chapter",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        }
+      ],
+      "name": "getChapter",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint8",
+              "name": "chapterNumber",
+              "type": "uint8"
+            },
+            {
+              "internalType": "contract ICrawlerGenerator",
+              "name": "generator",
+              "type": "address"
+            },
+            {
+              "internalType": "contract ICrawlerMapper",
+              "name": "mapper",
+              "type": "address"
+            },
+            {
+              "internalType": "contract ICrawlerRenderer",
+              "name": "renderer",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct ICrawlerIndex.Chapter",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "getChamberGenerator",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerChamberGenerator",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        }
+      ],
+      "name": "getGenerator",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerGenerator",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        }
+      ],
+      "name": "getMapper",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerMapper",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        }
+      ],
+      "name": "getRenderer",
+      "outputs": [
+        {
+          "internalType": "contract ICrawlerRenderer",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "coord",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberSeed",
+          "name": "chamberSeed",
+          "type": "tuple"
+        },
+        {
+          "internalType": "bool",
+          "name": "generateMaps",
+          "type": "bool"
+        }
+      ],
+      "name": "getChamberData",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "result",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "coord",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberSeed",
+          "name": "chamberSeed",
+          "type": "tuple"
+        }
+      ],
+      "name": "getChamberMetadata",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "coord",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberSeed",
+          "name": "chamberSeed",
+          "type": "tuple"
+        }
+      ],
+      "name": "getMapMetadata",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "chapterNumber",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "coord",
+          "type": "uint256"
+        },
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberSeed",
+          "name": "chamberSeed",
+          "type": "tuple"
+        }
+      ],
+      "name": "getTokenMetadata",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    }
+  ],
+  "networks": {
+    "1": {
+      "events": {},
+      "links": {},
+      "address": "0xF2132d99159178560f96926CC1f263800B541227",
+      "transactionHash": "0x4964b7b805cc2cfb36a5fbd8c852f6ccc2319c9ba4b2e0e1ddbf3173e8d9fd60"
+    },
+    "5": {
+      "events": {
+        "0xeceea64ced340ac87edf4ffbf378af9289feeac4d2fd281629b2e420fb37c0af": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "uint256",
+              "name": "chapterNumber",
+              "type": "uint256"
+            }
+          ],
+          "name": "ChangedChapter",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x5F54e14AA677a37AcA5f14bBc61101B9427Fe1D4",
+      "transactionHash": "0x447c0e4ea5ca643f8925219138ee94100f6aea4d4ea4864eb91a6e7b4f241488"
+    },
+    "5777": {
+      "events": {
+        "0xeceea64ced340ac87edf4ffbf378af9289feeac4d2fd281629b2e420fb37c0af": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "uint256",
+              "name": "chapterNumber",
+              "type": "uint256"
+            }
+          ],
+          "name": "ChangedChapter",
+          "type": "event"
+        },
+        "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "previousOwner",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "newOwner",
+              "type": "address"
+            }
+          ],
+          "name": "OwnershipTransferred",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xE9b82a1a2D95D866988c15FA79c36464Efe382d3",
+      "transactionHash": "0xbaf40195af1af2b58ef027bea0bda18f7f2f167c63921c13923b172df1d9e716"
+    }
+  }
+}

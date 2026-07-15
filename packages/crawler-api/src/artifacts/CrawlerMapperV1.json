@@ -1,0 +1,710 @@
+{
+  "contractName": "CrawlerMapperV1",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "contractChapterNumber",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "contractName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "contractVersion",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "chamber",
+          "type": "tuple"
+        }
+      ],
+      "name": "generateTileMap",
+      "outputs": [
+        {
+          "internalType": "bytes",
+          "name": "result",
+          "type": "bytes"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes1",
+          "name": "tile",
+          "type": "bytes1"
+        },
+        {
+          "internalType": "uint8",
+          "name": "bitPos",
+          "type": "uint8"
+        }
+      ],
+      "name": "getTileName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Crawl.Terrain",
+          "name": "terrain",
+          "type": "uint8"
+        }
+      ],
+      "name": "getTerrainName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Crawl.Gem",
+          "name": "gem",
+          "type": "uint8"
+        }
+      ],
+      "name": "getGemName",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Crawl.Terrain",
+          "name": "terrain",
+          "type": "uint8"
+        }
+      ],
+      "name": "getColors",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "result",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Crawl.Terrain",
+          "name": "terrain",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint8",
+          "name": "colorId",
+          "type": "uint8"
+        }
+      ],
+      "name": "getColor",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getGemColors",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "result",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "enum Crawl.Gem",
+          "name": "gemType",
+          "type": "uint8"
+        }
+      ],
+      "name": "getGemColor",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "chamber",
+          "type": "tuple"
+        }
+      ],
+      "name": "getAttributes",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "labels",
+          "type": "string[]"
+        },
+        {
+          "internalType": "string[]",
+          "name": "values",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "name": "renderSvgStyles",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "coord",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "tokenId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "seed",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint232",
+              "name": "yonder",
+              "type": "uint232"
+            },
+            {
+              "internalType": "uint8",
+              "name": "chapter",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Terrain",
+              "name": "terrain",
+              "type": "uint8"
+            },
+            {
+              "internalType": "enum Crawl.Dir",
+              "name": "entryDir",
+              "type": "uint8"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.Gem",
+                  "name": "gemType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "coins",
+                  "type": "uint16"
+                },
+                {
+                  "internalType": "uint16",
+                  "name": "worth",
+                  "type": "uint16"
+                }
+              ],
+              "internalType": "struct Crawl.Hoard",
+              "name": "hoard",
+              "type": "tuple"
+            },
+            {
+              "internalType": "uint8",
+              "name": "gemPos",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "doors",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint8[4]",
+              "name": "locks",
+              "type": "uint8[4]"
+            },
+            {
+              "internalType": "uint256",
+              "name": "bitmap",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "tilemap",
+              "type": "bytes"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "enum Crawl.CustomDataType",
+                  "name": "dataType",
+                  "type": "uint8"
+                },
+                {
+                  "internalType": "bytes",
+                  "name": "data",
+                  "type": "bytes"
+                }
+              ],
+              "internalType": "struct Crawl.CustomData[]",
+              "name": "customData",
+              "type": "tuple[]"
+            }
+          ],
+          "internalType": "struct Crawl.ChamberData",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "name": "renderSvgDefs",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "pure",
+      "type": "function"
+    }
+  ],
+  "networks": {
+    "1": {
+      "events": {},
+      "links": {},
+      "address": "0xc70799c06775c5F9E53dCEAC5B8A2bB713C7bc97",
+      "transactionHash": "0x514e291b3ea2879a443daa5b5b82f8610c66fc0bfafbe101ef952e188423d9f8"
+    },
+    "5": {
+      "events": {},
+      "links": {},
+      "address": "0xb93111f1CEd80cc96D0236e4fBb93FD9a072B5cB",
+      "transactionHash": "0x4438046db6166fd0ed812925b4365bb407776f3c17487943d94447fc79d6391c"
+    },
+    "5777": {
+      "events": {},
+      "links": {},
+      "address": "0xd7f04B7e787f65fA2eDF92f5034A12Fc9d341829",
+      "transactionHash": "0x36477cd3058d18079e4f988f64cedda09ae5625d90ab559e75d5328b9a3cf084"
+    }
+  }
+}
