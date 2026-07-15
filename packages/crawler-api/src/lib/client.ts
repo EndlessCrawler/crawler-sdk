@@ -1,90 +1,49 @@
-import {
-  type Abi,
-  type Address as ViemAddress,
-  type PublicClient,
-  createPublicClient,
-  http,
-} from 'viem';
-import { type Chain, goerli, mainnet } from 'viem/chains';
-import type { ReadContractOptions } from './types';
-import { InvalidChainError } from './types';
-import { getContractAbi, getContractAddress } from './contract';
-
-//---------------------
-// Public client (viem 2, viem-only)
-//
-// RPC URLs are caller-supplied (provider-agnostic), not baked in. Register them
-// once with setRpcUrl()/setRpcUrls(), or pass `rpcUrl` per call. When none is
-// supplied, viem falls back to the chain's own default public RPC.
-//
-// Interim shape — the P3 refactor replaces this read path with per-world typed
-// viem contract instances (see specs/SDK_SPECS.md §crawler-api).
-//
+/**
+ * The internal client layer: chain resolution + cached viem `PublicClient`s.
+ *
+ * RPC urls are caller-supplied per factory call (provider-agnostic, no global
+ * registry). When none is supplied, viem's default public RPC for the chain is
+ * used **with a `console.warn`** — never silently (SPECS §`crawler-api`). The
+ * chain always comes from the world binding or the caller; there is no default.
+ */
+import { type BigIntish, toBigInt } from '@avante/crawler-core';
+import { type Chain, createPublicClient, http, type PublicClient } from 'viem';
+import { goerli, mainnet, sepolia } from 'viem/chains';
+import { UnsupportedChainError } from './errors';
 
 /** chainId → viem chain */
 const _chains: Partial<Record<number, Chain>> = {
   1: mainnet,
   5: goerli,
+  11155111: sepolia,
 };
-
-/** caller-registered RPC urls, keyed by chainId */
-const _rpcUrls: Partial<Record<number, string>> = {};
 
 /** cached public clients, keyed by `${chainId}:${rpcUrl}` */
 const _clients = new Map<string, PublicClient>();
 
-/** register the RPC url used to read a chain */
-export const setRpcUrl = (chainId: number, rpcUrl: string): void => {
-  _rpcUrls[chainId] = rpcUrl;
-};
-
-/** register RPC urls for several chains at once */
-export const setRpcUrls = (rpcUrls: Partial<Record<number, string>>): void => {
-  for (const [chainId, rpcUrl] of Object.entries(rpcUrls)) {
-    if (rpcUrl) setRpcUrl(Number(chainId), rpcUrl);
-  }
-};
-
-/** @returns a (cached) viem PublicClient for the chain, using the caller-supplied RPC url */
-export const getPublicClient = (chainId: number, rpcUrl?: string): PublicClient => {
-  const chain = _chains[chainId];
+/**
+ * @returns a (cached) viem `PublicClient` for the chain. `chainId` is `BigIntish`
+ * (EVM ids are plain numbers — converted at this boundary, SPECS §Chains). With
+ * no `rpcUrl`, the chain's default public RPC is used and a `console.warn` is
+ * emitted (once per cached client).
+ * @throws UnsupportedChainError when no viem chain is known for the id
+ */
+export const getPublicClient = (chainId: BigIntish, rpcUrl?: string): PublicClient => {
+  const id = Number(toBigInt(chainId));
+  const chain = _chains[id];
   if (!chain) {
-    throw new InvalidChainError(chainId);
+    throw new UnsupportedChainError(chainId);
   }
-  const url = rpcUrl ?? _rpcUrls[chainId];
-  const key = `${chainId}:${url ?? ''}`;
+  const key = `${id}:${rpcUrl ?? ''}`;
   let client = _clients.get(key);
   if (!client) {
-    client = createPublicClient({ chain, transport: http(url) });
+    if (rpcUrl === undefined) {
+      console.warn(
+        `[crawler-api] no rpcUrl supplied for chain [${id}] — falling back to the ${chain.name} default public RPC`,
+      );
+    }
+    client = createPublicClient({ chain, transport: http(rpcUrl) });
     _clients.set(key, client);
   }
   return client;
-};
-
-//---------------------
-// Read Contract
-//
-
-const _resolveChainId = (options: ReadContractOptions): number => options.chainId ?? 1;
-
-// query-string boolean coercion for the explorer's read routes — dies with the
-// untyped read path at P3 (typed contract reads take explicit args)
-const _normalizeArgs = (args: unknown[]): unknown[] =>
-  args.map((value) => (value === 'true' ? true : value === 'false' ? false : value));
-
-export const readContractOrThrow = async (options: ReadContractOptions): Promise<unknown> => {
-  const chainId = _resolveChainId(options);
-  const { contractName, functionName, args, rpcUrl } = options;
-
-  const address = getContractAddress(contractName, chainId) as ViemAddress;
-  const abi = getContractAbi(contractName) as Abi;
-  const client = getPublicClient(chainId, rpcUrl);
-
-  // will throw on contract error
-  return client.readContract({
-    address,
-    abi,
-    functionName,
-    args: _normalizeArgs(args),
-  });
 };

@@ -98,7 +98,7 @@ The decimal-string form cannot be narrowed at the type level; it is validated at
 ## Chains: network + chain id
 
 - A world's chain binding is **`{ network, chainId, contractAddress, contractName }`** — fields of the **World**, orthogonal to schema (mainnet, goerli, and sepolia all conform to `ec`).
-- **`contractName` is required to find the contract's ABI** — `crawler-api`'s artifact registry is keyed by it; `ContractName` is a literal-union type per the type-system rules.
+- **`contractName` is required to find the contract's ABI** in `crawler-api`'s artifact registry; `ContractName` is a literal-union type per the type-system rules. It is the **world-bindable subset** of the registry's key union (`KnownContractName`, derived from the bundled artifacts — see §`crawler-api`): every `ContractName` must have a bundled ABI, but the registry also carries non-bindable support contracts.
 - **`network`** names the chain family: `'ethereum' | 'base' | 'starknet'`.
 - **`chainId` is `BigIntish`.** Starknet ids are `BigIntish`-native; EVM ids are plain numbers (already `BigIntish`) — convert with `Number()` at the EVM boundary.
 - EndlessCrawler (`ec`) and Crypts & Caverns (`cnc`) are both on **Ethereum**.
@@ -366,7 +366,7 @@ The `Crawler` resolves chamber data from pluggable, **consumer-injected chamber 
 
 The api is the SDK's **only on-chain surface** (core has zero on-chain deps) and is a **pure contract interface**: it talks to contracts and delivers **parsed results** — viem-decoded values, `BigIntish`-normalized, `tokenURI` data-URIs unpacked — to its callers (the `Crawler`/world live tier, the `cache/*` packages, the explorer's routes, consumers). No game logic, no conversion (callers convert — the pipeline rule), no view definitions. Its one non-contract member is the canonical serializer (see §Canonical serialization).
 
-- **A fully-typed viem contract instance per world**, built from the world's contract binding — `network`, `chainId`, `contractAddress`, ABI (resolved by `contractName` from the artifact registry), optional `rpcUrl`. **ABIs are sourced from the original artifact JSON and derived into const-asserted TS by a build-time codegen step** — viem's type inference requires literal types, which JSON imports cannot carry, so the generated `as const` TS module is what the code imports; it is **generated on every build, never hand-written and never committed** (the artifact JSON stays the single committed source of truth). The artifact `networks` address tables never enter the generated output — addresses come from bindings/callers. Only live contracts ship: CrawlerToken, the EC Cards contract(s), C&C's contract; dead artifact trees are deleted. The small standard ERC-20/ERC-721 ABIs have no artifacts and are authored directly (abitype human-readable `parseAbi` form).
+- **A fully-typed viem contract instance per world**, built from the world's contract binding — `network`, `chainId`, `contractAddress`, ABI (resolved by `contractName` from the artifact registry), optional `rpcUrl`. **ABIs are sourced from the original artifact JSON and derived into const-asserted TS by a build-time codegen step** — viem's type inference requires literal types, which JSON imports cannot carry, so the generated `as const` TS module is what the code imports; it is **never hand-written and never committed** (git-ignored + Biome-excluded; the artifact JSON stays the single committed source of truth) — the package's `gen` script regenerates it, and every compile/type-check/test path runs `gen` first, so a fresh clone needs no manual step. The artifact `networks` address tables never enter the generated output — addresses come from bindings/callers. **Every committed artifact is a registry entry**; only live contracts ship (`src/artifacts/`: `CrawlerToken`, `CardsMinter`, `CrawlerIndex`, `CrawlerPlayer`, `CrawlerQueryV1`, `CrawlerGeneratorV1`, `CrawlerMapperV1`, `CrawlerRendererV1`; C&C's contract when it lands) — dead artifact trees are deleted. The registry key union **`KnownContractName`** derives from the generated registry and is a superset of the world-bindable `ContractName` (§Chains); `getContractAbi(name)` resolves fully typed by name, `contractAbis` is direct typed access. The standard ERC-20/ERC-721 ABIs have no artifacts — viem's bundled const-asserted `erc20Abi`/`erc721Abi` are used directly (platform over hand-authoring).
 - **RPC fallback warns, never silent.** `rpcUrl` undefined → viem's default public RPC for the chain **plus a `console.warn`**. The chain always comes from the binding — there is no default chain.
 - **Known non-chamber contracts:** **`getCardsContract()`** — the EndlessCrawler Cards contract, typed by its bundled ABI; the caller supplies the contract address (cards are part of EndlessCrawler but not part of a world binding).
 - **Generic standard contracts:** ERC-20/ERC-721 helpers with **bundled const-asserted standard ABIs** — the caller supplies only the address; arbitrary contracts take an explicit ABI.
@@ -384,16 +384,17 @@ await contract.read.totalSupply();                    // typed by the as-const A
 await contract.read.tokenURI([123n]);
 
 // parsed-result helpers the pipeline needs (raw metadata out — the CALLER converts)
-await readTokenMetadata(world, tokenId); // tokenURI → data-URI unpacked into { metadata, svg }
-await readTotalSupply(world);            // → bigint
-await readOwnerOf(world, tokenId);       // → BigIntish (wallet address)
+await readTokenMetadata(world, tokenId, { rpcUrl }); // tokenURI unpacked → { metadata, svg }
+                                                     // (`image` lifted out, delivered decoded as `svg`)
+await readTotalSupply(world, { rpcUrl });            // → bigint
+await readOwnerOf(world, tokenId, { rpcUrl });       // → checksummed HexString (wallet address)
 
-// known non-chamber contracts — EndlessCrawler Cards (caller supplies the address)
+// known non-chamber contracts — EndlessCrawler Cards / CardsMinter (caller supplies chain + address)
 const cards = getCardsContract({ chainId, contractAddress, rpcUrl });
 
-// generic standard contracts — addresses are BigIntish, converted internally
-const erc20 = getErc20(world.chainId, tokenAddress); // bundled standard ABIs
-const other = getTypedContract({ chainId, contractAddress, abi: someAbi, rpcUrl });
+// generic standard contracts — chain + address are BigIntish, converted internally
+const erc20 = getErc20({ chainId, contractAddress, rpcUrl }); // viem's bundled standard ABIs
+const other = getTypedContract({ chainId, contractAddress, abi: getContractAbi('CrawlerIndex'), rpcUrl });
 await erc20.read.balanceOf([playerAddress]);
 
 // events — shape open until P8 (#16)

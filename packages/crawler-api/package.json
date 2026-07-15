@@ -24,11 +24,12 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "tsdown",
-    "typecheck": "tsc --noEmit",
-    "test": "vitest run",
-    "watch": "tsdown --watch",
-    "watch:test": "vitest"
+    "gen": "node scripts/generateAbis.ts",
+    "build": "pnpm run gen && tsdown",
+    "typecheck": "pnpm run gen && tsc --noEmit",
+    "test": "pnpm run gen && vitest run",
+    "watch": "pnpm run gen && tsdown --watch",
+    "watch:test": "pnpm run gen && vitest"
   },
   "peerDependencies": {
     "@avante/crawler-core": "workspace:^"

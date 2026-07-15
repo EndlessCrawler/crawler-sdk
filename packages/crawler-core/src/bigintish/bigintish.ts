@@ -141,6 +141,27 @@ export const bigIntToHex = (value: BigIntish): HexString => {
 };
 
 /**
+ * Converts a {@link BigIntish} to its canonical 20-byte address form: lowercase
+ * `0x`-prefixed hex, zero-padded to 40 digits.
+ *
+ * @remarks No EIP-55 checksum — checksumming needs keccak-256, a web3-library
+ * concern (`crawler-api` checksums via viem at its boundary); the lowercase form
+ * is valid everywhere an address is accepted.
+ *
+ * @param value an address in any representation; must fit 20 bytes
+ * @returns the address as lowercase padded hex (`0x` + 40 digits)
+ * @throws {@link InvalidBigIntishError} on malformed or negative input, or a
+ *   value past 20 bytes
+ */
+export const bigIntToAddress = (value: BigIntish): HexString => {
+  const converted = toBigInt(value);
+  if (converted < 0n || converted >> 160n !== 0n) {
+    throw new InvalidBigIntishError(value, 'an address fits 20 bytes');
+  }
+  return `0x${converted.toString(16).padStart(40, '0')}`;
+};
+
+/**
  * Unpacks the bytes of a non-negative bigint into a `Uint8Array` (big-endian).
  *
  * @param value bytes packed inside a bigint, in any representation

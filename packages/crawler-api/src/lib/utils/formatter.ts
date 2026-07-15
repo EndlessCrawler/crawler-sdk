@@ -5,12 +5,9 @@
 //
 // https://prettier.io/docs/en/api
 // https://prettier.io/docs/en/browser.html
-//@ts-ignore
-import * as prettier from 'prettier/standalone.mjs';
-//@ts-ignore
-import prettierPluginBabel from 'prettier/plugins/babel.mjs';
-//@ts-ignore
-import prettierPluginEstree from 'prettier/plugins/estree.mjs';
+import * as prettier from 'prettier/standalone';
+import prettierPluginBabel from 'prettier/plugins/babel';
+import prettierPluginEstree from 'prettier/plugins/estree';
 
 // bigint handling is local to the formatter — no BigInt.prototype.toJSON
 // monkeypatch (the package declares sideEffects: false)
@@ -21,7 +18,7 @@ const _bigIntReplacer = (_key: string, value: unknown): unknown =>
       : value.toString()
     : value;
 
-export const formatViewData = async (data: any = {}): Promise<string> => {
+export const formatViewData = async (data: unknown = {}): Promise<string> => {
   if (typeof data === 'string') {
     return data;
   }

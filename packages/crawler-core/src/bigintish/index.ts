@@ -3,6 +3,7 @@ export {
   type HexString,
   InvalidBigIntishError,
   bigIntEquals,
+  bigIntToAddress,
   bigIntToByteArray,
   bigIntToHex,
   bigIntToNumberArray,

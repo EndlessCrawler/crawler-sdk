@@ -1,36 +1,25 @@
+import { isHexString, loadWorld, toBigInt, type World } from '@avante/crawler-core';
+import { mainnetWorld } from '@avante/crawler-data';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { readBalanceOf, readOwnerOf, readTotalSupply, setRpcUrl, validateAddress } from '../src';
+import { getWorldContract, readOwnerOf, readTokenMetadata, readTotalSupply } from '../src';
 
-// Live mainnet reads (goerli is deprecated). RPC is caller-supplied and provider-
-// agnostic — override with MAINNET_RPC_URL; the public default just keeps CI honest.
-const MAINNET_RPC_URL = process.env.MAINNET_RPC_URL ?? 'https://ethereum-rpc.publicnode.com';
-const MAINNET = 1;
+// Live mainnet reads (goerli is dead). RPC is caller-supplied per call —
+// override with MAINNET_RPC_URL; the public default just keeps CI honest.
+const options = { rpcUrl: process.env.MAINNET_RPC_URL ?? 'https://ethereum-rpc.publicnode.com' };
 const TIMEOUT = 30_000;
 
-const _address = [
-  '0xD7137B798B67d5bd55E64c9351C4b82492dc97a4',
-  '0x3764dfE9Cf29475512AFECcD5F2959D6b527db4b',
-  '0x60fA6cCcf05ad4cBe7D5226E5B1122c0C2962a7d',
-];
-
-describe('* erc721 (mainnet)', () => {
-  const _owners: Record<string, string> = {};
+describe('* erc721 (live mainnet)', () => {
+  let world: World;
 
   beforeAll(() => {
-    setRpcUrl(MAINNET, MAINNET_RPC_URL);
+    world = loadWorld(mainnetWorld);
   });
 
   it(
     'readTotalSupply',
     async () => {
-      // no options → defaults to mainnet
-      const totalSupply1 = await readTotalSupply('CrawlerToken');
-      expect(totalSupply1).toBeGreaterThan(0);
-
-      const totalSupply2 = await readTotalSupply('CrawlerToken', {
-        chainId: MAINNET,
-      });
-      expect(totalSupply2).toBe(totalSupply1);
+      const totalSupply = await readTotalSupply(world, options);
+      expect(totalSupply).toBeGreaterThanOrEqual(277n);
     },
     TIMEOUT,
   );
@@ -38,37 +27,34 @@ describe('* erc721 (mainnet)', () => {
   it(
     'readOwnerOf',
     async () => {
-      const ownerOf1 = await readOwnerOf(1, 'CrawlerToken');
-      expect(validateAddress(ownerOf1)).toBe(true);
-      _owners[1] = ownerOf1;
-
-      for (let i = 5; i <= 8; ++i) {
-        const ownerOf = await readOwnerOf(i, 'CrawlerToken');
-        expect(validateAddress(ownerOf)).toBe(true);
-        _owners[i] = ownerOf;
-      }
+      const owner = await readOwnerOf(world, 1, options);
+      expect(isHexString(owner)).toBe(true);
+      expect(toBigInt(owner)).not.toBe(0n);
     },
     TIMEOUT,
   );
 
   it(
-    'readBalanceOf',
+    'readTokenMetadata unpacks the tokenURI data-URI',
     async () => {
-      const ownerOf1 = await readOwnerOf(1, 'CrawlerToken');
-      expect(validateAddress(ownerOf1)).toBe(true);
-      _owners[1] = ownerOf1;
+      const { metadata, svg } = await readTokenMetadata(world, 1, options);
+      expect(typeof metadata.name).toBe('string');
+      expect(Array.isArray(metadata.attributes)).toBe(true);
+      expect(metadata.image, 'the image blob is lifted out').toBeUndefined();
+      expect(svg.startsWith('<svg')).toBe(true);
+    },
+    TIMEOUT,
+  );
 
-      const tokenIds = Object.keys(_owners);
-      for (let i = 0; i < tokenIds.length; ++i) {
-        const owner = _owners[tokenIds[i]];
-        const balance = await readBalanceOf(owner, 'CrawlerToken');
-        expect(balance).toBeGreaterThan(0);
-      }
-
-      for (let i = 0; i < _address.length; ++i) {
-        const balance = await readBalanceOf(_address[i], 'CrawlerToken');
-        expect(balance).toBe(0);
-      }
+  it(
+    'typed world-contract reads match the committed world',
+    async () => {
+      const contract = getWorldContract(world, options);
+      const coord = await contract.read.tokenIdToCoord([1n]);
+      expect(coord).toBe(world.views.tokenCoord?.get(1n));
+      // the pipeline supplement read (SPECS §crawler-api) — through the typed contract
+      const seed = await contract.read.coordToSeed([coord]);
+      expect(seed.seed).toBe(world.views.chamberData?.get(coord)?.seed);
     },
     TIMEOUT,
   );

@@ -1,6 +1,6 @@
 # crawler-sdk — SDK Refactor: execution map
 
-**Status:** _P1–P2 landed; P3–P6 mapped below, to be executed one at a time in order (P3 next)._ This document is the refactor's **execution map**: per phase, it grounds the current code and states dispositions (stays / adapted / replaced / deleted) and step order. It holds no specification — target shapes live in **`specs/SDK_SPECS.md`** (authoritative; wins on conflict) and open decisions in **`specs/SDK_PLAN.md`**. Completed phases collapse to their outcome (git history carries the journey); P7+ get their sections when they start.
+**Status:** _P1–P3 landed; P4–P6 mapped below, to be executed one at a time in order (P4 next)._ This document is the refactor's **execution map**: per phase, it grounds the current code and states dispositions (stays / adapted / replaced / deleted) and step order. It holds no specification — target shapes live in **`specs/SDK_SPECS.md`** (authoritative; wins on conflict) and open decisions in **`specs/SDK_PLAN.md`**. Completed phases collapse to their outcome (git history carries the journey); P7+ get their sections when they start.
 
 ---
 
@@ -20,41 +20,20 @@ The core was rewritten in place to the settled spec; the old machinery is gone. 
 
 Port decisions of record (implementation-level, within settled spec): `Dir` keeps `Over`/`Under`; the four-quadrant NEWS `Compass` union survives as the type-level validity encoding (with a loose `NewsCompassInput` for validation inputs); opposite-terrain lives on as `ec` string-domain vocabulary (`oppositeEcTerrain`); the byte/binary-array helpers ride in `bigintish/`; migrated worlds carry the migration run's ISO timestamp (goerli keeps it forever).
 
-## P3 — api contract layer — NEXT
+## P3 — api contract layer — ✅ LANDED
 
-Complete refactor of `crawler-api` into the pure contract interface. **Spec:** → SPECS §`crawler-api` (+ §Canonical serialization, §Chains); #20 closed. Factory names below are the spec's placeholders — final names ride the surface freeze (#7). Already done ahead of it, at P2: the view machinery deletion and the `formatViewData` spec fix. Out of P3 scope: watcher/events (P8, #16), owner helpers + delegate.xyz (P10, #17).
+`crawler-api` was rewritten into the pure contract interface (spec: → SPECS §`crawler-api`, §Chains, §Canonical serialization). Outcome:
 
-**Current code → disposition** (`packages/crawler-api/src/`):
+- **ABI codegen:** `scripts/generateAbis.ts` derives the git-ignored, Biome-excluded `src/generated/abis.ts` (const-asserted ABIs + the `contractAbis` registry, `abi` arrays only — no `networks` tables) from the 8 committed live artifacts in `src/artifacts/` (CrawlerToken, CardsMinter, CrawlerIndex, CrawlerPlayer, CrawlerQueryV1, CrawlerGeneratorV1, CrawlerMapperV1, CrawlerRendererV1). The package's `gen` script runs before `build`/`typecheck`/`test`/`watch` — a fresh clone needs no manual step. Registry surface (`lib/abis.ts`): `contractAbis`, `getContractAbi` (typed by name; throws `UnknownContractError`), `getAllContractNames`, `KnownContractName`.
+- **Client layer** (`lib/client.ts`): `getPublicClient(chainId: BigIntish, rpcUrl?)` — mainnet/goerli/sepolia, cached per `chainId:rpcUrl`, no `rpcUrl` → viem's default public RPC + `console.warn` (once per cached client), `UnsupportedChainError` otherwise. The global `setRpcUrl(s)` registry, `readContractOrThrow`, and the silent Mainnet default are gone.
+- **Factories** (`lib/contracts.ts`): `getWorldContract(world, { rpcUrl })` (ABI by `world.contractName`, address/chain from the binding), `getCardsContract`/`getErc20`/`getErc721` (`{ chainId, contractAddress, rpcUrl }`), `getTypedContract` (+ explicit `abi`) — `BigIntish` → checksummed `Address` conversion inside the api.
+- **Parsed-result helpers** (`lib/reads.ts`): `readTotalSupply` → `bigint`, `readOwnerOf` → checksummed `HexString`, `readTokenMetadata` → `{ metadata, svg }` (tokenURI data-URI unpacked, `image` lifted out and delivered decoded as `svg`; typed `InvalidTokenMetadataError`).
+- **Deleted with no successor:** the `lib/abis.ts` artifact parser, `lib/contract.ts` + the `networks` address tables, `lib/calls/`, `lib/types/` (`ContractArtifacts`, `ReadOptions`, `ReadContractOptions`, `ErrorResult`/`DataResult` + guards, the old error classes), `lib/utils/utils.ts`, `test/utils.test.ts`. `formatViewData` stayed in place (`lib/utils/formatter.ts`); its prettier imports are now typed (the `@ts-ignore`s died) and its parameter is `unknown`.
+- **Consumers/tests/hygiene:** explorer `/api/read` + `serverRpc.ts` re-pointed keep-lights-on (world binding from `crawler-data`, explicit `rpcUrl` per call, arg coercion + dynamic-dispatch cast explorer-side; verified live). Tests: registry + factory construction checks, live mainnet reads (incl. the `coordToSeed` supplement path against the committed world), `readTokenMetadata` unpack, a small `formatViewData` pin. Biome `noExplicitAny`/`useIterableCallbackReturn`/`noTsIgnore` re-tightened to error.
 
-| File | Disposition |
-|---|---|
-| `lib/client.ts` | **Split.** Survives as the internal client layer: the chainId→viem-chain map and the cached `PublicClient` per `chainId:rpcUrl`, extended with the spec'd fallback (no `rpcUrl` → viem's default public RPC **+ `console.warn`** — today's silence dies). Deleted: the module-global `setRpcUrl`/`setRpcUrls` registry (RPC becomes an explicit per-factory option), `readContractOrThrow`, `_resolveChainId`'s silent Mainnet default (the chain always comes from the world binding), `_normalizeArgs`. |
-| `lib/abis.ts` + `artifacts/CrawlerToken.json` + `contracts/**` (~96 Truffle artifacts) | **Replaced; live artifacts kept, dead trees deleted.** The committed source of truth stays **artifact JSON** (`src/artifacts/`), live contracts only: `CrawlerToken.json` (its `abi` carries `tokenURI`, `totalSupply`, `ownerOf`, `tokenIdToCoord`, `coordToSeed`, `coordToChamberData`, …) plus the Cards artifact backing `getCardsContract()` (ground the exact contract — `CardsMinter`/`FounderStoreV2` — from ec-dapp's actual usage; move it from the dead tree before deleting). A **build-time codegen step derives const-asserted TS ABIs** from those artifacts (→ SPECS §`crawler-api`): a script emits `export const <name>Abi = [...] as const satisfies Abi` into a **generated, git-ignored** module (`src/abis/*.generated.ts` or similar) — `abi` array only, the `networks` address tables never enter the output (addresses come from the world binding or the caller). Never hand-write or commit the TS form. The standard ERC-20/ERC-721 ABIs have no artifacts — author them directly via abitype's human-readable `parseAbi`. Both dead `contracts/` trees and the old `lib/abis.ts` parser delete. |
-| `lib/contract.ts` | **Replaced** by the ABI registry keyed by `ContractName` over the const ABIs (`getContractAbi`; `getAllContractNames` survives trivially if kept). `getContractAddress` deleted with the address tables. |
-| `lib/calls/erc721.ts` | **Replaced** by world-bound parsed-result helpers: `readTotalSupply(world)`, `readOwnerOf(world, tokenId)`, plus the new **`readTokenMetadata(world, tokenId)`** — `tokenURI` fetched and its data-URI unpacked into `{ metadata, svg }` (decoding is parsing, not converting; the P4 cache and the P8 watcher both consume it). |
-| `lib/types/types.ts` | **Deleted.** `ContractArtifacts`, `ReadOptions`, `ReadContractOptions`, `ErrorResult`/`DataResult` + guards all die with the untyped path; new option/result types live beside the factories. |
-| `lib/types/errors.ts` | **Adapted.** Small typed error set for the new surface (unknown contract name, unsupported chain); `InvalidChainError`'s never-thrown status ends or the class dies. |
-| `lib/utils/utils.ts` | **Deleted** from the public surface: address equality/zero checks are `BigIntish` comparisons (core); `formatAddress` is UI (explorer-side or dropped); `validateArgs` dies with the untyped path. |
-| `lib/utils/formatter.ts` | **Stays.** `formatViewData` is the canonical serializer and must not leave this package (SPECS §Canonical serialization). |
-| `test/utils.test.ts` | **Deleted** with the utils. |
-| `test/contracts.test.ts` | **Adapted.** The binding↔registry address cross-check dies with the `networks` tables; replaced by binding→typed-contract construction checks (ABI resolved by `contractName`, address from the binding). |
-| `test/erc721.test.ts` | **Adapted** to the world-bound helpers (live mainnet reads, caller-supplied RPC via `MAINNET_RPC_URL`), plus `readTokenMetadata` unpack coverage. |
+Port decisions of record: the registry key union (`KnownContractName`) is a generated **superset** of core's world-bindable `ContractName` (which stays `'CrawlerToken'` — expanding it would weaken world-binding types); the standard ERC-20/ERC-721 ABIs come from viem's bundled `erc20Abi`/`erc721Abi` instead of hand-authored `parseAbi` (platform-over-wrapper rule); factory returns carry explicit `TypedContract<A>` annotations (the inferred viem `getContract` types are unserializable by the dts bundler).
 
-**New surface** (per SPECS' illustrative shape): `getWorldContract(world, { rpcUrl })` — viem `getContract` typed by the const ABI resolved from `world.contractName`, address/chain from the binding; `getCardsContract({ chainId, contractAddress, rpcUrl })`; generic `getErc20`/`getErc721` (bundled standard ABIs, caller supplies only the address) + `getTypedContract` (explicit ABI); the parsed-result helpers above. **`BigIntish` addresses at every boundary** — conversion to viem's `Address` happens inside the api via core's `bigintish`. Pipeline supplement reads (`coordToSeed`) go through the typed world contract — no bespoke helpers.
-
-**Step order:**
-
-1. ABI codegen: the generator script (artifact JSON → const-asserted TS, generated + git-ignored), **wired into every path that compiles or type-checks the package** — the `build`, `typecheck`, and `test` package scripts run it first (a shared `gen` script), so a fresh clone works with no manual step and the editor sees the file after any of them. Then the `ContractName`-keyed registry over the generated ABIs; keep the live artifacts, delete the dead `contracts/` trees, `abis.ts`, `contract.ts`.
-2. Client layer: chain resolution + cached `PublicClient` + warned public-RPC fallback; delete the RPC registry and `readContractOrThrow`.
-3. Factories: `getWorldContract` + `getCardsContract` + generic helpers, with the `BigIntish` boundary conversion.
-4. Parsed-result helpers: `readTokenMetadata` (data-URI unpack: metadata JSON + decoded `image` SVG), `readTotalSupply`, `readOwnerOf`.
-5. Tests + TSDoc; re-tighten the crawler-api warn-downgrades in `biome.jsonc` (the interim read path's `any` debt dies here); consumer keep-lights-on pass.
-
-**Consumers:** the explorer's `/api/read` route + `serverRpc.ts` are re-pointed **keep-lights-on** onto the typed surface (explicit `rpcUrl` per call — the global registry is gone; `ErrorResult` usage moves explorer-side); the real route-family rebuild stays P7. `crawler-data`'s `migrateWorlds.ts` imports only `formatViewData` — unaffected.
-
-**Done when:** `pnpm build` (sequential) / `typecheck` / `test` / `lint` / `check:pack` green — including from a clean tree with the generated ABI modules deleted (the codegen must regenerate them with no manual step); the generated files are git-ignored and Biome-excluded (same treatment as the generated JSON); crawler-api's Biome `any` warnings at zero; explorer `/api/read` alive on the new path; SPECS/CLAUDE.md lockstep (the "interim read path" notes die).
-
-## P4 — EC cache — queued (after P3)
+## P4 — EC cache — NEXT
 
 `cache/endless-crawler`: the pure `tokenURI` archive of the EndlessCrawler mainnet contract. **Spec:** → SPECS §Data pipeline item 1; #21/#22 closed. Greenfield — no `cache/` tree exists and the workspace globs don't cover one.
 

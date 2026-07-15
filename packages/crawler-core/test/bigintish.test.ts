@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   bigIntEquals,
+  bigIntToAddress,
   bigIntToByteArray,
   bigIntToHex,
   bigIntToNumberArray,
@@ -159,6 +160,23 @@ describe('bigintish', () => {
     // hex form is non-negative
     expect(() => bigIntToHex(-1)).toThrow(InvalidBigIntishError);
     expect(() => bigIntToHex(-1n)).toThrow(InvalidBigIntishError);
+  });
+
+  it('bigIntToAddress() — lowercase 20-byte padded hex', () => {
+    const address = '0x8E70b94C57b0CBC9807c0F58Bc251f4cD96AcDb0'; // CrawlerToken mainnet
+    const canonical = address.toLowerCase();
+    // all four representations converge on the canonical form
+    expect(bigIntToAddress(address)).toBe(canonical);
+    expect(bigIntToAddress(canonical)).toBe(canonical);
+    expect(bigIntToAddress(toBigInt(address))).toBe(canonical);
+    expect(bigIntToAddress(toBigInt(address).toString())).toBe(canonical);
+    // zero-padded to 40 digits
+    expect(bigIntToAddress(0)).toBe(`0x${'0'.repeat(40)}`);
+    expect(bigIntToAddress(1)).toBe(`0x${'0'.repeat(39)}1`);
+    expect(bigIntToAddress((1n << 160n) - 1n)).toBe(`0x${'f'.repeat(40)}`);
+    // an address fits 20 bytes
+    expect(() => bigIntToAddress(1n << 160n)).toThrow(InvalidBigIntishError);
+    expect(() => bigIntToAddress(-1)).toThrow(InvalidBigIntishError);
   });
 
   it('bigIntToByteArray() / bigIntToNumberArray()', () => {

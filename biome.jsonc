@@ -13,9 +13,9 @@
       "!**/.next/**",
       // Cached map data — large generated JSON, not hand-edited.
       "!packages/crawler-data/src/worlds/**",
-      // Generated contract ABIs / artifacts (crawler-api) — large JSON, not hand-edited.
-      "!**/src/contracts/**",
+      // Contract artifact JSON + its codegen output (crawler-api) — not hand-edited.
       "!**/artifacts/**",
+      "!**/src/generated/**",
       // Tailwind v4 entry CSS — its @import/@theme/@layer directives break Biome's CSS parser.
       "!apps/sdk-explorer/styles/main.css",
       "!**/*.html",
@@ -58,13 +58,9 @@
           "level": "error",
           "options": { "ignoreNull": true }
         },
-        // Residual `any` in crawler-api's interim read path; re-tightened by the P3 api refactor.
-        // (crawler-core is `any`-free since the SDK-refactor P1/P2 rewrite.)
-        "noExplicitAny": "warn",
-        // An api abis.ts reduce-without-return idiom; dies with the artifact registry at P3.
-        "useIterableCallbackReturn": "warn",
-        // `@ts-ignore` on crawler-api's untyped prettier/standalone .mjs imports; revisited at P3.
-        "noTsIgnore": "warn",
+        // noExplicitAny, useIterableCallbackReturn, and noTsIgnore were crawler-api
+        // interim-read-path debt — cleared by the P3 contract-layer refactor, so
+        // they're back at their recommended (error) levels.
         // Its autofix rewrites our directory content-excludes (`!**/dist/**`) to the bare
         // form, which stops excluding directory *contents* — leave the /** globs intact.
         "useBiomeIgnoreFolder": "off"
