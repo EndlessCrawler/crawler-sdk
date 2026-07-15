@@ -13,6 +13,10 @@
 /**
  * A hex string with `0x` prefix — the strict template-literal type, never plain `string`.
  *
+ * Structurally identical to viem's `Address` (both are `` `0x${string}` ``), so a
+ * `HexString` is accepted anywhere viem wants an `Address` (and vice versa) without a
+ * cast; `crawler-api` bridges to viem at its boundary.
+ *
  * JSON input is handled by load-time validation (`loadWorld` parses raw JSON into
  * typed values), never by weakening this type.
  */
@@ -73,7 +77,7 @@ export const isBigInt = (value: unknown): value is bigint => typeof value === 'b
  * a decimal string, or a hex string.
  *
  * @param value the value to test
- * @returns true if {@link toBigInt} would accept `value`
+ * @returns true if {@link biToBigInt} would accept `value`
  * @example
  * ```ts
  * isBigIntish(123n);   // true
@@ -98,7 +102,7 @@ export const isBigIntish = (value: unknown): value is BigIntish => {
  * @throws {@link InvalidBigIntishError} on malformed input (`''`, garbage strings,
  *   non-integer numbers) — never silently `0n`
  */
-export const toBigInt = (value: BigIntish): bigint => {
+export const biToBigInt = (value: BigIntish): bigint => {
   if (!isBigIntish(value)) {
     throw new InvalidBigIntishError(value);
   }
@@ -114,14 +118,14 @@ export const toBigInt = (value: BigIntish): bigint => {
  * @returns true if both convert to the same `bigint`
  * @throws {@link InvalidBigIntishError} if either value is malformed
  */
-export const bigIntEquals = (a: BigIntish, b: BigIntish): boolean => toBigInt(a) === toBigInt(b);
+export const biEquals = (a: BigIntish, b: BigIntish): boolean => biToBigInt(a) === biToBigInt(b);
 
 /**
  * @param value a bigint in any representation
  * @returns the value as a decimal string (base 10)
  * @throws {@link InvalidBigIntishError} on malformed input
  */
-export const bigIntToString = (value: BigIntish): string => toBigInt(value).toString();
+export const biToString = (value: BigIntish): string => biToBigInt(value).toString();
 
 /**
  * Converts a non-negative {@link BigIntish} to its canonical hex-string form.
@@ -131,8 +135,8 @@ export const bigIntToString = (value: BigIntish): string => toBigInt(value).toSt
  * @throws {@link InvalidBigIntishError} on malformed or negative input
  *   (the hex form is non-negative by construction)
  */
-export const bigIntToHex = (value: BigIntish): HexString => {
-  const converted = toBigInt(value);
+export const biToHex = (value: BigIntish): HexString => {
+  const converted = biToBigInt(value);
   if (converted < 0n) {
     throw new InvalidBigIntishError(value, 'the hex form is non-negative');
   }
@@ -153,8 +157,8 @@ export const bigIntToHex = (value: BigIntish): HexString => {
  * @throws {@link InvalidBigIntishError} on malformed or negative input, or a
  *   value past 20 bytes
  */
-export const bigIntToAddress = (value: BigIntish): HexString => {
-  const converted = toBigInt(value);
+export const biToAddress = (value: BigIntish): HexString => {
+  const converted = biToBigInt(value);
   if (converted < 0n || converted >> 160n !== 0n) {
     throw new InvalidBigIntishError(value, 'an address fits 20 bytes');
   }
@@ -168,8 +172,8 @@ export const bigIntToAddress = (value: BigIntish): HexString => {
  * @returns the bigint's bytes, most significant first
  * @throws {@link InvalidBigIntishError} on malformed or negative input
  */
-export const bigIntToByteArray = (value: BigIntish): Uint8Array => {
-  const hex = bigIntToHex(value).slice(2);
+export const biToByteArray = (value: BigIntish): Uint8Array => {
+  const hex = biToHex(value).slice(2);
   const result = new Uint8Array(hex.length / 2);
   for (let i = 0; i < result.length; i++) {
     result[i] = Number.parseInt(hex.slice(i * 2, i * 2 + 2), 16);
@@ -184,8 +188,7 @@ export const bigIntToByteArray = (value: BigIntish): Uint8Array => {
  * @returns the bigint's bytes as numbers, most significant first
  * @throws {@link InvalidBigIntishError} on malformed or negative input
  */
-export const bigIntToNumberArray = (value: BigIntish): number[] =>
-  Array.from(bigIntToByteArray(value));
+export const biToNumberArray = (value: BigIntish): number[] => Array.from(biToByteArray(value));
 
 /**
  * Packs an array of binary digits into a bigint: `[1,0,1,1,0,1]` → `0b101101n`.

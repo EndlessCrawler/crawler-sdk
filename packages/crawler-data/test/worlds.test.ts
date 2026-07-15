@@ -13,7 +13,7 @@ import {
   hasView,
   loadWorld,
   offsetCoord,
-  toBigInt,
+  biToBigInt,
   type World,
 } from '@avante/crawler-core';
 import { allWorlds, goerliWorld, mainnetWorld } from '../src';
@@ -32,7 +32,7 @@ describe('migrated worlds', () => {
     expect(mainnet.network).toBe('ethereum');
     expect(mainnet.chainId).toBe(1n);
     expect(mainnet.schema).toBe('ec');
-    expect(mainnet.contractAddress).toBe(toBigInt('0x8E70b94C57b0CBC9807c0F58Bc251f4cD96AcDb0'));
+    expect(mainnet.contractAddress).toBe(biToBigInt('0x8E70b94C57b0CBC9807c0F58Bc251f4cD96AcDb0'));
     expect(goerli.name).toBe('goerli');
     expect(goerli.chainId).toBe(5n);
     // goerli is frozen as migrated — never gains tokenSvg

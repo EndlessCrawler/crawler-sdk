@@ -6,7 +6,7 @@
  * no bitmap operations (the legacy packed-uint256 `bitmap` field was dropped — it
  * cannot represent larger-than-16×16 chambers).
  */
-import { type BigIntish, bigIntToNumberArray } from '../bigintish';
+import { type BigIntish, biToNumberArray } from '../bigintish';
 import type { TileType } from './constants';
 
 /** The tilemap: one {@link TileType} per tile, row-major (`y * width + x`). */
@@ -103,7 +103,7 @@ export const toTilemap = (tmp: TilemapIsh): Tilemap => {
     return tmp;
   }
   // bytes packed inside a BigIntish
-  return bigIntToNumberArray(tmp);
+  return biToNumberArray(tmp);
 };
 
 /**

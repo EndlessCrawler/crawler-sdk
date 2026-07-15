@@ -6,7 +6,7 @@
  * used **with a `console.warn`** — never silently (SPECS §`crawler-api`). The
  * chain always comes from the world binding or the caller; there is no default.
  */
-import { type BigIntish, toBigInt } from '@avante/crawler-core';
+import { type BigIntish, biToBigInt } from '@avante/crawler-core';
 import { type Chain, createPublicClient, http, type PublicClient } from 'viem';
 import { goerli, mainnet, sepolia } from 'viem/chains';
 import { UnsupportedChainError } from './errors';
@@ -29,7 +29,7 @@ const _clients = new Map<string, PublicClient>();
  * @throws UnsupportedChainError when no viem chain is known for the id
  */
 export const getPublicClient = (chainId: BigIntish, rpcUrl?: string): PublicClient => {
-  const id = Number(toBigInt(chainId));
+  const id = Number(biToBigInt(chainId));
   const chain = _chains[id];
   if (!chain) {
     throw new UnsupportedChainError(chainId);

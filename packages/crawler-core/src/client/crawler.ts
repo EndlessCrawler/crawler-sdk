@@ -12,7 +12,7 @@
  * contains behavior the functions don't already expose. There is **no mutable
  * "current world"** — if a UI needs one, it's UI state.
  */
-import { type BigIntish, toBigInt } from '../bigintish';
+import { type BigIntish, biToBigInt } from '../bigintish';
 import { type ChamberData, type Door, getDoorsTo } from '../chamber/chamber';
 import type { Dir } from '../chamber/constants';
 import { type CoordinateSchemaLibraries, getCoordinateSchema } from '../coords/registry';
@@ -300,7 +300,7 @@ export class WorldHandle<S extends DataSchema = DataSchema> {
     if (!converter) {
       throw new MissingConverterError(world.schema);
     }
-    const id = toBigInt(tokenId);
+    const id = biToBigInt(tokenId);
     const converted = converter.convert(id, payload) as ConvertedToken<S>;
     this.#swapWorld(mergeConvertedToken(world, id, converted));
     return new Chamber(this, converted.chamberData);

@@ -3,7 +3,7 @@
  * validates against the declared schema, normalizes keys and chain-scale values
  * to `bigint`, and maps readable stored forms (direction names) back to vocabulary.
  */
-import { isBigIntish, toBigInt } from '../bigintish';
+import { isBigIntish, biToBigInt } from '../bigintish';
 import type { ChamberData, Door } from '../chamber/chamber';
 import { type Dir, DirNames } from '../chamber/constants';
 import type { Compass } from '../coords/types';
@@ -31,17 +31,17 @@ const _dirFromName: Record<string, Dir> = Object.fromEntries(
   ]),
 );
 
-const _toBigIntOrThrow = (worldName: string, value: unknown, context: string): bigint => {
+const _biToBigIntOrThrow = (worldName: string, value: unknown, context: string): bigint => {
   if (!isBigIntish(value)) {
     throw new WorldValidationError(worldName, `${context}: [${String(value)}] is not BigIntish`);
   }
-  return toBigInt(value);
+  return biToBigInt(value);
 };
 
 const _parseCompass = (worldName: string, compass: object, context: string): Compass => {
   const result: Record<string, bigint> = {};
   for (const [direction, value] of Object.entries(compass)) {
-    result[direction] = _toBigIntOrThrow(worldName, value, `${context}.compass.${direction}`);
+    result[direction] = _biToBigIntOrThrow(worldName, value, `${context}.compass.${direction}`);
   }
   return result;
 };
@@ -66,7 +66,7 @@ const _parseDoor = (worldName: string, door: unknown, context: string): Door => 
   }
   return {
     tile: raw.tile,
-    destCoord: _toBigIntOrThrow(worldName, raw.destCoord, `${context}.destCoord`),
+    destCoord: _biToBigIntOrThrow(worldName, raw.destCoord, `${context}.destCoord`),
     destTile: raw.destTile,
     ...(direction !== undefined ? { direction } : {}),
     ...(raw.isLocked === true ? { isLocked: true } : {}),
@@ -106,8 +106,8 @@ const _parseChamber = (
   json: ChamberDataJson,
   context: string,
 ): ChamberData => {
-  const coord = _toBigIntOrThrow(worldName, json.coord, `${context}.coord`);
-  const keyCoord = _toBigIntOrThrow(worldName, key, `${context} key`);
+  const coord = _biToBigIntOrThrow(worldName, json.coord, `${context}.coord`);
+  const keyCoord = _biToBigIntOrThrow(worldName, key, `${context} key`);
   if (coord !== keyCoord) {
     throw new WorldValidationError(
       worldName,
@@ -137,12 +137,12 @@ const _parseChamber = (
   }
   return {
     coord,
-    tokenId: _toBigIntOrThrow(worldName, json.tokenId, `${context}.tokenId`),
+    tokenId: _biToBigIntOrThrow(worldName, json.tokenId, `${context}.tokenId`),
     name: String(json.name),
     ...(json.compass ? { compass: _parseCompass(worldName, json.compass, context) } : {}),
     terrain: json.terrain,
     yonder: json.yonder,
-    seed: _toBigIntOrThrow(worldName, json.seed, `${context}.seed`),
+    seed: _biToBigIntOrThrow(worldName, json.seed, `${context}.seed`),
     tilemap: [...json.tilemap],
     doors: json.doors.map((door, i) => _parseDoor(worldName, door, `${context}.doors[${i}]`)),
     ...(json.size ? { size: json.size } : {}),
@@ -185,8 +185,8 @@ export const loadWorld = (json: WorldJson): World => {
   const worldInfo: WorldInfo = {
     name: worldName,
     network: info.network,
-    chainId: _toBigIntOrThrow(worldName, info.chainId, 'worldInfo.chainId'),
-    contractAddress: _toBigIntOrThrow(worldName, info.contractAddress, 'worldInfo.contractAddress'),
+    chainId: _biToBigIntOrThrow(worldName, info.chainId, 'worldInfo.chainId'),
+    contractAddress: _biToBigIntOrThrow(worldName, info.contractAddress, 'worldInfo.contractAddress'),
     contractName: info.contractName,
     schema: info.schema,
     timestamp: String(info.timestamp),
@@ -208,8 +208,8 @@ export const loadWorld = (json: WorldJson): World => {
     tokenCoord = new Map();
     for (const [tokenId, coord] of Object.entries(json.tokenCoord)) {
       tokenCoord.set(
-        _toBigIntOrThrow(worldName, tokenId, 'tokenCoord key'),
-        _toBigIntOrThrow(worldName, coord, `tokenCoord[${tokenId}]`),
+        _biToBigIntOrThrow(worldName, tokenId, 'tokenCoord key'),
+        _biToBigIntOrThrow(worldName, coord, `tokenCoord[${tokenId}]`),
       );
     }
   }
@@ -227,7 +227,7 @@ export const loadWorld = (json: WorldJson): World => {
   if (json.tokenSvg) {
     tokenSvg = new Map();
     for (const [tokenId, svg] of Object.entries(json.tokenSvg)) {
-      tokenSvg.set(_toBigIntOrThrow(worldName, tokenId, 'tokenSvg key'), String(svg));
+      tokenSvg.set(_biToBigIntOrThrow(worldName, tokenId, 'tokenSvg key'), String(svg));
     }
   }
 

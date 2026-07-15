@@ -4,10 +4,24 @@
  * caller converts (the pipeline rule); the P4 cache and the P8 watcher both
  * consume `readTokenMetadata`.
  */
-import { type BigIntish, type HexString, toBigInt, type World } from '@avante/crawler-core';
+import { type BigIntish, type HexString, biToBigInt, type World } from '@avante/crawler-core';
 import { getWorldContract } from './contracts';
 import type { ContractOptions } from './contracts';
 import { InvalidTokenMetadataError } from './errors';
+
+/**
+ * Read-time options: the contract binding (`rpcUrl`) plus an optional
+ * `blockNumber` to pin the read to a historical block — reading a set of tokens
+ * `at` one block gives a consistent chain snapshot (the P4 cache pins a block per
+ * run). Omitted → the chain tip.
+ */
+export interface ReadOptions extends ContractOptions {
+  readonly blockNumber?: BigIntish;
+}
+
+/** viem per-call read options — `{ blockNumber }` when pinned, else `{}` */
+const _callOptions = (options: ReadOptions): { blockNumber?: bigint } =>
+  options.blockNumber === undefined ? {} : { blockNumber: biToBigInt(options.blockNumber) };
 
 /** one token's unpacked `tokenURI` payload — raw metadata, never converted here */
 export interface TokenMetadata {
@@ -47,8 +61,9 @@ export const readTotalSupply = async (
 export const readOwnerOf = async (
   world: World,
   tokenId: BigIntish,
-  options: ContractOptions = {},
-): Promise<HexString> => getWorldContract(world, options).read.ownerOf([toBigInt(tokenId)]);
+  options: ReadOptions = {},
+): Promise<HexString> =>
+  getWorldContract(world, options).read.ownerOf([biToBigInt(tokenId)], _callOptions(options));
 
 /**
  * Fetches a token's `tokenURI` and unpacks its data-URI: the metadata JSON with
@@ -62,8 +77,8 @@ export const readTokenMetadata = async (
   tokenId: BigIntish,
   options: ContractOptions = {},
 ): Promise<TokenMetadata> => {
-  const id = toBigInt(tokenId);
-  const uri = await getWorldContract(world, options).read.tokenURI([id]);
+  const id = biToBigInt(tokenId);
+  const uri = await getWorldContract(world, options).read.tokenURI([id], _callOptions(options));
   const json = _decodeDataUri(uri);
   if (json === undefined) {
     throw new InvalidTokenMetadataError(id, 'tokenURI is not a base64 data-URI');

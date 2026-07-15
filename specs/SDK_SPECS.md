@@ -84,12 +84,12 @@ type HexString = `0x${string}`; // strict template-literal type — never plain 
 type BigIntish = bigint | number | string /* decimal digits */ | HexString;
 ```
 
-The decimal-string form cannot be narrowed at the type level; it is validated at runtime (`isBigIntish`). `HexString` is the strict template-literal type — JSON input is handled by load-time validation (`loadWorld` parses raw JSON into typed values), never by weakening the type.
+The decimal-string form cannot be narrowed at the type level; it is validated at runtime (`isBigIntish`). `HexString` is the strict template-literal type (structurally identical to viem's `Address`, so the two interchange without a cast) — JSON input is handled by load-time validation (`loadWorld` parses raw JSON into typed values), never by weakening the type.
 
 - **Home:** a dedicated, self-contained module inside `crawler-core` (`src/bigintish/`) — types, conversions, guards, and its own exhaustive unit tests. No other core module reimplements bigint handling. (Whether it also gets a subpath export is settled at the surface freeze, #7.)
 - **Spelling:** `BigIntish`.
 - **Used for:** view keys, coords, token IDs, chain ids, and wallet addresses — all `BigIntish`.
-- **Functions are pure and total with defined error behavior.** Explicit guards (`isBigIntish`, `isHexString`); conversions (`toBigInt`, `bigIntToHex`, …) reject malformed input with documented errors — `''` and garbage strings are errors, never silently `0n`; equality uses strict comparison on converted `bigint`s.
+- **Functions are pure and total with defined error behavior.** Explicit guards (`isBigIntish`, `isHexString`); conversions (`toBigInt`, `biToHex`, …) reject malformed input with documented errors — `''` and garbage strings are errors, never silently `0n`; equality uses strict comparison on converted `bigint`s.
 - **Addresses are `BigIntish`.** Equality is `bigint` comparison (immune to case/checksum differences); rendering back to checksummed hex is a display concern, outside core.
 - **Test coverage is part of the spec:** all four representations, round-trips between them, and edge cases — `0`, negatives, values over 64 bits, odd-length hex, malformed strings.
 
