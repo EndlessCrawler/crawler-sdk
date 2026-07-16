@@ -6,7 +6,8 @@
     // prior build. tsdown emits the real dist types; publint/attw validate those separately.
     "baseUrl": ".",
     "paths": {
-      "@avante/crawler-core/internal": ["packages/crawler-core/src/modules/importer.ts"],
+      "@avante/crawler-data/mainnet": ["packages/crawler-data/src/mainnet.ts"],
+      "@avante/crawler-data/goerli": ["packages/crawler-data/src/goerli.ts"],
       "@avante/*": ["packages/*/src"]
     },
     "target": "ES2022",

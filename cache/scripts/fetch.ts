@@ -41,7 +41,8 @@ import {
   readTotalSupply,
 } from '@avante/crawler-api';
 import { biToAddress, loadWorld, type World, type WorldJson } from '@avante/crawler-core';
-import { allWorlds } from '@avante/crawler-data';
+import goerliData from '@avante/crawler-data/goerli';
+import mainnetData from '@avante/crawler-data/mainnet';
 import { config as loadEnv } from 'dotenv';
 import * as prettier from 'prettier/standalone';
 import prettierPluginHtml from 'prettier/plugins/html';
@@ -128,9 +129,12 @@ const withRetry = async <T>(label: string, fn: () => Promise<T>): Promise<T> => 
   throw new Error('unreachable');
 };
 
+/** every world shipped by `@avante/crawler-data` (per-world subpath exports) */
+const allWorlds: WorldJson[] = [mainnetData.world, goerliData.world];
+
 /** resolve a registry key to a loaded `World`, or throw */
 const resolveWorld = (name: string): World => {
-  const json = (allWorlds as WorldJson[]).find((w) => w.worldInfo.name === name);
+  const json = allWorlds.find((w) => w.worldInfo.name === name);
   if (!json) {
     throw new Error(
       `world [${name}] is listed in worlds.json but not exported by @avante/crawler-data`,

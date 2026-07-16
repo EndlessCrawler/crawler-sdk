@@ -1,6 +1,7 @@
 import { getWorldContract } from '@avante/crawler-api';
 import { loadWorld } from '@avante/crawler-core';
-import { allWorlds } from '@avante/crawler-data';
+import goerliData from '@avante/crawler-data/goerli';
+import mainnetData from '@avante/crawler-data/mainnet';
 import type { NextRequest } from 'next/server';
 import { jsonResponse } from '@/lib/apiResponse';
 import { rpcUrls } from '@/lib/serverRpc';
@@ -13,7 +14,7 @@ import { rpcUrls } from '@/lib/serverRpc';
 // from the committed world for the chain, and the url args are coerced here
 // (dynamic dispatch over a typed instance is an explorer-side cast by design).
 // The real route family is rebuilt at P7.
-const worlds = allWorlds.map((json) => loadWorld(json));
+const worlds = [mainnetData, goerliData].map((bundle) => loadWorld(bundle.world));
 
 const coerceArg = (value: string): unknown =>
   value === 'true' ? true : value === 'false' ? false : /^\d+$/.test(value) ? BigInt(value) : value;

@@ -13,6 +13,14 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./mainnet": {
+      "types": "./dist/mainnet.d.ts",
+      "import": "./dist/mainnet.js"
+    },
+    "./goerli": {
+      "types": "./dist/goerli.d.ts",
+      "import": "./dist/goerli.js"
     }
   },
   "files": [
@@ -29,7 +37,7 @@
     "test": "vitest run",
     "watch": "tsdown --watch",
     "watch:test": "vitest",
-    "migrate:worlds": "node scripts/migrateWorlds.ts"
+    "build:worlds": "node scripts/buildWorlds.ts"
   },
   "peerDependencies": {
     "@avante/crawler-core": "workspace:^"

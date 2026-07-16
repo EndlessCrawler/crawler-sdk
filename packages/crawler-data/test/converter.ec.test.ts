@@ -1,16 +1,17 @@
 /**
- * The P5 equivalence gate (SDK_REFACTOR P5): the struct-fed `ec` converter must
- * reproduce the legacy migration. For every cached mainnet token that exists in
- * the committed migrated world, the payload assembled from the cache files
- * converts to the migrated `chamberData` record field-for-field (`seed` included)
- * and places at the migrated `tokenCoord` — **except documented on-chain lock
- * evolution**: chambers are dynamic until all doors unlock, and between the
- * migration snapshot and the cache's fetch block the community unlocked doors
- * (`LockedExit` → `Exit`, corridors regenerated; some previously locked doors
- * dropped entirely). Lock state only ever relaxes — a door never gains a lock and
- * never appears out of nowhere — so changed chambers must have been dynamic at
- * migration, keep every snapshot-invariant field, and evolve monotonically.
- * Tokens minted after the migration snapshot are held to the door/provenance
+ * The converter ↔ world equivalence gate (P5, re-aimed at P6): for every cached
+ * mainnet token that exists in the committed **builder-emitted** world, the
+ * payload assembled from the cache files converts to the world's `chamberData`
+ * record field-for-field (`seed` included), places at the world's `tokenCoord`,
+ * and passes its original SVG through to the `tokenSvg` view. With world and
+ * cache in lockstep (a rebuild always follows a fetch) every record reproduces
+ * exactly; when the cache has been refetched ahead of a rebuild, documented
+ * **on-chain lock evolution** is the one tolerance: chambers are dynamic until
+ * all doors unlock, and lock state only ever relaxes (`LockedExit` → `Exit`,
+ * corridors regenerated; a previously locked door may drop) — a door never gains
+ * a lock and never appears out of nowhere — so changed chambers must be dynamic
+ * in the world snapshot, keep every snapshot-invariant field, and evolve
+ * monotonically. Tokens not yet in the world are held to the door/provenance
  * invariants.
  */
 import { readdirSync, readFileSync } from 'node:fs';
@@ -27,7 +28,8 @@ import {
   offsetCoord,
 } from '@avante/crawler-core';
 import { describe, expect, it } from 'vitest';
-import { ecConverter, type EcTokenPayload, mainnetWorld } from '../src';
+import { ecConverter, type EcTokenPayload } from '../src';
+import mainnetData from '../src/mainnet';
 
 const CACHE_ROOT = fileURLToPath(new URL('../../../cache/', import.meta.url));
 
@@ -50,10 +52,11 @@ const payloadFor = (id: number): EcTokenPayload => ({
   svg: readFileSync(join(dir, `${id}.svg`), 'utf8'),
 });
 
-describe('ec converter equivalence over the P4 cache', () => {
-  const world = loadWorld(mainnetWorld);
+describe('ec converter equivalence over the cache', () => {
+  const world = loadWorld(mainnetData.world);
   const tokenCoord = world.views.tokenCoord ?? new Map<bigint, bigint>();
   const chamberData = world.views.chamberData ?? new Map();
+  const tokenSvg = world.views.tokenSvg ?? new Map<bigint, string>();
 
   const cachedIds = readdirSync(dir)
     .map((f) => /^(\d+)\.json$/.exec(f))
@@ -61,7 +64,7 @@ describe('ec converter equivalence over the P4 cache', () => {
     .map((m) => Number(m[1]))
     .sort((a, b) => a - b);
 
-  it('the cache covers the whole migrated world', () => {
+  it('the cache covers the whole world', () => {
     expect(tokenCoord.size).toBeGreaterThan(0);
     expect(cachedIds.length).toBeGreaterThanOrEqual(tokenCoord.size);
   });
@@ -76,42 +79,41 @@ describe('ec converter equivalence over the P4 cache', () => {
     new Map<number, Door>(chamber.doors.map((door) => [door.tile, door]));
 
   /** true when the door/lock state is byte-identical between the two snapshots */
-  const locksUnchanged = (converted: ChamberData, migrated: ChamberData): boolean => {
-    const migratedDoors = doorsByTile(migrated);
+  const locksUnchanged = (converted: ChamberData, stored: ChamberData): boolean => {
+    const storedDoors = doorsByTile(stored);
     return (
-      converted.doors.length === migrated.doors.length &&
-      converted.doors.every((door) => migratedDoors.get(door.tile)?.isLocked === door.isLocked)
+      converted.doors.length === stored.doors.length &&
+      converted.doors.every((door) => storedDoors.get(door.tile)?.isLocked === door.isLocked)
     );
   };
 
-  it('reproduces every migrated chamber field-for-field (seed included)', () => {
+  it('reproduces every stored chamber field-for-field (seed included)', () => {
     let compared = 0;
-    let evolved = 0;
     for (const id of cachedIds) {
       const coord = tokenCoord.get(BigInt(id));
-      if (coord === undefined) continue; // minted after the migration snapshot
+      if (coord === undefined) continue; // fetched after the world's build
       const payload = payloadFor(id);
       const converted = ecConverter.convert(BigInt(id), payload);
       expect(converted.svg, `token ${id} svg passthrough`).toBe(payload.svg);
+      expect(tokenSvg.get(BigInt(id)), `token ${id} tokenSvg view`).toBe(payload.svg);
       expect(converted.chamberData.coord, `token ${id} placement`).toBe(coord);
-      const migrated = chamberData.get(coord);
-      expect(migrated, `token ${id} migrated record`).toBeDefined();
-      if (migrated === undefined) continue;
+      const stored = chamberData.get(coord);
+      expect(stored, `token ${id} stored record`).toBeDefined();
+      if (stored === undefined) continue;
 
-      if (locksUnchanged(converted.chamberData, migrated)) {
-        // untouched since the migration snapshot — exact reproduction, seed included
-        expect(converted.chamberData, `token ${id}`).toEqual(migrated);
+      if (locksUnchanged(converted.chamberData, stored)) {
+        // in lockstep with the cache — exact reproduction, seed included
+        expect(converted.chamberData, `token ${id}`).toEqual(stored);
       } else {
         // on-chain lock evolution: only a dynamic chamber may change, only monotonically
-        evolved++;
-        expect(migrated.isDynamic, `token ${id} changed but was not dynamic`).toBe(true);
+        expect(stored.isDynamic, `token ${id} changed but was not dynamic`).toBe(true);
         expect(
           snapshotInvariants(converted.chamberData),
           `token ${id} snapshot-invariant fields`,
-        ).toEqual(snapshotInvariants(migrated));
-        const migratedDoors = doorsByTile(migrated);
+        ).toEqual(snapshotInvariants(stored));
+        const storedDoors = doorsByTile(stored);
         for (const door of converted.chamberData.doors) {
-          const before = migratedDoors.get(door.tile);
+          const before = storedDoors.get(door.tile);
           expect(before, `token ${id} door ${door.tile} appeared out of nowhere`).toBeDefined();
           if (before === undefined) continue;
           // a door never gains a lock; everything but the lock is immutable
@@ -120,19 +122,18 @@ describe('ec converter equivalence over the P4 cache', () => {
             ...before,
             isLocked: undefined,
           });
-          migratedDoors.delete(door.tile);
+          storedDoors.delete(door.tile);
         }
-        for (const gone of migratedDoors.values()) {
+        for (const gone of storedDoors.values()) {
           expect(gone.isLocked, `token ${id} unlocked door ${gone.tile} vanished`).toBe(true);
         }
       }
       compared++;
     }
     expect(compared).toBe(tokenCoord.size);
-    expect(evolved, 'monotone-evolution path exercised').toBeGreaterThan(0);
   });
 
-  it('post-migration tokens hold the door/provenance invariants', () => {
+  it('tokens not yet in the world hold the door/provenance invariants', () => {
     for (const id of cachedIds) {
       if (tokenCoord.has(BigInt(id))) continue;
       const { chamberData: chamber, svg } = ecConverter.convert(BigInt(id), payloadFor(id));

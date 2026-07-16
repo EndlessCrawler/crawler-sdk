@@ -11,6 +11,8 @@ export default defineConfig({
     alias: [
       { find: /^@avante\/crawler-core$/, replacement: src('crawler-core', 'index.ts') },
       { find: /^@avante\/crawler-data$/, replacement: src('crawler-data', 'index.ts') },
+      { find: /^@avante\/crawler-data\/mainnet$/, replacement: src('crawler-data', 'mainnet.ts') },
+      { find: /^@avante\/crawler-data\/goerli$/, replacement: src('crawler-data', 'goerli.ts') },
       { find: /^@avante\/crawler-api$/, replacement: src('crawler-api', 'index.ts') },
     ],
   },

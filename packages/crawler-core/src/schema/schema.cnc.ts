@@ -25,7 +25,7 @@ export const cnc = {
     "ember's glow",
   ],
   coordinateSchema: 'chamber-id', // interim rule — real coordinate mapping: SDK_PLAN #14
-  views: ['tokenCoord', 'chamberData'],
+  views: ['tokenCoord', 'chamberData', 'tokenSvg'],
   attributes: {
     affinity: 'string',
     legendary: 'boolean',

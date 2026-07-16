@@ -18,10 +18,10 @@ A fully-typed viem contract instance from a `World`'s contract binding — the A
 
 ```ts
 import { loadWorld, type World } from '@avante/crawler-core';
-import { mainnetWorld } from '@avante/crawler-data';
+import mainnetData from '@avante/crawler-data/mainnet';
 import { contractAbis, getWorldContract, type TypedContract } from '@avante/crawler-api';
 
-const world: World = loadWorld(mainnetWorld);
+const world: World = loadWorld(mainnetData.world);
 const contract: TypedContract<typeof contractAbis.CrawlerToken> = getWorldContract(world, {
   rpcUrl: process.env.MAINNET_RPC_URL,
 });

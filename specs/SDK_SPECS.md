@@ -136,7 +136,7 @@ const ec = {
   size: { width: 16, height: 16 },             // fixed → chambers do NOT carry a size
   terrains: ['earth', 'water', 'air', 'fire'], // Terrain value domain — readable strings
   coordinateSchema: 'news',
-  views: ['tokenCoord', 'chamberData'],        // views that CAN exist (optional per world)
+  views: ['tokenCoord', 'chamberData', 'tokenSvg'], // views that CAN exist (optional per world)
   attributes: {                                // schema-local gameplay extras
     chapter: 'number',
     gemType: ['silver', 'gold', 'sapphire', 'emerald', 'ruby', 'diamond', 'ethernite', 'kao'],
@@ -151,7 +151,7 @@ const cnc = {
   size: 'per-chamber',                         // every ChamberData carries { width, height }
   terrains: ['desert oasis', 'stone temple', 'forest ruins', 'mountain deep', 'underwater keep', "ember's glow"],
   coordinateSchema: 'chamber-id',              // interim rule — real coordinate mapping: #14
-  views: ['tokenCoord', 'chamberData'],
+  views: ['tokenCoord', 'chamberData', 'tokenSvg'],
   attributes: {
     affinity: 'string',
     legendary: 'boolean',
@@ -262,7 +262,7 @@ type Door = {
 
 - **Worlds ship the original token SVGs inline**, as the **`TokenSvg`** view (keyed by token ID) — part of the world value and JSON, so access is **sync** like every other static read. The original SVG is **display-only**.
 - **Nothing playable ever ships in a world, and no playable transform ships in v1.** Consumers — the explorer included — route and serve the **original SVG** as-is. Endless Crawler (ec-dapp) already owns the original → playable conversion; it **migrates into the SDK at P10** with the ec-dapp import, not before. (The chain's own playable form — tokenURI's `animation_url` HTML — is archived in the private cache as `<tokenId>.html` for reference, but never enters a world.)
-- **Size, accepted with eyes open:** EC mainnet is 277 tokens (~1MB of SVG — same order as its world JSON). `cnc` is ~9,000 SVGs × ~4KB ≈ **36MB** on top of an already-large `ChamberData`. The mitigation is already specced: `TokenSvg` is its **own view**, and the world JSON layout must stay splittable per view — if a heavy world ever needs it, the SVGs split out without reshaping any data.
+- **Size, accepted with eyes open:** EC mainnet is 326 tokens and growing (~1MB of SVG — same order as its world JSON). `cnc` is ~9,000 SVGs × ~4KB ≈ **36MB** on top of an already-large `ChamberData`. The mitigation is already specced: `TokenSvg` is its **own view**, and the world JSON layout must stay splittable per view — if a heavy world ever needs it, the SVGs split out without reshaping any data.
 - The goerli world, frozen as migrated, has **no `TokenSvg` view** — views are optional per world, and its SVGs are unfetchable (dead chain).
 
 ---
@@ -325,7 +325,7 @@ A chamber always originates from an **on-chain ERC-721 token contract**; a World
 
    - **`worlds.json` — the lean registry.** Keyed by world `name` → `{ dataDir, rpcEnv }` (`rpcEnv` is the RPC **env-var name**, never a secret). `dataDir` is the archive path under `data/`, **including the deployment** (e.g. `endless-crawler/mainnet`) — carried whole, not derived as `<game>/<network>`, because `network` alone collides (sepolia is also `ethereum`). Its keyset **is** the cache coverage — goerli is a `crawler-data` world but is never listed, so it is never cached. Everything else (network, chainId, contract address, ABI) comes from the `crawler-data` world resolved by that name + `crawler-api`'s `getWorldContract(world)`; the binding has **one home** (the world) and is never restated in the registry.
    - The `.json` is the tokenURI JSON **with its data-URI blob fields extracted**: `image` is decoded into the sibling `.svg`; `animation_url` is decoded into the sibling `.html`. Everything else is stored as returned. For `ec` worlds it additionally embeds a **`chamber` field** — the **on-chain `Crawl.ChamberData` struct**, read at the pinned block via the typed world contract, `tokenIdToCoord(tokenId)` → `coordToChamberData(chapter, coord, generateMaps: true)` (`chapter` from the same metadata's `Chapter` attribute) — because **the SVG alone does not carry the full map data** the converter needs (notably the generated `tilemap`). (Named `chamber`, **not** `chamberData` — the view of that name has a different, converted shape.) Files are byte-stable via the canonical serializer.
-   - The `.svg` is the decoded `image` **pretty-printed with prettier** (its html parser) for a readable, diff-friendly, byte-stable archive. It is therefore *reflowed*, not byte-identical to the on-chain original (it renders identically); this is the form the P6 builder carries into the world's `TokenSvg` view and that consumers serve.
+   - The `.svg` is the decoded `image` **pretty-printed with prettier** (its html parser) for a readable, diff-friendly, byte-stable archive. It is therefore *reflowed*, not byte-identical to the on-chain original (it renders identically); this is the form the builder carries into the world's `TokenSvg` view and that consumers serve.
    - The `.html` (`ec` worlds) is the decoded `animation_url` — **the chain's own playable form** (the same SVG in an HTML player) — pretty-printed like the `.svg`. Archived for reference; it never ships in a world (see §Token SVGs).
    - **`_cache.json` — provenance + fetch state**, one per `dataDir`, byte-stable via the canonical serializer, excluded from the token-contiguity invariant (leading `_`). It echoes the source binding (world `name`, `network`, `chainId`, `contractName`, `contractAddress`) so the archive is self-describing about where it came from, plus `fetchedThroughBlock`, `updatedAt`, and a `tokens` map of `tokenId → { block, fetchedAt }` (decimal-string block, ISO-8601 UTC time).
    - **Fetch strategy — missing-only, block-pinned, idempotent.** No manifest of the fetch *list* — file presence is the record. Each run **pins one block `B`** at the start and reads everything `at` `B` (a single consistent snapshot); fetch list = on-chain `1..totalSupply` **minus** the tokens already *complete* on disk — a token missing **any** of its required files is refetched whole (deterministic content + canonical formatters make the rewrite byte-stable), so a layout addition backfills the archive on the next run. Presence can't see *content*: on a file-**shape** change (e.g. a new embedded field), delete the affected files and re-run. Each fetched token is stamped `{ block: B, fetchedAt }`. `fetchedThroughBlock` advances to `B` on **every** clean run (even when nothing was fetched), so a future staleness scan starts from `B+1`. A second run fetches nothing (only the watermark moves).

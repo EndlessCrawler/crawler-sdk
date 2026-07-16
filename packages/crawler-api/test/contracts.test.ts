@@ -1,5 +1,6 @@
 import { loadWorld, biToBigInt } from '@avante/crawler-core';
-import { goerliWorld, mainnetWorld } from '@avante/crawler-data';
+import goerliData from '@avante/crawler-data/goerli';
+import mainnetData from '@avante/crawler-data/mainnet';
 import { describe, expect, it, vi } from 'vitest';
 import {
   getAllContractNames,
@@ -44,7 +45,7 @@ describe('* abi registry', () => {
 
 describe('* contract factories', () => {
   it('builds the typed world contract from the binding', () => {
-    for (const json of [mainnetWorld, goerliWorld]) {
+    for (const json of [mainnetData.world, goerliData.world]) {
       const world = loadWorld(json);
       const contract = getWorldContract(world, { rpcUrl: RPC });
       expect(biToBigInt(contract.address), world.name).toBe(world.contractAddress);

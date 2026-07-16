@@ -17,7 +17,8 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { biToAddress, loadWorld, type WorldJson } from '@avante/crawler-core';
-import { allWorlds } from '@avante/crawler-data';
+import goerliData from '@avante/crawler-data/goerli';
+import mainnetData from '@avante/crawler-data/mainnet';
 import { describe, expect, it } from 'vitest';
 
 const CACHE_ROOT = fileURLToPath(new URL('..', import.meta.url));
@@ -41,8 +42,11 @@ const stringLeaves = (value: unknown): string[] => {
   return [];
 };
 
+/** every world shipped by `@avante/crawler-data` (per-world subpath exports) */
+const allWorlds: WorldJson[] = [mainnetData.world, goerliData.world];
+
 const worldByName = (name: string): WorldJson => {
-  const json = (allWorlds as WorldJson[]).find((w) => w.worldInfo.name === name);
+  const json = allWorlds.find((w) => w.worldInfo.name === name);
   if (!json) throw new Error(`world [${name}] not exported by @avante/crawler-data`);
   return json;
 };

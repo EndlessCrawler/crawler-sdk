@@ -11,22 +11,25 @@ import {
   getStaticChamberCount,
   getTokenCoord,
   getTokenCount,
+  getTokenIds,
+  getTokenSvg,
   hasView,
   loadWorld,
   offsetCoord,
   biToBigInt,
   type World,
 } from '@avante/crawler-core';
-import { allWorlds, goerliWorld, mainnetWorld } from '../src';
+import goerliData from '../src/goerli';
+import mainnetData from '../src/mainnet';
 
 const _dirByName = Object.fromEntries(
   Object.entries(DirNames).map(([dir, name]) => [name, Number(dir) as Dir]),
 );
 
-describe('migrated worlds', () => {
+describe('static worlds', () => {
   // loadWorld validates the whole file against the ec schema — throwing here IS the test
-  const mainnet = loadWorld(mainnetWorld);
-  const goerli = loadWorld(goerliWorld);
+  const mainnet = loadWorld(mainnetData.world);
+  const goerli = loadWorld(goerliData.world);
 
   it('world bindings', () => {
     expect(mainnet.name).toBe('mainnet');
@@ -36,13 +39,18 @@ describe('migrated worlds', () => {
     expect(mainnet.contractAddress).toBe(biToBigInt('0x8E70b94C57b0CBC9807c0F58Bc251f4cD96AcDb0'));
     expect(goerli.name).toBe('goerli');
     expect(goerli.chainId).toBe(5n);
-    // goerli is frozen as migrated — never gains tokenSvg
-    expect(hasView(goerli, 'tokenSvg')).toBe(false);
   });
 
-  it('counts survive the migration', () => {
-    expect(getTokenCount(mainnet)).toBe(277);
-    expect(getChamberCount(mainnet)).toBe(277);
+  it('each bundle carries the ec converter', () => {
+    expect(mainnetData.converter?.schema).toBe('ec');
+    expect(goerliData.converter?.schema).toBe('ec');
+  });
+
+  it('counts hold the fetch snapshot (mainnet) and the frozen migration (goerli)', () => {
+    // mainnet is builder-emitted from the cache — the count only ever grows
+    expect(getTokenCount(mainnet)).toBeGreaterThanOrEqual(277);
+    expect(getChamberCount(mainnet)).toBe(getTokenCount(mainnet));
+    // goerli is frozen as migrated (dead chain)
     expect(getTokenCount(goerli)).toBe(70);
     expect(getChamberCount(goerli)).toBe(70);
     for (const world of [mainnet, goerli]) {
@@ -50,6 +58,16 @@ describe('migrated worlds', () => {
       expect(dynamic).toBeGreaterThan(0);
       expect(getStaticChamberCount(world) + dynamic).toBe(getChamberCount(world));
     }
+  });
+
+  it('mainnet ships every original token SVG; goerli never gains the view', () => {
+    expect(hasView(mainnet, 'tokenSvg')).toBe(true);
+    for (const tokenId of getTokenIds(mainnet)) {
+      const svg = getTokenSvg(mainnet, tokenId);
+      expect(svg, `mainnet token ${tokenId} svg`).toBeDefined();
+      expect(svg, `mainnet token ${tokenId} svg`).toContain('<svg');
+    }
+    expect(hasView(goerli, 'tokenSvg')).toBe(false);
   });
 
   it('every token places an existing chamber (provenance intact)', () => {
@@ -91,7 +109,7 @@ describe('migrated worlds', () => {
   });
 
   it('the genesis chamber reads through the Crawler', () => {
-    const crawler = createCrawler(allWorlds);
+    const crawler = createCrawler([mainnetData, goerliData]);
     expect(crawler.worlds()).toEqual(['mainnet', 'goerli']);
     const world = crawler.world('mainnet');
     const genesis = world.getChamberByTokenId(1);

@@ -1,5 +1,5 @@
 import { isHexString, loadWorld, biToBigInt, type World } from '@avante/crawler-core';
-import { mainnetWorld } from '@avante/crawler-data';
+import mainnetData from '@avante/crawler-data/mainnet';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { getWorldContract, readOwnerOf, readTokenMetadata, readTotalSupply } from '../src';
 
@@ -12,7 +12,7 @@ describe('* erc721 (live mainnet)', () => {
   let world: World;
 
   beforeAll(() => {
-    world = loadWorld(mainnetWorld);
+    world = loadWorld(mainnetData.world);
   });
 
   it(

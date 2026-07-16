@@ -37,9 +37,9 @@ Create a `Crawler` from static worlds and read chambers
 
 ```ts
 import { createCrawler, Dir } from '@avante/crawler-core';
-import { mainnetWorld } from '@avante/crawler-data';
+import mainnetData from '@avante/crawler-data/mainnet'; // world + its converter, one export per world
 
-const crawler = createCrawler([mainnetWorld]); // sync, explicit — no globals
+const crawler = createCrawler([mainnetData]); // sync, explicit — no globals
 const world = crawler.world('mainnet');
 
 const chamber = world.getChamberBySlug('S1,W1'); // or by coord / token id
