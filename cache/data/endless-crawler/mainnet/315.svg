@@ -1,0 +1,85 @@
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	version="1.1"
+	width="600"
+	height="600"
+	viewBox="-2 -2 20 20"
+>
+	<defs>
+		<style>
+			:root{--Bg:#211E30;--Paths:#8496A1;--Tiles:#D2FFF1;--Shadows:#0F5F91;--Player:#FFBEA6;--Gem:#4DFF64;}svg{background-color:var(--Bg);}text{font-family:monospace;font-size:0.125em;fill:var(--Tiles);}.Text{}.Bg{fill:var(--Bg);}#Gem{fill:var(--Gem);}#Paths{fill:var(--Paths);}#Tiles{fill:var(--Tiles);}#Player{fill:var(--Player);visibility:hidden;}
+		</style>
+		<path id="Down" d="m 0 0 h 1 l -0.5 0.55 Z" />
+		<path id="Up" d="m 0 1 h 1 l -0.5 -0.55 Z" />
+		<path id="Left" d="m 1 0 v 1 l -0.55 -0.5 Z" />
+		<path id="Right" d="m 0 0 v 1 l 0.55 -0.5 Z" />
+		<path id="Gem" d="m 0 0.5 l 0.5 0.5 l 0.5 -0.5 l -0.5 -0.5 Z" />
+		<circle id="Locked" cx="0.5" cy="0.5" r="0.4" />
+	</defs>
+	<g>
+		<rect class="Bg" x="-2" y="-2" width="20" height="20" />
+		<g id="Paths" shape-rendering="crispEdges">
+			<rect x="0" y="0" width="1" height="1" />
+			<rect x="3" y="0" width="6" height="1" />
+			<rect x="10" y="0" width="1" height="1" />
+			<rect x="13" y="0" width="3" height="1" />
+			<rect x="0" y="1" width="5" height="1" />
+			<rect x="7" y="1" width="9" height="1" />
+			<rect x="0" y="2" width="5" height="1" />
+			<rect x="7" y="2" width="9" height="1" />
+			<rect x="0" y="3" width="1" height="1" />
+			<rect x="3" y="3" width="6" height="1" />
+			<rect x="13" y="3" width="2" height="1" />
+			<rect x="0" y="4" width="1" height="1" />
+			<rect x="3" y="4" width="6" height="1" />
+			<rect x="13" y="4" width="3" height="1" />
+			<rect x="3" y="5" width="6" height="1" />
+			<rect x="11" y="5" width="4" height="1" />
+			<rect x="3" y="6" width="6" height="1" />
+			<rect x="11" y="6" width="5" height="1" />
+			<rect x="5" y="7" width="4" height="1" />
+			<rect x="11" y="7" width="2" height="1" />
+			<rect x="15" y="7" width="1" height="1" />
+			<rect x="5" y="8" width="4" height="1" />
+			<rect x="11" y="8" width="2" height="1" />
+			<rect x="15" y="8" width="1" height="1" />
+			<rect x="0" y="9" width="1" height="1" />
+			<rect x="3" y="9" width="4" height="1" />
+			<rect x="8" y="9" width="5" height="1" />
+			<rect x="0" y="10" width="2" height="1" />
+			<rect x="3" y="10" width="4" height="1" />
+			<rect x="9" y="10" width="6" height="1" />
+			<rect x="1" y="11" width="1" height="1" />
+			<rect x="3" y="11" width="2" height="1" />
+			<rect x="6" y="11" width="5" height="1" />
+			<rect x="13" y="11" width="2" height="1" />
+			<rect x="0" y="12" width="2" height="1" />
+			<rect x="3" y="12" width="2" height="1" />
+			<rect x="6" y="12" width="1" height="1" />
+			<rect x="8" y="12" width="8" height="1" />
+			<rect x="1" y="13" width="4" height="1" />
+			<rect x="6" y="13" width="3" height="1" />
+			<rect x="11" y="13" width="2" height="1" />
+			<rect x="15" y="13" width="1" height="1" />
+			<rect x="1" y="14" width="4" height="1" />
+			<rect x="10" y="14" width="3" height="1" />
+			<rect x="14" y="14" width="2" height="1" />
+			<rect x="7" y="15" width="2" height="1" />
+			<rect x="10" y="15" width="1" height="1" />
+			<rect x="12" y="15" width="3" height="1" />
+		</g>
+		<rect id="Player" x="11" y="15" width="1" height="1" />
+		<g id="Tiles">
+			<use xlink:href="#Locked" x="9" y="0" id="3" />
+			<use xlink:href="#Locked" x="15" y="5" id="3" />
+			<use xlink:href="#Locked" x="0" y="11" id="3" />
+			<use xlink:href="#Gem" x="7" y="12" id="4" />
+			<use xlink:href="#Up" x="11" y="15" id="1" />
+		</g>
+		<text class="Text" dominant-baseline="middle" x="0" y="-1">#315</text>
+		<text class="Text" dominant-baseline="middle" x="0" y="17" id="coord">
+			N7 E7 Y13
+		</text>
+	</g>
+</svg>

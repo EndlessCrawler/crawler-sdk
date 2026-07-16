@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="author" content="Studio Avante" />
+		<title>Endless Crawler Chamber #261</title>
+		<style>
+			body{background:#1D1A2B;margin:0;overflow:hidden;}#Player{transition:x 0.1s ease-in,y 0.1s ease-in;visibility:visible!important;animation:blinker 1s ease-in infinite;}@keyframes blinker{75%{opacity:1;}100%{opacity:0;}}
+		</style>
+	</head>
+	<body>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			xmlns:xlink="http://www.w3.org/1999/xlink"
+			version="1.1"
+			width="600"
+			height="600"
+			viewBox="-2 -2 20 20"
+		>
+			<defs>
+				<style>
+					:root{--Bg:#1D1A2B;--Paths:#4A7DD2;--Tiles:#BDEEFF;--Shadows:#0C6482;--Player:#FFBEA6;--Gem:#BBBBBB;}svg{background-color:var(--Bg);}text{font-family:monospace;font-size:0.125em;fill:var(--Tiles);}.Text{}.Bg{fill:var(--Bg);}#Gem{fill:var(--Gem);}#Paths{fill:var(--Paths);}#Tiles{fill:var(--Tiles);}#Player{fill:var(--Player);visibility:hidden;}
+				</style>
+				<path id="Down" d="m 0 0 h 1 l -0.5 0.55 Z" />
+				<path id="Up" d="m 0 1 h 1 l -0.5 -0.55 Z" />
+				<path id="Left" d="m 1 0 v 1 l -0.55 -0.5 Z" />
+				<path id="Right" d="m 0 0 v 1 l 0.55 -0.5 Z" />
+				<path id="Gem" d="m 0 0.5 l 0.5 0.5 l 0.5 -0.5 l -0.5 -0.5 Z" />
+				<circle id="Locked" cx="0.5" cy="0.5" r="0.4" />
+			</defs>
+			<g>
+				<rect class="Bg" x="-2" y="-2" width="20" height="20" />
+				<g id="Paths" shape-rendering="crispEdges">
+					<rect x="0" y="0" width="8" height="1" />
+					<rect x="0" y="1" width="8" height="1" />
+					<rect x="3" y="2" width="5" height="1" />
+					<rect x="4" y="3" width="4" height="1" />
+					<rect x="4" y="4" width="4" height="1" />
+					<rect x="12" y="4" width="4" height="1" />
+					<rect x="3" y="5" width="6" height="1" />
+					<rect x="11" y="5" width="4" height="1" />
+					<rect x="0" y="6" width="5" height="1" />
+					<rect x="7" y="6" width="9" height="1" />
+					<rect x="0" y="7" width="4" height="1" />
+					<rect x="8" y="7" width="8" height="1" />
+					<rect x="0" y="8" width="4" height="1" />
+					<rect x="7" y="8" width="3" height="1" />
+					<rect x="1" y="9" width="3" height="1" />
+					<rect x="7" y="9" width="1" height="1" />
+					<rect x="9" y="9" width="1" height="1" />
+					<rect x="0" y="10" width="2" height="1" />
+					<rect x="7" y="10" width="5" height="1" />
+					<rect x="7" y="11" width="5" height="1" />
+					<rect x="0" y="12" width="9" height="1" />
+					<rect x="0" y="13" width="9" height="1" />
+					<rect x="0" y="14" width="5" height="1" />
+					<rect x="7" y="14" width="6" height="1" />
+					<rect x="0" y="15" width="4" height="1" />
+					<rect x="8" y="15" width="3" height="1" />
+					<rect x="12" y="15" width="1" height="1" />
+				</g>
+				<rect id="Player" x="0" y="9" width="1" height="1" />
+				<g id="Tiles">
+					<use xlink:href="#Right" x="15" y="5" id="2" />
+					<use xlink:href="#Right" x="0" y="9" id="1" />
+					<use xlink:href="#Gem" x="8" y="9" id="4" />
+					<use xlink:href="#Down" x="11" y="15" id="2" />
+				</g>
+				<text class="Text" dominant-baseline="middle" x="0" y="-1">#261</text>
+				<text class="Text" dominant-baseline="middle" x="0" y="17" id="coord">
+					S2 E9 Y10
+				</text>
+			</g>
+		</svg>
+		<script>
+			var coord=document.getElementById("coord").textContent,tm=Array(256);function m(t,e,r,o="moved"){let i=document.getElementById("Player"),l=parseInt(i.getAttribute("x"))+e,d=parseInt(i.getAttribute("y"))+r;if(l>=0&&d>=0&&l<16&&d<16){let n=tm[16*d+l];n&&(i.setAttribute("x",l),i.setAttribute("y",d),window.parent.postMessage(JSON.stringify({crawler:{event:o,x:l,y:d,tile:n,coord}}),"*"))}t?.preventDefault()}window.onload=t=>{let e=document.querySelector("svg");e.setAttribute("height","100vh"),e.setAttribute("width","100vw"),[...document.getElementById("Paths").childNodes,...document.getElementById("Tiles").childNodes].forEach(t=>{if(3!=t.nodeType){let e=t.getBBox(),r=Math.floor(e.x),o=Math.floor(e.y),i=Math.max(e.width,1);e.height;let l=parseInt(t.getAttribute("id")??255);for(let d=0;d<i;++d)tm[16*o+r+d]=l}}),document.addEventListener("keydown",t=>{if(t.repeat)return;let e=t.keyCode;37==e&&m(t,-1,0),38==e&&m(t,0,-1),39==e&&m(t,1,0),40==e&&m(t,0,1),(13==e||32==e)&&m(t,0,0,"action")}),m(null,0,0)};
+		</script>
+	</body>
+</html>

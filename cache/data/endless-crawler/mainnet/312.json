@@ -1,0 +1,33 @@
+{
+	"name": "Chamber #312",
+	"description": "Endless Crawler Chamber #312. Play above or below: https://endlesscrawler.io/chamber/S12E9",
+	"external_url": "https://endlesscrawler.io/chamber/S12E9",
+	"background_color": "301E26",
+	"attributes": [
+		{ "trait_type": "Chapter", "value": "1" },
+		{ "trait_type": "Terrain", "value": "Fire" },
+		{ "trait_type": "South", "value": "12" },
+		{ "trait_type": "East", "value": "9" },
+		{ "trait_type": "Coordinate", "value": "S12E9" },
+		{ "trait_type": "Yonder", "value": "22" },
+		{ "trait_type": "Gem", "value": "Silver" },
+		{ "trait_type": "Coins", "value": "310" },
+		{ "trait_type": "Worth", "value": "360" }
+	],
+	"chamber": {
+		"coord": "3062541302288446171170371466885913903116",
+		"tokenId": 312,
+		"seed": "25543829870350897967865827153618618558200734851022497491623121844984023095533",
+		"yonder": 22,
+		"chapter": 1,
+		"terrain": 4,
+		"entryDir": 0,
+		"hoard": { "gemType": 0, "coins": 310, "worth": 360 },
+		"gemPos": 171,
+		"doors": [7, 95, 64, 250],
+		"locks": [0, 1, 1, 0],
+		"bitmap": "113488120664845182257794353059473090943367025414822202672005713178245146869759",
+		"tilemap": "0xffffffffff00ff01ffffff0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff03ffffffffffffffffffffffffffffffffff00ffffffffffffffff0000ffff03ff0000ffffffffffffffff0000ffffffffffffffff0000ffffffffffffffffffffffffffff0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff04ffffffff00ffffffffffffffffffffffff000000ffffffffffffffffffffffffffffff00ffffffffffffff0000000000ffffffffffffffffffffff0000ffffff00ffffffffffffffffffffffffff02ffffffffff",
+		"customData": []
+	}
+}

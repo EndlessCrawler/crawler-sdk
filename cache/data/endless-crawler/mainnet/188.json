@@ -1,0 +1,33 @@
+{
+	"name": "Chamber #188",
+	"description": "Endless Crawler Chamber #188. Play above or below: https://endlesscrawler.io/chamber/N3E7",
+	"external_url": "https://endlesscrawler.io/chamber/N3E7",
+	"background_color": "1D1A2B",
+	"attributes": [
+		{ "trait_type": "Chapter", "value": "1" },
+		{ "trait_type": "Terrain", "value": "Water" },
+		{ "trait_type": "North", "value": "3" },
+		{ "trait_type": "East", "value": "7" },
+		{ "trait_type": "Coordinate", "value": "N3E7" },
+		{ "trait_type": "Yonder", "value": "13" },
+		{ "trait_type": "Gem", "value": "Emerald" },
+		{ "trait_type": "Coins", "value": "90" },
+		{ "trait_type": "Worth", "value": "290" }
+	],
+	"chamber": {
+		"coord": "18831305206160042293889344838069568492550688585414481018880",
+		"tokenId": 188,
+		"seed": "54286878145952932442969444378145450995329540583234222909735958836221595111263",
+		"yonder": 13,
+		"chapter": 1,
+		"terrain": 2,
+		"entryDir": 2,
+		"hoard": { "gemType": 3, "coins": 90, "worth": 290 },
+		"gemPos": 185,
+		"doors": [0, 143, 128, 251],
+		"locks": [0, 0, 0, 0],
+		"bitmap": "7235349132881451239964829284155371568860766713708989677933851674393894777080",
+		"tilemap": "0x00000000ffffffffffffffffffffffff00000000ffffffffffffffffffffffff00000000ffffffffff0000000000000000000000ffffffffff0000000000000000000000000000ffffffffffffffffff0000000000000000ffffffffffffffff00000000000000000000000000000000ffff000000000000000000000000ffff01ff0000ffffffffffffffffffffff02ffff00ffffffffffffffffffffffffffffffffffff0000ffffffffffff000000ffffffffff0000ffff04ffff00000000000000ffffffffffffffffff00000000000000ffffffffffffffffff00000000ffffffffff0000ffffffffffff000000ffffffff00000000ffffff02ff000000",
+		"customData": []
+	}
+}

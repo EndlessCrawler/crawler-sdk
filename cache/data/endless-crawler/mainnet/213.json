@@ -1,0 +1,33 @@
+{
+	"name": "Chamber #213",
+	"description": "Endless Crawler Chamber #213. Play above or below: https://endlesscrawler.io/chamber/S6W5",
+	"external_url": "https://endlesscrawler.io/chamber/S6W5",
+	"background_color": "301E26",
+	"attributes": [
+		{ "trait_type": "Chapter", "value": "1" },
+		{ "trait_type": "Terrain", "value": "Fire" },
+		{ "trait_type": "South", "value": "6" },
+		{ "trait_type": "West", "value": "5" },
+		{ "trait_type": "Coordinate", "value": "S6W5" },
+		{ "trait_type": "Yonder", "value": "12" },
+		{ "trait_type": "Gem", "value": "Ruby" },
+		{ "trait_type": "Coins", "value": "90" },
+		{ "trait_type": "Worth", "value": "390" }
+	],
+	"chamber": {
+		"coord": "92233720368547758086",
+		"tokenId": 213,
+		"seed": "115335607075074846625943845384131489302467357521603406179804550620529711775142",
+		"yonder": 12,
+		"chapter": 1,
+		"terrain": 4,
+		"entryDir": 1,
+		"hoard": { "gemType": 4, "coins": 90, "worth": 390 },
+		"gemPos": 213,
+		"doors": [8, 159, 144, 246],
+		"locks": [0, 0, 0, 0],
+		"bitmap": "115781487130447043334969086526170397875851116005684214448161539844070558375423",
+		"tilemap": "0xffffffffffffffff02ffffffff0000ffffffffffffffffffffff00ffff0000ffffffffffffffffffffffffffff0000ffffffff0000ffff00ffffffffffffffffffffff0000ffff00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000ffffffffffffffffffffffff00000000ffffffffffffffffff02ffffffffffffffffffffffffffff01ffffffffffffffffffffffffffffffffffffff0000ffffffffffff0000ffffffffffff00ffffffffffffffffffffffffffffffffff04ffffff00ffffffffffffffffffffffffffffff0000ffffffffffff0000ffffff02ffffffffffffffffff",
+		"customData": []
+	}
+}

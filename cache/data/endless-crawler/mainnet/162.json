@@ -1,0 +1,33 @@
+{
+	"name": "Chamber #162",
+	"description": "Endless Crawler Chamber #162. Play above or below: https://endlesscrawler.io/chamber/S3W6",
+	"external_url": "https://endlesscrawler.io/chamber/S3W6",
+	"background_color": "1D1A2B",
+	"attributes": [
+		{ "trait_type": "Chapter", "value": "1" },
+		{ "trait_type": "Terrain", "value": "Water" },
+		{ "trait_type": "South", "value": "3" },
+		{ "trait_type": "West", "value": "6" },
+		{ "trait_type": "Coordinate", "value": "S3W6" },
+		{ "trait_type": "Yonder", "value": "8" },
+		{ "trait_type": "Gem", "value": "Gold" },
+		{ "trait_type": "Coins", "value": "10" },
+		{ "trait_type": "Worth", "value": "110" }
+	],
+	"chamber": {
+		"coord": "110680464442257309699",
+		"tokenId": 162,
+		"seed": "110996153444372067130605838274020919027270880885297288585175688727832602964305",
+		"yonder": 8,
+		"chapter": 1,
+		"terrain": 2,
+		"entryDir": 1,
+		"hoard": { "gemType": 1, "coins": 10, "worth": 110 },
+		"gemPos": 77,
+		"doors": [6, 127, 80, 249],
+		"locks": [0, 0, 0, 0],
+		"bitmap": "115792089236486835515715227476476095210183775828531386890691919850586852290799",
+		"tilemap": "0xffffffffffff02ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000000ffffffffffffffffff0000000000000000ffffffffffffffff0000000000000000ff04ffff02ffffffff000000000000ffffffffffffffffffffffffffffffffffff00ffffffffffffffffffffffffffff0000ff01ffffffffff000000000000000000ffffffffffff000000000000000000000000ffffffff000000000000000000000000ffffffffff0000000000000000000000000000ffffffffff00000000ffffffff000000ffffffffff00000000ffffffffffffffffff000000ffffff00ffffffffffffffff00000000ff02ff00ffffffff",
+		"customData": []
+	}
+}
