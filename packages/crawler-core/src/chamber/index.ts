@@ -13,7 +13,6 @@ export {
   TileType,
 } from './constants';
 export {
-  defaultTilemapSize,
   findTilesInTilemap,
   flipDoorPosition,
   isTile,

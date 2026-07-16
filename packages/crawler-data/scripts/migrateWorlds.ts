@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url';
 import {
   Dir,
   DirNames,
+  ec,
   ecGemFromChain,
   ecTerrainFromChain,
   flipDoorPosition,
@@ -78,7 +79,7 @@ const _migrateChamber = (record: LegacyChamber) => {
     doors.push({
       tile,
       destCoord: offsetCoord(coord, dir),
-      destTile: flipDoorPosition(tile),
+      destTile: flipDoorPosition(tile, ec.size),
       direction: DirNames[dir],
       ...(record.locks[dir] ? { isLocked: true } : {}),
       ...(record.entryDir === dir ? { isEntry: true } : {}),

@@ -3,6 +3,7 @@ import {
   createCrawler,
   Dir,
   DirNames,
+  ec,
   flipDoorPosition,
   getChamber,
   getChamberCount,
@@ -75,7 +76,7 @@ describe('migrated worlds', () => {
             `${world.name} ${chamber.coord} ${_dirByName[door.direction]}`,
           ).toBe(offsetCoord(chamber.coord, door.direction));
           // destTile is the flipped door position
-          expect(door.destTile).toBe(flipDoorPosition(door.tile));
+          expect(door.destTile).toBe(flipDoorPosition(door.tile, ec.size));
           if (door.isEntry) entries++;
         }
         expect(entries, `${world.name} ${chamber.coord} entry doors`).toBe(1);

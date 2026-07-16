@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   binaryArrayToBigInt,
+  ec,
   flipDoorPosition,
   type Tile,
   tileToXy,
@@ -35,10 +36,18 @@ describe('tilemap', () => {
   });
 
   it('toTilemap()', () => {
-    // arrays pass through
-    expect(toTilemap([0, 255, 2])).toEqual([0, 255, 2]);
-    // packed bytes unpack (leading zero bytes cannot survive bigint packing — stored tilemaps are arrays)
-    expect(toTilemap('0xff0002')).toEqual([255, 0, 2]);
+    const size = { width: 2, height: 2 };
+    // grid-sized arrays pass through untouched
+    const stored = [0, 255, 2, 255];
+    expect(toTilemap(stored, size)).toBe(stored);
+    // packed bytes cannot carry leading Void bytes — padding to the grid restores them
+    expect(toTilemap('0xff0002', size)).toEqual([0, 255, 0, 2]);
+    expect(toTilemap(0xff0002n, size)).toEqual([0, 255, 0, 2]);
+    expect(toTilemap('0x00', size)).toEqual([0, 0, 0, 0]);
+    // input past the grid is ignored (warns)
+    expect(toTilemap([1, 2, 3, 4, 5], size)).toEqual([1, 2, 3, 4]);
+    // the ec 16×16 grid, schema-fed
+    expect(toTilemap('0xff0002', ec.size)).toEqual([...new Array(253).fill(0), 255, 0, 2]);
   });
 
   it('flipDoorPosition()', () => {
@@ -47,17 +56,17 @@ describe('tilemap', () => {
     const _doorN = 9;
     const _doorS = 249;
     const _doorU = 168;
-    expect(flipDoorPosition(_doorW)).toBe(_doorE);
-    expect(flipDoorPosition(_doorE)).toBe(_doorW);
-    expect(flipDoorPosition(_doorN)).toBe(_doorS);
-    expect(flipDoorPosition(_doorS)).toBe(_doorN);
-    expect(flipDoorPosition(_doorU)).toBe(_doorU);
+    expect(flipDoorPosition(_doorW, ec.size)).toBe(_doorE);
+    expect(flipDoorPosition(_doorE, ec.size)).toBe(_doorW);
+    expect(flipDoorPosition(_doorN, ec.size)).toBe(_doorS);
+    expect(flipDoorPosition(_doorS, ec.size)).toBe(_doorN);
+    expect(flipDoorPosition(_doorU, ec.size)).toBe(_doorU);
   });
 
   it('tileToXy(), xyToTile()', () => {
     const _test = (tile: Tile, x: number, y: number) => {
-      expect(tileToXy(tile)).toEqual(expect.objectContaining({ x, y }));
-      expect(xyToTile({ x, y })).toEqual(tile);
+      expect(tileToXy(tile, ec.size)).toEqual(expect.objectContaining({ x, y }));
+      expect(xyToTile({ x, y }, ec.size)).toEqual(tile);
     };
     _test(0, 0, 0);
     _test(1, 1, 0);

@@ -85,7 +85,9 @@ export interface ChamberData<S extends DataSchema = DataSchema> {
   readonly size?: ChamberSize;
   /**
    * the chamber's final state is not fully defined and may change; the `ec`
-   * converter derives it from locked doors; absent for all `cnc` chambers
+   * converter derives it from locked doors; absent for all `cnc` chambers.
+   * For `ec` the on-chain change is monotone: locks only ever clear (a
+   * previously locked door may drop entirely) — a door never gains a lock
    */
   readonly isDynamic?: boolean;
   /** the schema-local gameplay extras, typed by the schema descriptor */

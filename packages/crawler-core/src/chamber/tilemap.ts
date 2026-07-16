@@ -7,7 +7,7 @@
  * cannot represent larger-than-16×16 chambers).
  */
 import { type BigIntish, biToNumberArray } from '../bigintish';
-import type { TileType } from './constants';
+import { TileType } from './constants';
 
 /** The tilemap: one {@link TileType} per tile, row-major (`y * width + x`). */
 export type Tilemap = TileType[];
@@ -23,17 +23,6 @@ export interface TilemapSize {
   width: number;
   height: number;
 }
-
-/**
- * The `ec` grid — the default when no schema size is passed.
- *
- * @remarks Schema-aware callers should pass their schema's size; this default exists
- * for the fixed 16×16 `ec` world the helpers grew up with.
- */
-export const defaultTilemapSize: TilemapSize = {
-  width: 16,
-  height: 16,
-};
 
 /** An x/y position inside a tilemap. */
 export interface Xy {
@@ -52,10 +41,10 @@ export const isTile = (pos: Xy | Tile): pos is Tile => typeof pos === 'number';
 
 /**
  * @param pos the tile position
- * @param size the tilemap size (the schema's size policy; defaults to the `ec` 16×16 grid)
+ * @param size the tilemap size (the schema's size policy, or the chamber's own)
  * @returns the tile position converted to {@link Xy}
  */
-export const tileToXy = (pos: Tile, size: TilemapSize = defaultTilemapSize): Xy => {
+export const tileToXy = (pos: Tile, size: TilemapSize): Xy => {
   return {
     x: pos % size.width,
     y: Math.floor(pos / size.width),
@@ -64,10 +53,10 @@ export const tileToXy = (pos: Tile, size: TilemapSize = defaultTilemapSize): Xy 
 
 /**
  * @param xy the x/y position
- * @param size the tilemap size (the schema's size policy; defaults to the `ec` 16×16 grid)
+ * @param size the tilemap size (the schema's size policy, or the chamber's own)
  * @returns the {@link Xy} position converted to a tile position
  */
-export const xyToTile = (xy: Xy, size: TilemapSize = defaultTilemapSize): Tile => {
+export const xyToTile = (xy: Xy, size: TilemapSize): Tile => {
   return xy.y * size.width + xy.x;
 };
 
@@ -79,13 +68,10 @@ export const xyToTile = (xy: Xy, size: TilemapSize = defaultTilemapSize): Tile =
  * on arrival in the destination chamber.
  *
  * @param pos the door's position (tile or {@link Xy}), on a tilemap edge
- * @param size the tilemap size (the schema's size policy; defaults to the `ec` 16×16 grid)
+ * @param size the tilemap size (the schema's size policy, or the chamber's own)
  * @returns the flipped position, in the same representation as the input
  */
-export const flipDoorPosition = <T extends Xy | Tile>(
-  pos: T,
-  size: TilemapSize = defaultTilemapSize,
-): T => {
+export const flipDoorPosition = <T extends Xy | Tile>(pos: T, size: TilemapSize): T => {
   let result: Xy = isTile(pos) ? tileToXy(pos, size) : (pos as Xy);
   if (result.x === 0) result = { x: size.width - 1, y: result.y };
   else if (result.x === size.width - 1) result = { x: 0, y: result.y };
@@ -96,14 +82,27 @@ export const flipDoorPosition = <T extends Xy | Tile>(
 
 /**
  * @param tmp a tile array, or tile bytes packed inside a bigint
- * @returns the value as a {@link Tilemap}
+ * @param size the tilemap size (the schema's size policy, or the chamber's own)
+ * @returns the value as a {@link Tilemap}, fitted to the grid: exactly `width × height` tiles
+ * @remarks Shorter input is padded with leading `Void` tiles — bigint packing cannot
+ * carry leading zero bytes, and the chain's generated `bytes tilemap` starts with
+ * them, so padding to the grid restores exactly what packing dropped. Input past
+ * the grid is ignored with a `console.warn`.
  */
-export const toTilemap = (tmp: TilemapIsh): Tilemap => {
-  if (Array.isArray(tmp)) {
-    return tmp;
+export const toTilemap = (tmp: TilemapIsh, size: TilemapSize): Tilemap => {
+  const tiles = size.width * size.height;
+  const raw = Array.isArray(tmp) ? tmp : biToNumberArray(tmp);
+  if (raw.length === tiles) {
+    return raw;
   }
-  // bytes packed inside a BigIntish
-  return biToNumberArray(tmp);
+  if (raw.length > tiles) {
+    console.warn(
+      `toTilemap(): input carries ${raw.length} tiles — ignoring everything past the ${size.width}x${size.height} grid`,
+    );
+    return raw.slice(0, tiles);
+  }
+  // leading Void bytes cannot survive bigint packing — restore them
+  return [...new Array<TileType>(tiles - raw.length).fill(TileType.Void), ...raw];
 };
 
 /**

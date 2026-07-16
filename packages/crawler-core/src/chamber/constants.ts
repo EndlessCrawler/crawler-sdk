@@ -128,8 +128,8 @@ export const getOppositeTerrain = (terrain: Terrain): Terrain => {
  * Gem chain values (`Crawl.sol` encoding). Stored `gemType` values are the `ec`
  * schema's readable strings; this enum is the chain-side vocabulary.
  *
- * @remarks `Coin === Count === 8` in the chain encoding ("not a gem"); the collision
- * disappears from stored data with the string domain.
+ * @remarks The chain encoding's `Coin`/`Count` sentinels (both `8`, "not a gem")
+ * are deliberately not mirrored — they never denote a stored gem.
  */
 export enum Gem {
   Silver = 0,
@@ -140,10 +140,6 @@ export enum Gem {
   Diamond = 5,
   Ethernite = 6,
   Kao = 7,
-  // not a gem!
-  Coin = 8,
-  // gem count
-  Count = 8,
 }
 
 /** Readable name of each gem chain value. */
@@ -156,7 +152,6 @@ export const GemNames: Record<Gem, string> = {
   [Gem.Diamond]: 'Diamond',
   [Gem.Ethernite]: 'Ethernite',
   [Gem.Kao]: 'Kao',
-  [Gem.Coin]: 'Coin',
 };
 
 /** The on-chain `Hoard` struct shape (`Crawl.sol`) — converter-input staging only. */

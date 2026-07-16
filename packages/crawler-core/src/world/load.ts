@@ -186,7 +186,11 @@ export const loadWorld = (json: WorldJson): World => {
     name: worldName,
     network: info.network,
     chainId: _biToBigIntOrThrow(worldName, info.chainId, 'worldInfo.chainId'),
-    contractAddress: _biToBigIntOrThrow(worldName, info.contractAddress, 'worldInfo.contractAddress'),
+    contractAddress: _biToBigIntOrThrow(
+      worldName,
+      info.contractAddress,
+      'worldInfo.contractAddress',
+    ),
     contractName: info.contractName,
     schema: info.schema,
     timestamp: String(info.timestamp),

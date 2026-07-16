@@ -58,11 +58,8 @@ export const oppositeEcTerrain: Readonly<Record<EcTerrain, EcTerrain>> = {
   fire: 'water',
 };
 
-/**
- * Chain gem value → `ec` stored string. `Gem.Coin` (=== `Gem.Count`, "not a gem")
- * has no stored form; the chain-enum collision disappears with the string domain.
- */
-export const ecGemFromChain: Readonly<Partial<Record<Gem, EcGemType>>> = {
+/** Chain gem value → `ec` stored string — total over the mirrored `Gem` enum. */
+export const ecGemFromChain: Readonly<Record<Gem, EcGemType>> = {
   [Gem.Silver]: 'silver',
   [Gem.Gold]: 'gold',
   [Gem.Sapphire]: 'sapphire',
