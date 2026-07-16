@@ -121,6 +121,34 @@ importers:
         specifier: 'catalog:'
         version: 5.9.3
 
+  cache:
+    dependencies:
+      '@avante/crawler-api':
+        specifier: workspace:*
+        version: link:../packages/crawler-api
+      '@avante/crawler-core':
+        specifier: workspace:*
+        version: link:../packages/crawler-core
+      '@avante/crawler-data':
+        specifier: workspace:*
+        version: link:../packages/crawler-data
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.13.3
+      dotenv:
+        specifier: ^17.4.2
+        version: 17.4.2
+      prettier:
+        specifier: ^3.9.5
+        version: 3.9.5
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.10(@types/node@24.13.3)(vite@8.1.4(@types/node@24.13.3)(jiti@2.7.0)(sass@1.101.0))
+
   packages/crawler-api:
     dependencies:
       prettier:
@@ -2256,6 +2284,10 @@ packages:
 
   dompurify@3.2.7:
     resolution: {integrity: sha512-WhL/YuveyGXJaerVlMYGWhvQswa7myDG17P7Vu65EWC05o8vfeNbvNf4d/BOvH99+ZW+LlQsc1GDKMa1vNK6dw==}
+
+  dotenv@17.4.2:
+    resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
+    engines: {node: '>=12'}
 
   dts-resolver@3.0.0:
     resolution: {integrity: sha512-1T1f+z+4tl9XD+m+0HBgWoL/nm0bOIffyWaUuUSBlFg/86IWvfx+wjNaO/ybU0AJzG9/Mi5hBUgGV6zCmWEN7Q==}
@@ -6661,6 +6693,8 @@ snapshots:
   dompurify@3.2.7:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
+
+  dotenv@17.4.2: {}
 
   dts-resolver@3.0.0: {}
 

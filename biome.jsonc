@@ -13,6 +13,8 @@
       "!**/.next/**",
       // Cached map data — large generated JSON, not hand-edited.
       "!packages/crawler-data/src/worlds/**",
+      // Archived on-chain token data (tokenURI JSON + SVG + _cache.json) — fetched, not hand-edited.
+      "!cache/data/**",
       // Contract artifact JSON + its codegen output (crawler-api) — not hand-edited.
       "!**/artifacts/**",
       "!**/src/generated/**",

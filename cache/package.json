@@ -1,0 +1,27 @@
+{
+  "name": "cache",
+  "version": "0.1.0",
+  "description": "Endless Crawler SDK — private on-chain tokenURI archive (never published)",
+  "author": "Studio Avante",
+  "license": "CC0-1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fetch:tokens": "node scripts/fetch.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "watch:test": "vitest"
+  },
+  "dependencies": {
+    "@avante/crawler-api": "workspace:*",
+    "@avante/crawler-core": "workspace:*",
+    "@avante/crawler-data": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "dotenv": "^17.4.2",
+    "prettier": "^3.9.5",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

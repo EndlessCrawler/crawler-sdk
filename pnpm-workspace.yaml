@@ -4,6 +4,7 @@ packages:
   - 'packages/crawler-api'
   - 'packages/crawler-react'
   - 'apps/sdk-explorer'
+  - 'cache'
 
 # All common (multi-package) external versions live here — manifests reference them
 # via the `catalog:` protocol. Internal @avante/* deps use `workspace:*` / `workspace:^`.

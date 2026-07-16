@@ -12,5 +12,11 @@ export {
   type TypedContractOptions,
 } from './contracts';
 export { InvalidTokenMetadataError, UnknownContractError, UnsupportedChainError } from './errors';
-export { readOwnerOf, readTokenMetadata, readTotalSupply, type TokenMetadata } from './reads';
+export {
+  readOwnerOf,
+  readTokenMetadata,
+  readTotalSupply,
+  type ReadOptions,
+  type TokenMetadata,
+} from './reads';
 export { formatViewData } from './utils/formatter';

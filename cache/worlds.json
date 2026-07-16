@@ -1,0 +1,6 @@
+{
+  "mainnet": {
+    "dataDir": "endless-crawler/mainnet",
+    "rpcEnv": "MAINNET_RPC_URL"
+  }
+}
