@@ -1,7 +1,7 @@
 {
   "name": "@avante/crawler-react",
   "version": "0.1.0",
-  "description": "Endless Crawler React Context, Hooks and Components",
+  "description": "Endless Crawler React Provider, Hooks and Components",
   "author": "Studio Avante",
   "license": "CC0-1.0",
   "homepage": "https://github.com/EndlessCrawler",
@@ -31,14 +31,25 @@
     "watch:test": "vitest"
   },
   "peerDependencies": {
+    "@avante/crawler-api": "workspace:^",
     "@avante/crawler-core": "workspace:^",
     "react": "^18 || ^19"
   },
+  "peerDependenciesMeta": {
+    "@avante/crawler-api": {
+      "optional": true
+    }
+  },
   "devDependencies": {
+    "@avante/crawler-api": "workspace:*",
     "@avante/crawler-core": "workspace:*",
+    "@testing-library/react": "^16.3.2",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "jsdom": "^29.1.1",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "rimraf": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",

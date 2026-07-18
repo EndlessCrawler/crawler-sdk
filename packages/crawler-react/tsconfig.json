@@ -1,4 +1,9 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src"]
+  "compilerOptions": {
+    // the base's `jsx: "preserve"` would make vite/oxc leave JSX untransformed
+    // (vitest parse failure); this package's JSX compiles to the react runtime
+    "jsx": "react-jsx"
+  },
+  "include": ["src", "test"]
 }

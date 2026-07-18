@@ -5,7 +5,13 @@
  * to viem's `Address` happens here, via core's `bigintish`. Final names ride the
  * surface freeze (SDK plan #7).
  */
-import { type BigIntish, biToAddress, type ContractName, type World } from '@avante/crawler-core';
+import {
+  type BigIntish,
+  biToAddress,
+  biToBigInt,
+  type ContractName,
+  type World,
+} from '@avante/crawler-core';
 import {
   type Abi,
   erc20Abi,
@@ -17,6 +23,7 @@ import {
 } from 'viem';
 import { contractAbis } from './abis';
 import { getPublicClient } from './client';
+import { ClientChainMismatchError } from './errors';
 
 /**
  * A typed read-only viem contract instance (the explicit return type keeps the
@@ -24,11 +31,38 @@ import { getPublicClient } from './client';
  */
 export type TypedContract<A extends Abi> = GetContractReturnType<A, PublicClient>;
 
-/** options accepted by every contract factory */
+/**
+ * Options accepted by every contract factory and read helper: a caller-supplied
+ * viem `PublicClient` (a wagmi app reuses its configured client/transport —
+ * `getPublicClient(config)` from `@wagmi/core` returns one), or an `rpcUrl`
+ * (scripts, servers, the cache). `client` wins when both are given; with
+ * neither, the chain's default public RPC is used **with a `console.warn`**.
+ */
 export interface ContractOptions {
+  /** a caller-supplied viem client — wins over `rpcUrl`; its chain must match the binding */
+  readonly client?: PublicClient;
   /** caller-supplied RPC endpoint; omitted → the chain's default public RPC + a `console.warn` */
   readonly rpcUrl?: string;
 }
+
+/**
+ * @returns the client the factories read through: the caller's `client` when
+ * given (chain-checked against the binding), else a (cached) `rpcUrl`/default
+ * client from `getPublicClient`
+ * @throws ClientChainMismatchError when the supplied client's chain does not match
+ * @throws UnsupportedChainError when no client is supplied and no viem chain is
+ * known for the id
+ */
+export const resolveClient = (chainId: BigIntish, options: ContractOptions): PublicClient => {
+  if (options.client) {
+    const id = Number(biToBigInt(chainId));
+    if (options.client.chain && options.client.chain.id !== id) {
+      throw new ClientChainMismatchError(chainId, options.client.chain.id);
+    }
+    return options.client;
+  }
+  return getPublicClient(chainId, options.rpcUrl);
+};
 
 /** a chain + address binding, for contracts not bound to a `World` */
 export interface BoundContractOptions extends ContractOptions {
@@ -53,7 +87,7 @@ export const getTypedContract = <A extends Abi>(
     abi: options.abi,
     // core converts (BigIntish → padded hex), viem checksums
     address: getAddress(biToAddress(options.contractAddress)),
-    client: getPublicClient(options.chainId, options.rpcUrl),
+    client: resolveClient(options.chainId, options),
   });
 
 /**
@@ -67,10 +101,10 @@ export const getWorldContract = (
   options: ContractOptions = {},
 ): TypedContract<(typeof contractAbis)[ContractName]> =>
   getTypedContract({
+    ...options,
     abi: contractAbis[world.contractName],
     chainId: world.chainId,
     contractAddress: world.contractAddress,
-    rpcUrl: options.rpcUrl,
   });
 
 /**

@@ -25,6 +25,7 @@ export const cnc = {
     "ember's glow",
   ],
   coordinateSchema: 'chamber-id', // interim rule — real coordinate mapping: SDK_PLAN #14
+  invalidation: 'none', // static maps — a mint changes nothing else
   views: ['tokenCoord', 'chamberData', 'tokenSvg'],
   attributes: {
     affinity: 'string',

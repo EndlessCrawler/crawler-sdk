@@ -24,6 +24,31 @@ export class UnsupportedChainError extends Error {
   }
 }
 
+/**
+ * Thrown by the contract factories when a caller-supplied viem client is bound
+ * to a different chain than the contract binding (`{ client }` wins over
+ * `{ rpcUrl }`, but its chain must match).
+ */
+export class ClientChainMismatchError extends Error {
+  constructor(chainId: BigIntish, clientChainId: number) {
+    super(
+      `ClientChainMismatchError: the supplied client is bound to chain [${clientChainId}], the contract binding to chain [${chainId}]`,
+    );
+    this.name = 'ClientChainMismatchError';
+  }
+}
+
+/**
+ * Thrown by `assembleTokenPayload` when the world's schema has no payload
+ * assembler (mirrors core's `MissingConverterError` on the convert side).
+ */
+export class MissingAssemblerError extends Error {
+  constructor(schema: string) {
+    super(`MissingAssemblerError: no payload assembler for schema [${schema}]`);
+    this.name = 'MissingAssemblerError';
+  }
+}
+
 /** Thrown by `readTokenMetadata` when a tokenURI payload cannot be unpacked. */
 export class InvalidTokenMetadataError extends Error {
   constructor(tokenId: bigint, message: string) {

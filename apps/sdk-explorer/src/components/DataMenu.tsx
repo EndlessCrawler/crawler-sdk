@@ -1,7 +1,7 @@
 'use client';
 
-import type { ec, ViewName } from '@avante/crawler-core';
-import { useCrawler, useWorld } from '@avante/crawler-react';
+import type { ViewName } from '@avante/crawler-core';
+import { useCrawler, useWorldEC } from '@avante/crawler-react';
 import { useMemo } from 'react';
 import { ActionDispatcher } from '@/components/Dispatchers';
 import { useSelectedWorld } from '@/hooks/WorldContext';
@@ -11,7 +11,7 @@ const VIEW_NAMES: ViewName[] = ['worldInfo', 'tokenCoord', 'chamberData', 'token
 export default function DataMenu() {
   const crawler = useCrawler();
   const { worldName } = useSelectedWorld();
-  const world = useWorld<typeof ec>(worldName);
+  const world = useWorldEC(worldName);
 
   // Chambers
   const chamberCount = world.getChamberCount();

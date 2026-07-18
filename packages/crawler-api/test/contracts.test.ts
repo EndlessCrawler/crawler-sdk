@@ -1,8 +1,11 @@
 import { loadWorld, biToBigInt } from '@avante/crawler-core';
 import goerliData from '@avante/crawler-data/goerli';
 import mainnetData from '@avante/crawler-data/mainnet';
+import { createPublicClient, http } from 'viem';
+import { mainnet } from 'viem/chains';
 import { describe, expect, it, vi } from 'vitest';
 import {
+  ClientChainMismatchError,
   getAllContractNames,
   getCardsContract,
   getContractAbi,
@@ -11,6 +14,7 @@ import {
   getTypedContract,
   getWorldContract,
   type KnownContractName,
+  resolveClient,
   UnknownContractError,
   UnsupportedChainError,
 } from '../src';
@@ -82,6 +86,23 @@ describe('* contract factories', () => {
   it('throws UnsupportedChainError on unknown chains', () => {
     expect(() => getPublicClient(999)).toThrow(UnsupportedChainError);
     expect(() => getErc721({ chainId: 999, contractAddress: 1n })).toThrow(UnsupportedChainError);
+  });
+
+  it('accepts a caller-supplied viem client — { client } wins over { rpcUrl }', () => {
+    const client = createPublicClient({ chain: mainnet, transport: http(RPC) });
+    expect(resolveClient(1, { client })).toBe(client);
+    expect(resolveClient(1n, { client, rpcUrl: 'http://localhost:2' })).toBe(client);
+    // the factories construct through it
+    const world = loadWorld(mainnetData.world);
+    expect(getWorldContract(world, { client }).abi).toBe(getContractAbi(world.contractName));
+    expect(getErc721({ chainId: 1, contractAddress: 1n, client }).address).toBeDefined();
+  });
+
+  it("rejects a client bound to a different chain than the binding's", () => {
+    const client = createPublicClient({ chain: mainnet, transport: http(RPC) });
+    expect(() => getErc721({ chainId: 5, contractAddress: 1n, client })).toThrow(
+      ClientChainMismatchError,
+    );
   });
 
   it('warns (once per cached client) when falling back to the default public RPC', () => {

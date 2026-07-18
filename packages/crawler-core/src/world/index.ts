@@ -13,6 +13,7 @@ export type {
   WorldViews,
 } from './types';
 export { loadWorld } from './load';
+export { type ChamberLocator, resolveCoord } from './locator';
 export {
   getChamber,
   getChamberByTokenId,

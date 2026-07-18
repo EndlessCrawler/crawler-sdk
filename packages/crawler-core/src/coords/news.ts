@@ -271,6 +271,23 @@ export const validateCoord = (coord: bigint): boolean => {
   return coordToCompass(coord) != null;
 };
 
+/**
+ * The four cardinal neighbours of a coord — one {@link offsetCoord} per NEWS
+ * direction. Offsets saturated at the 64-bit boundary (returned unchanged) are
+ * excluded, so every returned coord is a real neighbour.
+ *
+ * @param coord the packed coordinate
+ * @returns the neighbouring coords, in NEWS order
+ */
+export const neighborCoords = (coord: bigint): bigint[] => {
+  const result: bigint[] = [];
+  for (const dir of [Dir.North, Dir.East, Dir.West, Dir.South]) {
+    const neighbor = offsetCoord(coord, dir);
+    if (neighbor !== coord) result.push(neighbor);
+  }
+  return result;
+};
+
 //-----------------------------------
 // Slug functions
 //
@@ -378,6 +395,7 @@ export interface NewsLibrary extends CoordinateSchemaLibrary {
   compassEquals(a: NewsCompassInput | null, b: NewsCompassInput | null): boolean;
   offsetCompass(compass: NewsCompassInput | null, dir: Dir): NewsCompassInput | null;
   offsetCoord(coord: bigint, dir: Dir): bigint;
+  neighborCoords(coord: bigint): bigint[];
   coordToCompass(coord: bigint): NewsCompass | null;
   compassToCoord(compass: NewsCompassInput | null): bigint;
   compassToSlug(compass: NewsCompassInput | null, separator?: SlugSeparator): string | null;
@@ -407,6 +425,7 @@ export const news: NewsLibrary = {
   compassEquals: newsCompassEquals,
   offsetCompass: offsetNewsCompass,
   offsetCoord,
+  neighborCoords,
   coordToCompass,
   compassToCoord,
   compassToSlug,

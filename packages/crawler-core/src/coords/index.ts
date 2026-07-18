@@ -10,6 +10,7 @@ export {
   coordToSlug,
   defaultSlugSeparator,
   minifyNewsCompass,
+  neighborCoords,
   news,
   newsCompassEquals,
   type NewsCompass,

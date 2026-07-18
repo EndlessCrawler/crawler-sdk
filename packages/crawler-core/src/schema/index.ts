@@ -4,9 +4,11 @@ export type {
   AttributeValueOf,
   ChamberSize,
   DataSchema,
+  InvalidationPolicy,
   SchemaViewName,
   TerrainOf,
 } from './schema';
+export { getInvalidatedCoords } from './invalidation';
 export {
   ec,
   ecGemFromChain,

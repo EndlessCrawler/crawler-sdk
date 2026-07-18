@@ -4,10 +4,10 @@ React bindings for the Crawler SDK — a provider, hooks, and components over an
 explicit [`Crawler`](../crawler-core) container. No global state, no DOM events:
 reactivity comes from the `Crawler`'s coarse, typed "world updated" subscription.
 
-> **Status: alpha, pre-publish.** This README documents the settled surface
-> (`specs/SDK_SPECS.md` §`crawler-react`); it lands with the SDK refactor's react
-> phase. Peers: `react ^18 || ^19` + `@avante/crawler-core`;
-> `@avante/crawler-api` is an *optional* peer, loaded only when live updates are on.
+> **Status: alpha, pre-publish.** This README documents the landed surface
+> (`specs/SDK_SPECS.md` §`crawler-react`). Peers: `react ^18 || ^19` +
+> `@avante/crawler-core`; `@avante/crawler-api` is an *optional* peer, loaded
+> only when live updates are on.
 
 ## Setup
 
@@ -55,8 +55,7 @@ matching your world's schema and never write `<typeof ec>` yourself:
 ```tsx
 import type { ChamberEC, WorldHandleEC } from '@avante/crawler-core';
 import {
-  type ChamberNeighbor, useChamberEC, useChamberNeighbors,
-  useTokenSvg, useWorldEC, useWorldNames,
+  type ChamberNeighbor, useChamberEC, useChamberNeighbors, useWorldEC,
 } from '@avante/crawler-react';
 
 function WorldStats() {
@@ -100,7 +99,6 @@ function Room({ slug }: { slug: string }) {
 | `useTokenSvg(tokenId, worldName?)` | `string \| undefined` | the original on-chain SVG |
 | `useChamberNeighbors(locator, worldName?)` | `ChamberNeighbor[]` | each door resolved to its destination chamber |
 | `useWorldSelector(selector, worldName?)` | `T` | memoized derived read over the immutable `World` value |
-| `useLiveWorld(options?, worldName?)` | `void` | the live path, self-contained — the provider's `liveUpdate` prop calls this for you |
 
 All static reads are synchronous — the world data is already in memory. Hook
 return values change identity when their world merges, so they are safe as plain

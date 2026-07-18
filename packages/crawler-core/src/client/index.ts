@@ -1,3 +1,11 @@
+export type {
+  ChamberCC,
+  ChamberDataCC,
+  ChamberDataEC,
+  ChamberEC,
+  WorldHandleCC,
+  WorldHandleEC,
+} from './aliases';
 export {
   Chamber,
   type CoordinateLibraryOf,
@@ -9,4 +17,3 @@ export {
   type WorldUpdatedEvent,
   type WorldUpdatedListener,
 } from './crawler';
-export type { ChamberSource } from './source';

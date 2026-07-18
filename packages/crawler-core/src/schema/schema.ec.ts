@@ -16,6 +16,7 @@ export const ec = {
   size: { width: 16, height: 16 }, // fixed → chambers do NOT carry a size
   terrains: ['earth', 'water', 'air', 'fire'], // Terrain value domain — readable strings
   coordinateSchema: 'news',
+  invalidation: 'neighbours', // a mint invalidates its coordinate-schema neighbours
   views: ['tokenCoord', 'chamberData', 'tokenSvg'], // views that CAN exist (optional per world)
   attributes: {
     // schema-local gameplay extras

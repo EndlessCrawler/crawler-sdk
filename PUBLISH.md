@@ -36,11 +36,12 @@ an unchanged chain fetches nothing and only advances the `fetchedThroughBlock`
 watermark. Throttled ≤ 10 req/s (`CACHE_MAX_RPS`); a read that fails 3× aborts
 the run cleanly (already-written tokens stay — just re-run).
 
-**Staleness caveat (plan #16, open):** the fetch is missing-only — it never
-refetches an already-complete token, but a new mint can clear locks on cached
-*neighbour* chambers. Until the staleness pass lands, invalidate manually:
-delete the affected token's files (`<id>.json`/`.svg`/`.html`) and re-run — a
-token missing any file is refetched whole, byte-stably.
+After the missing-only pass, the **staleness pass** runs automatically: every
+token fetched in the run invalidates its coordinate-schema neighbours
+(`getInvalidatedCoords` — a new mint clears locks on cached *neighbour*
+chambers), and the affected already-cached tokens are refetched whole at the
+same block `B`, byte-stably. Manual invalidation still works the same way
+whenever needed: delete a token's files (`<id>.json`/`.svg`/`.html`) and re-run.
 
 ## 2. Rebuild the worlds (offline)
 

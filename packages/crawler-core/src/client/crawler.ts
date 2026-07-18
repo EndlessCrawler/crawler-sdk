@@ -17,11 +17,17 @@ import { type ChamberData, type Door, getDoorsTo } from '../chamber/chamber';
 import type { Dir } from '../chamber/constants';
 import { type CoordinateSchemaLibraries, getCoordinateSchema } from '../coords/registry';
 import type { Compass } from '../coords/types';
-import { DuplicateWorldError, MissingConverterError, UnknownWorldError } from '../errors';
+import {
+  AmbiguousWorldError,
+  DuplicateWorldError,
+  MissingConverterError,
+  UnknownWorldError,
+} from '../errors';
 import { getSchema, type SchemaName } from '../schema/registry';
 import type { DataSchema } from '../schema/schema';
 import type { ConvertedToken, Converter } from '../world/converter';
 import { loadWorld } from '../world/load';
+import { type ChamberLocator, resolveCoord } from '../world/locator';
 import { mergeConvertedToken } from '../world/merge';
 import {
   getChamber,
@@ -152,13 +158,16 @@ export class WorldHandle<S extends DataSchema = DataSchema> {
   /** the world's registered name */
   readonly name: string;
   readonly #getWorld: () => World<S>;
-  readonly #swapWorld: (next: World<S>) => void;
+  // schema-erased on purpose: a contravariant `World<S>` here would make
+  // `WorldHandle<typeof ec>` unassignable to `WorldHandle` (and every Chamber
+  // with it) — the runtime handle is schema-erased anyway
+  readonly #swapWorld: (next: World) => void;
   readonly #converterFor: (schema: SchemaName) => Converter | undefined;
 
   constructor(
     name: string,
     getWorld: () => World<S>,
-    swapWorld: (next: World<S>) => void,
+    swapWorld: (next: World) => void,
     converterFor: (schema: SchemaName) => Converter | undefined,
   ) {
     this.name = name;
@@ -224,6 +233,18 @@ export class WorldHandle<S extends DataSchema = DataSchema> {
   getChamberBySlug(slug: string): Chamber<S> | undefined {
     const coord = this.coords.slugToCoord(slug);
     return coord !== 0n ? this.getChamber(coord) : undefined;
+  }
+
+  /**
+   * Resolves a {@link ChamberLocator} — a chamber key in any form — to the
+   * `ChamberData` key (the coord); first field present wins: `tokenId`, `coord`,
+   * `slug`, `compass`. Delegates to the pure `resolveCoord(world, locator)`.
+   *
+   * @param locator the chamber key, in any form
+   * @returns the coord, or `undefined` when the locator resolves to nothing
+   */
+  resolveCoord(locator: ChamberLocator): bigint | undefined {
+    return resolveCoord(this.data, locator);
   }
 
   /** @returns all chambers, bound to this handle */
@@ -305,6 +326,23 @@ export class WorldHandle<S extends DataSchema = DataSchema> {
     this.#swapWorld(mergeConvertedToken(world, id, converted));
     return new Chamber(this, converted.chamberData);
   }
+
+  /**
+   * Folds an **already-converted** token into this world through the same pure
+   * merge as {@link WorldHandle.import} — no converter runs. This is how
+   * persisted live chambers are restored (conversion is deterministic, so the
+   * stored converter *output* re-enters the world as-is — SPECS §Data pipeline
+   * item 5); `import()` remains the entry point for fresh payloads.
+   *
+   * @param tokenId the token being restored
+   * @param converted the converter's stored output for the token
+   * @returns the restored {@link Chamber}
+   */
+  importConverted(tokenId: BigIntish, converted: ConvertedToken<S>): Chamber<S> {
+    const id = biToBigInt(tokenId);
+    this.#swapWorld(mergeConvertedToken(this.data, id, converted));
+    return new Chamber(this, converted.chamberData);
+  }
 }
 
 /**
@@ -338,30 +376,35 @@ export class Crawler {
   }
 
   /**
-   * @param name the world's registered name (`'mainnet'`, ...)
+   * @param name the world's registered name (`'mainnet'`, ...); **omitted** →
+   *   the sole registered world (the single-world case — a deterministic
+   *   derivation, not a mutable selection)
    * @returns the world's stable {@link WorldHandle}
    * @throws {@link UnknownWorldError} if no world with that name is registered
+   * @throws {@link AmbiguousWorldError} if the name is omitted and there is no
+   *   sole registered world (ambiguity is never guessed)
    */
-  world<S extends DataSchema = DataSchema>(name: string): WorldHandle<S> {
-    let handle = this.#handles.get(name);
+  world<S extends DataSchema = DataSchema>(name?: string): WorldHandle<S> {
+    const resolved = name ?? this.#soleWorldName();
+    let handle = this.#handles.get(resolved);
     if (!handle) {
-      if (!this.#worlds.has(name)) {
-        throw new UnknownWorldError(name, this.worlds());
+      if (!this.#worlds.has(resolved)) {
+        throw new UnknownWorldError(resolved, this.worlds());
       }
       handle = new WorldHandle(
-        name,
+        resolved,
         () => {
-          const world = this.#worlds.get(name);
-          if (!world) throw new UnknownWorldError(name, this.worlds());
+          const world = this.#worlds.get(resolved);
+          if (!world) throw new UnknownWorldError(resolved, this.worlds());
           return world;
         },
         (next) => {
-          this.#worlds.set(name, next);
-          this.#emit({ world: name });
+          this.#worlds.set(resolved, next);
+          this.#emit({ world: resolved });
         },
         (schema) => this.#converters.get(schema),
       );
-      this.#handles.set(name, handle);
+      this.#handles.set(resolved, handle);
     }
     // the runtime handle is schema-erased; S is the caller's typed view of it
     return handle as unknown as WorldHandle<S>;
@@ -379,6 +422,15 @@ export class Crawler {
     return () => {
       this.#listeners.delete(listener);
     };
+  }
+
+  /** the sole registered world's name — the omitted-name derivation */
+  #soleWorldName(): string {
+    const names = this.worlds();
+    if (names.length !== 1) {
+      throw new AmbiguousWorldError(names);
+    }
+    return names[0];
   }
 
   #emit(event: WorldUpdatedEvent): void {

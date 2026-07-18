@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  AmbiguousWorldError,
   type ChamberData,
   type Converter,
   createCrawler,
@@ -56,6 +57,22 @@ describe('createCrawler()', () => {
   it('unknown world lookup throws', () => {
     const crawler = createCrawler([makeWorldJson()]);
     expect(() => crawler.world('nope')).toThrow(UnknownWorldError);
+  });
+
+  it('world() with the name omitted resolves the sole registered world', () => {
+    const crawler = createCrawler([makeWorldJson()]);
+    expect(crawler.world().name).toBe('testworld');
+    expect(crawler.world()).toBe(crawler.world('testworld')); // same stable handle
+  });
+
+  it('world() with the name omitted throws when there is no sole world', () => {
+    expect(() => createCrawler([]).world()).toThrow(AmbiguousWorldError);
+    const other = makeWorldJson();
+    const twoWorlds = createCrawler([
+      makeWorldJson(),
+      { ...other, worldInfo: { ...other.worldInfo, name: 'otherworld' } },
+    ]);
+    expect(() => twoWorlds.world()).toThrow(AmbiguousWorldError);
   });
 });
 
@@ -134,5 +151,22 @@ describe('world.import() — pure merge + coarse signal', () => {
     expect(() => crawler.world('testworld').import(2n, _makeNorthChamber())).toThrow(
       MissingConverterError,
     );
+  });
+
+  it('importConverted() folds stored converter output without a converter', () => {
+    // no converter registered — the restore path never converts
+    const crawler = createCrawler([makeWorldJson()]);
+    const world = crawler.world('testworld');
+    const events: WorldUpdatedEvent[] = [];
+    crawler.subscribe((event) => events.push(event));
+
+    const restored = world.importConverted(2n, {
+      chamberData: _makeNorthChamber(),
+      svg: '<svg/>',
+    });
+    expect(restored.coord).toBe(NORTH_COORD);
+    expect(world.getChamberCount()).toBe(2);
+    expect(world.getTokenSvg(2n)).toBe('<svg/>');
+    expect(events).toEqual([{ world: 'testworld' }]); // same coarse signal
   });
 });

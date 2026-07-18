@@ -27,6 +27,24 @@ export class UnknownWorldError extends Error {
   }
 }
 
+/**
+ * Thrown by `crawler.world()` (name omitted) when no sole registered world can
+ * be derived — several worlds are registered (ambiguity is never guessed), or
+ * none is.
+ */
+export class AmbiguousWorldError extends Error {
+  constructor(known: readonly string[]) {
+    super(
+      known.length === 0
+        ? 'AmbiguousWorldError: no world is registered'
+        : `AmbiguousWorldError: ${known.length} worlds are registered (${known.join(
+            ', ',
+          )}) — name one explicitly`,
+    );
+    this.name = 'AmbiguousWorldError';
+  }
+}
+
 /** Thrown by `createCrawler` when two worlds share a name. */
 export class DuplicateWorldError extends Error {
   constructor(name: string) {

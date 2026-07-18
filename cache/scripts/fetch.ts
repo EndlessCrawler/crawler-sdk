@@ -12,17 +12,23 @@
  *   - Fetch list = on-chain `1..totalSupply` minus the tokens already *complete*
  *     on disk — a token missing ANY of its files is refetched whole, so adding a
  *     file to the layout backfills the archive on the next run.
- *   - Write `<id>.json` (tokenURI JSON, blob fields extracted) + `<id>.svg` (the
- *     decoded SVG, pretty-printed) per token; for `ec`-schema worlds also write
- *     `<id>.html` (the decoded `animation_url` player, pretty-printed), and the
- *     `.json` gains a `chamber` field — the on-chain `Crawl.ChamberData` struct
- *     via `tokenIdToCoord` → `coordToChamberData(chapter, coord,
- *     generateMaps=true)` `at` `B` — because the SVG alone does not carry the
- *     full map data. (`chamber`, not `chamberData` — the view of that name has a
+ *   - Each token's content comes from the api's **payload assembler**
+ *     (`assembleTokenPayload` — the SDK's single fetch/assembly implementation):
+ *     write `<id>.json` (tokenURI JSON, blob fields extracted) + `<id>.svg` (the
+ *     decoded SVG, pretty-printed); for `ec`-schema worlds also `<id>.html` (the
+ *     decoded `animation_url` player, pretty-printed), and the `.json` carries
+ *     the assembler's embedded `chamber` field — the on-chain `Crawl.ChamberData`
+ *     struct, read `at` `B` — because the SVG alone does not carry the full map
+ *     data. (`chamber`, not `chamberData` — the view of that name has a
  *     different, converted shape.) Stamp each token `{ block: B, fetchedAt }`.
+ *   - **Staleness pass** (SPECS §Data pipeline item 1): after the missing-only
+ *     pass, compute `getInvalidatedCoords` for every token just fetched (the new
+ *     mints) and refetch the affected already-cached tokens at the same block
+ *     `B` — `ec`: a mint's NEWS neighbours (their doors unlock; the change is
+ *     monotone); `cnc`: nothing. Coord → tokenId via the cached `chamber.coord`.
  *   - `fetchedThroughBlock` advances to `B` on every clean run (even when nothing
  *     was fetched), so a future staleness scan starts from `B+1`.
- *   - Each on-chain read retries 3× with a 1 s wait, then aborts the run non-zero.
+ *   - Each on-chain fetch retries 3× with a 1 s wait, then aborts the run non-zero.
  *   - On-chain requests are throttled to ≤ 10 req/s (override: `CACHE_MAX_RPS`).
  *
  * RPC endpoint per world comes from its `rpcEnv` env var — **required**; the run
@@ -34,13 +40,21 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
+  assembleTokenPayload,
   formatViewData,
   getPublicClient,
-  getWorldContract,
   readTokenMetadata,
   readTotalSupply,
 } from '@avante/crawler-api';
-import { biToAddress, loadWorld, type World, type WorldJson } from '@avante/crawler-core';
+import {
+  biToAddress,
+  biToBigInt,
+  getInvalidatedCoords,
+  getSchema,
+  loadWorld,
+  type World,
+  type WorldJson,
+} from '@avante/crawler-core';
 import goerliData from '@avante/crawler-data/goerli';
 import mainnetData from '@avante/crawler-data/mainnet';
 import { config as loadEnv } from 'dotenv';
@@ -105,18 +119,19 @@ const formatSvg = (svg: string): Promise<string> =>
     printWidth: 80,
   });
 
-// Space consecutive on-chain requests ≥ MIN_REQUEST_INTERVAL_MS apart (≤ MAX_RPS).
+// Space on-chain requests to stay ≤ MAX_RPS. `requests` reserves the budget for
+// calls that fan out into several RPC reads (the ec assembler makes three).
 let lastRequestAt = 0;
-const throttle = async (): Promise<void> => {
-  const wait = lastRequestAt + MIN_REQUEST_INTERVAL_MS - Date.now();
+const throttle = async (requests: number): Promise<void> => {
+  const wait = lastRequestAt + MIN_REQUEST_INTERVAL_MS * requests - Date.now();
   if (wait > 0) await sleep(wait);
   lastRequestAt = Date.now();
 };
 
-/** throttled retry of a flaky on-chain read: 3 attempts, 1 s apart, then rethrow (aborts the run) */
-const withRetry = async <T>(label: string, fn: () => Promise<T>): Promise<T> => {
+/** throttled retry of a flaky on-chain fetch: 3 attempts, 1 s apart, then rethrow (aborts the run) */
+const withRetry = async <T>(label: string, requests: number, fn: () => Promise<T>): Promise<T> => {
   for (let attempt = 1; attempt <= RETRIES; attempt++) {
-    await throttle();
+    await throttle(requests);
     try {
       return await fn();
     } catch (err) {
@@ -152,29 +167,29 @@ const resolveWorld = (name: string): World => {
 const requiredFiles = (id: number, isEc: boolean): string[] =>
   isEc ? [`${id}.json`, `${id}.svg`, `${id}.html`] : [`${id}.json`, `${id}.svg`];
 
-/**
- * the `Chapter` attribute from EC token metadata — `coordToChamberData` needs the
- * chapter number, and the tokenURI just fetched already carries it
- */
-const ecChapter = (metadata: Record<string, unknown>, id: number): number => {
-  const attributes = Array.isArray(metadata.attributes) ? metadata.attributes : [];
-  for (const entry of attributes as unknown[]) {
-    if (entry === null || typeof entry !== 'object') continue;
-    const { trait_type: traitType, value } = entry as Record<string, unknown>;
-    if (traitType === 'Chapter' && typeof value === 'string') {
-      const chapter = Number(value);
-      if (Number.isInteger(chapter) && chapter >= 1 && chapter <= 255) return chapter;
-    }
-  }
-  throw new Error(`token ${id}: metadata has no usable [Chapter] attribute`);
-};
-
 /** read `_cache.json` (its `tokens` map) if present, so prior stamps survive */
 const readTokens = (dir: string): Record<string, TokenStamp> => {
   const file = join(dir, '_cache.json');
   if (!existsSync(file)) return {};
   const parsed = JSON.parse(readFileSync(file, 'utf8')) as { tokens?: Record<string, TokenStamp> };
   return parsed.tokens ?? {};
+};
+
+/**
+ * coord → tokenId over the cached token JSONs (the embedded `chamber.coord`) —
+ * how the staleness pass finds the already-cached token at an invalidated coord
+ */
+const readCoordIndex = (dir: string, total: number): Map<bigint, number> => {
+  const index = new Map<bigint, number>();
+  for (let id = 1; id <= total; id++) {
+    const file = join(dir, `${id}.json`);
+    if (!existsSync(file)) continue;
+    const parsed = JSON.parse(readFileSync(file, 'utf8')) as {
+      chamber?: { coord?: string | number };
+    };
+    if (parsed.chamber?.coord !== undefined) index.set(biToBigInt(parsed.chamber.coord), id);
+  }
+  return index;
 };
 
 const fetchWorld = async (name: string, entry: RegistryEntry, rpcUrl: string): Promise<void> => {
@@ -186,10 +201,10 @@ const fetchWorld = async (name: string, entry: RegistryEntry, rpcUrl: string): P
   console.log(`  RPC: $${entry.rpcEnv}`);
 
   // Pin one block for a consistent snapshot across the whole run.
-  const block = await withRetry('getBlockNumber', () =>
+  const block = await withRetry('getBlockNumber', 1, () =>
     getPublicClient(world.chainId, rpcUrl).getBlockNumber(),
   );
-  const totalSupply = await withRetry('totalSupply', () =>
+  const totalSupply = await withRetry('totalSupply', 1, () =>
     readTotalSupply(world, { rpcUrl, blockNumber: block }),
   );
   console.log(`  block ${block}, totalSupply ${totalSupply}`);
@@ -206,43 +221,70 @@ const fetchWorld = async (name: string, entry: RegistryEntry, rpcUrl: string): P
   }
   console.log(`  ${total - missing.length} complete on disk, ${missing.length} to fetch`);
 
-  const contract = getWorldContract(world, { rpcUrl });
   const tokens = readTokens(dir);
   const blockStr = block.toString();
 
-  for (const id of missing) {
-    // `image` and `animation_url` are lifted out by the api — nothing to strip.
-    const { metadata, svg, html } = await withRetry(`token ${id} tokenURI`, () =>
+  /**
+   * fetch one token whole through the api's payload assembler — the SDK's single
+   * fetch/assembly implementation — and write its archive files byte-stably;
+   * returns the token's coord (`ec` — from the embedded struct) for the
+   * staleness pass
+   */
+  const fetchToken = async (id: number): Promise<bigint | undefined> => {
+    if (isEc) {
+      // three RPC reads inside: tokenURI + tokenIdToCoord + coordToChamberData
+      const payload = await withRetry(`token ${id} assemble`, 3, () =>
+        assembleTokenPayload(world, id, { rpcUrl, blockNumber: block }),
+      );
+      // The playable form — the chain's own HTML player around the same SVG.
+      if (payload.html === undefined) {
+        throw new Error(`token ${id}: metadata has no animation_url data-URI`);
+      }
+      writeFileSync(join(dir, `${id}.svg`), await formatSvg(payload.svg));
+      writeFileSync(join(dir, `${id}.html`), await formatSvg(payload.html));
+      // The assembled metadata already embeds the on-chain struct as `chamber` —
+      // the SVG alone does not carry the full map data.
+      writeFileSync(join(dir, `${id}.json`), await formatViewData(payload.metadata));
+      tokens[String(id)] = { block: blockStr, fetchedAt: new Date().toISOString() };
+      return biToBigInt(payload.metadata.chamber.coord);
+    }
+    // no assembler for this schema yet — the generic tokenURI archive
+    const { metadata, svg } = await withRetry(`token ${id} tokenURI`, 1, () =>
       readTokenMetadata(world, id, { rpcUrl, blockNumber: block }),
     );
     writeFileSync(join(dir, `${id}.svg`), await formatSvg(svg));
-
-    if (isEc) {
-      // The playable form — the chain's own HTML player around the same SVG.
-      if (html === undefined) {
-        throw new Error(`token ${id}: metadata has no animation_url data-URI`);
-      }
-      writeFileSync(join(dir, `${id}.html`), await formatSvg(html));
-
-      // The on-chain chamber struct — the SVG alone does not carry the full map
-      // data, so `Crawl.ChamberData` (tilemap generated), read at the same block,
-      // rides in the token JSON as `chamber` (not `chamberData` — the view of
-      // that name has a different, converted shape).
-      const coord = await withRetry(`token ${id} tokenIdToCoord`, () =>
-        contract.read.tokenIdToCoord([BigInt(id)], { blockNumber: block }),
-      );
-      const chamber = await withRetry(`token ${id} coordToChamberData`, () =>
-        contract.read.coordToChamberData([ecChapter(metadata, id), coord, true], {
-          blockNumber: block,
-        }),
-      );
-      writeFileSync(join(dir, `${id}.json`), await formatViewData({ ...metadata, chamber }));
-    } else {
-      writeFileSync(join(dir, `${id}.json`), await formatViewData(metadata));
-    }
-
+    writeFileSync(join(dir, `${id}.json`), await formatViewData(metadata));
     tokens[String(id)] = { block: blockStr, fetchedAt: new Date().toISOString() };
+    return undefined;
+  };
+
+  const fetchedCoords: bigint[] = [];
+  for (const id of missing) {
+    const coord = await fetchToken(id);
+    if (coord !== undefined) fetchedCoords.push(coord);
     console.log(`  ✓ token ${id}`);
+  }
+
+  // Staleness pass — the schema's invalidation policy, executed by the fetch:
+  // the tokens just fetched (the new mints) invalidate their coordinate-schema
+  // neighbours; the affected already-cached tokens are refetched whole at the
+  // same pinned block (byte-stable when nothing changed on-chain).
+  const schema = getSchema(world.schema);
+  const invalidated = new Set<bigint>();
+  for (const coord of fetchedCoords) {
+    for (const neighbor of getInvalidatedCoords(schema, coord)) invalidated.add(neighbor);
+  }
+  if (invalidated.size > 0) {
+    const justFetched = new Set(missing);
+    const stale: number[] = [];
+    for (const [coord, id] of readCoordIndex(dir, total)) {
+      if (invalidated.has(coord) && !justFetched.has(id)) stale.push(id);
+    }
+    console.log(`  staleness: ${stale.length} invalidated neighbour(s) to refetch`);
+    for (const id of stale.sort((a, b) => a - b)) {
+      await fetchToken(id);
+      console.log(`  ↻ token ${id} (neighbour of a new mint)`);
+    }
   }
 
   // Advance the watermark on every clean run (even when nothing was fetched).

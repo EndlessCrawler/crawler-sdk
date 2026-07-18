@@ -51,4 +51,19 @@ export interface CoordinateSchemaLibrary {
    *   defines no compass (or the coord is invalid)
    */
   coordToCompass(coord: bigint): Compass | null;
+  /**
+   * @param compass the compass to pack — absent for coordinate schemas that
+   *   define no compass (compass locators then resolve to `undefined`)
+   * @returns the packed coordinate, or `0n` if the compass is invalid
+   */
+  compassToCoord?(compass: Compass): bigint;
+  /**
+   * The coordinate schema's neighbour offsets — the coords adjacent to `coord`
+   * (NEWS: the four cardinal offsets). Absent for coordinate schemas with no
+   * adjacency (`'neighbours'` invalidation then resolves to no coords).
+   *
+   * @param coord the packed coordinate
+   * @returns the neighbouring coords (boundary-saturated offsets excluded)
+   */
+  neighborCoords?(coord: bigint): bigint[];
 }

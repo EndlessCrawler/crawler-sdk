@@ -18,6 +18,16 @@ export type ChamberSize = TilemapSize;
 export type SchemaViewName = 'tokenCoord' | 'chamberData' | 'tokenSvg';
 
 /**
+ * How a newly minted chamber affects existing ones (see `SDK_SPECS.md` §Schemas):
+ * `'neighbours'` — the mint's coordinate-schema neighbours are stale (`ec`: a mint
+ * unlocks doors in its NEWS neighbours; the on-chain change is monotone) — or
+ * `'none'` (`cnc`: static maps). One pure primitive — `getInvalidatedCoords` —
+ * serves both consumers of the policy: the cache's staleness refetch and the
+ * live client's neighbour re-import.
+ */
+export type InvalidationPolicy = 'neighbours' | 'none';
+
+/**
  * The value domain of one schema-local attribute:
  * a primitive kind (`'number' | 'string' | 'boolean'`), `'tile'` (a tile position),
  * or an explicit readable-string domain (e.g. the `ec` gem names).
@@ -42,6 +52,8 @@ export interface DataSchema {
   readonly terrains: readonly string[];
   /** the coordinate schema this world navigates by (name → library registry) */
   readonly coordinateSchema: CoordinateSchemaName;
+  /** how a newly minted chamber affects existing ones ({@link InvalidationPolicy}) */
+  readonly invalidation: InvalidationPolicy;
   /** the views that CAN exist in a conforming world (each world carries the views it has) */
   readonly views: readonly SchemaViewName[];
   /** the schema-local gameplay extras and their value domains */
