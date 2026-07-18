@@ -6,7 +6,7 @@
  * no bitmap operations (the legacy packed-uint256 `bitmap` field was dropped — it
  * cannot represent larger-than-16×16 chambers).
  */
-import { type BigIntish, biToNumberArray } from '../bigintish';
+import { type BigIntish, bi } from '../bigintish';
 import { TileType } from './constants';
 
 /** The tilemap: one {@link TileType} per tile, row-major (`y * width + x`). */
@@ -91,7 +91,7 @@ export const flipDoorPosition = <T extends Xy | Tile>(pos: T, size: TilemapSize)
  */
 export const toTilemap = (tmp: TilemapIsh, size: TilemapSize): Tilemap => {
   const tiles = size.width * size.height;
-  const raw = Array.isArray(tmp) ? tmp : biToNumberArray(tmp);
+  const raw = Array.isArray(tmp) ? tmp : bi.toNumberArray(tmp);
   if (raw.length === tiles) {
     return raw;
   }

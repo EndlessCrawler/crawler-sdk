@@ -1,4 +1,4 @@
-import { isHexString, loadWorld, biToBigInt, type World } from '@avante/crawler-core';
+import { bi, loadWorld, type World } from '@avante/crawler-core';
 import mainnetData from '@avante/crawler-data/mainnet';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { getWorldContract, readOwnerOf, readTokenMetadata, readTotalSupply } from '../src';
@@ -28,8 +28,8 @@ describe('* erc721 (live mainnet)', () => {
     'readOwnerOf',
     async () => {
       const owner = await readOwnerOf(world, 1, options);
-      expect(isHexString(owner)).toBe(true);
-      expect(biToBigInt(owner)).not.toBe(0n);
+      expect(bi.isHexString(owner)).toBe(true);
+      expect(bi.toBigInt(owner)).not.toBe(0n);
     },
     TIMEOUT,
   );

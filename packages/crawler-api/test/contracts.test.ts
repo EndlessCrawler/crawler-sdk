@@ -1,4 +1,4 @@
-import { loadWorld, biToBigInt } from '@avante/crawler-core';
+import { bi, loadWorld } from '@avante/crawler-core';
 import goerliData from '@avante/crawler-data/goerli';
 import mainnetData from '@avante/crawler-data/mainnet';
 import { createPublicClient, http } from 'viem';
@@ -52,18 +52,18 @@ describe('* contract factories', () => {
     for (const json of [mainnetData.world, goerliData.world]) {
       const world = loadWorld(json);
       const contract = getWorldContract(world, { rpcUrl: RPC });
-      expect(biToBigInt(contract.address), world.name).toBe(world.contractAddress);
+      expect(bi.toBigInt(contract.address), world.name).toBe(world.contractAddress);
       expect(contract.abi, world.name).toBe(getContractAbi(world.contractName));
     }
   });
 
   it('converts BigIntish addresses at the boundary', () => {
     const address = '0x8E70b94C57b0CBC9807c0F58Bc251f4cD96AcDb0';
-    const built = [address, address.toLowerCase(), biToBigInt(address)].map(
+    const built = [address, address.toLowerCase(), bi.toBigInt(address)].map(
       (contractAddress) => getErc721({ chainId: 1, contractAddress, rpcUrl: RPC }).address,
     );
     for (const out of built) {
-      expect(biToBigInt(out)).toBe(biToBigInt(address));
+      expect(bi.toBigInt(out)).toBe(bi.toBigInt(address));
       expect(out).toBe(built[0]);
     }
   });

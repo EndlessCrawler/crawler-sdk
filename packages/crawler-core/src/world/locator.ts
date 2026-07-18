@@ -2,7 +2,7 @@
  * Chamber locators — one resolution path for every chamber key form
  * (see `SDK_SPECS.md` §The `Crawler` client).
  */
-import { type BigIntish, biToBigInt } from '../bigintish';
+import { type BigIntish, bi } from '../bigintish';
 import { getCoordinateSchema } from '../coords/registry';
 import type { Compass } from '../coords/types';
 import { getSchema } from '../schema/registry';
@@ -37,7 +37,7 @@ export const resolveCoord = (world: World, locator: ChamberLocator): bigint | un
     return getTokenCoord(world, locator.tokenId);
   }
   if (locator.coord !== undefined) {
-    return biToBigInt(locator.coord);
+    return bi.toBigInt(locator.coord);
   }
   const library = getCoordinateSchema(getSchema(world.schema).coordinateSchema);
   if (locator.slug !== undefined) {

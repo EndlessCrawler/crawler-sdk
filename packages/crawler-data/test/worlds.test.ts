@@ -16,7 +16,7 @@ import {
   hasView,
   loadWorld,
   offsetCoord,
-  biToBigInt,
+  bi,
   type World,
 } from '@avante/crawler-core';
 import goerliData from '../src/goerli';
@@ -36,7 +36,7 @@ describe('static worlds', () => {
     expect(mainnet.network).toBe('ethereum');
     expect(mainnet.chainId).toBe(1n);
     expect(mainnet.schema).toBe('ec');
-    expect(mainnet.contractAddress).toBe(biToBigInt('0x8E70b94C57b0CBC9807c0F58Bc251f4cD96AcDb0'));
+    expect(mainnet.contractAddress).toBe(bi.toBigInt('0x8E70b94C57b0CBC9807c0F58Bc251f4cD96AcDb0'));
     expect(goerli.name).toBe('goerli');
     expect(goerli.chainId).toBe(5n);
   });

@@ -4,7 +4,7 @@
  * identically by both consumers of the policy: the cache's staleness refetch and
  * the live client's neighbour re-import.
  */
-import { type BigIntish, biToBigInt } from '../bigintish';
+import { type BigIntish, bi } from '../bigintish';
 import { getCoordinateSchema } from '../coords/registry';
 import type { DataSchema } from './schema';
 
@@ -21,5 +21,5 @@ import type { DataSchema } from './schema';
 export const getInvalidatedCoords = (schema: DataSchema, coord: BigIntish): bigint[] => {
   if (schema.invalidation === 'none') return [];
   const library = getCoordinateSchema(schema.coordinateSchema);
-  return library.neighborCoords?.(biToBigInt(coord)) ?? [];
+  return library.neighborCoords?.(bi.toBigInt(coord)) ?? [];
 };

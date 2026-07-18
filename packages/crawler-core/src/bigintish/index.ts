@@ -1,16 +1,2 @@
-export {
-  type BigIntish,
-  type HexString,
-  InvalidBigIntishError,
-  biEquals,
-  biToAddress,
-  biToByteArray,
-  biToHex,
-  biToNumberArray,
-  biToString,
-  binaryArrayToBigInt,
-  isBigInt,
-  isBigIntish,
-  isHexString,
-  biToBigInt,
-} from './bigintish';
+export * as bi from './bigintish';
+export { type BigIntish, type HexString, InvalidBigIntishError } from './bigintish';

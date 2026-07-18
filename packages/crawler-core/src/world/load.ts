@@ -3,7 +3,7 @@
  * validates against the declared schema, normalizes keys and chain-scale values
  * to `bigint`, and maps readable stored forms (direction names) back to vocabulary.
  */
-import { isBigIntish, biToBigInt } from '../bigintish';
+import { bi } from '../bigintish';
 import type { ChamberData, Door } from '../chamber/chamber';
 import { type Dir, DirNames } from '../chamber/constants';
 import type { Compass } from '../coords/types';
@@ -32,10 +32,10 @@ const _dirFromName: Record<string, Dir> = Object.fromEntries(
 );
 
 const _biToBigIntOrThrow = (worldName: string, value: unknown, context: string): bigint => {
-  if (!isBigIntish(value)) {
+  if (!bi.isBigIntish(value)) {
     throw new WorldValidationError(worldName, `${context}: [${String(value)}] is not BigIntish`);
   }
-  return biToBigInt(value);
+  return bi.toBigInt(value);
 };
 
 const _parseCompass = (worldName: string, compass: object, context: string): Compass => {

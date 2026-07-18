@@ -8,6 +8,9 @@
  * All functions are pure and total with defined error behavior: malformed input
  * (the empty string, garbage strings, non-integer numbers) is rejected with
  * {@link InvalidBigIntishError} — never silently coerced to `0n`.
+ *
+ * The module is exported as the `bi` namespace, so functions are called as
+ * `bi.toBigInt(…)`, `bi.toHex(…)`, `bi.isBigIntish(…)`, and so on.
  */
 
 /**
@@ -77,7 +80,7 @@ export const isBigInt = (value: unknown): value is bigint => typeof value === 'b
  * a decimal string, or a hex string.
  *
  * @param value the value to test
- * @returns true if {@link biToBigInt} would accept `value`
+ * @returns true if {@link toBigInt} would accept `value`
  * @example
  * ```ts
  * isBigIntish(123n);   // true
@@ -102,7 +105,7 @@ export const isBigIntish = (value: unknown): value is BigIntish => {
  * @throws {@link InvalidBigIntishError} on malformed input (`''`, garbage strings,
  *   non-integer numbers) — never silently `0n`
  */
-export const biToBigInt = (value: BigIntish): bigint => {
+export const toBigInt = (value: BigIntish): bigint => {
   if (!isBigIntish(value)) {
     throw new InvalidBigIntishError(value);
   }
@@ -118,14 +121,14 @@ export const biToBigInt = (value: BigIntish): bigint => {
  * @returns true if both convert to the same `bigint`
  * @throws {@link InvalidBigIntishError} if either value is malformed
  */
-export const biEquals = (a: BigIntish, b: BigIntish): boolean => biToBigInt(a) === biToBigInt(b);
+export const equals = (a: BigIntish, b: BigIntish): boolean => toBigInt(a) === toBigInt(b);
 
 /**
  * @param value a bigint in any representation
  * @returns the value as a decimal string (base 10)
  * @throws {@link InvalidBigIntishError} on malformed input
  */
-export const biToString = (value: BigIntish): string => biToBigInt(value).toString();
+export const toDecimalString = (value: BigIntish): string => toBigInt(value).toString();
 
 /**
  * Converts a non-negative {@link BigIntish} to its canonical hex-string form.
@@ -135,8 +138,8 @@ export const biToString = (value: BigIntish): string => biToBigInt(value).toStri
  * @throws {@link InvalidBigIntishError} on malformed or negative input
  *   (the hex form is non-negative by construction)
  */
-export const biToHex = (value: BigIntish): HexString => {
-  const converted = biToBigInt(value);
+export const toHex = (value: BigIntish): HexString => {
+  const converted = toBigInt(value);
   if (converted < 0n) {
     throw new InvalidBigIntishError(value, 'the hex form is non-negative');
   }
@@ -157,8 +160,8 @@ export const biToHex = (value: BigIntish): HexString => {
  * @throws {@link InvalidBigIntishError} on malformed or negative input, or a
  *   value past 20 bytes
  */
-export const biToAddress = (value: BigIntish): HexString => {
-  const converted = biToBigInt(value);
+export const toAddress = (value: BigIntish): HexString => {
+  const converted = toBigInt(value);
   if (converted < 0n || converted >> 160n !== 0n) {
     throw new InvalidBigIntishError(value, 'an address fits 20 bytes');
   }
@@ -172,8 +175,8 @@ export const biToAddress = (value: BigIntish): HexString => {
  * @returns the bigint's bytes, most significant first
  * @throws {@link InvalidBigIntishError} on malformed or negative input
  */
-export const biToByteArray = (value: BigIntish): Uint8Array => {
-  const hex = biToHex(value).slice(2);
+export const toByteArray = (value: BigIntish): Uint8Array => {
+  const hex = toHex(value).slice(2);
   const result = new Uint8Array(hex.length / 2);
   for (let i = 0; i < result.length; i++) {
     result[i] = Number.parseInt(hex.slice(i * 2, i * 2 + 2), 16);
@@ -188,7 +191,7 @@ export const biToByteArray = (value: BigIntish): Uint8Array => {
  * @returns the bigint's bytes as numbers, most significant first
  * @throws {@link InvalidBigIntishError} on malformed or negative input
  */
-export const biToNumberArray = (value: BigIntish): number[] => Array.from(biToByteArray(value));
+export const toNumberArray = (value: BigIntish): number[] => Array.from(toByteArray(value));
 
 /**
  * Packs an array of binary digits into a bigint: `[1,0,1,1,0,1]` → `0b101101n`.
@@ -197,9 +200,9 @@ export const biToNumberArray = (value: BigIntish): number[] => Array.from(biToBy
  * @returns the packed bigint
  * @throws {@link RangeError} if the array is longer than 256 entries
  */
-export const binaryArrayToBigInt = (values: number[] | boolean[]): bigint => {
+export const fromBinaryArray = (values: number[] | boolean[]): bigint => {
   if (values.length > 256) {
-    throw new RangeError(`binaryArrayToBigInt() array length is ${values.length}, max is 256.`);
+    throw new RangeError(`fromBinaryArray() array length is ${values.length}, max is 256.`);
   }
   let result = '0b0';
   for (const value of values) {

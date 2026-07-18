@@ -4,7 +4,7 @@
  * caller converts (the pipeline rule); the P4 cache and the P8 watcher both
  * consume `readTokenMetadata`.
  */
-import { type BigIntish, type HexString, biToBigInt, type World } from '@avante/crawler-core';
+import { type BigIntish, type HexString, bi, type World } from '@avante/crawler-core';
 import { getWorldContract } from './contracts';
 import type { ContractOptions } from './contracts';
 import { InvalidTokenMetadataError } from './errors';
@@ -21,7 +21,7 @@ export interface ReadOptions extends ContractOptions {
 
 /** viem per-call read options — `{ blockNumber }` when pinned, else `{}` */
 const _callOptions = (options: ReadOptions): { blockNumber?: bigint } =>
-  options.blockNumber === undefined ? {} : { blockNumber: biToBigInt(options.blockNumber) };
+  options.blockNumber === undefined ? {} : { blockNumber: bi.toBigInt(options.blockNumber) };
 
 /** one token's unpacked `tokenURI` payload — raw metadata, never converted here */
 export interface TokenMetadata {
@@ -66,7 +66,7 @@ export const readOwnerOf = async (
   tokenId: BigIntish,
   options: ReadOptions = {},
 ): Promise<HexString> =>
-  getWorldContract(world, options).read.ownerOf([biToBigInt(tokenId)], _callOptions(options));
+  getWorldContract(world, options).read.ownerOf([bi.toBigInt(tokenId)], _callOptions(options));
 
 /**
  * Fetches a token's `tokenURI` and unpacks its data-URIs: the metadata JSON with
@@ -83,7 +83,7 @@ export const readTokenMetadata = async (
   tokenId: BigIntish,
   options: ReadOptions = {},
 ): Promise<TokenMetadata> => {
-  const id = biToBigInt(tokenId);
+  const id = bi.toBigInt(tokenId);
   const uri = await getWorldContract(world, options).read.tokenURI([id], _callOptions(options));
   const json = _decodeDataUri(uri);
   if (json === undefined) {

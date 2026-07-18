@@ -22,7 +22,7 @@ import {
   flipDoorPosition,
   type NewsCompass,
   offsetCoord,
-  biToBigInt,
+  bi,
   toTilemap,
 } from '@avante/crawler-core';
 import { TokenConversionError } from '../errors';
@@ -59,10 +59,10 @@ const _numberTrait = (tokenId: bigint, metadata: EcTokenMetadata, name: string):
 const _convert = (tokenId: bigint, payload: EcTokenPayload): ConvertedToken<typeof ec> => {
   const { metadata, svg } = payload;
   const { chamber } = metadata;
-  if (biToBigInt(payload.tokenId) !== tokenId) {
+  if (bi.toBigInt(payload.tokenId) !== tokenId) {
     _fail(tokenId, `payload tokenId [${String(payload.tokenId)}] disagrees`);
   }
-  if (biToBigInt(chamber.tokenId) !== tokenId) {
+  if (bi.toBigInt(chamber.tokenId) !== tokenId) {
     _fail(tokenId, `struct tokenId [${String(chamber.tokenId)}] disagrees`);
   }
 
@@ -70,13 +70,13 @@ const _convert = (tokenId: bigint, payload: EcTokenPayload): ConvertedToken<type
   const compass: NewsCompass = {};
   for (const [traitName, key] of _compassTraits) {
     const value = _trait(metadata, traitName);
-    if (value !== undefined) compass[key] = biToBigInt(value);
+    if (value !== undefined) compass[key] = bi.toBigInt(value);
   }
   const coord = compassToCoord(compass);
   if (coord === 0n) {
     _fail(tokenId, 'the compass traits do not form a valid NEWS compass');
   }
-  if (coord !== biToBigInt(chamber.coord)) {
+  if (coord !== bi.toBigInt(chamber.coord)) {
     _fail(tokenId, `compass coord [${coord}] disagrees with struct coord [${chamber.coord}]`);
   }
 
@@ -119,7 +119,7 @@ const _convert = (tokenId: bigint, payload: EcTokenPayload): ConvertedToken<type
     compass,
     terrain: terrain as EcTerrain,
     yonder: _numberTrait(tokenId, metadata, 'Yonder'),
-    seed: biToBigInt(chamber.seed),
+    seed: bi.toBigInt(chamber.seed),
     tilemap,
     doors,
     ...(chamber.locks.some((lock) => Boolean(lock)) ? { isDynamic: true } : {}),

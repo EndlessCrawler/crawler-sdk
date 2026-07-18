@@ -16,7 +16,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { biToAddress, loadWorld, type WorldJson } from '@avante/crawler-core';
+import { bi, loadWorld, type WorldJson } from '@avante/crawler-core';
 import goerliData from '@avante/crawler-data/goerli';
 import mainnetData from '@avante/crawler-data/mainnet';
 import { describe, expect, it } from 'vitest';
@@ -132,7 +132,7 @@ describe('cache archive invariants', () => {
         expect(state.network).toBe(world.network);
         expect(String(state.chainId)).toBe(world.chainId.toString());
         expect(state.contractName).toBe(world.contractName);
-        expect(state.contractAddress).toBe(biToAddress(world.contractAddress));
+        expect(state.contractAddress).toBe(bi.toAddress(world.contractAddress));
         expect(BigInt(state.fetchedThroughBlock)).toBeGreaterThan(0n);
         expect(Object.keys(state.tokens).length).toBe(jsonIds.length);
       });

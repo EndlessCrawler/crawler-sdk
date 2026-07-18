@@ -5,13 +5,7 @@
  * to viem's `Address` happens here, via core's `bigintish`. Final names ride the
  * surface freeze (SDK plan #7).
  */
-import {
-  type BigIntish,
-  biToAddress,
-  biToBigInt,
-  type ContractName,
-  type World,
-} from '@avante/crawler-core';
+import { type BigIntish, bi, type ContractName, type World } from '@avante/crawler-core';
 import {
   type Abi,
   erc20Abi,
@@ -55,7 +49,7 @@ export interface ContractOptions {
  */
 export const resolveClient = (chainId: BigIntish, options: ContractOptions): PublicClient => {
   if (options.client) {
-    const id = Number(biToBigInt(chainId));
+    const id = Number(bi.toBigInt(chainId));
     if (options.client.chain && options.client.chain.id !== id) {
       throw new ClientChainMismatchError(chainId, options.client.chain.id);
     }
@@ -86,7 +80,7 @@ export const getTypedContract = <A extends Abi>(
   getContract({
     abi: options.abi,
     // core converts (BigIntish → padded hex), viem checksums
-    address: getAddress(biToAddress(options.contractAddress)),
+    address: getAddress(bi.toAddress(options.contractAddress)),
     client: resolveClient(options.chainId, options),
   });
 

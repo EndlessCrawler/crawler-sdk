@@ -6,7 +6,7 @@
  * {@link MissingViewError} (`hasView` is the capability query); a missing *record*
  * in a present view returns `undefined`.
  */
-import { type BigIntish, biToBigInt } from '../bigintish';
+import { type BigIntish, bi } from '../bigintish';
 import type { ChamberData } from '../chamber/chamber';
 import type { DataSchema } from '../schema/schema';
 import { MissingViewError } from '../errors';
@@ -57,7 +57,7 @@ const _tokenSvgView = (world: World): ReadonlyMap<bigint, string> => {
  * @throws {@link MissingViewError} if the world carries no `tokenCoord` view
  */
 export const getTokenCoord = (world: World, tokenId: BigIntish): bigint | undefined =>
-  _tokenCoordView(world).get(biToBigInt(tokenId));
+  _tokenCoordView(world).get(bi.toBigInt(tokenId));
 
 /**
  * @param world the world to read
@@ -86,7 +86,7 @@ export const getTokenCount = (world: World): number => _tokenCoordView(world).si
 export const getChamber = <S extends DataSchema>(
   world: World<S>,
   coord: BigIntish,
-): ChamberData<S> | undefined => _chamberDataView(world).get(biToBigInt(coord));
+): ChamberData<S> | undefined => _chamberDataView(world).get(bi.toBigInt(coord));
 
 /**
  * @param world the world to read
@@ -124,7 +124,7 @@ export const getChambersByCoords = <S extends DataSchema>(
   const view = _chamberDataView(world);
   const result: ChamberData<S>[] = [];
   for (const coord of coords) {
-    const chamber = view.get(biToBigInt(coord));
+    const chamber = view.get(bi.toBigInt(coord));
     if (chamber) result.push(chamber);
   }
   return result;
@@ -201,4 +201,4 @@ export const getDynamicChamberTokenIds = (world: World): bigint[] => {
  *   (e.g. the frozen goerli world)
  */
 export const getTokenSvg = (world: World, tokenId: BigIntish): string | undefined =>
-  _tokenSvgView(world).get(biToBigInt(tokenId));
+  _tokenSvgView(world).get(bi.toBigInt(tokenId));

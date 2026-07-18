@@ -8,7 +8,7 @@
  * Returns are typed **structurally** — the api never imports `crawler-data`;
  * compatibility with its `EcTokenPayload` is pinned by a devDependency-typed test.
  */
-import { type BigIntish, biToBigInt, type HexString, type World } from '@avante/crawler-core';
+import { type BigIntish, bi, type HexString, type World } from '@avante/crawler-core';
 import { getWorldContract } from './contracts';
 import { InvalidTokenMetadataError, MissingAssemblerError } from './errors';
 import { type ReadOptions, readTokenMetadata } from './reads';
@@ -83,7 +83,7 @@ export type AssembledTokenPayload = AssembledEcTokenPayload;
 
 /** viem per-call read options — `{ blockNumber }` when pinned, else `{}` */
 const _callOptions = (options: ReadOptions): { blockNumber?: bigint } =>
-  options.blockNumber === undefined ? {} : { blockNumber: biToBigInt(options.blockNumber) };
+  options.blockNumber === undefined ? {} : { blockNumber: bi.toBigInt(options.blockNumber) };
 
 /** validate the unpacked tokenURI metadata into the `ec` readable shape */
 const _ecMetadata = (
@@ -143,7 +143,7 @@ export const assembleEcTokenPayload = async (
   tokenId: BigIntish,
   options: ReadOptions = {},
 ): Promise<AssembledEcTokenPayload> => {
-  const id = biToBigInt(tokenId);
+  const id = bi.toBigInt(tokenId);
   const { metadata: raw, svg, html } = await readTokenMetadata(world, id, options);
   const metadata = _ecMetadata(id, raw);
   const contract = getWorldContract(world, options);

@@ -47,8 +47,7 @@ import {
   readTotalSupply,
 } from '@avante/crawler-api';
 import {
-  biToAddress,
-  biToBigInt,
+  bi,
   getInvalidatedCoords,
   getSchema,
   loadWorld,
@@ -187,7 +186,7 @@ const readCoordIndex = (dir: string, total: number): Map<bigint, number> => {
     const parsed = JSON.parse(readFileSync(file, 'utf8')) as {
       chamber?: { coord?: string | number };
     };
-    if (parsed.chamber?.coord !== undefined) index.set(biToBigInt(parsed.chamber.coord), id);
+    if (parsed.chamber?.coord !== undefined) index.set(bi.toBigInt(parsed.chamber.coord), id);
   }
   return index;
 };
@@ -246,7 +245,7 @@ const fetchWorld = async (name: string, entry: RegistryEntry, rpcUrl: string): P
       // the SVG alone does not carry the full map data.
       writeFileSync(join(dir, `${id}.json`), await formatViewData(payload.metadata));
       tokens[String(id)] = { block: blockStr, fetchedAt: new Date().toISOString() };
-      return biToBigInt(payload.metadata.chamber.coord);
+      return bi.toBigInt(payload.metadata.chamber.coord);
     }
     // no assembler for this schema yet — the generic tokenURI archive
     const { metadata, svg } = await withRetry(`token ${id} tokenURI`, 1, () =>
@@ -293,7 +292,7 @@ const fetchWorld = async (name: string, entry: RegistryEntry, rpcUrl: string): P
     network: world.network,
     chainId: world.chainId,
     contractName: world.contractName,
-    contractAddress: biToAddress(world.contractAddress),
+    contractAddress: bi.toAddress(world.contractAddress),
     fetchedThroughBlock: blockStr,
     updatedAt: new Date().toISOString(),
     tokens,

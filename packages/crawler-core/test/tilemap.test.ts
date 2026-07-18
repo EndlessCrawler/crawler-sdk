@@ -1,13 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import {
-  binaryArrayToBigInt,
-  ec,
-  flipDoorPosition,
-  type Tile,
-  tileToXy,
-  toTilemap,
-  xyToTile,
-} from '../src';
+import { bi, ec, flipDoorPosition, type Tile, tileToXy, toTilemap, xyToTile } from '../src';
 
 const mixedmap = BigInt('0xce734001a002500188024401820241018082404180224011800a40058002aa55');
 const mixedmap_int = [
@@ -30,8 +22,8 @@ describe('tilemap', () => {
     expect(mixedmap_int.length).toBe(256);
   });
 
-  it('binaryArrayToBigInt(number[])', () => {
-    const big1 = binaryArrayToBigInt(mixedmap_int);
+  it('bi.fromBinaryArray(number[])', () => {
+    const big1 = bi.fromBinaryArray(mixedmap_int);
     expect(big1.toString(16)).toBe(mixedmap.toString(16));
   });
 
