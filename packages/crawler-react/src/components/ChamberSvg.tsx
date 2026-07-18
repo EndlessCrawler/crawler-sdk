@@ -3,8 +3,13 @@
 /**
  * `<ChamberSvg>` — renders a chamber's original token SVG (display-only, SPECS
  * §Token SVGs), gracefully empty when the world carries no `TokenSvg` view
- * (goerli) or the record is absent. Styling is consumer-side (`className` /
- * `style` pass through); the SDK ships no other rendering opinions.
+ * (goerli) or the record is absent. The SVG renders as an `<img>` over a
+ * `data:` URI — its own image document — because the token SVGs style
+ * themselves through document-global CSS (`:root` palette variables, id
+ * selectors): inlined side by side on an index grid they overwrite each other
+ * (the last palette wins page-wide). Styling is consumer-side (`className` /
+ * `style` pass through to the `<img>`); the SDK ships no other rendering
+ * opinions.
  */
 import type { Chamber, ChamberLocator } from '@avante/crawler-core';
 import type { CSSProperties } from 'react';
@@ -26,14 +31,20 @@ const _svgOf = (chamber: Chamber | undefined): string | undefined =>
   chamber?.world.hasView('tokenSvg') ? chamber.world.getTokenSvg(chamber.tokenId) : undefined;
 
 const _Svg = ({
-  svg,
+  chamber,
   className,
   style,
-}: Pick<ChamberSvgProps, 'className' | 'style'> & { svg: string | undefined }) => {
+}: Pick<ChamberSvgProps, 'className' | 'style'> & { chamber: Chamber | undefined }) => {
+  const svg = _svgOf(chamber);
   if (svg === undefined) return null;
-  // the SVG is the chamber's own on-chain artwork, carried verbatim
-  // biome-ignore lint/security/noDangerouslySetInnerHtml: rendering the world's stored SVG is this component's purpose
-  return <div className={className} style={style} dangerouslySetInnerHTML={{ __html: svg }} />;
+  return (
+    <img
+      src={`data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`}
+      alt={chamber?.name ?? ''}
+      className={className}
+      style={style}
+    />
+  );
 };
 
 /** the locator path — a component of its own so the chamber-prop path needs no provider */
@@ -44,13 +55,13 @@ const _ChamberSvgByLocator = ({
   style,
 }: Omit<ChamberSvgProps, 'chamber'> & { locator: ChamberLocator }) => {
   const chamber = useChamberSchema(locator, worldName);
-  return <_Svg svg={_svgOf(chamber)} className={className} style={style} />;
+  return <_Svg chamber={chamber} className={className} style={style} />;
 };
 
 /** Renders a chamber's original token SVG — from a `Chamber`, or by locator. */
 export const ChamberSvg = ({ chamber, locator, worldName, className, style }: ChamberSvgProps) => {
   if (chamber) {
-    return <_Svg svg={_svgOf(chamber)} className={className} style={style} />;
+    return <_Svg chamber={chamber} className={className} style={style} />;
   }
   if (locator) {
     return (

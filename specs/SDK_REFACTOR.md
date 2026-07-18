@@ -1,6 +1,6 @@
 # crawler-sdk — SDK Refactor: execution map
 
-**Status:** _P1–P7 landed; P8 (explorer) mapped below, not started — the explorer lands once, on the final react surface, as its reference implementation._ This document is the refactor's **execution map**: per phase, it grounds the current code and states dispositions (stays / adapted / replaced / deleted) and step order. It holds no specification — target shapes live in **`specs/SDK_SPECS.md`** (authoritative; wins on conflict) and open decisions in **`specs/SDK_PLAN.md`**. Completed phases collapse to their outcome (git history carries the journey); P7+ get their sections when they start.
+**Status:** _P1–P8 landed — every refactor phase is executed; what remains before the first npm publish is P9 (see `SDK_PLAN.md`)._ This document is the refactor's **execution map**: per phase, it grounds the current code and states dispositions (stays / adapted / replaced / deleted) and step order. It holds no specification — target shapes live in **`specs/SDK_SPECS.md`** (authoritative; wins on conflict) and open decisions in **`specs/SDK_PLAN.md`**. Completed phases collapse to their outcome (git history carries the journey).
 
 ---
 
@@ -78,37 +78,12 @@ The full `crawler-react` surface and the cross-package live path (#16 closed). *
 - **react live surface:** provider `liveUpdate?: boolean | LiveUpdateOptions` mounts a thin `<LiveUpdater>` calling the self-contained `useLiveWorld(options?, worldName?)` (**internal** — not exported from the package root; only the `LiveUpdateOptions` type is public): dynamic `import('@avante/crawler-api')` (optional peer, `peerDependenciesMeta`; missing install surfaces `CrawlerApiUnavailableError` through render for error boundaries), `watchMints` → `assembleTokenPayload` → `world.import` + invalidated-neighbour re-imports, localStorage restore/prune/persist (`src/lib/persistence.ts` — private `v1` bigint-safe format keyed by binding, `{ $bigint }` wrapping, unreadable entries treated as a format bump). `LiveUpdateOptions.client` is `unknown` on purpose — react never depends on viem.
 - **Tests + housekeeping:** react's real suite (29 tests: every hook over fake worlds, `<ChamberSvg>`, the live path with a mocked `crawler-api` + jsdom localStorage, missing-peer boundary test; `@testing-library/react` + `jsdom` devDeps; package tsconfig overrides the base's `jsx: "preserve"` with `react-jsx` — vite/oxc honors tsconfig and would otherwise leave JSX unparsed); api live suite (watch + assemblers, fake timers); core locator/invalidation suites; explorer `DataMenu` re-pointed to `useWorldEC`; react manifest description finally true; README examples verified against the landed surface. Gates green: sequential build, workspace + explorer typecheck, 124 tests, Biome, `check:pack`.
 
-## P8 — sdk-explorer (browse tool + data API) — map
+## P8 — sdk-explorer (browse tool + data API) — ✅ LANDED
 
-**Spec:** → SPECS §`apps/sdk-explorer` (browse UI, route families, addressing, CORS mechanism — all settled; #18 closed and concretized). Runs **after** the react phase: the explorer consumes the final react surface — the hooks and `<ChamberSvg>` are used wherever applicable, making the explorer the bindings' **reference implementation**. App stack stays Tailwind v4 + TanStack Query (its own HTTP fetching).
+The explorer rebuilt once, on the final react surface — the full browse tool + the same-origin data API, the `crawler-react` bindings' **reference implementation** (hooks + `<ChamberSvg>` everywhere, no hand-rolled equivalents). **Spec:** → SPECS §`apps/sdk-explorer` (#18 closed). Outcome:
 
-### Current code — dispositions
-
-| File | Disposition |
-|---|---|
-| `src/app/api/hello/route.ts` | **deleted** — starter scaffold |
-| `src/app/api/read/[...read]/route.ts` | **deleted** — keep-lights-on raw read route (dynamic dispatch + explorer-side cast); replaced by the converted on-chain family — raw reads are what `crawler-api` is for |
-| `src/app/page.tsx` | **replaced** — sample dispatchers (incl. the external `/feriados` demo URL) give way to the browse home (world index / entry into `/world/<name>`) |
-| `src/app/data/page.tsx` + `components/DataMenu.tsx` | **stay** — the client-surface console (dev view) |
-| `src/app/apis/page.tsx` + `components/ApisMenu.tsx` | **adapted** — menu re-pointed from `/api/read` at the new `/api/data` + `/api/onchain` families |
-| `src/hooks/WorldContext.tsx` + `components/DataSetSelector.tsx` | **stay** — browsed-world UI state (the SDK has no "current world") |
-| `src/hooks/SelectionContext.tsx`, `components/{Dispatchers,Results,MonacoEditor}.tsx`, `hooks/useFormatter.tsx` | **stay** — console selection/results machinery |
-| `src/lib/apiResponse.ts` | **stays** — the bigint-safe JSON response helper for all route handlers; grows the CORS opt-in (`EXPLORER_CORS_ORIGINS`) |
-| `src/lib/serverRpc.ts` | **stays** — per-call `rpcUrl` for the on-chain routes |
-| `src/lib/crawlerClient.ts` | **stays** — the shared `Crawler` (client); server route handlers resolve worlds from the same per-world bundles |
-| `src/app/providers.tsx` | **adapted** — `WorldProvider` moves **outside** `CrawlerProvider` so the browsed world can drive the provider's `defaultWorld`; the wagmi/ConnectKit stack (`src/lib/chains.ts` included) stays untouched — read-only demo, ownership UX is P10 (#17) |
-| `components/{Header,Layout,Icons}.tsx` | **stay** — app chrome; Header gains nav to the browse pages |
-
-### New
-
-- **`/api/data/[world]` route family** — whole-world payload (the stored `WorldJson`, canonical form), chamber by coord, chamber by tokenId, original SVG as `image/svg+xml`.
-- **`/api/onchain/[world]/token/[tokenId]`** — the api's `assembleTokenPayload(world, tokenId, { rpcUrl })` (P7 surface — the route never re-implements assembly) → the world's converter → converted `ChamberData` out.
-- **Browse pages** — `/world/[name]` (SVG-grid chamber index) and `/world/[name]/chamber/[slug]` (SVG + `ChamberData` + clickable-door navigation), built on the react surface: `<ChamberSvg>` for every SVG pane, `useChamber({ slug })` for lookup, `useChamberNeighbors` for the door navigation, `useChambers` for the grid — the browsed world (`WorldContext`) drives the provider's `defaultWorld`, so page components omit world names like a single-world game would; **route slugs are separator-less** (`S1W1` — parse accepts any separator, URLs emit none); goerli (no `tokenSvg`) browses data-only behind `hasView` guards. Optionally a live pane demoing the provider's `liveUpdate` prop, styled with Tailwind.
-
-### Step order
-
-1. **Data route family** + the CORS opt-in in the response helper — pure `crawler-data` reads; verify through the console.
-2. **On-chain converted route** — the api's `assembleTokenPayload` + the world's converter; verify by diffing against the data route for an existing token (the cached-vs-live compare).
-3. **Browse pages** over the routes and the react surface — index grid (`useChambers` + `<ChamberSvg>`), detail page (`useChamber({ slug })` + `useChamberNeighbors`); verify both worlds (mainnet SVGs, goerli data-only).
-4. **Delete the scaffold** — `/api/read`, `/api/hello`, the sample home content; re-point `ApisMenu`; sweep stale "parked/rebuilt at P7" comments (the explorer rebuild is P8).
-5. **Gates:** `pnpm build` + `typecheck` + Biome; manual live verification (`next dev`) of both route families and both worlds' browsing.
+- **Data route family** (`src/app/api/data/[world]/…`): the whole-world payload (the stored `WorldJson` served straight from the per-world bundle — canonical form), `chamber/[coord]` + `token/[tokenId]` (one `ChamberData` record; keys `BigIntish` — decimal and hex both parse; bad keys 400, misses and unknown worlds 404), `svg/[tokenId]` (the original SVG as `image/svg+xml`; worlds without `tokenSvg` 404). Route JSON stays bigint-safe via `lib/apiResponse.ts`, which grew the **CORS opt-in**: no headers by default; `EXPLORER_CORS_ORIGINS` (comma-separated origins, or `*`) applies uniformly to both families — allowed origins echoed with `Vary: Origin`, others get nothing. Route handlers resolve worlds through `lib/routeParams.ts` over the shared bundles (`crawlerClient.ts` grew `worldBundles`/`getWorldBundle`).
+- **On-chain converted route** (`/api/onchain/[world]/token/[tokenId]`): the api's `assembleTokenPayload(world, tokenId, { rpcUrl })` (never re-implemented) → the bundle's converter → the converted `ChamberData` out; assembly/chain failures 502. Verified live — token 1 reproduces the cached record **field-for-field**. The **cached-vs-live compare is UI**: the `/apis` console diffs the two routes per key (no compare endpoint).
+- **Browse pages:** home world index → `/world/[name]` SVG-grid chamber index (`useChambers`, tokenId-sorted; goerli renders data-only slug tiles behind `hasView`) → `/world/[name]/chamber/[slug]` detail (`useChamber({ slug })`, `<ChamberSvg>` beside the bigint-safe `ChamberData` pane + original-svg link, `useChamberNeighbors` door navigation — unminted destinations shown inert). **Route slugs are separator-less** (`S1W1`; `lib/urls.ts` emits `''` for NEWS, parse accepts any form). `WorldProvider` moved **outside** `CrawlerProvider` so the browsed world drives the provider's `defaultWorld` (pages omit world names like a single-world game); the `/world/[name]` layout syncs url → `WorldContext` (render gated until synced) and the context seeds from the url so deep links server-render the right world. The optional live pane was skipped — the live path is exercised by the react suite; the wagmi/ConnectKit stack untouched (ownership UX is P10).
+- **Scaffold deleted:** `/api/read` (raw reads are what `crawler-api` is for), `/api/hello`, the sample home dispatchers; `ApisMenu` re-pointed at the two families (+ the compare action, svg as a direct link); Header nav (worlds · data · apis); the create-next-app README replaced with the browse-tool/API one. The consoles (`/data`, `/apis`) and their selection/results machinery stayed.
+- **Gates green:** sequential root build, workspace + explorer typecheck, Biome, production `next build`; live verification (`next dev`) of both route families (success + every error path), both worlds' browsing (mainnet SVGs, goerli data-only), and the CORS opt-in.

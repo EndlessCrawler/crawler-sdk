@@ -6,7 +6,7 @@ import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
 import { useState } from 'react';
 import { createConfig, WagmiProvider } from 'wagmi';
 import { SelectionProvider } from '@/hooks/SelectionContext';
-import { WorldProvider } from '@/hooks/WorldContext';
+import { useSelectedWorld, WorldProvider } from '@/hooks/WorldContext';
 import { selectedChain, selectedTransport } from '@/lib/chains';
 import { crawler } from '@/lib/crawlerClient';
 
@@ -34,6 +34,18 @@ const connectKitTheme = {
   '--ck-border-radius': '2px',
 };
 
+// The browsed world (WorldContext — UI state) drives the provider's
+// defaultWorld, so browse pages omit world names like a single-world game
+// would; hence WorldProvider sits outside CrawlerProvider.
+function CrawlerWithBrowsedWorld({ children }: { children: React.ReactNode }) {
+  const { worldName } = useSelectedWorld();
+  return (
+    <CrawlerProvider crawler={crawler} defaultWorld={worldName}>
+      {children}
+    </CrawlerProvider>
+  );
+}
+
 export default function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(
     () =>
@@ -48,11 +60,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
         <ConnectKitProvider mode="dark" customTheme={connectKitTheme}>
-          <CrawlerProvider crawler={crawler}>
-            <WorldProvider>
+          <WorldProvider>
+            <CrawlerWithBrowsedWorld>
               <SelectionProvider>{children}</SelectionProvider>
-            </WorldProvider>
-          </CrawlerProvider>
+            </CrawlerWithBrowsedWorld>
+          </WorldProvider>
         </ConnectKitProvider>
       </QueryClientProvider>
     </WagmiProvider>

@@ -171,4 +171,91 @@
     width: 100%;
     height: 100%;
   }
+
+  /* Browse pages (world index / chamber detail) — full-width content below the header. */
+  .browse-container {
+    padding: 1em;
+  }
+
+  .chamber-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.75em;
+    margin-top: 1em;
+  }
+
+  .chamber-tile {
+    background-color: var(--color-ec-view);
+    border: 1px solid var(--ec-border);
+    padding: 0.4em;
+    text-align: center;
+  }
+  .chamber-tile:hover {
+    border-color: var(--color-ec-link);
+  }
+
+  /* <ChamberSvg> renders an <img> (isolated svg document); the original token
+     SVGs carry fixed pixel sizes — scale them to their pane */
+  .chamber-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+  }
+
+  .chamber-tile-data {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    color: var(--color-ec-bold);
+  }
+
+  .chamber-tile-name {
+    margin-top: 0.3em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .chamber-detail {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5em;
+    margin-top: 1em;
+  }
+
+  .chamber-pane {
+    width: 420px;
+    max-width: 100%;
+  }
+
+  /* the data pane flexes into the remaining row width (min-width lets the
+     pre's own overflow-x scroll instead of blowing the row open) */
+  .chamber-pane-fill {
+    flex: 1 1 320px;
+    min-width: 0;
+  }
+
+  .door-list {
+    margin-bottom: 1em;
+  }
+
+  .data-pane {
+    background-color: var(--color-ec-view);
+    border: 1px solid var(--ec-border);
+    padding: 0.75em;
+    overflow-x: auto;
+  }
+
+  .world-card {
+    background-color: var(--color-ec-view);
+    border: 1px solid var(--ec-border);
+    padding: 0.75em;
+    margin: 0.75em 0;
+    max-width: 480px;
+  }
+  .world-card:hover {
+    border-color: var(--color-ec-link);
+  }
 }

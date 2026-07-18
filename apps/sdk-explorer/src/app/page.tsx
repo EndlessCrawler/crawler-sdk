@@ -1,36 +1,39 @@
 'use client';
 
-import { ActionDispatcher, DataDispatcher, UrlDispatcher } from '@/components/Dispatchers';
-import Layout from '@/components/Layout';
+import { useWorld, useWorldNames } from '@avante/crawler-react';
+import Link from 'next/link';
+import Header from '@/components/Header';
+import { worldPath } from '@/lib/urls';
 
-export default function Home() {
-  const sampleObject = { name: 'John D. Doe', names: ['John', 'D', 'Doe'] };
+function WorldCard({ name }: { name: string }) {
+  const world = useWorld(name);
+  const info = world.info;
   return (
-    <Layout title="sample results">
-      <div>api route</div>
-      <div>
-        <UrlDispatcher label="/api/hello" url="/api/hello" />
+    <Link href={worldPath(name)}>
+      <div className="world-card">
+        <h4>{name}</h4>
+        <div>
+          {info.network} · chain {`${info.chainId}`} · schema {info.schema} ·{' '}
+          {world.getChamberCount()} chambers
+          {world.hasView('tokenSvg') ? '' : ' · data-only'}
+        </div>
       </div>
-      <hr />
-      <div>url</div>
-      <div>
-        <UrlDispatcher label="/feriados" url="https://brasilapi.com.br/api/feriados/v1/2023" />
+    </Link>
+  );
+}
+
+// The browse home: the world index — entry into /world/<name>.
+export default function Home() {
+  const worldNames = useWorldNames();
+  return (
+    <div>
+      <Header />
+      <div className="browse-container">
+        <h3>worlds</h3>
+        {worldNames.map((name) => (
+          <WorldCard key={name} name={name} />
+        ))}
       </div>
-      <hr />
-      <div>action</div>
-      <div>
-        <ActionDispatcher label="Date.now()" onAction={() => Date.now()} />
-      </div>
-      <hr />
-      <div>data</div>
-      <div>
-        <DataDispatcher label="int" data={123456} />
-        <DataDispatcher label="float" data={123.456} />
-        <DataDispatcher label="BigInt" data={12345678901234567890n} />
-        <DataDispatcher label="string" data={'Hello World!'} />
-        <DataDispatcher label="object" data={sampleObject} />
-        <DataDispatcher label="array" data={sampleObject.names} />
-      </div>
-    </Layout>
+    </div>
   );
 }

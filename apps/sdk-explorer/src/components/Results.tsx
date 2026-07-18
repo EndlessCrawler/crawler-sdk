@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { CopyIcon, LinkIcon, LoadingIcon } from '@/components/Icons';
 import MonacoEditor from '@/components/MonacoEditor';
+import { useFormatter } from '@/hooks/useFormatter';
 import { useSelection } from '@/hooks/SelectionContext';
 
 export default function Results() {
@@ -39,6 +40,10 @@ export default function Results() {
       ? { hex: `0x${results.toString(16)}`, number: `${results.toString()}n` }
       : results;
 
+  // format once, through the app's canonical formatter (bigint-safe) — the
+  // copy button carries exactly what the editor shows
+  const { formatted } = useFormatter(jsonResults);
+
   const summary = isFetching
     ? 'Fetching...'
     : Array.isArray(results)
@@ -54,10 +59,11 @@ export default function Results() {
       </div>
 
       <div className="url-line">
-        {isFetching ? <LoadingIcon /> : <CopyIcon content={JSON.stringify(results)} />} {summary}
+        {isFetching ? <LoadingIcon /> : <CopyIcon content={formatted} />} {summary}
       </div>
 
-      <MonacoEditor content={jsonResults} />
+      {/* already a formatted string — MonacoEditor's own formatter passes strings through */}
+      <MonacoEditor content={formatted} />
     </div>
   );
 }

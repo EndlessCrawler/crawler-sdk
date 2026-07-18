@@ -5,11 +5,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/cn';
 
-const pages = ['data', 'apis'];
+const pages = [
+  { label: 'worlds', href: '/' }, // the browse home; /world/* pages hang below it
+  { label: 'data', href: '/data' },
+  { label: 'apis', href: '/apis' },
+];
+
+const isActive = (href: string, pathname: string): boolean =>
+  href === '/' ? pathname === '/' || pathname.startsWith('/world') : pathname.startsWith(href);
 
 export default function Header() {
-  const pathname = usePathname();
-  const currentSlug = pathname?.slice(1) ?? '';
+  const pathname = usePathname() ?? '';
 
   return (
     <div className="header">
@@ -22,10 +28,10 @@ export default function Header() {
 
       <div className="mt-1">
         {'· '}
-        {pages.map((slug) => (
-          <span key={slug}>
-            <Link className="anchor" href={`/${slug}`}>
-              {currentSlug === slug ? <b>{slug}</b> : slug}
+        {pages.map(({ label, href }) => (
+          <span key={href}>
+            <Link className="anchor" href={href}>
+              {isActive(href, pathname) ? <b>{label}</b> : label}
             </Link>
             {' · '}
           </span>
