@@ -136,8 +136,8 @@ const _convert = (tokenId: bigint, payload: EcTokenPayload): ConvertedToken<type
 
 /**
  * The `ec` schema's converter. Rides the per-world exports so `world.import`
- * always has it with zero wiring (interim: exported from the package root until
- * the P6 per-world subpaths land).
+ * always has it with zero wiring; also exported from the package root beside
+ * its payload types.
  *
  * @throws {@link TokenConversionError} when the payload is malformed or
  * self-inconsistent (compass/struct coord disagreement, out-of-domain trait

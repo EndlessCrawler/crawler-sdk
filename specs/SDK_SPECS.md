@@ -12,16 +12,16 @@ The workspace inventory: each package, what it provides, and its published name 
 
 | Package (path) | Published as | Provides |
 |---|---|---|
-| `packages/crawler-core` | **`@avante/crawler-core`** | The heart: `bigintish` module; schemas (`ec`, `cnc`); `World`/`View` types + read functions; coordinate math (Compass ↔ Coord ↔ Slug, neighbor offsets); the `Crawler` client (handle + container — see §The `Crawler` client) + the chamber-source interface. **Zero runtime deps; Node-compatible (no browser APIs).** Single root export (the legacy `./internal` importer subpath died with the global store). |
-| `packages/crawler-data` | **`@avante/crawler-data`** | Static worlds as **one subpath export per world** (`@avante/crawler-data/mainnet`, `/goerli`, `/sepolia`; a `cnc` world in v1) — the root exports **no world JSON**, so bundles carry exactly the worlds imported; each world export **bundles its schema's converter** alongside the world data (see §The `Crawler` client); per-schema **converters** (pure: token payload → `ChamberData<Schema>`; payload types live beside them); the **builder** (build-time module: reads `cache/data`, converts, writes world JSON via the canonical serializer — `formatViewData`, imported from `crawler-api`); the static chamber source. **Zero runtime deps** — `crawler-api` is a devDependency used by the build script only (it also supplies `formatViewData`; `prettier` never enters `crawler-data`). |
-| `packages/crawler-api` | **`@avante/crawler-api`** | On-chain layer, viem 2 only — a **pure contract interface** (see §`crawler-api`): fully-typed per-world viem contract instances + parsed-result helpers (`tokenURI` / `ownerOf` / `totalSupply`; caller-supplied RPC or a warned public fallback — never ours); known & generic non-chamber contract helpers (`getCardsContract()`, ERC-20/ERC-721); the **live watcher** (new-minted chambers, raw metadata out); **owner helpers** scoped to the connected player + delegate.xyz (#17); the on-chain chamber source; the **canonical serializer `formatViewData`** (see §Canonical serialization — the package's one non-contract member; must not be removed from this package). Depends on core only (+ viem + prettier). |
-| `packages/crawler-react` | **`@avante/crawler-react`** | `CrawlerProvider` + hooks over the explicit `Crawler`/world state; the **localStorage chamber source** (the only browser-dependent code in the SDK). Peers: react ^18 ‖ ^19, core. |
+| `packages/crawler-core` | **`@avante/crawler-core`** | The heart: `bigintish` module; schemas (`ec`, `cnc`); `World`/`View` types + read functions; coordinate math (Compass ↔ Coord ↔ Slug, neighbor offsets); the `Crawler` client (handle + container — see §The `Crawler` client); chamber locators (`resolveCoord`) and the schema invalidation primitive (`getInvalidatedCoords`). **Zero runtime deps; Node-compatible (no browser APIs).** Single root export (the legacy `./internal` importer subpath died with the global store). |
+| `packages/crawler-data` | **`@avante/crawler-data`** | Static worlds as **one subpath export per world** (`@avante/crawler-data/mainnet`, `/goerli`, `/sepolia`; a `cnc` world in v1) — the root exports **no world JSON**, so bundles carry exactly the worlds imported; each world export **bundles its schema's converter** alongside the world data (see §The `Crawler` client); per-schema **converters** (pure: token payload → `ChamberData<Schema>`; payload types live beside them); the **builder** (build-time module: reads `cache/data`, converts, writes world JSON via the canonical serializer — `formatViewData`, imported from `crawler-api`). **Zero runtime deps** — `crawler-api` is a devDependency used by the build script only (it also supplies `formatViewData`; `prettier` never enters `crawler-data`). |
+| `packages/crawler-api` | **`@avante/crawler-api`** | On-chain layer, viem 2 only — a **pure contract interface** (see §`crawler-api`): fully-typed per-world viem contract instances + parsed-result helpers (`tokenURI` / `ownerOf` / `totalSupply`; caller-supplied viem client or RPC url, or a warned public fallback — never ours); known & generic non-chamber contract helpers (`getCardsContract()`, ERC-20/ERC-721); the **live watcher** (poll-based mint detection) + the **per-schema payload assemblers** — the SDK's single fetch/assembly implementation, consumed by the cache fetch and the live path alike; **owner helpers** scoped to the connected player + delegate.xyz (#17); the **canonical serializer `formatViewData`** (see §Canonical serialization — the package's one non-contract member; must not be removed from this package). Depends on core only (+ viem + prettier). |
+| `packages/crawler-react` | **`@avante/crawler-react`** | `CrawlerProvider` (+ the zero-config **`liveUpdate`** prop) + the hook surface over the explicit `Crawler` (lookup by locator, enumeration, selector, the live hook — see §`crawler-react`); the **`<ChamberSvg>`** display component; **localStorage persistence of live chambers** (the only browser-dependent code in the SDK). Peers: react ^18 ‖ ^19, core; `crawler-api` is an **optional peer**, dynamically imported only when live updates are enabled. |
 | `cache` | — **never published** (private) | **One contract-agnostic package** archiving `tokenURI` output for every SDK world contract (EC mainnet today; C&C in v1) — per token `<tokenId>.json` (for `ec` worlds with the on-chain `Crawl.ChamberData` struct embedded as `chamber`) + `<tokenId>.svg` (+ `<tokenId>.html`, `ec` only) and a per-`dataDir` `_cache.json` provenance/state file, under `cache/data/<dataDir>/` (`dataDir` includes the deployment, e.g. `endless-crawler/mainnet` — `network` alone collides), committed (see §Data pipeline). Which worlds are cached — and their `dataDir` + RPC env-var name — is declared in `cache/worlds.json`; the contract binding comes from the `crawler-data` world (never restated). **One generic fetch script serves all worlds** (the fetch is contract-agnostic). **Mainnet only** — goerli is unfetchable (dead chain), its world stays frozen as migrated. Fetches via `crawler-api`; consumed by `crawler-data`'s builder. Lives under `cache/` (not `packages/`) precisely so it never leaves the repo. |
 | `apps/sdk-explorer` | — never published (app) | The SDK's **browse tool** (cached, parsed, and on-chain data — token SVGs for visuals) and **API provider**: **same-origin-by-default** data routes (chamber lookups + whole-world payloads) plus on-chain routes served **converted to `ChamberData`** (cached-vs-live compare); CORS opt-in per deployment. **Dogfoods the public SDK surface only** — no internal imports. Next 16 App Router. |
 | `apps/docs` | — never published (app, planned) | vocs API-reference site built from the TSDoc'd surface + Twoslash examples (#12). |
 | `packages/crawler-contracts` | _(planned, out of refactor scope)_ | Solidity contracts — README lists it as planned; untouched by the refactor. |
 
-**Dependency rules:** the published runtime graph is **`data` / `api` / `react` → `core`** and nothing else — `data` never runtime-depends on `api` (build script only), `api` never depends on `data`, `core` depends on nothing. The `cache` package may depend on anything (private, build-time only); it depends on `data` (world binding) + `api` (fetching) + `core`, and `data` never depends back on `cache` (its builder reads `cache/worlds.json` by fs path, not a package import).
+**Dependency rules:** the published runtime graph is **`data` / `api` / `react` → `core`** and nothing else — `data` never runtime-depends on `api` (build script only), `api` never depends on `data`, `core` depends on nothing. One deliberate softening: `react` declares `api` as an **optional peer** and `import()`s it lazily, exclusively on the live path — a game that never enables `liveUpdate` never installs it (a missing install surfaces as a typed error only when live updates are switched on). The `cache` package may depend on anything (private, build-time only); it depends on `data` (world binding) + `api` (fetching) + `core`, and `data` never depends back on `cache` (its builder reads `cache/worlds.json` by fs path, not a package import).
 
 **Minimal-consumer rule:** everything that deals directly with `ChamberData` lives in `crawler-core`. A complete game can be built from **`crawler-core` + one world from `crawler-data`** alone — the client and all libraries needed to read chamber data; **`crawler-api`** (live real-time chambers) and **`crawler-react`** (web bindings) are strictly optional add-ons.
 
@@ -48,6 +48,7 @@ flowchart TD
   react --> core
 
   data -. "devDep: build script only<br/>(builder + formatViewData)" .-> api
+  react -. "optional peer, dynamic import<br/>(live updates only)" .-> api
 
   cache --> api
   cache --> data
@@ -67,6 +68,7 @@ _Solid arrows = runtime dependencies (allowed set, exhaustive). Dotted = build-t
 - **No `any`** anywhere in the public surface, including the view/read path.
 - **Every name used in lookups is a literal-union type** — schema names (`SchemaName = 'ec' | 'cnc'`), coordinate-schema names (`CoordinateSchemaName = 'news' | 'chamber-id'`), view names — never bare `string`.
 - **Schemas exist at runtime as plain descriptor objects; the type level derives from the descriptors** (`as const satisfies DataSchema`). One source of truth: the descriptor is both the load-time validator's input and the origin of the derived types (`ChamberData<Schema>`, terrain unions, attribute shapes).
+- **Every public schema-generic type ships per-schema aliases**, exported from `crawler-core` beside the descriptors — `WorldHandleEC = WorldHandle<typeof ec>`, `WorldHandleCC = WorldHandle<typeof cnc>`, `ChamberEC`/`ChamberCC`, `ChamberDataEC`/`ChamberDataCC` — so consumers never write `<typeof ec>` in annotations. The aliases pair with `crawler-react`'s per-schema hook aliases (§`crawler-react`); examples and docs use the aliases (spellings final at the surface freeze, #7).
 - **Every exported API carries complete, vocs-compatible TSDoc** (`@param`, `@returns`, `@example`, `@remarks`/`@throws`). An undocumented export is an incomplete export; TSDoc is part of each phase's definition of done. (Docs-site generation mechanism: #12.)
 
 ---
@@ -136,6 +138,7 @@ const ec = {
   size: { width: 16, height: 16 },             // fixed → chambers do NOT carry a size
   terrains: ['earth', 'water', 'air', 'fire'], // Terrain value domain — readable strings
   coordinateSchema: 'news',
+  invalidation: 'neighbours',                  // a mint invalidates its coordinate-schema neighbours
   views: ['tokenCoord', 'chamberData', 'tokenSvg'], // views that CAN exist (optional per world)
   attributes: {                                // schema-local gameplay extras
     chapter: 'number',
@@ -151,6 +154,7 @@ const cnc = {
   size: 'per-chamber',                         // every ChamberData carries { width, height }
   terrains: ['desert oasis', 'stone temple', 'forest ruins', 'mountain deep', 'underwater keep', "ember's glow"],
   coordinateSchema: 'chamber-id',              // interim rule — real coordinate mapping: #14
+  invalidation: 'none',                        // static maps — a mint changes nothing else
   views: ['tokenCoord', 'chamberData', 'tokenSvg'],
   attributes: {
     affinity: 'string',
@@ -164,6 +168,7 @@ type ECTerrain = (typeof ec)['terrains'][number]; // 'earth' | 'water' | 'air' |
 ```
 
 - **`cnc` has no native coordinates.** Interim rule: `coord = chamber ID`; the real coordinate mapping is specified in #14 (a v1 blocker for the `cnc` converter).
+- **Invalidation policy.** A schema declares how a newly minted chamber affects existing ones: **`'neighbours'`** — the mint's coordinate-schema neighbours are stale (`ec`: a mint unlocks doors in its NEWS neighbours; the on-chain change is monotone, locks only ever clear) — or **`'none'`** (`cnc`: static maps). One **pure core primitive** — `getInvalidatedCoords(schema, coord)` → the affected coords via the coordinate library's neighbour offsets — serves both consumers of the policy: the **cache's staleness refetch** and the **live client's neighbour re-import** (see §Data pipeline). Designed once, used identically on both sides.
 - Core exports the descriptors; a `World` references its schema **by name**, `loadWorld` resolves the descriptor and validates the world JSON against it, and schema-aware functions receive the schema via the world — consumers rarely pass it explicitly.
 
 ---
@@ -272,29 +277,35 @@ type Door = {
 The ergonomic wrapper over the functional core is **two concepts, both in `crawler-core`** (framework-agnostic — `crawler-react` merely holds one). The wrapper is thin: every method delegates to the functional core; it never contains behavior the functions don't already expose.
 
 - **`Crawler` — the multi-world container.** Created **sync** from imported worlds: `createCrawler([mainnetData, goerliData])`. Owns the registered world set, lookup **by name** (`crawler.worlds()` → names; `crawler.world('mainnet')` → handle), and **cross-world traversal** (a cross-world jump resolves to a world-qualified destination — you never "switch"). **No mutable "current world"** — it can't express cross-world jumps and re-creates the global-state smell; if a UI needs one, it's UI state.
+- **Default world — the single-world case.** The typical consumer registers **exactly one world**; naming it on every call is ceremony. `crawler.world()` with the name **omitted** resolves the **sole registered world**, and throws a typed error when several are registered (ambiguity is never guessed). This is a *deterministic derivation*, not a mutable selection — the no-current-world rule stands. The react hooks build their optional-world-name ergonomics on this (§`crawler-react`).
 - **World handle — per-world, schema-bound.** Method-style reads delegating to the functional core: `world.getChamber(coord)`, `world.hasView(name)`, `world.coords` (the schema's `CoordinateSchema` library, e.g. NEWS), and `world.import(tokenId, payload)` — the live-merge entry point, taking the schema's token payload (see §Data pipeline). (A bare function can't be named `import`, a reserved word — one reason the handle exists.)
-- **Converter resolution — bundled with the world import.** Each `crawler-data` per-world subpath export carries the world data **plus its schema's converter**; `createCrawler` builds a schema-keyed converter registry from what it is handed, so `world.import` always has its converter with **zero wiring**. Core defines only the **`Converter` interface** (a `ChamberData`-facing type, per core's boundary criterion) and never imports `crawler-data`; the world **JSON** itself stays plain data, fully usable without the SDK — the subpath module wraps it. Accepted cost: a small pure function rides along even for data-only consumers (negligible next to the world JSON). Rejected: explicit converter injection at `createCrawler` (avoidable wiring); caller-side conversion (guts the one-call ergonomics).
+- **Converter resolution — bundled with the world import.** Each `crawler-data` per-world subpath export carries the world data **plus its schema's converter**; `createCrawler` builds a schema-keyed converter registry from what it is handed, so `world.import` always has its converter with **zero wiring** (`world.import` on a world whose schema has no registered converter — e.g. a bare `WorldJson` was passed — throws a typed `MissingConverterError`). Core defines only the **`Converter` interface** (a `ChamberData`-facing type, per core's boundary criterion) and never imports `crawler-data`; the world **JSON** itself stays plain data, fully usable without the SDK — the subpath module wraps it. Accepted cost: a small pure function rides along even for data-only consumers (negligible next to the world JSON). Rejected: explicit converter injection at `createCrawler` (avoidable wiring); caller-side conversion (guts the one-call ergonomics).
+- **Chamber locators — one resolution path for every key form.** `ChamberLocator = { tokenId?, coord?, slug?, compass? }`, resolved by the **first field present, in that order**. A pure core function — `resolveCoord(world, locator)` → the `ChamberData` key (coord) or `undefined` — handles every form (tokenId via `TokenCoord`; slug/compass via the coordinate library); the handle exposes it (`world.resolveCoord(locator)`), and `crawler-react`'s `useChamber` takes a locator directly (§`crawler-react`).
 - A `Chamber` carries a **runtime back-pointer to its world handle** (`chamber.world`); the *stored* record stays plain serializable data (no cycles in the JSON).
-- **Sync everywhere for static data** — creation, name lookup, and all reads. Only the live tiers (localStorage / on-chain chamber sources) are async, by nature.
+- **Sync everywhere — reads are never async.** Creation, name lookup, and all reads are sync; only the live path's *fetching* (watcher + assembler) is async, and it feeds the world through `world.import` — see §Data pipeline, chamber sources.
 - The **exact method inventory** is drafted at the surface freeze (#7); names below are placeholders until then.
 
 ```ts
-import { createCrawler, Dir } from '@avante/crawler-core';
+import {
+  type ChamberEC, type Compass, createCrawler, type Crawler,
+  Dir, type Door, type WorldHandleEC,
+} from '@avante/crawler-core';
 import mainnetData from '@avante/crawler-data/mainnet'; // world data + its schema's converter,
 import goerliData from '@avante/crawler-data/goerli';   // one subpath export per world
 
-const crawler = createCrawler([mainnetData, goerliData]); // sync — the data is already in hand
+const crawler: Crawler = createCrawler([mainnetData, goerliData]); // sync — the data is already in hand
 
-crawler.worlds();                               // ['mainnet', 'goerli']
-const mainnet = crawler.world('mainnet');       // per-world handle, by name
-const chamber = mainnet.getChamber(someCoord);  // sync, typed Chamber
-chamber.world === mainnet;                      // runtime back-pointer (never serialized)
-chamber.slug();                                 // computed via the chamber's CoordinateSchema
-chamber.compass();                              // Compass | undefined
+const names: string[] = crawler.worlds();          // ['mainnet', 'goerli']
+const mainnet: WorldHandleEC = crawler.world('mainnet'); // per-world handle, by name
+// single-world apps omit the name: createCrawler([mainnetData]) → crawler.world()
+const chamber: ChamberEC | undefined = mainnet.getChamber(someCoord); // sync
+chamber.world === mainnet;                         // runtime back-pointer (never serialized)
+const slug: string | null = chamber.slug();        // computed via the chamber's CoordinateSchema
+const compass: Compass | undefined = chamber.compass();
 
 // Navigation is DOOR-based — schema-agnostic:
-const north = chamber.getDoorsTo(Dir.North);    // Door[]
-const next = mainnet.getChamber(north[0].destCoord);
+const north: Door[] = chamber.getDoorsTo(Dir.North);
+const next: ChamberEC | undefined = mainnet.getChamber(north[0].destCoord);
 
 // NEWS-specific math is schema-bound — reached through the world, NOT the standard client:
 mainnet.coords.offsetCoord(chamber.coord, Dir.North);
@@ -329,7 +340,7 @@ A chamber always originates from an **on-chain ERC-721 token contract**; a World
    - The `.html` (`ec` worlds) is the decoded `animation_url` — **the chain's own playable form** (the same SVG in an HTML player) — pretty-printed like the `.svg`. Archived for reference; it never ships in a world (see §Token SVGs).
    - **`_cache.json` — provenance + fetch state**, one per `dataDir`, byte-stable via the canonical serializer, excluded from the token-contiguity invariant (leading `_`). It echoes the source binding (world `name`, `network`, `chainId`, `contractName`, `contractAddress`) so the archive is self-describing about where it came from, plus `fetchedThroughBlock`, `updatedAt`, and a `tokens` map of `tokenId → { block, fetchedAt }` (decimal-string block, ISO-8601 UTC time).
    - **Fetch strategy — missing-only, block-pinned, idempotent.** No manifest of the fetch *list* — file presence is the record. Each run **pins one block `B`** at the start and reads everything `at` `B` (a single consistent snapshot); fetch list = on-chain `1..totalSupply` **minus** the tokens already *complete* on disk — a token missing **any** of its required files is refetched whole (deterministic content + canonical formatters make the rewrite byte-stable), so a layout addition backfills the archive on the next run. Presence can't see *content*: on a file-**shape** change (e.g. a new embedded field), delete the affected files and re-run. Each fetched token is stamped `{ block: B, fetchedAt }`. `fetchedThroughBlock` advances to `B` on **every** clean run (even when nothing was fetched), so a future staleness scan starts from `B+1`. A second run fetches nothing (only the watermark moves).
-   - **Invalidation is a schema-level policy (in `crawler-core`), currently empty.** No chamber is refetched for staleness in v1 — EC's large boundary makes blanket dynamic refetch far too broad. The **Minted-neighbour** model (a mint invalidates its NEWS-neighbour chambers, via one pure core primitive that also serves live clients) is designed together with **real-time updates** (→ plan #16) because it is the same mechanic; `_cache.json`'s block + watermark data is banked now so it is ready when that lands.
+   - **Staleness pass — the schema's invalidation policy (§Schemas), executed by the fetch.** After the missing-only pass, the run computes `getInvalidatedCoords` for every token it just fetched (the new mints) and **refetches the affected already-cached tokens** at the same pinned block `B` (coord → tokenId via the cached metadata's `chamber.coord`; the refetch is the same whole-token, byte-stable rewrite, and the token's `_cache.json` `block` stamp advances). `ec`: a mint's NEWS neighbours (their doors unlock — the change is monotone); `cnc`: nothing. **No event logs needed** — newly fetched tokens are the trigger, which is exactly the signal the live client polls for. Blanket dynamic refetch stays rejected (EC's boundary is far too broad).
    - **Errors:** each on-chain read retries **3× with a 1 s wait**, then aborts the run non-zero. Written files persist and the watermark only advances on a clean finish, so a rerun resumes safely.
    - RPC is caller-supplied (the `worlds.json` entry's env var) and **required** — the run aborts up front if any registered world's env var is unset, listing them; there is no public-RPC fallback for the archive (it is rate-limited and unreliable across hundreds of tokens, even though the api offers one for other callers). **One generic script** fetches over every registered world.
    - **Coverage: mainnet only.** Goerli's chain is dead — no RPC exists, so its cache can never be fetched; the goerli world exists solely via the one-off migration and stays **frozen** (it never gains a `TokenSvg` view). Sepolia is added when a deployment exists.
@@ -347,24 +358,24 @@ A chamber always originates from an **on-chain ERC-721 token contract**; a World
    ```
 
    - **The `ec` converter reads the map from the embedded `chamber` struct** (`metadata.chamber` — the raw `Crawl.ChamberData` archived by the cache): `tilemap` (generated bytes → the tile array), `doors`/`locks` (NEWS-ordered positions; `0` = no door on that edge), `seed`, `gemPos`. **The SVG is display-only** — it does not carry the full map data (that finding is why the cache archives the struct); the converter passes it through untouched for the `TokenSvg` view. Terrain, gem, coins, worth, yonder, chapter, and name come from the metadata attributes (already readable strings); `coord` is packed from the compass traits (`North`/`East`/`West`/`South`) via the schema's `CoordinateSchema` (NEWS) and must agree with `chamber.coord`. Doors' `destCoord` is computed via NEWS offsets, and their `destTile` via the tilemap library's `flipDoorPosition()`.
-   - **Surface:** the `ec` converter ships as **`ecConverter`** beside its payload types (`EcTokenPayload`, `EcTokenMetadata`, `EcChamberMetadata`, `EcChamberStruct`) in `crawler-data` (`src/converters/ec/`; root export until the per-world subpaths land). Struct fields are `BigIntish`, so the cached JSON form and a live viem-decoded struct assemble into the same payload. A malformed or self-inconsistent payload (compass/struct coord disagreement, out-of-domain trait values, truncated tilemap, tokenId mismatch) **throws `TokenConversionError`** — broken data never enters a world.
+   - **Surface:** the `ec` converter ships as **`ecConverter`** beside its payload types (`EcTokenPayload`, `EcTokenMetadata`, `EcChamberMetadata`, `EcChamberStruct`, `EcTokenAttribute`) in `crawler-data` (`src/converters/ec/`, exported from the package root — the per-world subpath exports bundle it per world). Struct fields are `BigIntish`, so the cached JSON form and a live viem-decoded struct assemble into the same payload. A malformed or self-inconsistent payload (compass/struct coord disagreement, out-of-domain trait values, truncated tilemap, tokenId mismatch) **throws `TokenConversionError`** — broken data never enters a world.
    - **On-chain supplements.** Fields that exist only on-chain ride in the cached payload — `ec` needs no separate supplement fetch: `seed` (and everything else struct-borne) arrives inside `metadata.chamber`, put there by the cache/**payload assembler** via `crawler-api` — never by the converter (purity keeps converters bundleable with the world exports for `world.import`).
    - `crawler-api` is the single place that fetches; `crawler-data` is the single place that converts — the api enters `crawler-data` as a build-script devDependency only. At runtime, a converter reaches the `Crawler` bundled with each per-world subpath export (see §The `Crawler` client).
 
 3. **Builder — build-time module in `crawler-data`.** Reads a cache (each world's directory resolved from `cache/worlds.json` by fs path — never a package import, so `crawler-data` never depends on `cache`), converts, and assembles the world JSON — **fully offline for `ec`**: the on-chain facts (`seed` included) already ride in each cached token's `chamber` struct, so the builder makes no chain calls — through the canonical serializer (see below): `WorldInfo` (stamped with a real build `timestamp`, ISO 8601 UTC), `TokenCoord`, `ChamberData`, and the original token SVGs as the `TokenSvg` view. Raw metadata JSON is never shipped in a world; nothing playable is ever stored (see §Worlds & Views, Token SVGs). Runs as a script in `crawler-data`; covers the cached worlds only (mainnet — goerli stays frozen as migrated).
-4. **Live watcher — optional module in `crawler-api`.** Watches for newly minted tokens not yet in `crawler-data` and yields **raw metadata**; the **caller** assembles the converter payload (fetching the on-chain `chamber` struct the same way) and applies the converter (`crawler-api` never depends on `crawler-data`). RPC is always caller-supplied or a public one — never ours. Games may opt out and use cached chambers only. (Mechanics: #16.)
-5. **Live-chamber persistence — `crawler-react` only.** Live-fetched chambers can persist in browser localStorage so a refresh doesn't refetch; the `Crawler` client itself never depends on a browser. (Mechanics: #16.)
+4. **Live watcher — in `crawler-api`, poll-based.** `watchMints(world, opts, onMint)` polls **`totalSupply`** on an interval (one RPC call per tick; EC token ids are sequential, so supply is a complete mint signal) and reports the new token ids. Polling works on any RPC — including the warned public fallback — with no log-filter support required; there are **no event-log subscriptions in v1** (neighbour re-imports cover the monotone door unlocks). The **payload assembler also lives in `crawler-api`, per schema** — the SDK's **single fetch/assembly implementation**: `assembleEcTokenPayload(world, tokenId, opts)` = `readTokenMetadata` + the `ec` struct reads (`tokenIdToCoord` → `coordToChamberData`) over the typed world contract → the schema's token payload; the schema-dispatched **`assembleTokenPayload(world, tokenId, opts)`** fronts them for generic callers. The **cache fetch consumes the same helpers** (its assembly is never a second implementation). Assembly is fetching + shaping, **not converting** — the pure-contract rule holds; the api types its return structurally and never imports `crawler-data` (compatibility with `EcTokenPayload` is pinned by api tests via devDependency types). The caller then runs `world.import(tokenId, payload)` — and **re-imports the mint's invalidated neighbours** (§Schemas) the same way, so live doors stay correct. RPC/client is always caller-supplied or a warned public one — never ours. Games may opt out and use cached chambers only. The zero-config consumer path is `crawler-react`'s `liveUpdate` (§`crawler-react`), which wires watcher → assembler → import automatically.
+5. **Live-chamber persistence — `crawler-react` only.** Live-imported chambers persist in browser localStorage so a refresh doesn't refetch: keyed by the world **binding** (chainId + contract address — not the registered name) + tokenId, storing the **converted** record (`ChamberData` + coord placement — conversion is deterministic, so storing output avoids re-running converters on every load) in a **private, versioned, bigint-safe JSON format** (a format bump simply invalidates old entries). On load, entries the static world already carries are **pruned** (a `crawler-data` redeploy folded them in); the rest are **re-imported through the same pure merge**. The `Crawler` client itself never depends on a browser.
 6. **Publish cadence.** `crawler-data` is updated and redeployed frequently (daily or weekly) to fold newly minted chambers into the static worlds.
 
-### Chamber sources — three tiers
+### Chamber sources — three tiers, materialized by import
 
-The `Crawler` resolves chamber data from pluggable, **consumer-injected chamber sources**, in priority order (core imports none of the packages involved):
+The three chamber-data tiers all **materialize into the world value through the same one-way path — `world.import` + pure merge** — rather than through a read-through source interface:
 
-1. **static worlds** — imported from `crawler-data`;
-2. **localStorage** — previously live-fetched chambers (browser only; the source ships in `crawler-react`);
-3. **on-chain** — live fetch through `crawler-api`.
+1. **static worlds** — the loaded world JSON from `crawler-data`;
+2. **localStorage** — previously live-imported chambers, re-imported at startup and pruned as tier 1 catches up (`crawler-react`);
+3. **on-chain** — new mints imported as the watcher reports them (`crawler-api`, wired by the consumer).
 
-(The source interface's name is unsettled — see the plan's glossary.)
+Reads therefore stay **sync and single-surface** — a game never awaits a chamber lookup — and core imports none of the packages involved (the react live path reaches the watcher/assembler via its optional-peer dynamic import, see §`crawler-react`). There is **no async read-through `ChamberSource` interface** on the surface; on-demand fetch-on-miss, if ever wanted, is a consumer pattern (assemble + import) needing no new core surface.
 
 ---
 
@@ -373,12 +384,12 @@ The `Crawler` resolves chamber data from pluggable, **consumer-injected chamber 
 The api is the SDK's **only on-chain surface** (core has zero on-chain deps) and is a **pure contract interface**: it talks to contracts and delivers **parsed results** — viem-decoded values, `BigIntish`-normalized, `tokenURI` data-URIs unpacked — to its callers (the `Crawler`/world live tier, the `cache` package, the explorer's routes, consumers). No game logic, no conversion (callers convert — the pipeline rule), no view definitions. Its one non-contract member is the canonical serializer (see §Canonical serialization).
 
 - **A fully-typed viem contract instance per world**, built from the world's contract binding — `network`, `chainId`, `contractAddress`, ABI (resolved by `contractName` from the artifact registry), optional `rpcUrl`. **ABIs are sourced from the original artifact JSON and derived into const-asserted TS by a build-time codegen step** — viem's type inference requires literal types, which JSON imports cannot carry, so the generated `as const` TS module is what the code imports; it is **never hand-written and never committed** (git-ignored + Biome-excluded; the artifact JSON stays the single committed source of truth) — the package's `gen` script regenerates it, and every compile/type-check/test path runs `gen` first, so a fresh clone needs no manual step. The artifact `networks` address tables never enter the generated output — addresses come from bindings/callers. **Every committed artifact is a registry entry**; only live contracts ship (`src/artifacts/`: `CrawlerToken`, `CardsMinter`, `CrawlerIndex`, `CrawlerPlayer`, `CrawlerQueryV1`, `CrawlerGeneratorV1`, `CrawlerMapperV1`, `CrawlerRendererV1`; C&C's contract when it lands) — dead artifact trees are deleted. The registry key union **`KnownContractName`** derives from the generated registry and is a superset of the world-bindable `ContractName` (§Chains); `getContractAbi(name)` resolves fully typed by name, `contractAbis` is direct typed access. The standard ERC-20/ERC-721 ABIs have no artifacts — viem's bundled const-asserted `erc20Abi`/`erc721Abi` are used directly (platform over hand-authoring).
-- **RPC fallback warns, never silent.** `rpcUrl` undefined → viem's default public RPC for the chain **plus a `console.warn`**. The chain always comes from the binding — there is no default chain.
+- **Caller-supplied clients; the RPC fallback warns, never silent.** Every factory and read helper accepts **either a caller's viem `PublicClient`** (`{ client }` — a wagmi app reuses its configured client/transport; `getPublicClient(config)` from `@wagmi/core` returns one) **or an `rpcUrl`** (scripts, servers, the cache); `client` wins when both are given, and the client's chain must match the binding. With neither → viem's default public RPC for the chain **plus a `console.warn`**. The chain always comes from the binding — there is no default chain.
 - **Known non-chamber contracts:** **`getCardsContract()`** — the EndlessCrawler Cards contract, typed by its bundled ABI; the caller supplies the contract address (cards are part of EndlessCrawler but not part of a world binding).
 - **Generic standard contracts:** ERC-20/ERC-721 helpers with **bundled const-asserted standard ABIs** — the caller supplies only the address; arbitrary contracts take an explicit ABI.
 - **`BigIntish` addresses at every boundary.** All addresses (contract + wallet) crossing the api surface are `BigIntish`; conversion to viem's `` `0x${string}` `` `Address` happens inside the api, via core's `bigintish` module.
-- **Pipeline struct reads go through the typed world contract** (e.g. `ec`'s `tokenIdToCoord` → `coordToChamberData` for the cache's embedded `chamber` struct — see §Data pipeline); no bespoke helpers for them.
-- **Event listeners live here** (`Minted`, `MetadataUpdate`, …) — the set and mechanics are decided with the live path (P8, #16).
+- **Pipeline struct reads and payload assembly live here, per schema** — the SDK's **single fetch/assembly implementation** (see §Data pipeline item 4): `assembleEcTokenPayload` composes `readTokenMetadata` with the `ec` struct reads (`tokenIdToCoord` → `coordToChamberData`) over the typed world contract. A **schema-dispatched generic front door**, `assembleTokenPayload(world, tokenId, opts)`, resolves the right per-schema assembler from `world.schema` (typed error for a schema with none) — what generic callers like the react live path use. The cache fetch and the live path both consume these — no second assembly exists anywhere. Assembly is fetching + shaping, never converting.
+- **The live watcher lives here — poll-based.** `watchMints(world, opts, onMint)` polls `totalSupply` on an interval and reports new token ids; returns a stop function. No event-log subscriptions in v1 — polling covers mints on any RPC, and neighbour re-imports (§Schemas, invalidation) cover the monotone door unlocks.
 - **Starknet seam noted, not designed.** viem is EVM-only; `network: 'starknet'` (§Chains) will someday need a parallel client layer. All v1 contracts are Ethereum.
 
 Illustrative shape (final names at the surface freeze, #7):
@@ -388,6 +399,9 @@ Illustrative shape (final names at the surface freeze, #7):
 const contract = getWorldContract(world, { rpcUrl }); // viem getContract; ABI via world.contractName
 await contract.read.totalSupply();                    // typed by the as-const ABI
 await contract.read.tokenURI([123n]);
+
+// a wagmi app reuses its own configured client instead of an rpcUrl
+const contract2 = getWorldContract(world, { client: getPublicClient(wagmiConfig) });
 
 // parsed-result helpers the pipeline needs (raw metadata out — the CALLER converts)
 await readTokenMetadata(world, tokenId, { rpcUrl }); // tokenURI unpacked → { metadata, svg, html? }
@@ -405,10 +419,77 @@ const erc20 = getErc20({ chainId, contractAddress, rpcUrl }); // viem's bundled 
 const other = getTypedContract({ chainId, contractAddress, abi: getContractAbi('CrawlerIndex'), rpcUrl });
 await erc20.read.balanceOf([playerAddress]);
 
-// events — shape open until P8 (#16)
-watchMinted(world, (tokenId) => {
-  /* fetch raw metadata + on-chain supplement → world.import(tokenId, payload) */
+// live path — poll-based mint watcher + the per-schema payload assembler
+const stop = watchMints(world, { rpcUrl, intervalMs: 12_000 }, async (tokenIds) => {
+  for (const tokenId of tokenIds) {
+    const payload = await assembleEcTokenPayload(world, tokenId, { rpcUrl });
+    const chamber = crawler.world('mainnet').import(tokenId, payload);
+    // …then re-import the mint's invalidated neighbours (getInvalidatedCoords) the same way
+  }
 });
+```
+
+---
+
+## `crawler-react` — the React bindings
+
+The optional web layer: an explicit provider, a hook surface over the `Crawler`, one display component, and the live path's browser half. **Peers: react ^18 ‖ ^19 + core; `crawler-api` is an optional peer**, dynamically `import()`ed **only when live updates are enabled** — a game without `liveUpdate` never installs or loads it (enabling it uninstalled throws a typed, actionable error). No other runtime deps (TanStack Query stays app-side — the SDK's reactivity is subscription-shaped, not request/cache-shaped).
+
+- **`CrawlerProvider`** holds the app's `Crawler` (created once with `createCrawler`); every hook reads it from context and throws outside the provider. Optional **`defaultWorld`** prop names the world the hooks resolve to when a multi-world app omits the name.
+- **Live updates are zero-config — a provider prop, not developer wiring.** `liveUpdate?: boolean | LiveUpdateOptions` on the provider: everything needed is already in hand — the binding and schema come from the world, the converter rides the world bundle, the watcher and assembler come from the optional-peer `crawler-api` (`watchMints` + the schema-dispatched `assembleTokenPayload`), and persistence defaults on. `LiveUpdateOptions` only *tunes*: `{ rpcUrl?, client?, intervalMs?, persist?, worlds? }` — no RPC given falls back to the api's warned public RPC; `worlds` narrows which registered worlds go live (default: all). **The provider stays thin**: it renders context and calls the live hook — every mechanic lives in the hook, not the provider.
+- **World name is optional in every hook, and never the first argument.** The hook's *subject* (locator, tokenId, selector, options) comes first; `worldName?: string` is the **trailing optional parameter**. Resolution order: explicit argument → the provider's `defaultWorld` → the crawler's **sole registered world** (§The `Crawler` client, default world — the typical app imports exactly one world; multi-world play is a later-version feature) → a typed error when several worlds are registered and none is named.
+- **Reactivity:** hooks subscribe to the `Crawler`'s coarse world-updated signal via `useSyncExternalStore`. Hook **return values change identity when their world merges**, so they are safe as plain memo/effect deps — consumers never reach for the `world.data`-as-dep trick.
+- **Schema typing — one base hook, derived aliases.** Passing `<typeof ec>` on every call is not the ergonomic path. The schema-generic hooks are **base hooks** — `useWorldSchema<S>` and `useChamberSchema<S>` — and the everyday surface is **derived from them** (one-line wrappers binding the type parameter; **the hook logic is written exactly once**):
+  - **per-schema aliases** — `useWorldEC` / `useChamberEC` (bind `typeof ec`), `useWorldCC` / `useChamberCC` (bind `typeof cnc`; ship with the `cnc` world) — returning the matching **per-schema type aliases** (`WorldHandleEC`, `ChamberEC`, … — §Type-system rules);
+  - **plain union forms** — `useWorld` / `useChamber`, returning the union of the built-in schema types (`WorldHandleEC | WorldHandleCC`; narrow via `world.schema` when a schema-specific field is needed).
+- **Hook inventory** (final names ride the surface freeze, #7):
+  - `useCrawler(): Crawler`; `useWorldNames(): string[]`.
+  - `useWorldSchema<S>(worldName?: string): WorldHandle<S>` — the stable handle, re-rendering on that world's merges. Aliases: `useWorldEC(worldName?): WorldHandleEC`, `useWorldCC(worldName?): WorldHandleCC`, `useWorld(worldName?): WorldHandleEC | WorldHandleCC`.
+  - `useChamberSchema<S>(locator: ChamberLocator, worldName?: string): Chamber<S> | undefined` — **the one lookup hook**, taking a `ChamberLocator` (`{ tokenId?, coord?, slug?, compass? }`, first-present-wins — §The `Crawler` client). Aliases: `useChamberEC`, `useChamberCC`, `useChamber` (union), same shape.
+  - `useChambers(worldName?): Chamber[]` — all chambers (index/grid pages, map rendering).
+  - `useWorldInfo(worldName?): WorldInfo` — the world's info block.
+  - `useTokenSvg(tokenId: BigIntish, worldName?): string | undefined` — the original SVG string, `undefined` when absent (view or record).
+  - `useChamberNeighbors(locator: ChamberLocator, worldName?): ChamberNeighbor[]` — the chamber's doors resolved to their destination chambers (`ChamberNeighbor = { door: Door; chamber: Chamber | undefined }`) — map rendering, adjacent-room preloading, door-based navigation in one hook.
+  - `useWorldSelector<T>(selector: (world: World) => T, worldName?): T` — a memoized derived read over the immutable `World` value (re-runs per merge, stable identity otherwise) — the escape hatch for bespoke derivations.
+  - `useLiveWorld(options?: LiveUpdateOptions, worldName?): void` — **the live path in one hook, self-contained** (the provider's `liveUpdate` prop simply calls it; apps not using the prop can call it directly): dynamically imports `crawler-api`, starts `watchMints`, assembles each mint's payload via `assembleTokenPayload`, `world.import`s it **plus its invalidated neighbours** (§Schemas), restores + prunes persisted chambers on mount, and persists new imports while `persist` is on (default). Nothing is injected — the SDK already knows the binding, schema, converter, and assembler.
+- **Component: `<ChamberSvg>`** — renders a chamber's original token SVG (from a `Chamber`, or by locator + optional `worldName`), gracefully empty when the world has no `TokenSvg` view (goerli); styling is consumer-side (`className`/`style` pass-through). The SDK ships **no other rendering opinions** — the playable form arrives at P10 (§Token SVGs).
+- **Persistence format:** §Data pipeline item 5 — converted records, keyed by world binding + tokenId, private versioned bigint-safe JSON, pruned on load.
+
+```tsx
+import { createCrawler, type ChamberEC, type WorldHandleEC } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+import {
+  ChamberSvg, type ChamberNeighbor, CrawlerProvider,
+  useChamberEC, useChamberNeighbors, useWorldEC,
+} from '@avante/crawler-react';
+
+const crawler = createCrawler([mainnetData]); // the typical single-world app
+
+// Live updates are one provider prop — watcher, assembler, converter, and
+// persistence are resolved by the SDK (crawler-api loads lazily, only here).
+function App({ children }: React.PropsWithChildren) {
+  return (
+    <CrawlerProvider crawler={crawler} liveUpdate={{ rpcUrl }}>
+      {children}
+    </CrawlerProvider>
+  );
+}
+
+function Room({ slug }: { slug: string }) {
+  const world: WorldHandleEC = useWorldEC();          // no world name anywhere
+  const chamber: ChamberEC | undefined = useChamberEC({ slug });
+  const neighbors: ChamberNeighbor[] = useChamberNeighbors({ slug });
+  if (!chamber) return null;
+  return (
+    <div>
+      <h2>{world.name} — {chamber.name}</h2>
+      <ChamberSvg chamber={chamber} className="w-64" />
+      {neighbors.map(({ door, chamber: dest }) => (
+        <button key={door.tile} disabled={!dest}>{dest?.name ?? '…unminted'}</button>
+      ))}
+    </div>
+  );
+}
 ```
 
 ---
@@ -427,9 +508,29 @@ watchMinted(world, (tokenId) => {
 
 ## `apps/sdk-explorer` — browse tool & data API
 
-- **Dogfooding rule:** the explorer uses the public SDK surface only — no internal imports, no privileged paths. It is a living integration test of the published surface.
-- **Two same-origin-by-default route families** (no CORS headers; a deployment can opt in — e.g. a local-network game, which also makes it a remote world source):
-  - **data routes** — granular chamber lookups and whole-world payloads (the same-origin default guards the huge-payload risk; a `cnc` world can be very large);
-  - **on-chain routes** — cached-vs-live compare/preview, served **converted to `ChamberData`** (the explorer applies the converter server-side; the api stays raw).
-- **Visual browsing:** the token SVGs (shipped in the worlds themselves as `TokenSvg`); a chamber's public URL destination serves the **original SVG**. The playable form arrives with the P10 converter migration (see §Worlds & Views, Token SVGs).
+- **Dogfooding rule:** the explorer uses the public SDK surface only — no internal imports, no privileged paths. It is a living integration test of the published surface, and specifically the **reference implementation of the `crawler-react` bindings** (built after the react phase): browsing goes through the hooks and `<ChamberSvg>`, never hand-rolled equivalents.
+- **App stack:** Tailwind v4 for styling; TanStack Query for the app's own HTTP fetching (its `/api` routes) — app-side choices, never SDK dependencies.
 - The explorer is **not a provider** — no ops commitment. Same-origin guards browser-based abuse only; non-browser scripts can still hit a public deployment (acceptable for a tool).
+
+### Browse UI — the full browse tool
+
+- **Three levels:** world picker (UI state — the SDK has no mutable "current world") → per-world **chamber index** (a grid of the world's token SVGs) → **chamber detail page**: the rendered **original SVG** beside the chamber's `ChamberData`, with **clickable doors** navigating to their `destCoord` chambers — door-based navigation, dogfooded as UI. The playable form arrives with the P10 converter migration (see §Worlds & Views, Token SVGs).
+- **Page URLs are slug-addressed, and route slugs carry no separator** (`/world/mainnet/chamber/S1W1`): the coordinate schema parses any separator (NEWS: including none), and the **separator-less form is the canonical emit for URLs** — the schema's default separator stays canonical everywhere else.
+- **Worlds without a `TokenSvg` view browse data-only** (goerli): `hasView` guards the SVG panes; index and detail render the data as usual.
+- The JSON console pages (`/data`, `/apis`) **stay** as the dev view of the client surface and the route families.
+- The wallet stack (wagmi + ConnectKit) stays as-is — the explorer is a read-only demo; ownership UX arrives with #17 (P10).
+
+### The data API — two same-origin-by-default route families
+
+No CORS headers by default; a deployment **opts in** by setting **`EXPLORER_CORS_ORIGINS`** (comma-separated origins, or `*`), applied uniformly to both families — opting in is what makes a deployment a remote world source (e.g. a local-network game).
+
+- **Data routes** — static data straight from the loaded worlds:
+  - `GET /api/data/<world>` — the **whole-world payload**: the world's stored JSON, canonical form, fully usable without the SDK (the same-origin default guards the huge-payload risk; a `cnc` world can be very large);
+  - `GET /api/data/<world>/chamber/<coord>` — one `ChamberData` record by coord;
+  - `GET /api/data/<world>/token/<tokenId>` — the same lookup by token id (via `TokenCoord`);
+  - `GET /api/data/<world>/svg/<tokenId>` — the **original token SVG**, served as `image/svg+xml` — the chamber's public SVG destination (directly linkable / `<img>`-embeddable).
+  - Lookup keys are `BigIntish` — decimal and hex both parse.
+- **On-chain routes** — served **converted to `ChamberData`** (the explorer converts server-side; the api stays raw):
+  - `GET /api/onchain/<world>/token/<tokenId>` — the route reads the token live via the api's **`assembleTokenPayload(world, tokenId, { rpcUrl })`** (the SDK's single fetch/assembly implementation — the route never re-implements assembly; per-call `rpcUrl` from the server environment), applies the world's converter, and serves the converted record. **Cached-vs-live compare is UI** — the explorer diffs this route against the matching data route; there is no separate compare endpoint.
+- **Route JSON is bigint-safe** (bigints rendered as decimal strings by the explorer's response helper); the canonical serializer (`formatViewData`) is for datasets on disk, never HTTP responses.
+- **No raw generic read route.** The keep-lights-on `/api/read/<chainId>/<contractName>/<fn>/<args…>` dynamic-dispatch route dies with the explorer rebuild (P8) — raw contract reads are what `crawler-api` itself is for.

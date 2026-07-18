@@ -1,6 +1,6 @@
 # crawler-sdk — SDK Refactor: execution map
 
-**Status:** _P1–P6 landed; P7 next (gets its section when it starts)._ This document is the refactor's **execution map**: per phase, it grounds the current code and states dispositions (stays / adapted / replaced / deleted) and step order. It holds no specification — target shapes live in **`specs/SDK_SPECS.md`** (authoritative; wins on conflict) and open decisions in **`specs/SDK_PLAN.md`**. Completed phases collapse to their outcome (git history carries the journey); P7+ get their sections when they start.
+**Status:** _P1–P6 landed; P7 (react) and P8 (explorer) mapped below, not started — react runs **before** the explorer, so the explorer lands once, on the final react surface, as its reference implementation._ This document is the refactor's **execution map**: per phase, it grounds the current code and states dispositions (stays / adapted / replaced / deleted) and step order. It holds no specification — target shapes live in **`specs/SDK_SPECS.md`** (authoritative; wins on conflict) and open decisions in **`specs/SDK_PLAN.md`**. Completed phases collapse to their outcome (git history carries the journey); P7+ get their sections when they start.
 
 ---
 
@@ -11,11 +11,11 @@ The core was rewritten in place to the settled spec; the old machinery is gone. 
 - **New core layout** (`packages/crawler-core/src/`): `bigintish/` · `schema/` (descriptors `ec`/`cnc` + derived types + registry) · `chamber/` (`ChamberData<Schema>`, `Door` incl. `destTile`; the old `crawler/` helpers kept wholesale under tilemap naming — no bitmap side survives) · `coords/` (name→library registry; `news.ts` carries the EC bit math verbatim as pure functions — the `coord.ec`/`compass.ec`/`slug.ec` fixtures pass unchanged; `chamberId.ts` is the #14 interim) · `world/` (types, `loadWorld` validation, pure per-view reads, pure merge, `Converter` interface) · `client/` (`createCrawler`, `Crawler`, `WorldHandle`, `Chamber`, coarse subscription, provisional `ChamberSource`) · `errors.ts`. No `any` in core; TSDoc on every export.
 - **Deleted with no successor:** the global store (`modules/importer.ts` + the `./internal` subpath export), the `Options` bag, `ModuleInterface`/`ModuleBase`/namespace ceremony, the `ViewAccess` class machinery + per-view metadata, the DOM event bus, blank datasets, the `utils` grab-bag, and everything `luw`.
 - **One-off migration (#6):** `crawler-data/scripts/migrateWorlds.ts` (kept — its derivations seed the P5 converter) rewrote the committed JSON to the World shape at `src/worlds/{mainnet,goerli}.json` — WorldInfo view, readable strings, `Door[]` with `destCoord` (NEWS offsets) + `destTile` (`flipDoorPosition`), `isEntry` from `entryDir`, decimal keys, canonical serializer. 277 (mainnet) / 70 (goerli) tokens; a legacy `doors[i] === 0` means *no door on that edge* (validated: never locked, never a door tile). Goerli is frozen as migrated. Invariants are pinned by `crawler-data/test/worlds.test.ts`.
-- **Consumer keep-lights-on passes** (real rewrites remain P3/P7/P8):
+- **Consumer keep-lights-on passes** (real rewrites: api at P3 — landed; react at P7; explorer at P8):
   - `crawler-data` — root exports `mainnetWorld`/`goerliWorld`/`allWorlds` (`WorldJson`); the `ec` converter landed at P5, subpath-per-world exports land at P6. DevDep on `crawler-api` (build script only, per SPECS).
   - `crawler-api` — view machinery (`lib/view.ts`, `lib/views/*`, the explorer's `/api/view` consumer types) deleted at P2 (P3 deletes it regardless); `formatViewData` brought to spec (local replacer, **no `BigInt.prototype` monkeypatch**); the interim `readContractOrThrow` path (number `chainId`, Mainnet default) survives **only until P3**.
-  - `crawler-react` — provider holds an explicit `Crawler`; hooks `useCrawler`/`useWorld`/`useChamber`/`useWorldNames` over the coarse signal; real suite + live path at P8.
-  - `apps/sdk-explorer` — re-pointed at the new API (`WorldContext` UI world selection, menus over the handle surface, `/api/read` alive); `/api/view` and converted on-chain reads **parked, feature-dark** until P3/P7.
+  - `crawler-react` — provider holds an explicit `Crawler`; hooks `useCrawler`/`useWorld`/`useChamber`/`useWorldNames` over the coarse signal; real suite + live path at P7.
+  - `apps/sdk-explorer` — re-pointed at the new API (`WorldContext` UI world selection, menus over the handle surface, `/api/read` alive); `/api/view` and converted on-chain reads **parked, feature-dark** until P3/P8.
 - **Repo hygiene:** biome re-tightened (`noEmptyInterface`, `noDuplicateObjectKeys`, `noImplicitAnyLet` back to error — their justifying code is gone); remaining warn-downgrades are crawler-api-only P3 debt; `CLAUDE.md` architecture rewritten to the new design.
 
 Port decisions of record (implementation-level, within settled spec): `Dir` keeps `Over`/`Under`; the four-quadrant NEWS `Compass` union survives as the type-level validity encoding (with a loose `NewsCompassInput` for validation inputs); opposite-terrain lives on as `ec` string-domain vocabulary (`oppositeEcTerrain`); the byte/binary-array helpers ride in `bigintish/`; migrated worlds carry the migration run's ISO timestamp (goerli keeps it forever).
@@ -39,7 +39,7 @@ Port decisions of record: the registry key union (`KnownContractName`) is a gene
 
 - **Package** (`cache/`, outside `packages/`): `"private": true`, scripts-only — no build/dist/publish, outside the `@avante/*` build·typecheck·publish filters; deps `@avante/crawler-{api,core,data}` (workspace); `cache/data/**` Biome-excluded. `.env` loaded via **dotenv** (repo-root then a cache-local override).
 - **Registry** (`worlds.json`): lean, world `name` → `{ dataDir, rpcEnv }`; `dataDir` carries the full deployment path (`endless-crawler/mainnet` — `network` alone collides, sepolia is also `ethereum`). Keyset = coverage (EC mainnet only). Binding (network/chainId/address/ABI) comes from the `crawler-data` world (`allWorlds` + `loadWorld`) + `getWorldContract` — never restated.
-- **Fetch** (`scripts/fetch.ts`; `pnpm --filter cache fetch:tokens` — named `fetch:tokens`, not `fetch`, to dodge pnpm's built-in): one generic script over every registered world. RPC **required** per world (aborts up front if unset — no public fallback for the archive); reads throttled to ≤ 10 req/s (`CACHE_MAX_RPS`); each read retries 3×/1 s then aborts non-zero. Pins one block `B`; **missing-only** fetch of `1..totalSupply` at `B` (a token missing *any* required file refetches whole — byte-stable rewrites — so layout additions backfill; a `.json` *shape* change needs a delete + re-run, presence can't see content). Per token → `<id>.json` (blobs extracted — `image` and `animation_url` out; `formatViewData`) + `<id>.svg` (decoded, prettier-pretty-printed); `ec`-schema worlds add `<id>.html` (the decoded `animation_url` player) and embed the on-chain **`chamber` struct** in the `.json` (`Crawl.ChamberData` via `tokenIdToCoord` → `coordToChamberData(chapter, coord, generateMaps: true)` at `B`; `chapter` from the metadata attribute; named `chamber`, not `chamberData` — the view's converted shape differs) — archived because **the SVG alone doesn't carry the full map data**. `_cache.json` per `dataDir`: binding echo + `fetchedThroughBlock` (advanced to `B` every clean run) + `updatedAt` + `tokens{ id:{ block, fetchedAt } }`. Invalidation is a schema-level core policy, currently **empty** (Minted-neighbour deferred to plan #16; block/watermark data banked).
+- **Fetch** (`scripts/fetch.ts`; `pnpm --filter cache fetch:tokens` — named `fetch:tokens`, not `fetch`, to dodge pnpm's built-in): one generic script over every registered world. RPC **required** per world (aborts up front if unset — no public fallback for the archive); reads throttled to ≤ 10 req/s (`CACHE_MAX_RPS`); each read retries 3×/1 s then aborts non-zero. Pins one block `B`; **missing-only** fetch of `1..totalSupply` at `B` (a token missing *any* required file refetches whole — byte-stable rewrites — so layout additions backfill; a `.json` *shape* change needs a delete + re-run, presence can't see content). Per token → `<id>.json` (blobs extracted — `image` and `animation_url` out; `formatViewData`) + `<id>.svg` (decoded, prettier-pretty-printed); `ec`-schema worlds add `<id>.html` (the decoded `animation_url` player) and embed the on-chain **`chamber` struct** in the `.json` (`Crawl.ChamberData` via `tokenIdToCoord` → `coordToChamberData(chapter, coord, generateMaps: true)` at `B`; `chapter` from the metadata attribute; named `chamber`, not `chamberData` — the view's converted shape differs) — archived because **the SVG alone doesn't carry the full map data**. `_cache.json` per `dataDir`: binding echo + `fetchedThroughBlock` (advanced to `B` every clean run) + `updatedAt` + `tokens{ id:{ block, fetchedAt } }`. Invalidation is a schema-level core policy, **empty as landed** — the staleness pass ships with P7's live path (#16 closed; block/watermark data banked for it).
 - **api surface:** the P3 read helpers gained an optional `blockNumber` (`ReadOptions`) for consistent-snapshot reads, and `readTokenMetadata` unpacks `animation_url` into an optional `html` (a non-blob `animation_url` stays in the metadata) — backward-compatible (api tests + `check:pack` green); SPECS updated in lockstep.
 - **Data:** mainnet fetched — **326 tokens** (minted past the 277 migration snapshot), json (`chamber`-embedded) / svg / html triples, committed. Goerli never cached (dead chain — frozen as migrated).
 - **Invariant test** (`test/cache.test.ts`): sibling files (svg; html for `ec`) · contiguity from 1 (`_cache.json` excluded) · no data-URI blobs · every `ec` token JSON embeds its own `chamber` struct (`tokenId` echo, generated hex `tilemap`) · `_cache.json` binding echo matches the resolved world — green. Idempotency holds structurally (all tokens complete → a re-run only advances the watermark).
@@ -66,3 +66,71 @@ The builder re-emits mainnet from the cache, and `crawler-data` moved to its fin
 - **Importers fixed** (more sites than mapped): explorer `crawlerClient.ts` **and** `api/read/[...read]/route.ts`; `crawler-api/test/{contracts,erc721}.test.ts`; `crawler-data/test/{worlds,converter.ec}.test.ts`; `cache/scripts/fetch.ts` + `cache/test/cache.test.ts` (each assembles its own `allWorlds` list from the two bundles). The crawler-api + cache vitest configs gained anchored subpath source aliases; `tsconfig.base.json` gained explicit subpath `paths` entries (and dropped the stale `@avante/crawler-core/internal` mapping — dead since P2).
 - **`scripts/migrateWorlds.ts` + `migrate:worlds` retired** (inputs long gone; derivations live in converter + builder; goerli's output is the frozen committed file). Invariant tests updated: mainnet counts are the fetch snapshot (`≥ 277`, tokenCount = chamberCount), `hasView('tokenSvg')` true for mainnet / false for goerli, every mainnet token's SVG present; the P5 equivalence suite is re-aimed at the **built** world (exact reproduction in lockstep; the monotone-evolution branch stays as the tolerance for a refetched-but-not-yet-rebuilt cache, its `evolved > 0` pin dropped) and pins the `tokenSvg` passthrough.
 - **Gates green:** fresh sequential `pnpm build`, `typecheck` (+ explorer), all tests (73), Biome lint/format, `check:pack` over the three-entry surface.
+
+## P7 — react (hook surface + live path) — map
+
+**Spec:** → SPECS §`crawler-react`, §Data pipeline (items 4–5, chamber sources), §Schemas (invalidation), §`crawler-api` (watcher, assemblers, caller clients), §The `Crawler` client (locators). #16 closed. Cross-package phase: core and api grow the primitives the react surface stands on, and the cache consumes the consolidated assembly.
+
+### Current code — dispositions
+
+| File | Disposition |
+|---|---|
+| `crawler-react/src/context/CrawlerContext.tsx` | **stays** — the provider shape is final (explicit `Crawler`, context, no state) |
+| `crawler-react/src/hooks/useCrawler.tsx` | **adapted** — `useCrawler`/`useWorldNames` stay; `useWorld`/`useChamber` re-signatured onto the base-hook + alias model (`useWorldSchema`/`useChamberSchema` bases; subject-first args, trailing optional `worldName`); the new hooks join (one file per hook under `hooks/`) |
+| `crawler-react/src/{index,hooks/index,context/index}.tsx` | **adapted** — barrels grow the new exports |
+| `crawler-react/test/react.test.ts` | **replaced** — a real suite: every hook (fake worlds), the live hook with injected fake watcher/assembler, persistence against a stubbed `localStorage` |
+| `crawler-react/package.json` + `README.md` | **adapted** — description finally true ("Components"); `crawler-api` added as optional peer (`peerDependenciesMeta`). The README already documents the settled surface (rewritten ahead of the phase) — the phase verifies its examples against the landed code |
+| `crawler-core/src/client/source.ts` (provisional `ChamberSource`) | **deleted** — the tiers materialize via `world.import` + pure merge (SPECS §Data pipeline); no async read-through interface |
+| `cache/scripts/fetch.ts` (inline `ec` assembly) | **adapted** — the `tokenIdToCoord` → `coordToChamberData` embed logic migrates into the api's assembly helpers; the fetch consumes them and gains the staleness pass |
+
+### New
+
+- **core:** `ChamberLocator` + `resolveCoord(world, locator)` (+ `WorldHandle.resolveCoord`); the `invalidation` field on the `ec`/`cnc` descriptors + `getInvalidatedCoords(schema, coord)`; **`crawler.world()` name-optional** (sole registered world; typed error when ambiguous); the **per-schema type aliases** (`WorldHandleEC`/`WorldHandleCC`, `ChamberEC`/`ChamberCC`, `ChamberDataEC`/`ChamberDataCC`).
+- **crawler-api:** `{ client }` accepted beside `{ rpcUrl }` on every factory/read helper (wagmi apps reuse their configured `PublicClient`); `watchMints(world, opts, onMint)` (poll `totalSupply`, stop function returned); the `ec` struct-read + `assembleEcTokenPayload` helpers behind the schema-dispatched `assembleTokenPayload(world, tokenId, opts)` front door (structural compatibility with `EcTokenPayload` pinned by a devDep-typed test).
+- **crawler-react:** the base hooks `useWorldSchema<S>`/`useChamberSchema<S>` + their one-line derived aliases (`useWorldEC`/`useChamberEC`, `useWorldCC`/`useChamberCC` when `cnc` lands, union-typed `useWorld`/`useChamber`) — logic written once in the base; `useChambers`, `useWorldInfo`, `useTokenSvg`, `useChamberNeighbors`, `useWorldSelector`, the self-contained `useLiveWorld` (dynamic optional-peer import of `crawler-api`, `watchMints` + `assembleTokenPayload`, neighbour re-import, localStorage restore/prune/persist in the private versioned format) called by the provider's zero-config `liveUpdate` prop; the world-name resolution chain (arg → provider `defaultWorld` → sole world → typed error); `<ChamberSvg>`.
+- **cache:** the staleness pass — refetch `getInvalidatedCoords` neighbours of newly fetched tokens at the pinned block.
+
+### Step order
+
+1. **Core primitives** — locator + `resolveCoord`; invalidation policy + `getInvalidatedCoords`; name-optional `crawler.world()`; delete `client/source.ts`; tests.
+2. **api client acceptance** — `{ client }` option threaded through factories/reads; tests (a manually-constructed viem client).
+3. **api live surface** — `watchMints` + the `ec` assembly helpers + the schema-dispatched `assembleTokenPayload` (single implementation); structural payload test; SPECS already in lockstep.
+4. **cache consolidation** — fetch consumes the api assembly helpers (inline embed logic deleted); staleness pass added; verify with a live `fetch:tokens` run (byte-stable rewrites, watermark advances).
+5. **react static surface** — the base hooks + derived aliases, the new hooks, provider `defaultWorld`, `<ChamberSvg>`; real test suite.
+6. **react live surface** — the `crawler-api` optional peer (`peerDependenciesMeta`) + self-contained `useLiveWorld` + the provider `liveUpdate` prop (tests mock the dynamic `crawler-api` import + stub `localStorage`).
+7. **Manifest + README verification** (description, optional peer; README examples checked against the landed surface); gates: fresh `pnpm build`, `typecheck`, all tests, Biome, `check:pack`.
+
+## P8 — sdk-explorer (browse tool + data API) — map
+
+**Spec:** → SPECS §`apps/sdk-explorer` (browse UI, route families, addressing, CORS mechanism — all settled; #18 closed and concretized). Runs **after** the react phase: the explorer consumes the final react surface — the hooks and `<ChamberSvg>` are used wherever applicable, making the explorer the bindings' **reference implementation**. App stack stays Tailwind v4 + TanStack Query (its own HTTP fetching).
+
+### Current code — dispositions
+
+| File | Disposition |
+|---|---|
+| `src/app/api/hello/route.ts` | **deleted** — starter scaffold |
+| `src/app/api/read/[...read]/route.ts` | **deleted** — keep-lights-on raw read route (dynamic dispatch + explorer-side cast); replaced by the converted on-chain family — raw reads are what `crawler-api` is for |
+| `src/app/page.tsx` | **replaced** — sample dispatchers (incl. the external `/feriados` demo URL) give way to the browse home (world index / entry into `/world/<name>`) |
+| `src/app/data/page.tsx` + `components/DataMenu.tsx` | **stay** — the client-surface console (dev view) |
+| `src/app/apis/page.tsx` + `components/ApisMenu.tsx` | **adapted** — menu re-pointed from `/api/read` at the new `/api/data` + `/api/onchain` families |
+| `src/hooks/WorldContext.tsx` + `components/DataSetSelector.tsx` | **stay** — browsed-world UI state (the SDK has no "current world") |
+| `src/hooks/SelectionContext.tsx`, `components/{Dispatchers,Results,MonacoEditor}.tsx`, `hooks/useFormatter.tsx` | **stay** — console selection/results machinery |
+| `src/lib/apiResponse.ts` | **stays** — the bigint-safe JSON response helper for all route handlers; grows the CORS opt-in (`EXPLORER_CORS_ORIGINS`) |
+| `src/lib/serverRpc.ts` | **stays** — per-call `rpcUrl` for the on-chain routes |
+| `src/lib/crawlerClient.ts` | **stays** — the shared `Crawler` (client); server route handlers resolve worlds from the same per-world bundles |
+| `src/app/providers.tsx` | **adapted** — `WorldProvider` moves **outside** `CrawlerProvider` so the browsed world can drive the provider's `defaultWorld`; the wagmi/ConnectKit stack (`src/lib/chains.ts` included) stays untouched — read-only demo, ownership UX is P10 (#17) |
+| `components/{Header,Layout,Icons}.tsx` | **stay** — app chrome; Header gains nav to the browse pages |
+
+### New
+
+- **`/api/data/[world]` route family** — whole-world payload (the stored `WorldJson`, canonical form), chamber by coord, chamber by tokenId, original SVG as `image/svg+xml`.
+- **`/api/onchain/[world]/token/[tokenId]`** — the api's `assembleTokenPayload(world, tokenId, { rpcUrl })` (P7 surface — the route never re-implements assembly) → the world's converter → converted `ChamberData` out.
+- **Browse pages** — `/world/[name]` (SVG-grid chamber index) and `/world/[name]/chamber/[slug]` (SVG + `ChamberData` + clickable-door navigation), built on the react surface: `<ChamberSvg>` for every SVG pane, `useChamber({ slug })` for lookup, `useChamberNeighbors` for the door navigation, `useChambers` for the grid — the browsed world (`WorldContext`) drives the provider's `defaultWorld`, so page components omit world names like a single-world game would; **route slugs are separator-less** (`S1W1` — parse accepts any separator, URLs emit none); goerli (no `tokenSvg`) browses data-only behind `hasView` guards. Optionally a live pane demoing the provider's `liveUpdate` prop, styled with Tailwind.
+
+### Step order
+
+1. **Data route family** + the CORS opt-in in the response helper — pure `crawler-data` reads; verify through the console.
+2. **On-chain converted route** — the api's `assembleTokenPayload` + the world's converter; verify by diffing against the data route for an existing token (the cached-vs-live compare).
+3. **Browse pages** over the routes and the react surface — index grid (`useChambers` + `<ChamberSvg>`), detail page (`useChamber({ slug })` + `useChamberNeighbors`); verify both worlds (mainnet SVGs, goerli data-only).
+4. **Delete the scaffold** — `/api/read`, `/api/hello`, the sample home content; re-point `ApisMenu`; sweep stale "parked/rebuilt at P7" comments (the explorer rebuild is P8).
+5. **Gates:** `pnpm build` + `typecheck` + Biome; manual live verification (`next dev`) of both route families and both worlds' browsing.
