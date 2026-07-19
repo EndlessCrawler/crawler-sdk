@@ -1,0 +1,81 @@
+# The Crawler client
+
+`createCrawler(worlds)` is the entry point — sync, explicit, isolated (no
+global anything). It validates each world and returns a **`Crawler`**
+container; `crawler.world(name)` returns a stable **`WorldHandle`** whose
+method-style reads delegate to the pure functional core.
+
+```ts twoslash
+import { createCrawler } from '@avante/crawler-core';
+import goerliData from '@avante/crawler-data/goerli';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData, goerliData]);
+
+const names = crawler.worlds(); // ['mainnet', 'goerli']
+const mainnet = crawler.world('mainnet');
+const chamber = mainnet.getChamberByTokenId(1);
+```
+
+Single-world apps omit the name — `crawler.world()` resolves the sole
+registered world and throws a typed `AmbiguousWorldError` when several are
+registered (ambiguity is never guessed).
+
+## Chambers
+
+A `Chamber` pairs the plain stored record (`chamber.data`) with a runtime
+back-pointer to its world (`chamber.world`) and navigation helpers:
+
+```ts twoslash
+import { createCrawler, Dir } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData]);
+const world = crawler.world();
+const chamber = world.getChamberByTokenId(1);
+// ---cut---
+if (chamber) {
+  chamber.name; // readable chamber name
+  chamber.terrain; // schema-typed terrain
+  chamber.slug(); // computed via the world's coordinate schema
+  chamber.getDoorsTo(Dir.North); // doors in one direction
+}
+```
+
+## Locators — one resolution path for every key form
+
+Anywhere a chamber is looked up, a **`ChamberLocator`** works — the first
+field present wins, in this order: `tokenId`, `coord`, `slug`, `compass`.
+
+```ts twoslash
+import { createCrawler } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData]);
+const world = crawler.world();
+// ---cut---
+const coord = world.resolveCoord({ slug: 'N1E1' });
+const same = world.resolveCoord({ tokenId: 1 });
+```
+
+## Immutable worlds, one coarse signal
+
+A loaded `World` is immutable. `world.import(tokenId, payload)` converts a
+token payload (via the converter bundled with the world data) and folds it in
+by **pure merge** — a *new* world value is swapped inside the `Crawler`, and
+the single coarse, typed "world updated" subscription fires:
+
+```ts twoslash
+import { createCrawler } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData]);
+// ---cut---
+const unsubscribe = crawler.subscribe((event) => {
+  console.log(`world updated: ${event.world}`);
+});
+```
+
+That subscription is the SDK's only reactivity primitive — no DOM events, no
+per-record listeners. The React bindings build on it (see
+[React bindings](/guides/react)).

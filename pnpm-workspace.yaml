@@ -4,6 +4,7 @@ packages:
   - 'packages/crawler-api'
   - 'packages/crawler-react'
   - 'apps/sdk-explorer'
+  - 'apps/docs'
   - 'cache'
 
 # All common (multi-package) external versions live here — manifests reference them
@@ -21,3 +22,7 @@ catalog:
   '@types/react': ^19.2.17
   '@types/react-dom': ^19.2.3
   viem: ^2.55.0
+
+# postinstall scripts allowed to run (pnpm 10 blocks all by default; esbuild installs its platform binary — vite/vocs need it)
+onlyBuiltDependencies:
+  - esbuild

@@ -1,0 +1,42 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "name": "Endless Crawler SDK",
+  "tsconfig": "./tsconfig.typedoc.json",
+  "entryPoints": [
+    "../../packages/crawler-core/src/index.ts",
+    "../../packages/crawler-data/src/index.ts",
+    "../../packages/crawler-api/src/index.ts",
+    "../../packages/crawler-react/src/index.tsx"
+  ],
+  "plugin": ["typedoc-plugin-markdown", "./typedoc.opaque.mjs"],
+  "out": "src/pages/reference",
+  "readme": "none",
+  "includeVersion": false,
+  "excludeInternal": true,
+  "excludePrivate": true,
+  "maxTypeConversionDepth": 1,
+  "externalSymbolLinkMappings": {
+    "viem": { "*": "https://viem.sh" }
+  },
+  "validation": {
+    "notExported": false,
+    "invalidLink": true,
+    "rewrittenLink": true,
+    "notDocumented": true
+  },
+  "treatValidationWarningsAsErrors": true,
+  "fileExtension": ".mdx",
+  "entryFileName": "index",
+  "modulesFileName": "index",
+  "publicPath": "/reference/",
+  "sanitizeComments": true,
+  "hidePageHeader": true,
+  "useCodeBlocks": true,
+  "typeDeclarationVisibility": "compact",
+  "parametersFormat": "table",
+  "interfacePropertiesFormat": "table",
+  "typeAliasPropertiesFormat": "table",
+  "enumMembersFormat": "table",
+  "classPropertiesFormat": "table",
+  "indexFormat": "table"
+}

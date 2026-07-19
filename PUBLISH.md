@@ -89,6 +89,38 @@ the per-world subpaths.
 
 ## 5. Publish to npm
 
-**Not yet.** Versioning, tags, provenance, and the publish flow are finished at
-**P9** (surface freeze #7, export inventory #3, docs #12) — this section is
-completed there.
+Prerequisites: publish rights on the npm **`@avante`** scope (`npm login`), and
+a clean working tree on `main` (pnpm's publish git checks enforce this).
+
+1. **Gates** — everything must be green, from the repo root:
+
+```sh
+pnpm run clean && pnpm run build
+pnpm run typecheck && pnpm run test && pnpm run lint
+pnpm run check:pack        # publint + arethetypeswrong per package
+pnpm run check:docs        # typedoc validation (undocumented export ⇒ red)
+                           # + vocs build (broken Twoslash example ⇒ red)
+```
+
+2. **Version** — the four packages version in **lockstep**:
+
+```sh
+pnpm --filter '@avante/*' exec npm pkg set version=<x.y.z>
+```
+
+Commit the version bump (the publish reads the committed state).
+
+3. **Dry run, then publish** — pnpm rewrites the `workspace:` protocol to real
+version ranges on pack; the manifests carry `publishConfig.access: public`:
+
+```sh
+pnpm --filter '@avante/*' -r publish --dry-run
+pnpm --filter '@avante/*' -r publish --tag alpha   # alpha status → alpha dist-tag
+```
+
+While the packages are alpha, publish under the `alpha` dist-tag; promote with
+`npm dist-tag add @avante/<pkg>@<x.y.z> latest` when a release is stable.
+Afterwards, tag the release commit (`git tag sdk-v<x.y.z>`) and push the tag.
+
+Provenance attestation (`--provenance`) requires a CI OIDC environment — adopt
+it when a CI workflow exists; local publishes skip it.

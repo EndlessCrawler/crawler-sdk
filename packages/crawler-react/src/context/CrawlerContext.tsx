@@ -20,7 +20,8 @@ export interface CrawlerContextType {
 
 const CrawlerContext = createContext<CrawlerContextType>({ crawler: null });
 
-interface CrawlerProviderProps {
+/** Props accepted by {@link CrawlerProvider}. */
+export interface CrawlerProviderProps {
   children: ReactNode;
   /** the app's `Crawler` container (create once with `createCrawler(worlds)`) */
   crawler: Crawler;
@@ -63,4 +64,4 @@ export const useCrawlerContext = (): CrawlerContextType & { crawler: Crawler } =
   return context as CrawlerContextType & { crawler: Crawler };
 };
 
-export { CrawlerContext, CrawlerProvider };
+export { CrawlerProvider };

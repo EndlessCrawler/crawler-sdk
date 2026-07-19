@@ -17,6 +17,7 @@
 | Apps                      |            |                  |                      | Status  |
 |---------------------------|------------|------------------|----------------------|---------|
 | `/apps/sdk-explorer`        | Next.js    | on-chain         | sdk examples         | alpha   |
+| `/apps/docs`                | vocs       | off-chain        | API reference & guides | alpha |
 
 
 ## Usage
@@ -154,6 +155,18 @@ terminal 2:
 ```sh
 cd apps/sdk-explorer
 npm run dev
+```
+
+#### Docs (`apps/docs`)
+
+The API reference is generated from the TSDoc'd surface (typedoc → vocs);
+guides carry Twoslash-verified examples compiled against the **built**
+packages, so build first:
+
+```sh
+pnpm run build
+pnpm run check:docs        # generate reference + build the site (the docs gate)
+pnpm --filter docs dev     # local docs dev server
 ```
 
 

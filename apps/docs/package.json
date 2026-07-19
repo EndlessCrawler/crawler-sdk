@@ -1,0 +1,35 @@
+{
+  "name": "docs",
+  "version": "0.1.0",
+  "description": "Crawler SDK API reference & guides",
+  "author": "Studio Avante",
+  "license": "CC0-1.0",
+  "homepage": "https://github.com/EndlessCrawler",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "gen:reference": "pnpm --filter @avante/crawler-api run gen && typedoc && node scripts/fix-reference-links.mjs",
+    "dev": "pnpm run gen:reference && vocs dev",
+    "build": "pnpm run gen:reference && vocs build",
+    "preview": "vocs preview",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint --write .",
+    "format": "biome format --write .",
+    "format:check": "biome format ."
+  },
+  "devDependencies": {
+    "@avante/crawler-api": "workspace:*",
+    "@avante/crawler-core": "workspace:*",
+    "@avante/crawler-data": "workspace:*",
+    "@avante/crawler-react": "workspace:*",
+    "@biomejs/biome": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "typedoc": "^0.28.20",
+    "typedoc-plugin-markdown": "^4.12.0",
+    "typescript": "catalog:",
+    "vite": "^8.0.0",
+    "vocs": "^2.6.0",
+    "waku": "^1.0.0-beta.6"
+  }
+}

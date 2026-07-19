@@ -1,0 +1,55 @@
+# Getting started
+
+## Install
+
+The minimal consumer needs two packages — the core client and a world:
+
+:::code-group
+
+```bash [pnpm]
+pnpm add @avante/crawler-core @avante/crawler-data
+```
+
+```bash [npm]
+npm install @avante/crawler-core @avante/crawler-data
+```
+
+:::
+
+`@avante/crawler-api` (live on-chain reads) and `@avante/crawler-react`
+(React bindings) are strictly optional add-ons.
+
+## Create a crawler, read a chamber
+
+Everything static is synchronous — the world data is already in hand:
+
+```ts twoslash
+import { createCrawler } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData]);
+
+const world = crawler.world(); // sole registered world — no name needed
+const chamber = world.getChamberByTokenId(1);
+//    ^?
+```
+
+## Navigate by doors
+
+Games navigate by `Door.destCoord`, never by offset math:
+
+```ts twoslash
+import { createCrawler, Dir } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData]);
+const world = crawler.world();
+// ---cut---
+const chamber = world.getChamberByTokenId(1);
+if (chamber) {
+  for (const door of chamber.doors) {
+    const dest = world.getChamber(door.destCoord);
+    console.log(door.direction, dest?.name ?? '(unminted)');
+  }
+}
+```

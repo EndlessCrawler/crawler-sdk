@@ -1,7 +1,7 @@
 # @avante/crawler-react
 
 React bindings for the Crawler SDK — a provider, hooks, and components over an
-explicit [`Crawler`](../crawler-core) container. No global state, no DOM events:
+explicit [`Crawler`](https://github.com/EndlessCrawler/crawler-sdk/blob/main/packages/crawler-core) container. No global state, no DOM events:
 reactivity comes from the `Crawler`'s coarse, typed "world updated" subscription.
 
 > **Status: alpha, pre-publish.** This README documents the landed surface
@@ -114,4 +114,4 @@ import { ChamberSvg } from '@avante/crawler-react';
 <ChamberSvg chamber={chamber} className="w-64" />;
 ```
 
-See [`@avante/crawler-core`](../crawler-core) for the full handle/chamber surface.
+See [`@avante/crawler-core`](https://github.com/EndlessCrawler/crawler-sdk/blob/main/packages/crawler-core) for the full handle/chamber surface.

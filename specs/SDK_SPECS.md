@@ -18,7 +18,7 @@ The workspace inventory: each package, what it provides, and its published name 
 | `packages/crawler-react` | **`@avante/crawler-react`** | `CrawlerProvider` (+ the zero-config **`liveUpdate`** prop) + the hook surface over the explicit `Crawler` (lookup by locator, enumeration, selector, the live hook — see §`crawler-react`); the **`<ChamberSvg>`** display component; **localStorage persistence of live chambers** (the only browser-dependent code in the SDK). Peers: react ^18 ‖ ^19, core; `crawler-api` is an **optional peer**, dynamically imported only when live updates are enabled. |
 | `cache` | — **never published** (private) | **One contract-agnostic package** archiving `tokenURI` output for every SDK world contract (EC mainnet today; C&C in v1) — per token `<tokenId>.json` (for `ec` worlds with the on-chain `Crawl.ChamberData` struct embedded as `chamber`) + `<tokenId>.svg` (+ `<tokenId>.html`, `ec` only) and a per-`dataDir` `_cache.json` provenance/state file, under `cache/data/<dataDir>/` (`dataDir` includes the deployment, e.g. `endless-crawler/mainnet` — `network` alone collides), committed (see §Data pipeline). Which worlds are cached — and their `dataDir` + RPC env-var name — is declared in `cache/worlds.json`; the contract binding comes from the `crawler-data` world (never restated). **One generic fetch script serves all worlds** (the fetch is contract-agnostic). **Mainnet only** — goerli is unfetchable (dead chain), its world stays frozen as migrated. Fetches via `crawler-api`; consumed by `crawler-data`'s builder. Lives under `cache/` (not `packages/`) precisely so it never leaves the repo. |
 | `apps/sdk-explorer` | — never published (app) | The SDK's **browse tool** (cached, parsed, and on-chain data — token SVGs for visuals) and **API provider**: **same-origin-by-default** data routes (chamber lookups + whole-world payloads) plus on-chain routes served **converted to `ChamberData`** (cached-vs-live compare); CORS opt-in per deployment. **Dogfoods the public SDK surface only** — no internal imports. Next 16 App Router. |
-| `apps/docs` | — never published (app, planned) | vocs API-reference site built from the TSDoc'd surface + Twoslash examples (#12). |
+| `apps/docs` | — never published (app) | vocs docs site, **hybrid** (#12): a **generated symbol reference** (typedoc + typedoc-plugin-markdown emitting MDX into the git-ignored `src/pages/reference/`, rendered by vocs full-static) + **hand-authored MDX guides**; code examples Twoslash-verified against the built `dist` types. **The docs build is the gate** (`pnpm run check:docs`, CI-wired when CI exists) — a broken example or an undocumented export turns it red (what makes the documented-surface rule enforceable). |
 | `packages/crawler-contracts` | _(planned, out of refactor scope)_ | Solidity contracts — README lists it as planned; untouched by the refactor. |
 
 **Dependency rules:** the published runtime graph is **`data` / `api` / `react` → `core`** and nothing else — `data` never runtime-depends on `api` (build script only), `api` never depends on `data`, `core` depends on nothing. One deliberate softening: `react` declares `api` as an **optional peer** and `import()`s it lazily, exclusively on the live path — a game that never enables `liveUpdate` never installs it (a missing install surfaces as a typed error only when live updates are switched on). The `cache` package may depend on anything (private, build-time only); it depends on `data` (world binding) + `api` (fetching) + `core`, and `data` never depends back on `cache` (its builder reads `cache/worlds.json` by fs path, not a package import).
@@ -40,7 +40,7 @@ flowchart TD
 
   subgraph apps ["apps — never published"]
     explorer["apps/sdk-explorer"]
-    docs["apps/docs (planned)"]
+    docs["apps/docs"]
   end
 
   data --> core
@@ -63,13 +63,61 @@ _Solid arrows = runtime dependencies (allowed set, exhaustive). Dotted = build-t
 
 ---
 
+## Public surface — the export inventory (#7)
+
+**The frozen v1 published surface** (the #7 freeze, with #3's per-package inventory). A change to this inventory is a spec change — code and this list move in lockstep.
+
+Rules: root entry points only, plus `crawler-data`'s per-world subpaths — no other subpath exports in v1 (the per-view world split stays a data-layout escape hatch, §Views). Every listed export carries complete TSDoc (§Type-system rules); an export not listed here is not public.
+
+### `@avante/crawler-core` (root, sole entry)
+
+- **`bigintish`** — the **`bi` namespace** (the sole function surface — an ox-style module namespace, `import { bi }` + `bi.toAddress(…)`): `bi.toBigInt`, `bi.toHex`, `bi.toAddress`, `bi.toByteArray`, `bi.toNumberArray`, `bi.toDecimalString` (not `toString`, which would shadow the namespace object's prototype method), `bi.equals`, `bi.fromBinaryArray`, guards `bi.isBigInt`, `bi.isBigIntish`, `bi.isHexString`. Top-level named exports: error `InvalidBigIntishError`; types `BigIntish`, `HexString` (types and errors never live namespace-only).
+- **`chamber`** — vocabulary `Dir`, `DirNames`, `FlippedDir`, `flipDir`, `Gem`, `GemNames`, `Terrain`, `TerrainNames`, `OppositeTerrain`, `getOppositeTerrain`, `TileType`; tilemap library `findTilesInTilemap`, `flipDoorPosition`, `isTile`, `tileToXy`, `toTilemap`, `xyToTile`; `getDoorsTo`; types `ChamberData`, `Door`, `Hoard`, `Tile`, `Tilemap`, `TilemapIsh`, `TilemapSize`, `Xy`.
+- **`schema`** — `ec`, `cnc`, `schemas`, `getSchema`, `isSchemaName`, `getInvalidatedCoords`, `ecGemFromChain`, `ecTerrainFromChain`, `oppositeEcTerrain`; types `DataSchema`, `SchemaName`, `SchemaViewName`, `AttributeSpec`, `AttributesOf`, `AttributeValueOf`, `ChamberSize`, `InvalidationPolicy`, `TerrainOf`, `EcAttributes`, `EcGemType`, `EcTerrain`, `CncAttributes`, `CncTerrain`.
+- **`coords`** — registry `getCoordinateSchema`; the NEWS library `news` + its function set `compassToCoord`, `compassToSlug`, `coordToCompass`, `coordToSlug`, `slugToCompass`, `slugToCoord`, `neighborCoords`, `offsetCoord`, `offsetNewsCompass`, `minifyNewsCompass`, `newsCompassEquals`, `validateCoord`, `validateNewsCompass`, `validatedNewsCompass`, `validateSlug` + constants `CoordMask`, `CoordMax`, `CoordOffset`, `CoordOne`, `defaultSlugSeparator`, `slugSeparators`; `chamberId` (the `cnc` interim library); types `Compass`, `CoordinateSchemaLibrary`, `CoordinateSchemaLibraries`, `CoordinateSchemaName`, `NewsCompass`, `NewsCompassDir`, `NewsCompassInput`, `NewsLibrary`, `ChamberIdLibrary`, `SlugSeparator`.
+- **`world`** — `loadWorld`, `resolveCoord`, `mergeConvertedToken`; the pure reads `getWorldInfo`, `hasView`, `getChamber`, `getChamberByTokenId`, `getChambers`, `getChambersByCoords`, `getChamberCount`, `getStaticChamberCount`, `getDynamicChamberCount`, `getDynamicChamberCoords`, `getDynamicChamberTokenIds`, `getTokenCoord`, `getTokenIds`, `getTokenCount`, `getTokenSvg`; types `World`, `WorldJson`, `WorldInfo`, `WorldInfoJson`, `WorldViews`, `ViewName`, `Network`, `ContractName`, `ChamberDataJson`, `DoorJson`, `CompassJson`, `BigIntJson`, `ChamberLocator`, `Converter`, `ConvertedToken`.
+- **`client`** — `createCrawler`; classes `Crawler`, `WorldHandle`, `Chamber`; types `WorldBundle`, `WorldSource`, `WorldUpdatedEvent`, `WorldUpdatedListener`, `CoordinateLibraryOf`; the per-schema aliases `WorldHandleEC`/`WorldHandleCC`, `ChamberEC`/`ChamberCC`, `ChamberDataEC`/`ChamberDataCC`.
+- **`errors`** — `MissingViewError`, `UnknownWorldError`, `AmbiguousWorldError`, `DuplicateWorldError`, `WorldValidationError`, `MissingConverterError` (plus `InvalidBigIntishError` above).
+
+**Method inventory:**
+
+- `Crawler`: `worlds()`, `world(name?)`, `subscribe(listener)`.
+- `WorldHandle`: getters `name`, `data`, `info`, `schema`, `coords`; `hasView`, `getChamber`, `getChamberByTokenId`, `getChamberBySlug`, `resolveCoord`, `getChambers`, `getTokenCoord`, `getTokenIds`, `getTokenCount`, `getTokenSvg`, `getChamberCount`, `getStaticChamberCount`, `getDynamicChamberCount`, `getDynamicChamberCoords`, `getDynamicChamberTokenIds`, `import`, `importConverted`.
+- `Chamber`: `world`, `data` + the field getters `coord`, `tokenId`, `name`, `terrain`, `yonder`, `seed`, `tilemap`, `doors`, `size`, `isDynamic`, `attributes`; methods `slug()`, `compass()`, `getDoorsTo(dir)`.
+
+The #19 residual (the `isDynamic` count/query surface) freezes as the five reads `getChamberCount` / `getStaticChamberCount` / `getDynamicChamberCount` / `getDynamicChamberCoords` / `getDynamicChamberTokenIds`, mirrored 1:1 on the handle.
+
+### `@avante/crawler-data`
+
+- **Root:** `ecConverter`; `TokenConversionError`; types `EcTokenPayload`, `EcTokenMetadata`, `EcTokenAttribute`, `EcChamberMetadata`, `EcChamberStruct`. (The `cnc` converter joins here in v1 — #14.)
+- **`/mainnet`, `/goerli`:** a default-exported `WorldBundle` each, no named exports. `/sepolia` when a deployment exists (#22).
+
+### `@avante/crawler-api` (root, sole entry)
+
+- Contract factories `getWorldContract`, `getCardsContract`, `getErc20`, `getErc721`, `getTypedContract`; client plumbing `getPublicClient`, `resolveClient`; ABI registry `contractAbis`, `getContractAbi`, `getAllContractNames` (#20's factory names, frozen as shipped).
+- Parsed reads `readTokenMetadata`, `readTotalSupply`, `readOwnerOf`.
+- Live surface `watchMints`, `defaultWatchIntervalMs`; assemblers `assembleTokenPayload`, `assembleEcTokenPayload`.
+- The canonical serializer `formatViewData` (§Canonical serialization).
+- Errors `ClientChainMismatchError`, `InvalidTokenMetadataError`, `MissingAssemblerError`, `UnknownContractError`, `UnsupportedChainError`.
+- Types `KnownContractName`, `ContractOptions`, `BoundContractOptions`, `TypedContract`, `TypedContractOptions`, `ReadOptions`, `TokenMetadata`, `OnMint`, `WatchMintsOptions`, `AssembledTokenPayload`, `AssembledEcTokenPayload`, `AssembledEcMetadata`, `AssembledEcChamber`, `AssembledEcAttribute`.
+- The owner helpers (#17) join at P10.
+
+### `@avante/crawler-react` (root, sole entry)
+
+- `CrawlerProvider`; `<ChamberSvg>`; error `CrawlerApiUnavailableError`.
+- Hooks `useCrawler`, `useWorldNames`; the bases `useWorldSchema`/`useChamberSchema` + aliases `useWorldEC`/`useChamberEC` + unions `useWorld`/`useChamber` (`useWorldCC`/`useChamberCC` arrive with the `cnc` world — §`crawler-react`); `useChambers`, `useWorldInfo`, `useTokenSvg`, `useChamberNeighbors`, `useWorldSelector`.
+- Types `CrawlerProviderProps`, `ChamberSvgProps`, `ChamberNeighbor`, `LiveUpdateOptions` (the live path's only public piece — `useLiveWorld` stays internal).
+- The raw context is **internal** — `CrawlerContext`/`CrawlerContextType` are not exported: `CrawlerProvider` is the setter and `useCrawler` the accessor; exporting the raw context would invite bypassing both.
+
+---
+
 ## Type-system rules
 
 - **No `any`** anywhere in the public surface, including the view/read path.
 - **Every name used in lookups is a literal-union type** — schema names (`SchemaName = 'ec' | 'cnc'`), coordinate-schema names (`CoordinateSchemaName = 'news' | 'chamber-id'`), view names — never bare `string`.
 - **Schemas exist at runtime as plain descriptor objects; the type level derives from the descriptors** (`as const satisfies DataSchema`). One source of truth: the descriptor is both the load-time validator's input and the origin of the derived types (`ChamberData<Schema>`, terrain unions, attribute shapes).
-- **Every public schema-generic type ships per-schema aliases**, exported from `crawler-core` beside the descriptors — `WorldHandleEC = WorldHandle<typeof ec>`, `WorldHandleCC = WorldHandle<typeof cnc>`, `ChamberEC`/`ChamberCC`, `ChamberDataEC`/`ChamberDataCC` — so consumers never write `<typeof ec>` in annotations. The aliases pair with `crawler-react`'s per-schema hook aliases (§`crawler-react`); examples and docs use the aliases (spellings final at the surface freeze, #7).
-- **Every exported API carries complete, vocs-compatible TSDoc** (`@param`, `@returns`, `@example`, `@remarks`/`@throws`). An undocumented export is an incomplete export; TSDoc is part of each phase's definition of done. (Docs-site generation mechanism: #12.)
+- **Every public schema-generic type ships per-schema aliases**, exported from `crawler-core` beside the descriptors — `WorldHandleEC = WorldHandle<typeof ec>`, `WorldHandleCC = WorldHandle<typeof cnc>`, `ChamberEC`/`ChamberCC`, `ChamberDataEC`/`ChamberDataCC` — so consumers never write `<typeof ec>` in annotations. The aliases pair with `crawler-react`'s per-schema hook aliases (§`crawler-react`); examples and docs use the aliases (spellings settled: the `EC`/`CC` suffixes — §Public surface).
+- **Every exported API carries complete, vocs-compatible TSDoc** (`@param`, `@returns`, `@example`, `@remarks`/`@throws`). An undocumented export is an incomplete export; TSDoc is part of each phase's definition of done. The docs site publishes a generated symbol reference from this TSDoc plus hand-authored guides, and its build gates CI (§Package map, `apps/docs`).
 
 ---
 
@@ -82,12 +130,12 @@ type HexString = `0x${string}`; // strict template-literal type — never plain 
 type BigIntish = bigint | number | string /* decimal digits */ | HexString;
 ```
 
-The decimal-string form cannot be narrowed at the type level; it is validated at runtime (`isBigIntish`). `HexString` is the strict template-literal type (structurally identical to viem's `Address`, so the two interchange without a cast) — JSON input is handled by load-time validation (`loadWorld` parses raw JSON into typed values), never by weakening the type.
+The decimal-string form cannot be narrowed at the type level; it is validated at runtime (`bi.isBigIntish`). `HexString` is the strict template-literal type (structurally identical to viem's `Address`, so the two interchange without a cast) — JSON input is handled by load-time validation (`loadWorld` parses raw JSON into typed values), never by weakening the type.
 
-- **Home:** a dedicated, self-contained module inside `crawler-core` (`src/bigintish/`) — types, conversions, guards, and its own exhaustive unit tests. No other core module reimplements bigint handling. (Whether it also gets a subpath export is settled at the surface freeze, #7.)
+- **Home:** a dedicated, self-contained module inside `crawler-core` (`src/bigintish/`) — types, conversions, guards, and its own exhaustive unit tests. No other core module reimplements bigint handling. **The functions ship solely as the `bi` namespace export** (`import { bi } from '@avante/crawler-core'`; member list in §Public surface); the types and `InvalidBigIntishError` stay top-level named exports. No subpath export in v1 (the root suffices — `sideEffects: false` tree-shakes; a subpath can be added later without breaking).
 - **Spelling:** `BigIntish`.
 - **Used for:** view keys, coords, token IDs, chain ids, and wallet addresses — all `BigIntish`.
-- **Functions are pure and total with defined error behavior.** Explicit guards (`isBigIntish`, `isHexString`); conversions (`biToBigInt`, `biToHex`, …) reject malformed input with documented errors — `''` and garbage strings are errors, never silently `0n`; equality uses strict comparison on converted `bigint`s.
+- **Functions are pure and total with defined error behavior.** Explicit guards (`bi.isBigIntish`, `bi.isHexString`); conversions (`bi.toBigInt`, `bi.toHex`, …) reject malformed input with documented errors — `''` and garbage strings are errors, never silently `0n`; equality (`bi.equals`) uses strict comparison on converted `bigint`s.
 - **Addresses are `BigIntish`.** Equality is `bigint` comparison (immune to case/checksum differences); rendering back to checksummed hex is a display concern, outside core.
 - **Test coverage is part of the spec:** all four representations, round-trips between them, and edge cases — `0`, negatives, values over 64 bits, odd-length hex, malformed strings.
 
@@ -283,7 +331,7 @@ The ergonomic wrapper over the functional core is **two concepts, both in `crawl
 - **Chamber locators — one resolution path for every key form.** `ChamberLocator = { tokenId?, coord?, slug?, compass? }`, resolved by the **first field present, in that order**. A pure core function — `resolveCoord(world, locator)` → the `ChamberData` key (coord) or `undefined` — handles every form (tokenId via `TokenCoord`; slug/compass via the coordinate library); the handle exposes it (`world.resolveCoord(locator)`), and `crawler-react`'s `useChamber` takes a locator directly (§`crawler-react`).
 - A `Chamber` carries a **runtime back-pointer to its world handle** (`chamber.world`); the *stored* record stays plain serializable data (no cycles in the JSON).
 - **Sync everywhere — reads are never async.** Creation, name lookup, and all reads are sync; only the live path's *fetching* (watcher + assembler) is async, and it feeds the world through `world.import` — see §Data pipeline, chamber sources.
-- The **exact method inventory** is drafted at the surface freeze (#7); names below are placeholders until then.
+- The **exact method inventory** lives in §Public surface (the #7 freeze).
 
 ```ts
 import {
@@ -392,7 +440,7 @@ The api is the SDK's **only on-chain surface** (core has zero on-chain deps) and
 - **The live watcher lives here — poll-based.** `watchMints(world, opts, onMint)` polls `totalSupply` on an interval and reports new token ids; returns a stop function. No event-log subscriptions in v1 — polling covers mints on any RPC, and neighbour re-imports (§Schemas, invalidation) cover the monotone door unlocks.
 - **Starknet seam noted, not designed.** viem is EVM-only; `network: 'starknet'` (§Chains) will someday need a parallel client layer. All v1 contracts are Ethereum.
 
-Illustrative shape (final names at the surface freeze, #7):
+Illustrative shape (names per §Public surface, the #7 freeze):
 
 ```ts
 // world contract — fully-typed viem instance from the World's binding
@@ -442,7 +490,7 @@ The optional web layer: an explicit provider, a hook surface over the `Crawler`,
 - **Schema typing — one base hook, derived aliases.** Passing `<typeof ec>` on every call is not the ergonomic path. The schema-generic hooks are **base hooks** — `useWorldSchema<S>` and `useChamberSchema<S>` — and the everyday surface is **derived from them** (one-line wrappers binding the type parameter; **the hook logic is written exactly once**):
   - **per-schema aliases** — `useWorldEC` / `useChamberEC` (bind `typeof ec`), `useWorldCC` / `useChamberCC` (bind `typeof cnc`; ship with the `cnc` world) — returning the matching **per-schema type aliases** (`WorldHandleEC`, `ChamberEC`, … — §Type-system rules);
   - **plain union forms** — `useWorld` / `useChamber`, returning the union of the built-in schema types (`WorldHandleEC | WorldHandleCC`; narrow via `world.schema` when a schema-specific field is needed).
-- **Hook inventory** (final names ride the surface freeze, #7):
+- **Hook inventory** (names per §Public surface, the #7 freeze):
   - `useCrawler(): Crawler`; `useWorldNames(): string[]`.
   - `useWorldSchema<S>(worldName?: string): WorldHandle<S>` — the stable handle, re-rendering on that world's merges. Aliases: `useWorldEC(worldName?): WorldHandleEC`, `useWorldCC(worldName?): WorldHandleCC`, `useWorld(worldName?): WorldHandleEC | WorldHandleCC`.
   - `useChamberSchema<S>(locator: ChamberLocator, worldName?: string): Chamber<S> | undefined` — **the one lookup hook**, taking a `ChamberLocator` (`{ tokenId?, coord?, slug?, compass? }`, first-present-wins — §The `Crawler` client). Aliases: `useChamberEC`, `useChamberCC`, `useChamber` (union), same shape.
@@ -501,7 +549,7 @@ function Room({ slug }: { slug: string }) {
 - **Every views-data create/update goes through it**, so files are byte-stable across regenerations.
 - Output is **compact and human-readable**: arrays kept inline, structure legible, `bigint`s handled. `JSON.stringify(…, 2)` is banned for datasets — it explodes door/lock arrays one element per line.
 - Each field's canonical stored form is fixed here: decimal-string keys; bigint values as numbers when ≤ `Number.MAX_SAFE_INTEGER`, decimal strings past it (coords are always strings in practice); hex where it reads better (e.g. `seed`); door `direction` as its readable name (`'North'`, …); compass directions as numbers.
-- `prettier` is a runtime dependency of published `crawler-api` (footprint revisited at the surface freeze, #7).
+- `prettier` is a runtime dependency of published `crawler-api` — the `prettier/standalone` + babel/estree plugin entries (never the full CLI paths), tree-shaken out of consumer bundles when `formatViewData` is unused (`sideEffects: false`); the cost is install size only, and it lands exactly where serialization happens.
 - No `BigInt.prototype.toJSON` monkeypatch — `bigint` handling is local to the formatter (`crawler-api` declares `sideEffects: false`).
 
 ---

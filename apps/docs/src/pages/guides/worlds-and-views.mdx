@@ -1,0 +1,61 @@
+# Worlds & views
+
+A **World** is a plain, serializable, immutable value bound to an ERC-721
+contract: `{ name, network, chainId, contractAddress, contractName, schema,
+views }`. Stored JSON uses decimal-string keys and readable string values; in
+memory everything chain-scale is `bigint` (normalized by `loadWorld`).
+
+Its **views** are typed keyed maps, optional per world:
+
+| View | Keyed by | Holds |
+|---|---|---|
+| `worldInfo` | — (singleton) | the world's info block |
+| `tokenCoord` | token id | token → coordinate placement |
+| `chamberData` | coord | the `ChamberData` records |
+| `tokenSvg` | token id | the original on-chain token SVG (display-only) |
+
+## Capability queries vs record misses
+
+Reading a view a world doesn't carry throws a typed `MissingViewError`;
+`hasView` is the capability query. A miss *inside* a present view returns
+`undefined`:
+
+```ts twoslash
+import { createCrawler } from '@avante/crawler-core';
+import goerliData from '@avante/crawler-data/goerli';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData, goerliData]);
+// ---cut---
+const mainnet = crawler.world('mainnet');
+mainnet.hasView('tokenSvg'); // true — mainnet ships the original SVGs
+mainnet.getTokenSvg(999999); // undefined — present view, absent record
+
+const goerli = crawler.world('goerli');
+goerli.hasView('tokenSvg'); // false — frozen as migrated, no SVG view
+```
+
+## Counts and dynamic chambers
+
+Some chambers are **dynamic** — their doors can still change as neighbours
+mint. The handle exposes the count/query surface directly:
+
+```ts twoslash
+import { createCrawler } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData]);
+const world = crawler.world();
+// ---cut---
+world.getChamberCount(); // all chambers
+world.getStaticChamberCount(); // fully-defined chambers
+world.getDynamicChamberCount(); // still subject to neighbour mints
+world.getDynamicChamberCoords(); // their coords
+```
+
+## Plain data, all the way down
+
+The world JSON is fully usable without the SDK — `loadWorld` only validates
+and normalizes it. The per-world subpath exports of `@avante/crawler-data`
+(`…/mainnet`, `…/goerli`) each bundle `{ world, converter }` so that
+`world.import` has its schema's converter with zero wiring.

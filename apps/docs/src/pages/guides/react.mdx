@@ -1,0 +1,96 @@
+# React bindings
+
+`@avante/crawler-react` is the optional web layer: an explicit provider, a
+hook surface over the `Crawler`, one display component, and zero-config live
+updates. Peers: react 18 or 19 + `@avante/crawler-core`.
+
+## Provider
+
+Create the `Crawler` once, hand it to `CrawlerProvider`:
+
+```tsx twoslash
+// @jsx: react-jsx
+import { createCrawler } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+import { CrawlerProvider } from '@avante/crawler-react';
+
+const crawler = createCrawler([mainnetData]);
+
+function App({ children }: React.PropsWithChildren) {
+  return <CrawlerProvider crawler={crawler}>{children}</CrawlerProvider>;
+}
+```
+
+## Hooks
+
+The hook's *subject* comes first; the world name is a trailing optional
+everywhere (explicit argument → the provider's `defaultWorld` → the sole
+registered world → typed error). Hooks re-render exactly when their world
+merges — return values are identity-stable otherwise, so they are safe as
+plain memo/effect deps.
+
+```tsx twoslash
+// @jsx: react-jsx
+import type { ChamberEC, WorldHandleEC } from '@avante/crawler-core';
+import {
+  ChamberSvg,
+  type ChamberNeighbor,
+  useChamberEC,
+  useChamberNeighbors,
+  useWorldEC,
+} from '@avante/crawler-react';
+
+function Room({ slug }: { slug: string }) {
+  const world: WorldHandleEC = useWorldEC(); // no world name anywhere
+  const chamber: ChamberEC | undefined = useChamberEC({ slug });
+  const neighbors: ChamberNeighbor[] = useChamberNeighbors({ slug });
+  if (!chamber) return null;
+  return (
+    <div>
+      <h2>
+        {world.name} — {chamber.name}
+      </h2>
+      <ChamberSvg chamber={chamber} />
+      {neighbors.map(({ door, chamber: dest }) => (
+        <button key={door.tile} type="button" disabled={!dest}>
+          {dest?.name ?? '…unminted'}
+        </button>
+      ))}
+    </div>
+  );
+}
+```
+
+The per-schema aliases (`useWorldEC`/`useChamberEC`) bind the schema type for
+you; the union forms (`useWorld`/`useChamber`) return the union of built-in
+schema types. `useWorldSelector(selector)` is the escape hatch for bespoke
+derived reads.
+
+## Live updates — one prop
+
+`liveUpdate` on the provider is the *only* entry to the live path. Everything
+is resolved by the SDK: the watcher and payload assembler load from the
+optional peer `@avante/crawler-api` (dynamically imported — a static app never
+installs it), the converter rides the world bundle, and live chambers persist
+to localStorage (pruned as static worlds catch up).
+
+```tsx twoslash
+// @jsx: react-jsx
+import { createCrawler } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+import { CrawlerProvider } from '@avante/crawler-react';
+
+const crawler = createCrawler([mainnetData]);
+declare const rpcUrl: string;
+// ---cut---
+function App({ children }: React.PropsWithChildren) {
+  return (
+    <CrawlerProvider crawler={crawler} liveUpdate={{ rpcUrl }}>
+      {children}
+    </CrawlerProvider>
+  );
+}
+```
+
+`LiveUpdateOptions` only tunes: `{ rpcUrl?, client?, intervalMs?, persist?,
+worlds? }` — pass `true` for all defaults.

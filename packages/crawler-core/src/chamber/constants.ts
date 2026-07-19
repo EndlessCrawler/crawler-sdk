@@ -37,8 +37,8 @@ export enum TileType {
 
 /**
  * A direction — NEWS-library vocabulary (see `coords/news`), plus the vertical
- * pair. Optional/aesthetic on doors ({@link ../world/types!Door}); games navigate
- * by door `destCoord`, never by direction math.
+ * pair. Optional/aesthetic on doors (`Door.direction`); games navigate by door
+ * `destCoord`, never by direction math.
  */
 export enum Dir {
   North = 0,

@@ -1,0 +1,37 @@
+# Endless Crawler SDK
+
+TypeScript packages for the on-chain generative dungeon game
+[Endless Crawler](https://endlesscrawler.io/) — chamber data, coordinate math,
+cached worlds, live on-chain updates, and React bindings.
+
+```ts twoslash
+import { createCrawler } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData]); // sync — the data is in hand
+const world = crawler.world();
+
+const chamber = world.getChamberByTokenId(1);
+chamber?.doors; // navigate by doors, never offset math
+```
+
+## Packages
+
+| Package | What it provides |
+|---|---|
+| [`@avante/crawler-core`](/reference/@avante/crawler-core) | The heart: `bi` bigint handling, schemas, worlds & views, coordinate math, the `Crawler` client. **Zero runtime deps.** |
+| [`@avante/crawler-data`](/reference/@avante/crawler-data) | Static worlds as one subpath export per world + the per-schema converters. Zero runtime deps. |
+| [`@avante/crawler-api`](/reference/@avante/crawler-api) | The on-chain contract layer (viem 2): typed contracts, parsed reads, the live mint watcher + payload assemblers. |
+| [`@avante/crawler-react`](/reference/@avante/crawler-react) | React bindings: `CrawlerProvider`, hooks, `<ChamberSvg>`, zero-config live updates. |
+
+A complete game needs only **core + one world from data** — api and react are
+strictly optional add-ons.
+
+## Start here
+
+- [Getting started](/getting-started)
+- [The Crawler client](/guides/crawler-client)
+- [Worlds & views](/guides/worlds-and-views)
+- [Coordinates & BigIntish](/guides/coordinates)
+- [React bindings](/guides/react)
+- [On-chain & live updates](/guides/onchain)

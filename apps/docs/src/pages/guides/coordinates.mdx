@@ -1,0 +1,68 @@
+# Coordinates & BigIntish
+
+## `BigIntish` — one value, four spellings
+
+Chain-scale values (coords, token ids, chain ids, addresses) are `bigint` in
+memory, but the SDK accepts them in any of four representations — `bigint`,
+integer `number`, decimal string, or `0x`-hex string. The `bi` namespace is
+the single home of all bigint handling:
+
+```ts twoslash
+import { bi } from '@avante/crawler-core';
+
+bi.toBigInt('0x7b'); // 123n
+bi.equals('0xff', 255); // true — representation-immune
+bi.toAddress(1n); // '0x0000…0001' (lowercase, zero-padded to 20 bytes)
+bi.isBigIntish('123'); // true
+bi.toDecimalString(255n); // '255'
+```
+
+Malformed input (`''`, garbage strings, non-integer numbers) throws a typed
+`InvalidBigIntishError` — never silently `0n`.
+
+## Compass ↔ Coord ↔ Slug
+
+Coordinate math lives in per-coordinate-schema **libraries**, reached through
+the world (`world.coords`) — not on the standard client surface. Endless
+Crawler worlds use **NEWS**: a coordinate packs four unsigned distances
+(North, East, West, South) into one `uint256`, mirroring `Crawl.sol` exactly.
+
+The same location has three spellings:
+
+- **Coord** — the packed `bigint`, the `ChamberData` key.
+- **Compass** — the structured form: `{ north, east, west, south }`.
+- **Slug** — the readable form: `'N1E1'`.
+
+```ts twoslash
+import { createCrawler, type WorldHandleEC } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData]);
+const world: WorldHandleEC = crawler.world();
+// ---cut---
+const coord = world.coords.slugToCoord('N1E1'); // parsing accepts any separator
+const compass = world.coords.coordToCompass(coord);
+const slug = world.coords.coordToSlug(coord); // 'N1,E1' — ',' is the default separator
+const bare = world.coords.coordToSlug(coord, ''); // 'N1E1' — e.g. for URL segments
+```
+
+(The `WorldHandleEC` annotation binds the schema, so `world.coords` is the
+full NEWS library rather than the schema-union surface.)
+
+## Neighbours
+
+`neighborCoords` gives the (up to) four adjacent coords — but remember: games
+*navigate* by `Door.destCoord`, not by coordinate offsets. The offset math
+exists for map rendering and the invalidation policy:
+
+```ts twoslash
+import { createCrawler, Dir, type WorldHandleEC } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+
+const crawler = createCrawler([mainnetData]);
+const world: WorldHandleEC = crawler.world();
+const coord = world.coords.slugToCoord('N1E1');
+// ---cut---
+const north = world.coords.offsetCoord(coord, Dir.North);
+const around = world.coords.neighborCoords(coord);
+```

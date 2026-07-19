@@ -57,6 +57,8 @@ const _decimalPattern = /^-?[0-9]+$/;
 const _hexPattern = /^0x[0-9a-fA-F]+$/;
 
 /**
+ * Runtime guard for {@link HexString}.
+ *
  * @param value the value to test
  * @returns true if `value` is a `0x`-prefixed hex string with at least one hex digit
  * @example
@@ -70,6 +72,8 @@ export const isHexString = (value: unknown): value is HexString =>
   typeof value === 'string' && _hexPattern.test(value);
 
 /**
+ * Runtime guard for the plain `bigint` type.
+ *
  * @param value the value to test
  * @returns true if `value` is of type `bigint`
  */
@@ -124,6 +128,8 @@ export const toBigInt = (value: BigIntish): bigint => {
 export const equals = (a: BigIntish, b: BigIntish): boolean => toBigInt(a) === toBigInt(b);
 
 /**
+ * Converts a {@link BigIntish} to its decimal-string form (base 10).
+ *
  * @param value a bigint in any representation
  * @returns the value as a decimal string (base 10)
  * @throws {@link InvalidBigIntishError} on malformed input
@@ -198,7 +204,7 @@ export const toNumberArray = (value: BigIntish): number[] => Array.from(toByteAr
  *
  * @param values array of binary digits (`0`/`1` or `false`/`true`), max length 256
  * @returns the packed bigint
- * @throws {@link RangeError} if the array is longer than 256 entries
+ * @throws `RangeError` if the array is longer than 256 entries
  */
 export const fromBinaryArray = (values: number[] | boolean[]): bigint => {
   if (values.length > 256) {

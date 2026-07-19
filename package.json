@@ -38,7 +38,8 @@
     "lint:fix": "biome lint --write .",
     "format": "biome format --write .",
     "format:check": "biome format .",
-    "check:pack": "pnpm --color --filter './packages/*' exec sh -c 'publint --strict && attw --pack . --profile esm-only'"
+    "check:pack": "pnpm --color --filter './packages/*' exec sh -c 'publint --strict && attw --pack . --profile esm-only'",
+    "check:docs": "pnpm --color --filter docs run build"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.4",

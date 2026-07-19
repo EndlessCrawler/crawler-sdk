@@ -1,0 +1,74 @@
+# On-chain & live updates
+
+`@avante/crawler-api` is the SDK's only on-chain surface — a **pure contract
+interface** on viem 2: it talks to contracts and delivers parsed results
+(viem-decoded, `BigIntish`-normalized, `tokenURI` data-URIs unpacked). It
+never converts — callers convert.
+
+## Clients: yours, an RPC url, or a warned fallback
+
+Every factory and read helper accepts **either** a caller-supplied viem
+`PublicClient` (`{ client }` — a wagmi app reuses its configured transport)
+**or** an `rpcUrl` (scripts, servers). `client` wins when both are given and
+its chain must match the world binding. With neither, viem's default public
+RPC is used — with a `console.warn`.
+
+```ts twoslash
+import { createCrawler } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+import { getWorldContract, readTokenMetadata, readTotalSupply } from '@avante/crawler-api';
+
+const crawler = createCrawler([mainnetData]);
+declare const rpcUrl: string;
+// ---cut---
+const world = crawler.world().data; // the plain World value
+
+async function read() {
+  // fully-typed viem contract instance from the world binding
+  const contract = getWorldContract(world, { rpcUrl });
+  const supply = await readTotalSupply(world, { rpcUrl }); // bigint
+
+  // tokenURI unpacked: { metadata, svg, html? } — the caller converts
+  const token = await readTokenMetadata(world, 1, { rpcUrl });
+}
+```
+
+Every read helper takes an optional `blockNumber` (`ReadOptions`) to pin a
+consistent snapshot.
+
+## The live path: watch → assemble → import
+
+`watchMints` polls `totalSupply` and reports new token ids;
+`assembleTokenPayload` is the SDK's single fetch/assembly implementation
+(schema-dispatched from `world.schema`). The assembled payload feeds
+`world.import`, which converts and pure-merges:
+
+```ts twoslash
+import { createCrawler } from '@avante/crawler-core';
+import mainnetData from '@avante/crawler-data/mainnet';
+import { assembleTokenPayload, watchMints } from '@avante/crawler-api';
+
+const crawler = createCrawler([mainnetData]);
+declare const rpcUrl: string;
+// ---cut---
+const world = crawler.world().data;
+
+const stop = watchMints(world, { rpcUrl }, async (tokenIds) => {
+  for (const tokenId of tokenIds) {
+    const payload = await assembleTokenPayload(world, tokenId, { rpcUrl });
+    crawler.world().import(tokenId, payload);
+  }
+});
+```
+
+In React apps you never wire this yourself — the provider's `liveUpdate` prop
+does exactly the above (plus invalidated-neighbour re-imports and localStorage
+persistence). See [React bindings](/guides/react).
+
+## Known & generic contracts
+
+Beyond the world contracts, the api ships typed helpers for the
+EndlessCrawler Cards contract (`getCardsContract`) and generic standards —
+`getErc20`/`getErc721` use viem's bundled standard ABIs (the caller supplies
+only chain + address), and `getTypedContract` takes an explicit ABI (e.g. from
+the bundled artifact registry via `getContractAbi`).

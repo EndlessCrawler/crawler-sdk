@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx"
+  },
+  "include": [
+    "../../packages/crawler-core/src",
+    "../../packages/crawler-data/src",
+    "../../packages/crawler-api/src",
+    "../../packages/crawler-react/src"
+  ]
+}

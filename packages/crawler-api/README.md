@@ -149,4 +149,4 @@ Typed, documented per throw site (`@throws` in the TSDoc): `UnknownContractError
 
 ---
 
-Specified by [`specs/SDK_SPECS.md`](../../specs/SDK_SPECS.md) §`crawler-api`. Event listeners (live watcher) and owner helpers are planned — they land with the SDK refactor's later phases.
+Specified by [`specs/SDK_SPECS.md`](https://github.com/EndlessCrawler/crawler-sdk/blob/main/specs/SDK_SPECS.md) §`crawler-api`. The live surface (`watchMints` + the per-schema payload assemblers) ships; owner helpers (incl. delegate.xyz) land at P10 with the Endless Crawler import.
