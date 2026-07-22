@@ -120,10 +120,11 @@ byte-stable, and excluded from the token-contiguity check (leading `_`):
 ```
 
 The binding fields echo the source world; `fetchedThroughBlock` + the per-token
-`block` are the provenance that a future **staleness / neighbour-invalidation** pass
-will use (see `specs/SDK_PLAN.md` #16). No chamber is refetched for staleness today —
-the invalidation policy is a schema-level concern in `crawler-core` and is currently
-empty.
+`block` are the provenance the **staleness / neighbour-invalidation** pass uses
+(→ `specs/SDK_SPECS.md` §Data pipeline). After the missing-only pass, every newly
+fetched token's invalidated neighbours are refetched at the same pinned block; the
+invalidation policy itself is a schema-level concern in `crawler-core`
+(`getInvalidatedCoords` — `'neighbours'` for `ec`, `'none'` for static schemas).
 
 ## Tests
 

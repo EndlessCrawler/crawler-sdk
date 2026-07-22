@@ -2,7 +2,7 @@
 
 How to cut a data release: refresh the on-chain token cache, rebuild the world
 JSON from it, and build the packages for distribution. Publishing to npm is
-**deliberately not covered yet** — that lands with the surface freeze at P9
+**deliberately not covered yet** — that lands with the surface freeze at P10
 (see `specs/SDK_PLAN.md`).
 
 The pipeline is three decoupled stages (see `specs/SDK_SPECS.md` §Data
