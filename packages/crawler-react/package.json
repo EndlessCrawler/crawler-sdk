@@ -33,6 +33,7 @@
   "peerDependencies": {
     "@avante/crawler-api": "workspace:^",
     "@avante/crawler-core": "workspace:^",
+    "@avante/crawler-utils": "workspace:^",
     "react": "^18 || ^19"
   },
   "peerDependenciesMeta": {
@@ -43,6 +44,7 @@
   "devDependencies": {
     "@avante/crawler-api": "workspace:*",
     "@avante/crawler-core": "workspace:*",
+    "@avante/crawler-utils": "workspace:*",
     "@testing-library/react": "^16.3.2",
     "@types/node": "catalog:",
     "@types/react": "catalog:",

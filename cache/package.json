@@ -15,12 +15,12 @@
   "dependencies": {
     "@avante/crawler-api": "workspace:*",
     "@avante/crawler-core": "workspace:*",
-    "@avante/crawler-data": "workspace:*"
+    "@avante/crawler-data": "workspace:*",
+    "@avante/crawler-utils": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "dotenv": "^17.4.2",
-    "prettier": "^3.9.5",
     "typescript": "catalog:",
     "vitest": "catalog:"
   }

@@ -14,6 +14,19 @@ export default defineConfig({
       { find: /^@avante\/crawler-data\/mainnet$/, replacement: src('crawler-data', 'mainnet.ts') },
       { find: /^@avante\/crawler-data\/goerli$/, replacement: src('crawler-data', 'goerli.ts') },
       { find: /^@avante\/crawler-api$/, replacement: src('crawler-api', 'index.ts') },
+      { find: /^@avante\/crawler-utils\/bi$/, replacement: src('crawler-utils', 'bi/index.ts') },
+      {
+        find: /^@avante\/crawler-utils\/format$/,
+        replacement: src('crawler-utils', 'format/index.ts'),
+      },
+      {
+        find: /^@avante\/crawler-utils\/encode$/,
+        replacement: src('crawler-utils', 'encode/index.ts'),
+      },
+      {
+        find: /^@avante\/crawler-utils\/seeder$/,
+        replacement: src('crawler-utils', 'seeder/index.ts'),
+      },
     ],
   },
   test: {

@@ -115,7 +115,7 @@ const _buildWorld = async (name: string, entry: RegistryEntry) => {
   const tokens = world.views.tokenCoord?.size ?? 0;
   const svgs = world.views.tokenSvg?.size ?? 0;
 
-  await writeFile(worldPath, await formatViewData(worldJson));
+  await writeFile(worldPath, formatViewData(worldJson));
   console.log(`built ${name}: ${tokens} tokens, ${chambers} chambers, ${svgs} svgs → ${worldPath}`);
 };
 

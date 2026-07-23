@@ -3,36 +3,17 @@
 // regenerations. Output is compact and human-readable — JSON.stringify(…, 2) is
 // banned for datasets (it explodes door/lock arrays one element per line).
 //
-// https://prettier.io/docs/en/api
-// https://prettier.io/docs/en/browser.html
-import * as prettier from 'prettier/standalone';
-import prettierPluginBabel from 'prettier/plugins/babel';
-import prettierPluginEstree from 'prettier/plugins/estree';
+// Layout comes from @avante/crawler-utils' formatJSON (zero-dep, byte-identical to
+// the former prettier-JSON output); this wrapper keeps the historical scalar/empty
+// short-circuits (a bare string passes through; a non-object stringifies).
+import { formatJSON } from '@avante/crawler-utils/format';
 
-// bigint handling is local to the formatter — no BigInt.prototype.toJSON
-// monkeypatch (the package declares sideEffects: false)
-const _bigIntReplacer = (_key: string, value: unknown): unknown =>
-  typeof value === 'bigint'
-    ? value <= BigInt(Number.MAX_SAFE_INTEGER)
-      ? Number(value)
-      : value.toString()
-    : value;
-
-export const formatViewData = async (data: unknown = {}): Promise<string> => {
+export const formatViewData = (data: unknown = {}): string => {
   if (typeof data === 'string') {
     return data;
   }
   if (typeof data !== 'object' || data == null) {
     return String(data);
   }
-
-  const options = {
-    useTabs: true,
-    tabWidth: 2,
-    printWidth: 80,
-    parser: 'json',
-    plugins: [prettierPluginBabel, prettierPluginEstree],
-  };
-
-  return await prettier.format(JSON.stringify(data, _bigIntReplacer), options);
+  return formatJSON(data);
 };

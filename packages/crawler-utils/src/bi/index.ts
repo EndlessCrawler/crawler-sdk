@@ -1,16 +1,18 @@
 /**
- * The `bigintish` module — the SDK's single home for bigint handling.
+ * Bigint handling — the SDK's single home for it. Zero dependencies.
  *
  * A {@link BigIntish} is a value that *is* a bigint but may be represented in any of
  * four forms (`bigint`, integer `number`, decimal string, hex string) and is always
- * translatable to a `bigint`. No other core module reimplements bigint handling.
+ * translatable to a `bigint`. No other module reimplements bigint handling.
  *
  * All functions are pure and total with defined error behavior: malformed input
  * (the empty string, garbage strings, non-integer numbers) is rejected with
  * {@link InvalidBigIntishError} — never silently coerced to `0n`.
  *
- * The module is exported as the `bi` namespace, so functions are called as
- * `bi.toBigInt(…)`, `bi.toHex(…)`, `bi.isBigIntish(…)`, and so on.
+ * `crawler-core` re-exports this module as the `bi` namespace, so functions are
+ * called as `bi.toBigInt(…)`, `bi.toHex(…)`, `bi.isBigIntish(…)`, and so on.
+ *
+ * @module @avante/crawler-utils/bi
  */
 
 /**

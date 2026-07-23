@@ -10,6 +10,7 @@
  * Internal module — nothing here is public API.
  */
 import type { ConvertedToken, WorldHandle } from '@avante/crawler-core';
+import { deserialize, serialize } from '@avante/crawler-utils/format';
 
 /** the private format version — bump to invalidate every stored entry */
 const FORMAT_VERSION = 1;
@@ -25,20 +26,12 @@ const _storage = (): Storage | undefined =>
 const _storageKey = (world: WorldHandle): string =>
   `@avante/crawler-react:live:v${FORMAT_VERSION}:${world.info.chainId}:${world.info.contractAddress.toString(16)}`;
 
-/** bigint-safe private serialization: bigints ride as `{ $bigint: "..." }` */
-const _serialize = (value: StoredWorld): string =>
-  JSON.stringify(value, (_key, entry: unknown) =>
-    typeof entry === 'bigint' ? { $bigint: entry.toString() } : entry,
-  );
-
-const _deserialize = (text: string): StoredWorld =>
-  JSON.parse(text, (_key, entry: unknown) => {
-    if (entry !== null && typeof entry === 'object' && '$bigint' in entry) {
-      const wrapped = (entry as { $bigint: unknown }).$bigint;
-      if (typeof wrapped === 'string') return BigInt(wrapped);
-    }
-    return entry;
-  }) as StoredWorld;
+/**
+ * bigint-safe (de)serialization — the `{ $bigint: "…" }` round-trip format lives
+ * in `@avante/crawler-utils/format`.
+ */
+const _serialize = (value: StoredWorld): string => serialize(value);
+const _deserialize = (text: string): StoredWorld => deserialize(text) as StoredWorld;
 
 /** read a world's stored map — `{}` when absent or unreadable (stale format) */
 const _read = (storage: Storage, key: string): StoredWorld => {

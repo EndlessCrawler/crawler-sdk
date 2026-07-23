@@ -22,6 +22,7 @@
     "@avante/crawler-core": "workspace:*",
     "@avante/crawler-data": "workspace:*",
     "@avante/crawler-react": "workspace:*",
+    "@avante/crawler-utils": "workspace:*",
     "@biomejs/biome": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

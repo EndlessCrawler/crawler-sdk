@@ -1,7 +1,7 @@
 {
-  "name": "@avante/crawler-core",
+  "name": "@avante/crawler-utils",
   "version": "0.1.0",
-  "description": "Endless Crawler Core Lib",
+  "description": "Endless Crawler SDK — generic, zero-runtime-dependency utilities (bigint, formatting, encoding, seeding)",
   "author": "Studio Avante",
   "license": "CC0-1.0",
   "homepage": "https://github.com/EndlessCrawler",
@@ -13,6 +13,22 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./bi": {
+      "types": "./dist/bi/index.d.ts",
+      "import": "./dist/bi/index.js"
+    },
+    "./format": {
+      "types": "./dist/format/index.d.ts",
+      "import": "./dist/format/index.js"
+    },
+    "./encode": {
+      "types": "./dist/encode/index.d.ts",
+      "import": "./dist/encode/index.js"
+    },
+    "./seeder": {
+      "types": "./dist/seeder/index.d.ts",
+      "import": "./dist/seeder/index.js"
     }
   },
   "files": [
@@ -30,26 +46,20 @@
     "watch": "tsdown --watch",
     "watch:test": "vitest"
   },
-  "peerDependencies": {
-    "@avante/crawler-utils": "workspace:^"
-  },
   "devDependencies": {
-    "@avante/crawler-utils": "workspace:*",
     "@types/node": "catalog:",
+    "js-sha3": "^0.9.3",
     "rimraf": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "keywords": [
-    "dungeon",
-    "crawler",
-    "generative",
-    "composable",
-    "on-chain",
-    "game",
-    "web3",
-    "erc-721",
-    "nft"
+    "bigint",
+    "keccak256",
+    "base64",
+    "json",
+    "utilities",
+    "web3"
   ]
 }

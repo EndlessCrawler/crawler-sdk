@@ -15,6 +15,7 @@
     "build": "pnpm --color --filter '@avante/*' --sequential run build",
     "build:core": "pnpm --color --filter '@avante/crawler-core' run build",
     "build:data": "pnpm --color --filter '@avante/crawler-data' run build",
+    "build:worlds": "pnpm --color --filter '@avante/crawler-data' run build:worlds",
     "build:api": "pnpm --color --filter '@avante/crawler-api' run build",
     "build:react": "pnpm --color --filter '@avante/crawler-react' run build",
     "build:all": "pnpm --color -r run build",

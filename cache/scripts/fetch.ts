@@ -56,9 +56,8 @@ import {
 } from '@avante/crawler-core';
 import goerliData from '@avante/crawler-data/goerli';
 import mainnetData from '@avante/crawler-data/mainnet';
+import { formatXML } from '@avante/crawler-utils/format';
 import { config as loadEnv } from 'dotenv';
-import * as prettier from 'prettier/standalone';
-import prettierPluginHtml from 'prettier/plugins/html';
 
 /** one registry entry — where to write, and which env var holds the RPC URL */
 interface RegistryEntry {
@@ -106,17 +105,9 @@ const MIN_REQUEST_INTERVAL_MS = Math.ceil(1000 / MAX_RPS);
 
 const sleep = (ms: number): Promise<void> => new Promise((r) => setTimeout(r, ms));
 
-// Pretty-print the decoded SVG for a readable, diff-friendly archive (prettier's
-// html parser handles SVG). Deterministic → byte-stable across runs. Tabs/2/80 to
-// match the canonical data serializer.
-const formatSvg = (svg: string): Promise<string> =>
-  prettier.format(svg, {
-    parser: 'html',
-    plugins: [prettierPluginHtml],
-    useTabs: true,
-    tabWidth: 2,
-    printWidth: 80,
-  });
+// Re-indent the decoded SVG for a readable, diff-friendly archive. Deterministic →
+// byte-stable across runs. Tabs/80 to match the canonical data serializer.
+const formatSvg = (svg: string): string => formatXML(svg, { indentUnit: '\t', printWidth: 80 });
 
 // Space on-chain requests to stay ≤ MAX_RPS. `requests` reserves the budget for
 // calls that fan out into several RPC reads (the ec assembler makes three).
@@ -239,11 +230,11 @@ const fetchWorld = async (name: string, entry: RegistryEntry, rpcUrl: string): P
       if (payload.html === undefined) {
         throw new Error(`token ${id}: metadata has no animation_url data-URI`);
       }
-      writeFileSync(join(dir, `${id}.svg`), await formatSvg(payload.svg));
-      writeFileSync(join(dir, `${id}.html`), await formatSvg(payload.html));
+      writeFileSync(join(dir, `${id}.svg`), formatSvg(payload.svg));
+      writeFileSync(join(dir, `${id}.html`), formatSvg(payload.html));
       // The assembled metadata already embeds the on-chain struct as `chamber` —
       // the SVG alone does not carry the full map data.
-      writeFileSync(join(dir, `${id}.json`), await formatViewData(payload.metadata));
+      writeFileSync(join(dir, `${id}.json`), formatViewData(payload.metadata));
       tokens[String(id)] = { block: blockStr, fetchedAt: new Date().toISOString() };
       return bi.toBigInt(payload.metadata.chamber.coord);
     }
@@ -251,8 +242,8 @@ const fetchWorld = async (name: string, entry: RegistryEntry, rpcUrl: string): P
     const { metadata, svg } = await withRetry(`token ${id} tokenURI`, 1, () =>
       readTokenMetadata(world, id, { rpcUrl, blockNumber: block }),
     );
-    writeFileSync(join(dir, `${id}.svg`), await formatSvg(svg));
-    writeFileSync(join(dir, `${id}.json`), await formatViewData(metadata));
+    writeFileSync(join(dir, `${id}.svg`), formatSvg(svg));
+    writeFileSync(join(dir, `${id}.json`), formatViewData(metadata));
     tokens[String(id)] = { block: blockStr, fetchedAt: new Date().toISOString() };
     return undefined;
   };
@@ -297,7 +288,7 @@ const fetchWorld = async (name: string, entry: RegistryEntry, rpcUrl: string): P
     updatedAt: new Date().toISOString(),
     tokens,
   };
-  writeFileSync(join(dir, '_cache.json'), await formatViewData(state));
+  writeFileSync(join(dir, '_cache.json'), formatViewData(state));
   console.log(`  fetchedThroughBlock → ${blockStr}, ${missing.length} fetched`);
 };
 

@@ -7,6 +7,7 @@
     "../../packages/crawler-core/src",
     "../../packages/crawler-data/src",
     "../../packages/crawler-api/src",
-    "../../packages/crawler-react/src"
+    "../../packages/crawler-react/src",
+    "../../packages/crawler-utils/src"
   ]
 }

@@ -8,6 +8,10 @@
     "paths": {
       "@avante/crawler-data/mainnet": ["packages/crawler-data/src/mainnet.ts"],
       "@avante/crawler-data/goerli": ["packages/crawler-data/src/goerli.ts"],
+      "@avante/crawler-utils/bi": ["packages/crawler-utils/src/bi/index.ts"],
+      "@avante/crawler-utils/format": ["packages/crawler-utils/src/format/index.ts"],
+      "@avante/crawler-utils/encode": ["packages/crawler-utils/src/encode/index.ts"],
+      "@avante/crawler-utils/seeder": ["packages/crawler-utils/src/seeder/index.ts"],
       "@avante/*": ["packages/*/src"]
     },
     "target": "ES2022",

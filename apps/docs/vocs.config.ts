@@ -29,6 +29,24 @@ export default defineConfig({
         { text: '@avante/crawler-data', link: '/reference/@avante/crawler-data' },
         { text: '@avante/crawler-api', link: '/reference/@avante/crawler-api' },
         { text: '@avante/crawler-react', link: '/reference/@avante/crawler-react' },
+        {
+          text: 'Utilities',
+          items: [
+            { text: '@avante/crawler-utils/bi', link: '/reference/@avante/crawler-utils/bi' },
+            {
+              text: '@avante/crawler-utils/format',
+              link: '/reference/@avante/crawler-utils/format',
+            },
+            {
+              text: '@avante/crawler-utils/encode',
+              link: '/reference/@avante/crawler-utils/encode',
+            },
+            {
+              text: '@avante/crawler-utils/seeder',
+              link: '/reference/@avante/crawler-utils/seeder',
+            },
+          ],
+        },
       ],
     },
   ],

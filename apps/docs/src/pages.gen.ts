@@ -133,21 +133,6 @@ type Page =
   | { path: '/reference/@avante/crawler-core/interfaces/WorldUpdatedEvent'; render: 'static' }
   | { path: '/reference/@avante/crawler-core/interfaces/WorldViews'; render: 'static' }
   | { path: '/reference/@avante/crawler-core/interfaces/Xy'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/classes/InvalidBigIntishError'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/equals'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/fromBinaryArray'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/isBigInt'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/isBigIntish'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/isHexString'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/toAddress'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/toBigInt'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/toByteArray'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/toDecimalString'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/toHex'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/functions/toNumberArray'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/type-aliases/BigIntish'; render: 'static' }
-  | { path: '/reference/@avante/crawler-core/namespaces/bi/type-aliases/HexString'; render: 'static' }
   | { path: '/reference/@avante/crawler-core/type-aliases/AttributeSpec'; render: 'static' }
   | { path: '/reference/@avante/crawler-core/type-aliases/AttributeValueOf'; render: 'static' }
   | { path: '/reference/@avante/crawler-core/type-aliases/AttributesOf'; render: 'static' }
@@ -232,6 +217,36 @@ type Page =
   | { path: '/reference/@avante/crawler-react/interfaces/ChamberSvgProps'; render: 'static' }
   | { path: '/reference/@avante/crawler-react/interfaces/CrawlerProviderProps'; render: 'static' }
   | { path: '/reference/@avante/crawler-react/interfaces/LiveUpdateOptions'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/classes/InvalidBigIntishError'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/equals'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/fromBinaryArray'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/isBigInt'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/isBigIntish'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/isHexString'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/toAddress'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/toBigInt'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/toByteArray'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/toDecimalString'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/toHex'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/functions/toNumberArray'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/type-aliases/BigIntish'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/bi/type-aliases/HexString'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/encode/functions/decodeBase64'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/encode/functions/decodeBase64Text'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/encode/functions/decodeDataUri'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/encode/functions/encodeBase64'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/encode/functions/encodeDataUri'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/encode'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/encode/interfaces/EncodeDataUriOptions'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/format/functions/deserialize'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/format/functions/formatJSON'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/format/functions/formatXML'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/format/functions/serialize'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/format'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/format/interfaces/FormatXmlOptions'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/seeder/functions/makeSeed'; render: 'static' }
+  | { path: '/reference/@avante/crawler-utils/seeder'; render: 'static' }
   | { path: '/reference'; render: 'static' }
 
 // prettier-ignore

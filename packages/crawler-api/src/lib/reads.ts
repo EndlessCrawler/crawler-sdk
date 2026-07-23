@@ -5,6 +5,7 @@
  * consume `readTokenMetadata`.
  */
 import { type BigIntish, type HexString, bi, type World } from '@avante/crawler-core';
+import { decodeDataUri } from '@avante/crawler-utils/encode';
 import { getWorldContract } from './contracts';
 import type { ContractOptions } from './contracts';
 import { InvalidTokenMetadataError } from './errors';
@@ -35,20 +36,6 @@ export interface TokenMetadata {
    */
   readonly html?: string;
 }
-
-/** decode a base64 data-URI to utf-8 text; `undefined` when it isn't one */
-const _decodeDataUri = (value: unknown): string | undefined => {
-  if (typeof value !== 'string' || !value.startsWith('data:')) {
-    return undefined;
-  }
-  const marker = ';base64,';
-  const start = value.indexOf(marker);
-  if (start < 0) {
-    return undefined;
-  }
-  const bytes = Uint8Array.from(atob(value.slice(start + marker.length)), (c) => c.charCodeAt(0));
-  return new TextDecoder().decode(bytes);
-};
 
 /**
  * @returns the contract's `totalSupply()` for the world's ERC-721 contract
@@ -85,7 +72,7 @@ export const readTokenMetadata = async (
 ): Promise<TokenMetadata> => {
   const id = bi.toBigInt(tokenId);
   const uri = await getWorldContract(world, options).read.tokenURI([id], _callOptions(options));
-  const json = _decodeDataUri(uri);
+  const json = decodeDataUri(uri);
   if (json === undefined) {
     throw new InvalidTokenMetadataError(id, 'tokenURI is not a base64 data-URI');
   }
@@ -94,11 +81,11 @@ export const readTokenMetadata = async (
     throw new InvalidTokenMetadataError(id, 'tokenURI payload is not a JSON object');
   }
   const { image, animation_url: animationUrl, ...metadata } = parsed as Record<string, unknown>;
-  const svg = _decodeDataUri(image);
+  const svg = decodeDataUri(image);
   if (svg === undefined) {
     throw new InvalidTokenMetadataError(id, 'metadata [image] is not a base64 data-URI');
   }
-  const html = _decodeDataUri(animationUrl);
+  const html = decodeDataUri(animationUrl);
   if (animationUrl !== undefined && html === undefined) {
     // present but not a blob (e.g. a plain URL) — not ours to extract, keep it raw
     return { metadata: { ...metadata, animation_url: animationUrl }, svg };

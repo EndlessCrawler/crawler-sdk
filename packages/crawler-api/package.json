@@ -32,15 +32,16 @@
     "watch:test": "pnpm run gen && vitest"
   },
   "peerDependencies": {
-    "@avante/crawler-core": "workspace:^"
+    "@avante/crawler-core": "workspace:^",
+    "@avante/crawler-utils": "workspace:^"
   },
   "dependencies": {
-    "prettier": "^3.0.3",
     "viem": "catalog:"
   },
   "devDependencies": {
     "@avante/crawler-core": "workspace:*",
     "@avante/crawler-data": "workspace:*",
+    "@avante/crawler-utils": "workspace:*",
     "@types/node": "catalog:",
     "rimraf": "catalog:",
     "tsdown": "catalog:",

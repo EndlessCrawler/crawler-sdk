@@ -6,7 +6,11 @@
     "../../packages/crawler-core/src/index.ts",
     "../../packages/crawler-data/src/index.ts",
     "../../packages/crawler-api/src/index.ts",
-    "../../packages/crawler-react/src/index.tsx"
+    "../../packages/crawler-react/src/index.tsx",
+    "../../packages/crawler-utils/src/bi/index.ts",
+    "../../packages/crawler-utils/src/format/index.ts",
+    "../../packages/crawler-utils/src/encode/index.ts",
+    "../../packages/crawler-utils/src/seeder/index.ts"
   ],
   "plugin": ["typedoc-plugin-markdown", "./typedoc.opaque.mjs"],
   "out": "src/pages/reference",

@@ -1,4 +1,5 @@
 packages:
+  - 'packages/crawler-utils'
   - 'packages/crawler-core'
   - 'packages/crawler-data'
   - 'packages/crawler-api'
